@@ -1,0 +1,293 @@
+<!DOCTYPE HTML>
+<html class="no-js" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!--[if lte IE 9]>
+<meta http-equiv="refresh" content="0;url=https://tommy88.top/warn.html">
+<![endif]-->
+<meta charset="utf-8">
+<meta http-equiv="X-DNS-Prefetch-Control" content="on">
+<link rel="dns-prefetch" href="https://tommy88.top">
+<link rel="dns-prefetch" href="//www.google-analytics.com">
+<link rel="prefetch" href="https://tommy88.top">
+<link rel="prefetch" href="//www.google-analytics.com">
+
+
+    <link rel="dns-prefetch" href="//imsun.github.io">
+    <link rel="prefetch" href="//imsun.github.io">
+
+<link rel="prerender" href="https://tommy88.top">
+
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+<meta http-equiv="mobile-agent" content="format=html5; url=https://tommy88.top">
+<meta name="author" content="Donny">
+<link rel="stylesheet" href="/css/JSimple.css">
+
+<link rel="shortcut icon" href="/images/favicon.png">
+
+
+<title>springcloud系列3——eureka简介和原理 - Donny的技术博客</title>
+
+<meta name="keywords" content="java,前端,数据库,web,spring,redis,spring boot,spring cloud,mq">
+
+<meta name="description " content="记录工作，感悟生活">
+
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                processEscapes: true
+            }
+        });
+    </script>
+
+
+    
+
+    
+    
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="//www.googletagmanager.com/gtag/js?id=UA-105613999-1"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'UA-105613999-1');
+        </script>
+    
+    <!-- put your likes here. -->
+
+
+</head>
+<body>
+<div id="nav">
+    <nav class="nav-menu">
+        <a class="site-name current" href="/" title="Home">Home</a>
+        <a class="site-index current" href="/"><i class="fa fa-home"></i><span>首页</span></a>
+        <a href="/archives" title="归档"><i class="fa fa-archives"></i><span>归档</span></a>
+        <a href="/tags" title="标签"><i class="fa fa-tags"></i><span>标签</span></a>
+        <!-- custom single page of menus -->
+        
+        
+        <a href="/help" title="帮助">
+            <i class="fa fa-question-circle"></i>
+            <span>帮助</span>
+        </a>
+        
+    </nav>
+</div>
+
+<div class="nav-user">
+    <a class="btn-search" href="#"><i class="fa fa-search"></i></a>
+    <a class="btn-read-mode" href="#"><i class="fa fa-sun-o"></i></a>
+    <a class="btn-sns-qr" href="javascript:"><i class="fa fa-telegram"></i></a>
+</div>
+
+<div id="wrapper" class="clearfix">
+    <div id="body">
+        <div class="main" id="main">
+            <div id="cover">
+    <div class="cover-img"></div>
+    <div class="cover-info">
+        
+        <h1 class="cover-siteName">Donny的技术博客</h1>
+        <h3 class="cover-siteTitle">用代码征服世界</h3>
+        <p class="cover-siteDesc">这是一个简单的技术博客</p>
+        <div class="cover-sns">
+            
+    &nbsp;&nbsp;<div class="btn btn-github">
+        <a href="https://github.com/luckystar88" target="_blank" title="github" ref="friend">
+            <i class="fa fa-github"></i>
+        </a>
+    </div>
+
+
+        </div>
+    </div>
+</div>
+
+            <div class="page-title">
+    <ul>
+        <li><a href="/">最近</a></li>
+        
+            
+                <li class="active">
+                    <a href="/categories/tech" data-name="技术">技术</a>
+                </li>
+            
+                <li class>
+                    <a href="/categories/life" data-name="人文">人文</a>
+                </li>
+            
+                <li class>
+                    <a href="/categories/others" data-name="其他">其他</a>
+                </li>
+            
+        
+        <li class="page-search">
+    <form id="search" class="search-form">
+        <input type="text" readonly="readonly" id="local-search-input-tip" placeholder="读物检索~">
+        <button type="button" disabled="disabled" class="search-form-submit"><i class="fa fa-search"></i></button>
+    </form>
+</li>
+
+    </ul>
+</div>
+<div class="main-inner">
+    <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+        <div class="post-header">
+            <div class="post-author clearfix">
+                <a class="avatar fleft" href="https://tommy88.top" target="_blank">
+                    <img width="48" src="/images/favicon.png" alt="avatar">
+                </a>
+                <p><span class="label">作者</span>
+                    <a href="https://tommy88.top" target="_blank">Donny</a>
+                    <span title="最后编辑于&nbsp;2018-02-01">2018-02-01</span>
+                </p>
+                <p>记录工作，感悟生活</p>
+            </div>
+            <h2 class="post-title">springcloud系列3——Eureka简介和原理</h2>
+            <div class="post-meta">
+                本文共计1570个字 |
+                您是第&nbsp;<span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>位看到它们的小伙伴
+            </div>
+        </div>
+        <div class="post-content markdown-body">
+            <h2 id="Eureka简介及原理"><a href="#Eureka简介及原理" class="headerlink" title="Eureka简介及原理"></a>Eureka简介及原理</h2><p>Eureka是Netflix开发的服务发现组件，本身是一个基于REST的服务。Spring Cloud将它集成在其子项目spring-cloud-netflix中，以实现Spring Cloud的服务发现功能。目前Eureka 项目相当活跃，代码更新相当频繁，目前最新的版本是1.5.5。Eureka 2.0也在紧锣密鼓地开发中，2.0将会带来更强的功能和更好的扩展性，但是由于还没有Release，故而不作讨论。</p>
+<p>本文讲解的Spring Cloud Camden SR1所使用的Eureka版本是1.4.11，还是比较新的。同时有了Eureka 1.x的基础，未来上手Eureka 2.x也会比较容易。</p>
+<p>Eureka的Github：<a href="https://github.com/Netflix/Eureka">https://github.com/Netflix/Eureka</a></p>
+<h2 id="Region、Zone解析"><a href="#Region、Zone解析" class="headerlink" title="Region、Zone解析"></a>Region、Zone解析</h2><p>Eureka的官方文档对regin、zone几乎没有提及，由于概念抽象，新手很难理解。因此，在分析Eureka原理之前，我们先来了解一下region、zone、Eureka集群三者的关系，如图4-2。<br><img src="http://www.itmuch.com/images/4.4-2.png" alt><br>图4-2 region、zone、Eureka集群之间的关系</p>
+<p>region和zone（或者Availability Zone）均是AWS的概念。在非AWS环境下，我们可以简单地将region理解为Eureka集群，zone理解成机房。这样图4-2就很好理解了——一个Eureka集群被部署在了zone1机房和zone2机房中。</p>
+<p>对region和zone感兴趣的读者可前往<a href="http://blog.csdn.net/awschina/article/details/17639191">http://blog.csdn.net/awschina/article/details/17639191</a> 扩展阅读。Spring Cloud中默认的region是us-east-1 。<br><a id="more"></a></p>
+<h2 id="Eureka架构"><a href="#Eureka架构" class="headerlink" title="Eureka架构"></a>Eureka架构</h2><p><img src="http://www.itmuch.com/images/4.4.png" alt><br>图4-3 Eureka架构图</p>
+<p>图4-3是来自Eureka官方的架构图，大致描述了Eureka集群的工作过程。图中包含的组件非常多，可能比较难以理解，我们用通俗易懂的语言解释一下：</p>
+<ul>
+<li>Application Service 相当于本书中的服务提供者，Application Client相当于本书中的服务消费者；</li>
+<li>ke Remote Call，可以简单理解为调用RESTful API；</li>
+<li><p>us-east-1c、us-east-1d等都是zone，它们都属于us-east-1这个region；<br>由图可知，Eureka包含两个组件：Eureka Server 和 Eureka Client，它们的作用如下：</p>
+</li>
+<li><p>Eureka Client是一个Java客户端，用于简化与Eureka Server的交互；</p>
+</li>
+<li>Eureka Server提供服务发现的能力，各个微服务启动时，会通过Eureka Client向Eureka Server进行注册自己的信息（例如网络信息），Eureka Server会存储该服务的信息；</li>
+<li>微服务启动后，会周期性地向Eureka Server发送心跳（默认周期为30秒）以续约自己的信息。如果Eureka Server在一定时间内没有接收到某个微服务节点的心跳，Eureka Server将会注销该微服务节点（默认90秒）；<br>每个Eureka Server同时也是Eureka Client，多个Eureka Server之间通过复制的方式完成服务注册表的同步；</li>
+<li>Eureka Client会缓存Eureka Server中的信息。即使所有的Eureka Server节点都宕掉，服务消费者依然可以使用缓存中的信息找到服务提供者。</li>
+</ul>
+<p>综上，Eureka通过心跳检测、健康检查和客户端缓存等机制，提高了系统的灵活性、可伸缩性和可用性。</p>
+<p>转载于<a href="http://www.itmuch.com/spring-cloud-1/">Spring Cloud第一篇 Eureka简介及原理</a></p>
+
+        </div>
+        <div class="post-tool">
+            <a class="btn-thumbs-up" href="javascript:void(0);" data-cid="52" title="95">
+                <i class="fa fa-thumbs-up" aria-hidden="true"></i> 打赏
+            </a>
+        </div>
+        
+        <div class="post-tags">标签：
+            
+            <a href="/tags/springcloud/">springcloud</a>
+            
+        </div>
+        
+    </article>
+    
+    <p style="text-align: center">本文代表个人观点，内容仅供参考。若有不恰当之处，望不吝赐教！</p>
+    
+    
+
+    
+    
+        <div id="gitment-container"></div>
+        <link rel="stylesheet" href="//imsun.github.io/gitment/style/default.css">
+        <script src="//imsun.github.io/gitment/dist/gitment.browser.js"></script>
+        <script type="text/javascript">
+            var gitment = new Gitment({
+                /*lable长度不能超过50个字符，这里使用页面的生成时间*/
+                id: 'Thu Feb 01 2018 12:08:47 GMT+0800'/*document.location.href*/,
+                owner: 'luckystar88',
+                repo: 'comments',
+                oauth: {
+                    client_id: 'd49ebe4f95abcd6163f4',
+                    client_secret: 'edd2748d6271072a6970d5cec8751f388dac8116',
+                }
+            });
+            gitment.render('gitment-container');
+        </script>
+        
+            <script>
+                document.getElementById("gitment-display-button").style.display = "none";
+                document.getElementById("gitment-container").style.display = "block";
+            </script>
+        
+    
+
+
+</div>
+<script src="/js/busuanzi.pure.mini.js"></script>
+
+
+        </div><!-- end #main-->
+    </div><!-- end #body -->
+    <footer class="footer">
+    <div class="footer-inner" style="text-align: center">
+        <p>
+            <a href="/about" title="关于">关于</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <!-- 自定义链接 -->
+            <a href="/help" title="帮助">帮助</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <a href="/links" title="友链">友链</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <a href="/sitemap.xml" title="地图">地图</a>
+        </p>
+        <p>
+            本站已建立&nbsp<a href="/timeline" id="siteBuildingTime"></a>&nbsp天，<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="licence">采用知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议创作</a><br>
+            ©2017-<span id="cpYear"></span> 基于&nbsp<a href="http://hexo.io" target="_blank" rel="nofollow">Hexo</a>
+            ，主题采用&nbsp&nbsp<a href="https://github.com/tangkunyin/hexo-theme-jsimple" target="_blank" rel="bookmark">JSimple</a>
+            ，作者&nbsp<a href="https://tommy88.top" target="_blank" rel="friend">Donny</a>
+            ，Hosted by <a href="https://pages.github.com/" target="_blank" rel="nofollow">GitHub Pages</a>
+        </p>
+    </div>
+</footer>
+<script src="/js/SimpleCore.js"></script>
+
+</div>
+<!-- search pop -->
+<div class="popup search-popup local-search-popup">
+    <div class="local-search-header clearfix">
+        <span class="search-icon">
+            <i class="fa fa-search"></i>
+        </span>
+        <span class="popup-btn-close">
+            <i class="fa fa-times-circle"></i>
+        </span>
+        <div class="local-search-input-wrapper">
+            <input id="local-search-input" spellcheck="false" type="text" autocomplete="off" placeholder="请输入查询关键词">
+        </div>
+    </div>
+    <div id="local-search-result"></div>
+</div>
+<div class="fixed-btn">
+    <a class="btn-gotop" href="javascript:"> <i class="fa fa-angle-up"></i></a>
+</div>
+<script>
+    $(function () {
+        var jsi_config = {
+            buildingTime: '01/20/2016',
+            current: $('.post-tags').length > 0 ? 'post' : 'archive',
+            snsQRCode: '/images/sns-qrcode.png',
+            donateImg: '/images/donate-qr.png',
+            localSearch: { dbPath: '' },
+            readMode: 'day'
+        };
+        
+            jsi_config.localSearch = {
+                dbPath: '/search.xml',
+                trigger: 'auto',
+                topN: '1',
+                unescape: 'false'
+            }
+        
+        SimpleCore.init(jsi_config);
+        
+    });
+</script>
+</body>
+</html>

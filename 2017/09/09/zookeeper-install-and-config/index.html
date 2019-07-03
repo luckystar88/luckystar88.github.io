@@ -1,0 +1,285 @@
+<!DOCTYPE HTML>
+<html class="no-js" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!--[if lte IE 9]>
+<meta http-equiv="refresh" content="0;url=https://tommy88.top/warn.html">
+<![endif]-->
+<meta charset="utf-8">
+<meta http-equiv="X-DNS-Prefetch-Control" content="on">
+<link rel="dns-prefetch" href="https://tommy88.top">
+<link rel="dns-prefetch" href="//www.google-analytics.com">
+<link rel="prefetch" href="https://tommy88.top">
+<link rel="prefetch" href="//www.google-analytics.com">
+
+
+    <link rel="dns-prefetch" href="//imsun.github.io">
+    <link rel="prefetch" href="//imsun.github.io">
+
+<link rel="prerender" href="https://tommy88.top">
+
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+<meta http-equiv="mobile-agent" content="format=html5; url=https://tommy88.top">
+<meta name="author" content="Donny">
+<link rel="stylesheet" href="/css/JSimple.css">
+
+<link rel="shortcut icon" href="/images/favicon.png">
+
+
+<title>zookeeper安装与配置 - Donny的技术博客</title>
+
+<meta name="keywords" content="java,前端,数据库,web,spring,redis,spring boot,spring cloud,mq">
+
+<meta name="description " content="记录工作，感悟生活">
+
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                processEscapes: true
+            }
+        });
+    </script>
+
+
+    
+
+    
+    
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="//www.googletagmanager.com/gtag/js?id=UA-105613999-1"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'UA-105613999-1');
+        </script>
+    
+    <!-- put your likes here. -->
+
+
+</head>
+<body>
+<div id="nav">
+    <nav class="nav-menu">
+        <a class="site-name current" href="/" title="Home">Home</a>
+        <a class="site-index current" href="/"><i class="fa fa-home"></i><span>首页</span></a>
+        <a href="/archives" title="归档"><i class="fa fa-archives"></i><span>归档</span></a>
+        <a href="/tags" title="标签"><i class="fa fa-tags"></i><span>标签</span></a>
+        <!-- custom single page of menus -->
+        
+        
+        <a href="/help" title="帮助">
+            <i class="fa fa-question-circle"></i>
+            <span>帮助</span>
+        </a>
+        
+    </nav>
+</div>
+
+<div class="nav-user">
+    <a class="btn-search" href="#"><i class="fa fa-search"></i></a>
+    <a class="btn-read-mode" href="#"><i class="fa fa-sun-o"></i></a>
+    <a class="btn-sns-qr" href="javascript:"><i class="fa fa-telegram"></i></a>
+</div>
+
+<div id="wrapper" class="clearfix">
+    <div id="body">
+        <div class="main" id="main">
+            <div id="cover">
+    <div class="cover-img"></div>
+    <div class="cover-info">
+        
+        <h1 class="cover-siteName">Donny的技术博客</h1>
+        <h3 class="cover-siteTitle">用代码征服世界</h3>
+        <p class="cover-siteDesc">这是一个简单的技术博客</p>
+        <div class="cover-sns">
+            
+    &nbsp;&nbsp;<div class="btn btn-github">
+        <a href="https://github.com/luckystar88" target="_blank" title="github" ref="friend">
+            <i class="fa fa-github"></i>
+        </a>
+    </div>
+
+
+        </div>
+    </div>
+</div>
+
+            <div class="page-title">
+    <ul>
+        <li><a href="/">最近</a></li>
+        
+            
+                <li class="active">
+                    <a href="/categories/tech" data-name="技术">技术</a>
+                </li>
+            
+                <li class>
+                    <a href="/categories/life" data-name="人文">人文</a>
+                </li>
+            
+                <li class>
+                    <a href="/categories/others" data-name="其他">其他</a>
+                </li>
+            
+        
+        <li class="page-search">
+    <form id="search" class="search-form">
+        <input type="text" readonly="readonly" id="local-search-input-tip" placeholder="读物检索~">
+        <button type="button" disabled="disabled" class="search-form-submit"><i class="fa fa-search"></i></button>
+    </form>
+</li>
+
+    </ul>
+</div>
+<div class="main-inner">
+    <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+        <div class="post-header">
+            <div class="post-author clearfix">
+                <a class="avatar fleft" href="https://tommy88.top" target="_blank">
+                    <img width="48" src="/images/favicon.png" alt="avatar">
+                </a>
+                <p><span class="label">作者</span>
+                    <a href="https://tommy88.top" target="_blank">Donny</a>
+                    <span title="最后编辑于&nbsp;2017-09-09">2017-09-09</span>
+                </p>
+                <p>记录工作，感悟生活</p>
+            </div>
+            <h2 class="post-title">zookeeper安装与配置</h2>
+            <div class="post-meta">
+                本文共计1886个字 |
+                您是第&nbsp;<span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>位看到它们的小伙伴
+            </div>
+        </div>
+        <div class="post-content markdown-body">
+            <h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>ZooKeeper是一个分布式的，开放源码的分布式应用程序协调服务，是Google的Chubby一个开源的实现。<br>参考：<a href="http://blog.csdn.net/u013068377/article/details/52620647">http://blog.csdn.net/u013068377/article/details/52620647</a><br><a href="http://blog.csdn.net/xuxiuning/article/details/51218941">http://blog.csdn.net/xuxiuning/article/details/51218941</a><br>zookeeper官方文档：<a href="https://zookeeper.apache.org/doc/trunk/">https://zookeeper.apache.org/doc/trunk/</a><br>最好还是读官方文档，很详细。</p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>这里以Linux为例。<br>zookeeper官网：<a href="https://zookeeper.apache.org/">https://zookeeper.apache.org/</a><br>从官网下载最新稳定版本，这里测试版本为3.4.9.</p>
+<p>下载后，解压缩<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -xvf zookeeper-3.4.9.tar.gz</span><br></pre></td></tr></table></figure></p>
+<p>注意：zookeeper运行需要依赖java环境，所以需要配置好java环境。<br><a id="more"></a></p>
+<h2 id="单机配置"><a href="#单机配置" class="headerlink" title="单机配置"></a>单机配置</h2><p>在$ZOOKEEPER_HOME$/conf目录下，新建zoo.cfg文件。<br>内容如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tickTime=2000</span><br><span class="line">dataDir=/var/zookeeper</span><br><span class="line">clientPort=2181</span><br></pre></td></tr></table></figure></p>
+<p>具体的配置参数的含义后面介绍。</p>
+<p>配置完毕后，在$ZOOKEEPER_HOME$执行下面的命令启动zookeeper<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./bin/zkServer.sh start &amp;</span><br></pre></td></tr></table></figure></p>
+<h2 id="伪集群配置"><a href="#伪集群配置" class="headerlink" title="伪集群配置"></a>伪集群配置</h2><p>参考“集群配置”，伪集群实际上是在一台机器部署多个zookeeper实例来构建集群，因为是同一台机器，所以各个zookeeper实例的端口与dataDir不同。<br>配置参考：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">tickTime=2000 </span><br><span class="line">dataDir=/var/zookeeper/ </span><br><span class="line">clientPort=2181 </span><br><span class="line">initLimit=5 </span><br><span class="line">syncLimit=2 </span><br><span class="line">server.1=localhost:2887:3887 </span><br><span class="line">server.2=localhost:2888:3888 </span><br><span class="line">server.3=localhost:2889:3889</span><br></pre></td></tr></table></figure></p>
+<h2 id="集群配置"><a href="#集群配置" class="headerlink" title="集群配置"></a>集群配置</h2><p>为了获得可靠的zookeeper服务，实际使用应该部署zookeeper集群。只要多于半数的zookeeper服务OK，那么整个zookeeper服务也是OK的。<br>而且，部署时最好部署奇数台zookeeper服务。</p>
+<p>在每个zookeeper实例的dataDir参数指定的目录中，创建一个名为myid的文件，文件的内容指定自身的id值。<br>假设部署3台zookeeper构成的集群，分别命名为server1,server2,server3，那么server1的myid的内容就是1，server2的myid的内容就是2，等等…<br>每个zookeeper的conf目录中，新建zoo.cfg，内容如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">tickTime=2000 </span><br><span class="line">dataDir=/var/zookeeper/ </span><br><span class="line">clientPort=2181 </span><br><span class="line">initLimit=5 </span><br><span class="line">syncLimit=2 </span><br><span class="line">server.1=server1:2888:3888 </span><br><span class="line">server.2=server2:2888:3888 </span><br><span class="line">server.3=server3:2888:3888</span><br></pre></td></tr></table></figure></p>
+<p>server.id=host:port:port，指示了集群中所有zookeeper。第一个port是follower与leader通信的端口，第2个port是进行leader选举的端口。</p>
+<h2 id="zookeeper配置参数"><a href="#zookeeper配置参数" class="headerlink" title="zookeeper配置参数"></a>zookeeper配置参数</h2><p>tickTime：心跳时间，为了确保连接存在的，以毫秒为单位，最小超时时间为2个心跳时间<br>initLimit：多少个心跳时间内，允许其他server连接并初始化数据，如果ZooKeeper管理的数据较大，则应相应增大这个值<br>clientPort：服务的监听端口<br>dataDir：用于存放内存数据库快照的文件夹，同时用于集群的myid文件也存在这个文件夹里（注意：一个配置文件只能包含一个dataDir字样，即使它被注释掉了。）<br>dataLogDir：用于单独设置transaction log的目录，transaction log分离可以避免和普通log还有快照的竞争<br>syncLimit：多少个tickTime内，允许follower同步，如果follower落后太多，则会被丢弃。</p>
+<p>server.A=B：C：D：<br>A是一个数字,表示这个是第几号服务器,B是这个服务器的ip地址<br>C第一个端口用来集群成员的信息交换,表示的是这个服务器与集群中的Leader服务器交换信息的端口<br>D是在leader挂掉时专门用来进行选举leader所用</p>
+
+        </div>
+        <div class="post-tool">
+            <a class="btn-thumbs-up" href="javascript:void(0);" data-cid="52" title="95">
+                <i class="fa fa-thumbs-up" aria-hidden="true"></i> 打赏
+            </a>
+        </div>
+        
+        <div class="post-tags">标签：
+            
+            <a href="/tags/zookeeper/">zookeeper</a>
+            
+        </div>
+        
+    </article>
+    
+    <p style="text-align: center">本文代表个人观点，内容仅供参考。若有不恰当之处，望不吝赐教！</p>
+    
+    
+
+    
+    
+        <div id="gitment-container"></div>
+        <link rel="stylesheet" href="//imsun.github.io/gitment/style/default.css">
+        <script src="//imsun.github.io/gitment/dist/gitment.browser.js"></script>
+        <script type="text/javascript">
+            var gitment = new Gitment({
+                /*lable长度不能超过50个字符，这里使用页面的生成时间*/
+                id: 'Sat Sep 09 2017 09:17:28 GMT+0800'/*document.location.href*/,
+                owner: 'luckystar88',
+                repo: 'comments',
+                oauth: {
+                    client_id: 'd49ebe4f95abcd6163f4',
+                    client_secret: 'edd2748d6271072a6970d5cec8751f388dac8116',
+                }
+            });
+            gitment.render('gitment-container');
+        </script>
+        
+            <script>
+                document.getElementById("gitment-display-button").style.display = "none";
+                document.getElementById("gitment-container").style.display = "block";
+            </script>
+        
+    
+
+
+</div>
+<script src="/js/busuanzi.pure.mini.js"></script>
+
+
+        </div><!-- end #main-->
+    </div><!-- end #body -->
+    <footer class="footer">
+    <div class="footer-inner" style="text-align: center">
+        <p>
+            <a href="/about" title="关于">关于</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <!-- 自定义链接 -->
+            <a href="/help" title="帮助">帮助</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <a href="/links" title="友链">友链</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <a href="/sitemap.xml" title="地图">地图</a>
+        </p>
+        <p>
+            本站已建立&nbsp<a href="/timeline" id="siteBuildingTime"></a>&nbsp天，<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="licence">采用知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议创作</a><br>
+            ©2017-<span id="cpYear"></span> 基于&nbsp<a href="http://hexo.io" target="_blank" rel="nofollow">Hexo</a>
+            ，主题采用&nbsp&nbsp<a href="https://github.com/tangkunyin/hexo-theme-jsimple" target="_blank" rel="bookmark">JSimple</a>
+            ，作者&nbsp<a href="https://tommy88.top" target="_blank" rel="friend">Donny</a>
+            ，Hosted by <a href="https://pages.github.com/" target="_blank" rel="nofollow">GitHub Pages</a>
+        </p>
+    </div>
+</footer>
+<script src="/js/SimpleCore.js"></script>
+
+</div>
+<!-- search pop -->
+<div class="popup search-popup local-search-popup">
+    <div class="local-search-header clearfix">
+        <span class="search-icon">
+            <i class="fa fa-search"></i>
+        </span>
+        <span class="popup-btn-close">
+            <i class="fa fa-times-circle"></i>
+        </span>
+        <div class="local-search-input-wrapper">
+            <input id="local-search-input" spellcheck="false" type="text" autocomplete="off" placeholder="请输入查询关键词">
+        </div>
+    </div>
+    <div id="local-search-result"></div>
+</div>
+<div class="fixed-btn">
+    <a class="btn-gotop" href="javascript:"> <i class="fa fa-angle-up"></i></a>
+</div>
+<script>
+    $(function () {
+        var jsi_config = {
+            buildingTime: '01/20/2016',
+            current: $('.post-tags').length > 0 ? 'post' : 'archive',
+            snsQRCode: '/images/sns-qrcode.png',
+            donateImg: '/images/donate-qr.png',
+            localSearch: { dbPath: '' },
+            readMode: 'day'
+        };
+        
+            jsi_config.localSearch = {
+                dbPath: '/search.xml',
+                trigger: 'auto',
+                topN: '1',
+                unescape: 'false'
+            }
+        
+        SimpleCore.init(jsi_config);
+        
+    });
+</script>
+</body>
+</html>

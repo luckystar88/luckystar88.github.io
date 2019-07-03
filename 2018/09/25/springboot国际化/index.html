@@ -1,0 +1,409 @@
+<!DOCTYPE HTML>
+<html class="no-js" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!--[if lte IE 9]>
+<meta http-equiv="refresh" content="0;url=https://tommy88.top/warn.html">
+<![endif]-->
+<meta charset="utf-8">
+<meta http-equiv="X-DNS-Prefetch-Control" content="on">
+<link rel="dns-prefetch" href="https://tommy88.top">
+<link rel="dns-prefetch" href="//www.google-analytics.com">
+<link rel="prefetch" href="https://tommy88.top">
+<link rel="prefetch" href="//www.google-analytics.com">
+
+
+    <link rel="dns-prefetch" href="//imsun.github.io">
+    <link rel="prefetch" href="//imsun.github.io">
+
+<link rel="prerender" href="https://tommy88.top">
+
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+<meta http-equiv="mobile-agent" content="format=html5; url=https://tommy88.top">
+<meta name="author" content="Donny">
+<link rel="stylesheet" href="/css/JSimple.css">
+
+<link rel="shortcut icon" href="/images/favicon.png">
+
+
+<title>spring boot国际化 - Donny的技术博客</title>
+
+<meta name="keywords" content="java,前端,数据库,web,spring,redis,spring boot,spring cloud,mq">
+
+<meta name="description " content="记录工作，感悟生活">
+
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                processEscapes: true
+            }
+        });
+    </script>
+
+
+    
+
+    
+    
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="//www.googletagmanager.com/gtag/js?id=UA-105613999-1"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'UA-105613999-1');
+        </script>
+    
+    <!-- put your likes here. -->
+
+
+</head>
+<body>
+<div id="nav">
+    <nav class="nav-menu">
+        <a class="site-name current" href="/" title="Home">Home</a>
+        <a class="site-index current" href="/"><i class="fa fa-home"></i><span>首页</span></a>
+        <a href="/archives" title="归档"><i class="fa fa-archives"></i><span>归档</span></a>
+        <a href="/tags" title="标签"><i class="fa fa-tags"></i><span>标签</span></a>
+        <!-- custom single page of menus -->
+        
+        
+        <a href="/help" title="帮助">
+            <i class="fa fa-question-circle"></i>
+            <span>帮助</span>
+        </a>
+        
+    </nav>
+</div>
+
+<div class="nav-user">
+    <a class="btn-search" href="#"><i class="fa fa-search"></i></a>
+    <a class="btn-read-mode" href="#"><i class="fa fa-sun-o"></i></a>
+    <a class="btn-sns-qr" href="javascript:"><i class="fa fa-telegram"></i></a>
+</div>
+
+<div id="wrapper" class="clearfix">
+    <div id="body">
+        <div class="main" id="main">
+            <div id="cover">
+    <div class="cover-img"></div>
+    <div class="cover-info">
+        
+        <h1 class="cover-siteName">Donny的技术博客</h1>
+        <h3 class="cover-siteTitle">用代码征服世界</h3>
+        <p class="cover-siteDesc">这是一个简单的技术博客</p>
+        <div class="cover-sns">
+            
+    &nbsp;&nbsp;<div class="btn btn-github">
+        <a href="https://github.com/luckystar88" target="_blank" title="github" ref="friend">
+            <i class="fa fa-github"></i>
+        </a>
+    </div>
+
+
+        </div>
+    </div>
+</div>
+
+            <div class="page-title">
+    <ul>
+        <li><a href="/">最近</a></li>
+        
+            
+                <li class="active">
+                    <a href="/categories/tech" data-name="技术">技术</a>
+                </li>
+            
+                <li class>
+                    <a href="/categories/life" data-name="人文">人文</a>
+                </li>
+            
+                <li class>
+                    <a href="/categories/others" data-name="其他">其他</a>
+                </li>
+            
+        
+        <li class="page-search">
+    <form id="search" class="search-form">
+        <input type="text" readonly="readonly" id="local-search-input-tip" placeholder="读物检索~">
+        <button type="button" disabled="disabled" class="search-form-submit"><i class="fa fa-search"></i></button>
+    </form>
+</li>
+
+    </ul>
+</div>
+<div class="main-inner">
+    <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+        <div class="post-header">
+            <div class="post-author clearfix">
+                <a class="avatar fleft" href="https://tommy88.top" target="_blank">
+                    <img width="48" src="/images/favicon.png" alt="avatar">
+                </a>
+                <p><span class="label">作者</span>
+                    <a href="https://tommy88.top" target="_blank">Donny</a>
+                    <span title="最后编辑于&nbsp;2018-09-25">2018-09-25</span>
+                </p>
+                <p>记录工作，感悟生活</p>
+            </div>
+            <h2 class="post-title">Spring Boot国际化</h2>
+            <div class="post-meta">
+                本文共计13362个字 |
+                您是第&nbsp;<span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>位看到它们的小伙伴
+            </div>
+        </div>
+        <div class="post-content markdown-body">
+            <p>国际化（internationalization）是设计和制造容易适应不同区域要求的产品的一种方式。它要求从产品中抽离所有地域语言，国家/地区和文化相关的元素。换言之，应用程序的功能和代码设计考虑在不同地区运行的需要，其代码简化了不同本地版本的生产。开发这样的程序的过程，就称为国际化。</p>
+<p>那么当我们使用Spring Boot如何进行国际化呢？那么当你读完这篇文章你会学到如下知识：<br><a id="more"></a></p>
+<ul>
+<li>(1) spring boot 加入thymeleaf；</li>
+<li>(2) 页面元素国际化；</li>
+<li>(3) spring boot默认国际化原理说明；</li>
+<li>(4) firefox浏览器修改区域语言；</li>
+<li>(5)chrome浏览器修改区域语言；</li>
+<li>(6)修改默认messages配置前缀；</li>
+<li>(7) 代码中如何获取国际化信息；</li>
+<li>(8) 优化代码获取国际化信息；</li>
+<li>(9) 区域解析器之AcceptHeaderLocaleResolver；</li>
+<li>(10) 会话区域解析器之SessionLocaleResolver；</li>
+<li>(11) Cookie区域解析器之CookieLocaleResolver；</li>
+<li>(12)固定的区域解析器之FixedLocaleResolver ；</li>
+<li>(13)使用参数修改用户的区域；</li>
+</ul>
+<p>接下里我们看看这些具体应该怎么操作。</p>
+<p><strong>(1) spring boot 加入thymeleaf；</strong></p>
+<p>Spring boot集成thymeleaf在<a href="http://www.vxzsk.com/440.html">http://www.vxzsk.com/440.html</a></p>
+<p>这篇文章有介绍过，所以这里就不过多进行介绍了。在这里我们为之后的讲解做点基本准备。</p>
+<p>模板文件resources/templates/hello.html :<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>hello spring boot<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    </span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>欢迎你登录到阿里巴巴网站<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">        </span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>这里没有特殊的代码，访问就是显示一些文字，这里还没加入国际化的相关东西，之后添加。</p>
+<p>编写访问地址：com.kfit.controller.HelloController：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.kfit.controller;</span><br><span class="line">  </span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Controller;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.RequestMapping;</span><br><span class="line">  </span><br><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HelloController</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@RequestMapping</span>(<span class="string">"/hello"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">hello</span><span class="params">()</span></span>&#123;</span><br><span class="line">       <span class="keyword">return</span>  <span class="string">"/hello"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这里就是访问<a href="http://127.0.0.1:8080/hello">http://127.0.0.1:8080/hello</a>就跳转到hell.html进行访问。</p>
+<p>到这里准备工作就好了。</p>
+<p><strong>(2) 页面元素国际化；</strong></p>
+<p>我们观察hello.html里面的信息直接就是中文显示，所以我们现在的需求是当访问语言是zh的时候显示为中文，当语言为en的时候显示为英文，那么怎么操作呢？</p>
+<p>首先我们先定义国际化资源文件，spring boot默认就支持国际化的，而且不需要你过多的做什么配置，只需要在resources/下定义国际化配置文件即可，注意名称必须以messages开发。</p>
+<p>我们定义如下几个文件：</p>
+<p>messages.properties （默认，当找不到语言的配置的时候，使用该文件进行展示）。</p>
+<p>messages_zh_CN.properties（中文）</p>
+<p>messages_en_US.properties（英文）</p>
+<p>具体的代码如下：</p>
+<p>messages.properties：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">welcome = 欢迎你登录到 阿里巴巴 网站（default）</span><br></pre></td></tr></table></figure></p>
+<p>messages_zh_CN.properties：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">welcome = \u6b22\u8fce\u4f60\u767b\u5f55\u5230 \u963f\u91cc\u5df4\u5df4 \u7f51\u7ad9\uff08\u4e2d\u6587\uff09</span><br></pre></td></tr></table></figure></p>
+<p>对应的信息是：</p>
+<p>welcome = 欢迎你登录到 阿里巴巴 网站（中文）</p>
+<p>messages_en_US.properties：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">welcome = welcome to login to alibaba website(English)</span><br></pre></td></tr></table></figure></p>
+<p>配置信息就这么简单，那么在前端展示怎么修改呢，修改hello.html文件，使用#{key}的方式进行使用messages中的字段信息：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>hello spring boot<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span><span class="tag">&lt;<span class="name">label</span> <span class="attr">th:text</span>=<span class="string">"#&#123;welcome&#125;"</span>&gt;</span><span class="tag">&lt;/<span class="name">label</span>&gt;</span><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>重新访问：<a href="http://127.0.0.1:8080/hello">http://127.0.0.1:8080/hello</a> 应该显示：</p>
+<p>欢迎你登录到 阿里巴巴 网站（中文）</p>
+<p><strong>(3) spring boot默认国际化原理说明</strong></p>
+<p>在这里我们先打住下，简单说下原理：</p>
+<p>第一个问题，为什么命名必须是messages开头，需要看一个源码文件：</p>
+<p>org.springframework.boot.autoconfigure.MessageSourceAutoConfiguration：</p>
+<p>这里提取部分代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * &#123;<span class="doctag">@link</span> EnableAutoConfiguration Auto-configuration&#125; for &#123;<span class="doctag">@link</span> MessageSource&#125;.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> Dave Syer</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> Phillip Webb</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> Eddú Meléndez</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@ConditionalOnMissingBean</span>(value = MessageSource.class, search = SearchStrategy.CURRENT)</span><br><span class="line"><span class="meta">@AutoConfigureOrder</span>(Ordered.HIGHEST_PRECEDENCE)</span><br><span class="line"><span class="meta">@Conditional</span>(ResourceBundleCondition.class)</span><br><span class="line"><span class="meta">@EnableConfigurationProperties</span></span><br><span class="line"><span class="meta">@ConfigurationProperties</span>(prefix = <span class="string">"spring.messages"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MessageSourceAutoConfiguration</span> </span>&#123;</span><br><span class="line">  </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Resource[] NO_RESOURCES = &#123;&#125;;</span><br><span class="line">  </span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Comma-separated list of basenames, each following the ResourceBundle convention.</span></span><br><span class="line"><span class="comment">     * Essentially a fully-qualified classpath location. If it doesn't contain a package</span></span><br><span class="line"><span class="comment">     * qualifier (such as "org.mypackage"), it will be resolved from the classpath root.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> String basename = <span class="string">"messages"</span>;</span><br><span class="line">  </span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Message bundles encoding.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> Charset encoding = Charset.forName(<span class="string">"UTF-8"</span>);</span><br><span class="line">  </span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Loaded resource bundle files cache expiration, in seconds. When set to -1, bundles</span></span><br><span class="line"><span class="comment">     * are cached forever.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> cacheSeconds = -<span class="number">1</span>;</span><br><span class="line">  </span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Set whether to fall back to the system Locale if no files for a specific Locale</span></span><br><span class="line"><span class="comment">     * have been found. if this is turned off, the only fallback will be the default file</span></span><br><span class="line"><span class="comment">     * (e.g. "messages.properties" for basename "messages").</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">boolean</span> fallbackToSystemLocale = <span class="keyword">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>看到没有，如果我们没有在application.properties中配置spring.messages属性，那么使用默认的messages，好了这个问题就这么简单解决了。</p>
+<p>第二问题：为什么我看到的是中文（或者英文）呢？</p>
+<p>为了让web应用程序支持国际化，必须识别每个用户的首选区域，并根据这个区域显示内容。在Spring MVC应用程序中，用户的区域是通过区域解析器来识别的，它必须是实现LocaleResolver接口。Spring MVC提供了几个LocaleResolver实现，让你可以按照不同的条件来解析区域。除此之外，你还可以实现这个接口创建自己的区域解析器。如果没有做特殊的处理的话，Spring 采用的默认区域解析器是AcceptHeaderLocaleResolver。它通过检验HTTP请求的头部信息accept-language来解析区域。这个头部是由用户的wb浏览器底层根据底层操作系统的区域设置进行设定的。请注意，这个区域解析器无法改变用户的区域，因为它无法修改用户操作系统的区域设置。</p>
+<p>既然无法修改，那么我们的代码怎么测试呢？请看如下内容？</p>
+<p><strong>(4) firefox浏览器修改区域语言；</strong></p>
+<p>打开firefox浏览器访问<a href="http://127.0.0.1:8080/hello">http://127.0.0.1:8080/hello</a> （计算机系统语言是中文的），应该是看到如下信息：</p>
+<p>欢迎你登录到 阿里巴巴 网站（中文）</p>
+<p>那么我们修改我们的语言呢，在浏览器地址栏输入如下信息：</p>
+<p>about:config</p>
+<p>回车进入一个警告页面，然后点击按钮【我保证会小心】（注：由于版本不一样，可能会有些不一样，但是操作是一样的）。</p>
+<!--[endif]-->
+<p>在搜索框输入accept，然后找到intl.accept_languages修改对应的值，我这里原本是：</p>
+<p>zh-cn, zh, en-us, en</p>
+<p>为了看到效果，修改为：</p>
+<p>en-us, en</p>
+<p>修改完之后，刷新<a href="http://127.0.0.1:8080/hello">http://127.0.0.1:8080/hello</a> ，可以看到信息：</p>
+<p>welcome to login to alibaba website(English)</p>
+<p>好了，没有什么特殊的需求的，记得把intl.accept_languages修改为原来的值。</p>
+<p><strong>(5)chrome浏览器修改区域语言；</strong></p>
+<p>我觉得firefox修改起来真是简单，chrome浏览器就稍微麻烦点了。</p>
+<p>第一种方案就是下载插件：Quick Language Switcher，下载完插件之后，默认选项的比较少，你可以在扩展程序中，打开别的语言选项或者添加自定义的语言。这个只要插件下来来操作就很简单了，切换语言就会自动刷新页面，就能看到效果了，特别方便。注意的是：默认有一个English，这个使用的配置文件是：messages_en.properties,所以需要添加一个配置文件才能看到效果。</p>
+<p>第二种方案是修改本地的一个配置文件，参考如下地址</p>
+<p><a href="http://stackoverflow.com/questions/7769061/how-to-add-custom-accept-languages-to-chrome-for-pseudolocalization-testing">http://stackoverflow.com/questions/7769061/how-to-add-custom-accept-languages-to-chrome-for-pseudolocalization-testing</a></p>
+<p>但是我这里不管怎么修改，重启浏览器之后，就被重置回来了，也就是这种方案我这里没有配置成功。第一种方案肯定是可以的。</p>
+<p>别的浏览器就自行尝试了，因为这不是我们这不是我们实际使用的重点，那么接下来才是重点哦。</p>
+<p><strong>(6)修改默认messages配置前缀；</strong></p>
+<p>我们在上面说了，默认的文件名称前缀是messages_xx.properties，那么如何修改这个名称和路径呢？</p>
+<p>这个也很简单，只需要修改application.properties文件即可加入如下配置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">########################################################</span><br><span class="line">### i18n setting.</span><br><span class="line">########################################################</span><br><span class="line">#指定message的basename，多个以逗号分隔，如果不加包名的话，默认从classpath路径开始，默认: messages</span><br><span class="line">spring.messages.basename=i18n/messages</span><br><span class="line">#设定加载的资源文件缓存失效时间，-1的话为永不过期，默认为-1</span><br><span class="line">spring.messages.cache-seconds= 3600</span><br><span class="line">#设定Message bundles的编码，默认: UTF-8</span><br><span class="line">#spring.messages.encoding=UTF-8</span><br></pre></td></tr></table></figure></p>
+<p>上面各个参数都注释很清楚了，这里不多说了，那么我们这里是把文件放到了i18n下，那么我们在resources下新建目录i18n，然后复制我们创建的messages_xxx.properties文件到此目录下。为了区分这是读取了新的文件，我们可以在每个文件中—i18n以进行区分。</p>
+<p>重新访问<a href="http://127.0.0.1:8080/hello">http://127.0.0.1:8080/hello</a> 可以看到最新的效果了。</p>
+<p>英文：</p>
+<p>welcome to login to alibaba website(English-en)–i18n</p>
+<p>中文：</p>
+<p>欢迎你登录到阿里巴巴网站（中文）–i18n</p>
+<p><strong>(7) 代码中如何获取国际化信息；</strong></p>
+<p>以上讲的是在模板文件进行国际化，那么在代码中如何获取到welcome呢，这个比较简单，只要在需要的地方注入类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Autowired</span></span><br><span class="line"><span class="keyword">private</span> MessageSource messageSource;</span><br></pre></td></tr></table></figure>
+<p>需要注意的是messageSource是</p>
+<p>org.springframework.context.MessageSource</p>
+<p>下的类。</p>
+<p>那么怎么使用了，在使用前我们需要先知道一个知识点，如何得到当前请求的Locale</p>
+<p>那么怎么获取呢，有两种获取方式：</p>
+<p>第一种方式是：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Locale locale = LocaleContextHolder.getLocale();</span><br></pre></td></tr></table></figure></p>
+<p>第二种方式是：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Locale locale1= RequestContextUtils.getLocale(request);</span><br></pre></td></tr></table></figure></p>
+<p>个人喜好第一种方式，因为不需要什么参数就可以获取到，第二种方式依赖于当前的request请求对象。</p>
+<p>有了当前请求的Locale剩下的就简单了：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">String msg = messageSource.getMessage(<span class="string">"welcome"</span>, <span class="keyword">null</span>,locale);</span><br><span class="line">String msg2= messageSource.getMessage(<span class="string">"welcome"</span>, <span class="keyword">null</span>,locale1);</span><br></pre></td></tr></table></figure>
+<p>通过以上代码的其中一种方式就可以获取到messages_xxx.properties文件配置的welcome属性值了。切换区域获取的信息也是不一样的，打印信息如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">msg=欢迎你登录到阿里巴巴网站（中文）--i18n</span><br><span class="line">msg2欢迎你登录到阿里巴巴网站（中文）--i18n</span><br><span class="line">msg=welcome to login to alibaba website(English-en)--i18n</span><br><span class="line">msg2welcome to login to alibaba website(English-en)--i18n</span><br></pre></td></tr></table></figure></p>
+<p><strong>8) 优化代码获取国际化信息；</strong></p>
+<p>学习是永无止境的，活到老学到老。查看上面的代码你会发现这个是实际中使用起来的时候还是不是很方面，ok,没有关系，这个小节我们就对上面的代码优化下，</p>
+<p>自定义我们自己的MessageSource，具体代码如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.kfit.common;</span><br><span class="line">  </span><br><span class="line"><span class="keyword">import</span> java.util.Locale;</span><br><span class="line"><span class="keyword">import</span> javax.annotation.Resource;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.MessageSource;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.i18n.LocaleContextHolder;</span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Component;</span><br><span class="line">  </span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LocaleMessageSourceService</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Resource</span></span><br><span class="line">    <span class="keyword">private</span> MessageSource messageSource;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> code ：对应messages配置的key.</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getMessage</span><span class="params">(String code)</span></span>&#123;</span><br><span class="line">       <span class="keyword">return</span> getMessage(code,<span class="keyword">null</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> code ：对应messages配置的key.</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> args : 数组参数.</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getMessage</span><span class="params">(String code,Object[] args)</span></span>&#123;</span><br><span class="line">       <span class="keyword">return</span> getMessage(code, args,<span class="string">""</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">  </span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> code ：对应messages配置的key.</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> args : 数组参数.</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> defaultMessage : 没有设置key的时候的默认值.</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getMessage</span><span class="params">(String code,Object[] args,String defaultMessage)</span></span>&#123;</span><br><span class="line">       <span class="comment">//这里使用比较方便的方法，不依赖request.</span></span><br><span class="line">       Locale locale = LocaleContextHolder.getLocale();</span><br><span class="line">       <span class="keyword">return</span> messageSource.getMessage(code, args, defaultMessage, locale);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在这个代码中我封装了3个常用的方法，那么应该怎么调用呢？也很简单，在需要的地方使用如下代码进行注入：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Resource</span></span><br><span class="line"><span class="keyword">private</span> LocaleMessageSourceService localeMessageSourceService;</span><br></pre></td></tr></table></figure>
+<p>在需要的地方使用如下代码进行调用：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">String msg3 = localeMessageSourceService.getMessage(<span class="string">"welcome"</span>);</span><br></pre></td></tr></table></figure></p>
+<p>这个代码比之前的代码使用起来爽多了，还有很多神妙之处，大家自己发现吧。</p>
+<p><strong>(9) 区域解析器之AcceptHeaderLocaleResolver；</strong></p>
+<p>看到上面，大家会认为国际化也就到此了，但是我告诉大家这之后才是spring的强大之处呢，考虑的多么周到呢。</p>
+<p>我们在之前说过，我们只所以可以看到国际化的效果是因为有一个区域解析器在进行处理。默认的区域解析器就是AcceptHeaderLocaleResolver。我们简单说明这个解析器：</p>
+<p>Spring采用的默认区域解析器是AcceptHeaderLocaleResolver。它通过检验HTTP请求的accept-language头部来解析区域。这个头部是由用户的web浏览器根据底层操作系统的区域设置进行设定。请注意，这个区域解析器无法改变用户的区域，因为它无法修改用户操作系统的区域设置。</p>
+<p>好了，这个默认的介绍到这里，因为这个我们无法改变，所以这种默认的设置在实际中使用的比较少。所以你如果看到当前还无法满足的需求的话，那么接着往下看，博主已经帮你都想到了。</p>
+<p><strong>(10) 会话区域解析器之SessionLocaleResolver；</strong></p>
+<p>会话区域解析器也就是说，你设置完只针对当前的会话有效，session失效，还原为默认状态。那么这个具体怎么操作呢？具体操作起来也是很简单的，我们需要在我们的启动类App.java（按你的实际情况进行修改）配置区域解析器为SessionLocaleResolver，具体代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> LocaleResolver <span class="title">localeResolver</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    SessionLocaleResolver slr = <span class="keyword">new</span> SessionLocaleResolver();</span><br><span class="line">    <span class="comment">//设置默认区域,</span></span><br><span class="line">    slr.setDefaultLocale(Locale.CHINA);</span><br><span class="line">    <span class="keyword">return</span> slr;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其实到这里我们就完事了，你可以通过setDefaultLocale()设置默认的语言，启动就访问<a href="http://127.0.0.1:8080/hello">http://127.0.0.1:8080/hello</a> 进行查看，是不是已经实现国际化了。</p>
+<p>到这里当然还不是很完美，还需要在进一步的优化了，那么怎么在页面中进行切换呢？那么假设页面上有两个按钮【切换为中文】、【切换为英文】就可以进行切换了。接下来一起来实现下：在hello.html添加如下代码：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">"/changeSessionLanauage"</span> <span class="attr">method</span>=<span class="string">"get"</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">input</span> <span class="attr">name</span>=<span class="string">"lang"</span> <span class="attr">type</span>=<span class="string">"hidden"</span> <span class="attr">value</span>=<span class="string">"zh"</span>  /&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">button</span>&gt;</span>切换为中文<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br><span class="line">    </span><br><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">"/changeSessionLanauage"</span> <span class="attr">method</span>=<span class="string">"get"</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">input</span> <span class="attr">name</span>=<span class="string">"lang"</span> <span class="attr">type</span>=<span class="string">"hidden"</span> <span class="attr">value</span>=<span class="string">"en"</span> /&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">button</span>&gt;</span>切换为英文<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>这里就是两个表单，切换语言，那么/changeSessionLanauage怎么编写呢，看如下代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/changeSessionLanauage"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">changeSessionLanauage</span><span class="params">(HttpServletRequest request,String lang)</span></span>&#123;</span><br><span class="line">   System.out.println(lang);</span><br><span class="line">   <span class="keyword">if</span>(<span class="string">"zh"</span>.equals(lang))&#123;</span><br><span class="line">       <span class="comment">//代码中即可通过以下方法进行语言设置</span></span><br><span class="line">       request.getSession().setAttribute(SessionLocaleResolver.LOCALE_SESSION_ATTRIBUTE_NAME, <span class="keyword">new</span> Locale(<span class="string">"zh"</span>, <span class="string">"CN"</span>)); </span><br><span class="line">   &#125;elseif(<span class="string">"en"</span>.equals(lang))&#123;</span><br><span class="line">       <span class="comment">//代码中即可通过以下方法进行语言设置</span></span><br><span class="line">       request.getSession().setAttribute(SessionLocaleResolver.LOCALE_SESSION_ATTRIBUTE_NAME, <span class="keyword">new</span> Locale(<span class="string">"en"</span>, <span class="string">"US"</span>)); </span><br><span class="line">   &#125;</span><br><span class="line">   <span class="keyword">return</span> <span class="string">"redirect:/hello"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这部分代码最核心的部分就是如何设置会话的区域，也就是如下代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">request.getSession().setAttribute(SessionLocaleResolver.LOCALE_SESSION_ATTRIBUTE_NAME, <span class="keyword">new</span> Locale(<span class="string">"en"</span>, <span class="string">"US"</span>));</span><br></pre></td></tr></table></figure>
+<p>这个代码就可以把当前会话的区域进行切换了，是不是很简单。以上代码你会发现只针对会话的设置，我们在这里在优化下，针对下面讲的Cookie也会作用到，这样这个代码就很智能了，代码修改为如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/changeSessionLanauage"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">changeSessionLanauage</span><span class="params">(HttpServletRequest request,HttpServletResponse response,String lang)</span></span>&#123;</span><br><span class="line">          System.out.println(lang);</span><br><span class="line">   LocaleResolver localeResolver = RequestContextUtils.getLocaleResolver(request);</span><br><span class="line">   <span class="keyword">if</span>(<span class="string">"zh"</span>.equals(lang))&#123;</span><br><span class="line">       localeResolver.setLocale(request, response, <span class="keyword">new</span> Locale(<span class="string">"zh"</span>, <span class="string">"CN"</span>));</span><br><span class="line">   &#125;elseif(<span class="string">"en"</span>.equals(lang))&#123;</span><br><span class="line">       localeResolver.setLocale(request, response, <span class="keyword">new</span> Locale(<span class="string">"en"</span>, <span class="string">"US"</span>));</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="keyword">return</span> <span class="string">"redirect:/hello"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在这里使用:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">LocaleResolver localeResolver = RequestContextUtils.getLocaleResolver(request);</span><br></pre></td></tr></table></figure></p>
+<p>获取当前使用的区域解析器LocaleResolver 调用里面的方法</p>
+<p>setLocale 设置即可，这样的代码就是不管是会话还是cookie区域解析器都是一样的代码了。</p>
+<p><strong>(11) Cookie区域解析器之CookieLocaleResolver；</strong></p>
+<p>Cookie区域解析器也就是说，你设置完针对cookie生效，session失效。那么这个具体怎么操作呢？我们需要在我们的启动类App.java（按你的实际情况进行修改）配置区域解析器为CookieLocaleResolver（SessionLocaleResolver部分请注释掉），具体代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> LocaleResolver <span class="title">localeResolver</span><span class="params">()</span> </span>&#123;</span><br><span class="line">   CookieLocaleResolver slr = <span class="keyword">new</span> CookieLocaleResolver();</span><br><span class="line">    <span class="comment">//设置默认区域,</span></span><br><span class="line">    slr.setDefaultLocale(Locale.CHINA);</span><br><span class="line">    slr.setCookieMaxAge(<span class="number">3600</span>);<span class="comment">//设置cookie有效期.</span></span><br><span class="line">    returnslr;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其实到这里我们就完事了，你可以通过setDefaultLocale()设置默认的语言，启动就访问<a href="http://127.0.0.1:8080/hello">http://127.0.0.1:8080/hello</a> 进行查看，是不是已经实现国际化了。</p>
+<p>到这里当然还不是很完美，还需要在进一步的优化了，那么怎么在页面中进行切换呢？</p>
+<p>这里主要是用到了，这个部分我们在(10)中已经进行配置了，所以到这里已近是可以进行使用了，点击页面中的按钮进行体验。</p>
+<p><strong>(12)固定的区域解析器之FixedLocaleResolver ；</strong></p>
+<p>一直使用固定的Local, 改变Local 是不支持的 。既然无法改变，那么不…好了，还是简单介绍下如何使用吧，还是在App.java进行编码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * cookie区域解析器;</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> LocaleResolver <span class="title">localeResolver</span><span class="params">()</span> </span>&#123;</span><br><span class="line">   FixedLocaleResolver slr = <span class="keyword">new</span> FixedLocaleResolver ();</span><br><span class="line">    <span class="comment">//设置默认区域,</span></span><br><span class="line">    slr.setDefaultLocale(Locale.US);</span><br><span class="line">    returnslr;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>(13)使用参数修改用户的区域；</strong></p>
+<p>除了显式调用LocaleResolver.setLocale()来修改用户的区域之外，还可以将LocaleChangeInterceptor拦截器应用到处理程序映射中，它会发现当前HTTP请求中出现的特殊参数。其中的参数名称可以通过拦截器的paramName属性进行自定义。如果这种参数出现在当前请求中，拦截器就会根据参数值来改变用户的区域。</p>
+<p>只需要在App.java中加入：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line"> <span class="function"><span class="keyword">public</span> LocaleChangeInterceptor <span class="title">localeChangeInterceptor</span><span class="params">()</span> </span>&#123;</span><br><span class="line">     LocaleChangeInterceptor lci = <span class="keyword">new</span> LocaleChangeInterceptor();</span><br><span class="line">     <span class="comment">// 设置请求地址的参数,默认为：locale</span></span><br><span class="line">     <span class="comment">// lci.setParamName(LocaleChangeInterceptor.DEFAULT_PARAM_NAME);</span></span><br><span class="line">     returnlci;</span><br><span class="line"> &#125;</span><br><span class="line"> </span><br><span class="line"> <span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addInterceptors</span><span class="params">(InterceptorRegistry registry)</span> </span>&#123;</span><br><span class="line">    registry.addInterceptor(localeChangeInterceptor());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>注意这个是可以和会话区域解析器以及Cookie区域解析器一起使用的，但是不能和FixedLocaleResolver一起使用，否则会抛出异常信息。</p>
+<hr>
+<p>本文来自 吸引力的觉悟 的CSDN 博客 ，全文地址请点击：<a href="https://blog.csdn.net/u012100371/article/details/78199568?utm_source=copy">https://blog.csdn.net/u012100371/article/details/78199568?utm_source=copy</a> </p>
+
+        </div>
+        <div class="post-tool">
+            <a class="btn-thumbs-up" href="javascript:void(0);" data-cid="52" title="95">
+                <i class="fa fa-thumbs-up" aria-hidden="true"></i> 打赏
+            </a>
+        </div>
+        
+        <div class="post-tags">标签：
+            
+            <a href="/tags/springboot/">springboot</a>
+            
+        </div>
+        
+    </article>
+    
+    <p style="text-align: center">本文代表个人观点，内容仅供参考。若有不恰当之处，望不吝赐教！</p>
+    
+    
+
+    
+    
+        <div id="gitment-container"></div>
+        <link rel="stylesheet" href="//imsun.github.io/gitment/style/default.css">
+        <script src="//imsun.github.io/gitment/dist/gitment.browser.js"></script>
+        <script type="text/javascript">
+            var gitment = new Gitment({
+                /*lable长度不能超过50个字符，这里使用页面的生成时间*/
+                id: 'Tue Sep 25 2018 10:01:07 GMT+0800'/*document.location.href*/,
+                owner: 'luckystar88',
+                repo: 'comments',
+                oauth: {
+                    client_id: 'd49ebe4f95abcd6163f4',
+                    client_secret: 'edd2748d6271072a6970d5cec8751f388dac8116',
+                }
+            });
+            gitment.render('gitment-container');
+        </script>
+        
+            <script>
+                document.getElementById("gitment-display-button").style.display = "none";
+                document.getElementById("gitment-container").style.display = "block";
+            </script>
+        
+    
+
+
+</div>
+<script src="/js/busuanzi.pure.mini.js"></script>
+
+
+        </div><!-- end #main-->
+    </div><!-- end #body -->
+    <footer class="footer">
+    <div class="footer-inner" style="text-align: center">
+        <p>
+            <a href="/about" title="关于">关于</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <!-- 自定义链接 -->
+            <a href="/help" title="帮助">帮助</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <a href="/links" title="友链">友链</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <a href="/sitemap.xml" title="地图">地图</a>
+        </p>
+        <p>
+            本站已建立&nbsp<a href="/timeline" id="siteBuildingTime"></a>&nbsp天，<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="licence">采用知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议创作</a><br>
+            ©2017-<span id="cpYear"></span> 基于&nbsp<a href="http://hexo.io" target="_blank" rel="nofollow">Hexo</a>
+            ，主题采用&nbsp&nbsp<a href="https://github.com/tangkunyin/hexo-theme-jsimple" target="_blank" rel="bookmark">JSimple</a>
+            ，作者&nbsp<a href="https://tommy88.top" target="_blank" rel="friend">Donny</a>
+            ，Hosted by <a href="https://pages.github.com/" target="_blank" rel="nofollow">GitHub Pages</a>
+        </p>
+    </div>
+</footer>
+<script src="/js/SimpleCore.js"></script>
+
+</div>
+<!-- search pop -->
+<div class="popup search-popup local-search-popup">
+    <div class="local-search-header clearfix">
+        <span class="search-icon">
+            <i class="fa fa-search"></i>
+        </span>
+        <span class="popup-btn-close">
+            <i class="fa fa-times-circle"></i>
+        </span>
+        <div class="local-search-input-wrapper">
+            <input id="local-search-input" spellcheck="false" type="text" autocomplete="off" placeholder="请输入查询关键词">
+        </div>
+    </div>
+    <div id="local-search-result"></div>
+</div>
+<div class="fixed-btn">
+    <a class="btn-gotop" href="javascript:"> <i class="fa fa-angle-up"></i></a>
+</div>
+<script>
+    $(function () {
+        var jsi_config = {
+            buildingTime: '01/20/2016',
+            current: $('.post-tags').length > 0 ? 'post' : 'archive',
+            snsQRCode: '/images/sns-qrcode.png',
+            donateImg: '/images/donate-qr.png',
+            localSearch: { dbPath: '' },
+            readMode: 'day'
+        };
+        
+            jsi_config.localSearch = {
+                dbPath: '/search.xml',
+                trigger: 'auto',
+                topN: '1',
+                unescape: 'false'
+            }
+        
+        SimpleCore.init(jsi_config);
+        
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,282 @@
+<!DOCTYPE HTML>
+<html class="no-js" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!--[if lte IE 9]>
+<meta http-equiv="refresh" content="0;url=https://tommy88.top/warn.html">
+<![endif]-->
+<meta charset="utf-8">
+<meta http-equiv="X-DNS-Prefetch-Control" content="on">
+<link rel="dns-prefetch" href="https://tommy88.top">
+<link rel="dns-prefetch" href="//www.google-analytics.com">
+<link rel="prefetch" href="https://tommy88.top">
+<link rel="prefetch" href="//www.google-analytics.com">
+
+
+    <link rel="dns-prefetch" href="//imsun.github.io">
+    <link rel="prefetch" href="//imsun.github.io">
+
+<link rel="prerender" href="https://tommy88.top">
+
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+<meta http-equiv="mobile-agent" content="format=html5; url=https://tommy88.top">
+<meta name="author" content="Donny">
+<link rel="stylesheet" href="/css/JSimple.css">
+
+<link rel="shortcut icon" href="/images/favicon.png">
+
+
+<title>谷歌浏览器优化 - Donny的技术博客</title>
+
+<meta name="keywords" content="java,前端,数据库,web,spring,redis,spring boot,spring cloud,mq">
+
+<meta name="description " content="记录工作，感悟生活">
+
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                processEscapes: true
+            }
+        });
+    </script>
+
+
+    
+
+    
+    
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="//www.googletagmanager.com/gtag/js?id=UA-105613999-1"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'UA-105613999-1');
+        </script>
+    
+    <!-- put your likes here. -->
+
+
+</head>
+<body>
+<div id="nav">
+    <nav class="nav-menu">
+        <a class="site-name current" href="/" title="Home">Home</a>
+        <a class="site-index current" href="/"><i class="fa fa-home"></i><span>首页</span></a>
+        <a href="/archives" title="归档"><i class="fa fa-archives"></i><span>归档</span></a>
+        <a href="/tags" title="标签"><i class="fa fa-tags"></i><span>标签</span></a>
+        <!-- custom single page of menus -->
+        
+        
+        <a href="/help" title="帮助">
+            <i class="fa fa-question-circle"></i>
+            <span>帮助</span>
+        </a>
+        
+    </nav>
+</div>
+
+<div class="nav-user">
+    <a class="btn-search" href="#"><i class="fa fa-search"></i></a>
+    <a class="btn-read-mode" href="#"><i class="fa fa-sun-o"></i></a>
+    <a class="btn-sns-qr" href="javascript:"><i class="fa fa-telegram"></i></a>
+</div>
+
+<div id="wrapper" class="clearfix">
+    <div id="body">
+        <div class="main" id="main">
+            <div id="cover">
+    <div class="cover-img"></div>
+    <div class="cover-info">
+        
+        <h1 class="cover-siteName">Donny的技术博客</h1>
+        <h3 class="cover-siteTitle">用代码征服世界</h3>
+        <p class="cover-siteDesc">这是一个简单的技术博客</p>
+        <div class="cover-sns">
+            
+    &nbsp;&nbsp;<div class="btn btn-github">
+        <a href="https://github.com/luckystar88" target="_blank" title="github" ref="friend">
+            <i class="fa fa-github"></i>
+        </a>
+    </div>
+
+
+        </div>
+    </div>
+</div>
+
+            <div class="page-title">
+    <ul>
+        <li><a href="/">最近</a></li>
+        
+            
+                <li class>
+                    <a href="/categories/tech" data-name="技术">技术</a>
+                </li>
+            
+                <li class="active">
+                    <a href="/categories/life" data-name="人文">人文</a>
+                </li>
+            
+                <li class>
+                    <a href="/categories/others" data-name="其他">其他</a>
+                </li>
+            
+        
+        <li class="page-search">
+    <form id="search" class="search-form">
+        <input type="text" readonly="readonly" id="local-search-input-tip" placeholder="读物检索~">
+        <button type="button" disabled="disabled" class="search-form-submit"><i class="fa fa-search"></i></button>
+    </form>
+</li>
+
+    </ul>
+</div>
+<div class="main-inner">
+    <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+        <div class="post-header">
+            <div class="post-author clearfix">
+                <a class="avatar fleft" href="https://tommy88.top" target="_blank">
+                    <img width="48" src="/images/favicon.png" alt="avatar">
+                </a>
+                <p><span class="label">作者</span>
+                    <a href="https://tommy88.top" target="_blank">Donny</a>
+                    <span title="最后编辑于&nbsp;2018-11-03">2018-11-03</span>
+                </p>
+                <p>记录工作，感悟生活</p>
+            </div>
+            <h2 class="post-title">谷歌浏览器优化</h2>
+            <div class="post-meta">
+                本文共计1142个字 |
+                您是第&nbsp;<span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>位看到它们的小伙伴
+            </div>
+        </div>
+        <div class="post-content markdown-body">
+            <p>谷歌浏览器简约、速度快，但唯一一点太耗内存了。下面就简单说下优化方法。</p>
+<h2 id="停掉没用到插件扩展"><a href="#停掉没用到插件扩展" class="headerlink" title="停掉没用到插件扩展"></a>停掉没用到插件扩展</h2><p>相信很多人安装了一大堆Chrome扩展，但有些扩展并不是经常用到，但会占用内存。<br>我们打开谷歌的任务管理器可以看到：<br><img src="http://ww1.sinaimg.cn/large/007oxnVvgy1fwuyspf4v4j30i60c9gn2.jpg" alt></p>
+<p>通过图片可以看到，就截图中的几个插件就占用了几百兆的内存。所以有些插件暂时不用他就把它关闭掉，需要使用时再打开即可。<br><a id="more"></a><br><img src="http://ww1.sinaimg.cn/large/007oxnVvgy1fwuyuh9svij311n0d4goa.jpg" alt></p>
+<p>当然，你也可以打开谷歌的任务管理器将你想关闭的进程关闭。</p>
+<h2 id="关闭-Chrome-预读功能"><a href="#关闭-Chrome-预读功能" class="headerlink" title="关闭 Chrome 预读功能"></a>关闭 Chrome 预读功能</h2><p>Chrome 预读功能可以提高网页打开速度，原理是在用户还没有点击某个链接的时候就已经提前开始加载了。例如会预读下一篇文章的内容，从功能上来说是个不错的体验，但对于内存小的用户来说，是越用越卡。</p>
+<p>设置方法：在Chrome浏览器「设置」 → 「高级」，找到「借助联想查询访问，帮你在地址栏中自动填充未输完的搜索字词和网址」和「使用联想查服务更快速加载网页」关闭就可以了。<br><img src="http://ww1.sinaimg.cn/large/007oxnVvgy1fwuyx760k1j30l009vdgx.jpg" alt></p>
+<h2 id="关闭-Google-Chrome-后继续运行后台应用-和-硬件加速"><a href="#关闭-Google-Chrome-后继续运行后台应用-和-硬件加速" class="headerlink" title="关闭 Google Chrome 后继续运行后台应用 和 硬件加速"></a>关闭 Google Chrome 后继续运行后台应用 和 硬件加速</h2><p><img src="http://ww1.sinaimg.cn/large/007oxnVvgy1fwuz17c4l8j30lg06bglr.jpg" alt></p>
+<h2 id="使用Chrome自带的Automatic-tab-discarding功能"><a href="#使用Chrome自带的Automatic-tab-discarding功能" class="headerlink" title="使用Chrome自带的Automatic tab discarding功能"></a>使用Chrome自带的Automatic tab discarding功能</h2><p>当系统可用内存不足时，Automatic tab discarding功能会自动舍弃用户最不关心的标签页。需要指出的是，这里的”舍弃”并不是关闭，而是始终保持开启状态，当用户点击时会重新加载。<br>在Chrome地址栏中输入：chrome://flags/#automatic-tab-discarding，回车后打开Automatic tab discarding功能设置，选择”Enabled”，重启Chrome浏览器就可以开启这个功能。<br>在Chrome地址栏中输入：chrome://discards，回车就可以看到哪些标签页已经被舍弃了。你也可以在这里手动舍弃标签页。</p>
+<h2 id="使用The-Great-Suspender：让暂时不用的chrome标签页休眠节省内存！"><a href="#使用The-Great-Suspender：让暂时不用的chrome标签页休眠节省内存！" class="headerlink" title="使用The Great Suspender：让暂时不用的chrome标签页休眠节省内存！"></a>使用The Great Suspender：让暂时不用的chrome标签页休眠节省内存！</h2><p>使用 Chrome 浏览器时开上10几个标签是常有的事，如果再开上更多标签而电脑硬件又过时的话，这时候就会感觉到卡了。<br>The Great Suspender 这个 Chrome 扩展可以让你把不需要的标签进入睡眠模式以节省内存，保证流畅的浏览体验。<br>与另一款标签管理工具 OneTab不同，OneTab是将临时不用的标签页浓缩到保存到一个独立的页面里，这样也能节省资源，也是个不错的选择。<br>The Great Suspender 提供两种休眠方式： 手动休眠、或者一段时间不使用自动休眠。扩展还支持白名单，无论自动休眠还是手动休眠，白名单中的网站是不会休眠的。<br>参考：<a href="http://chromecj.com/accessibility/2017-05/749.html">http://chromecj.com/accessibility/2017-05/749.html</a></p>
+<p>这个也是非常实用的，可以释放大量内存。</p>
+
+        </div>
+        <div class="post-tool">
+            <a class="btn-thumbs-up" href="javascript:void(0);" data-cid="52" title="95">
+                <i class="fa fa-thumbs-up" aria-hidden="true"></i> 打赏
+            </a>
+        </div>
+        
+        <div class="post-tags">标签：
+            
+            <a href="/tags/工具/">工具</a>
+            
+        </div>
+        
+    </article>
+    
+    <p style="text-align: center">本文代表个人观点，内容仅供参考。若有不恰当之处，望不吝赐教！</p>
+    
+    
+
+    
+    
+        <div id="gitment-container"></div>
+        <link rel="stylesheet" href="//imsun.github.io/gitment/style/default.css">
+        <script src="//imsun.github.io/gitment/dist/gitment.browser.js"></script>
+        <script type="text/javascript">
+            var gitment = new Gitment({
+                /*lable长度不能超过50个字符，这里使用页面的生成时间*/
+                id: 'Sat Nov 03 2018 11:20:07 GMT+0800'/*document.location.href*/,
+                owner: 'luckystar88',
+                repo: 'comments',
+                oauth: {
+                    client_id: 'd49ebe4f95abcd6163f4',
+                    client_secret: 'edd2748d6271072a6970d5cec8751f388dac8116',
+                }
+            });
+            gitment.render('gitment-container');
+        </script>
+        
+            <script>
+                document.getElementById("gitment-display-button").style.display = "none";
+                document.getElementById("gitment-container").style.display = "block";
+            </script>
+        
+    
+
+
+</div>
+<script src="/js/busuanzi.pure.mini.js"></script>
+
+
+        </div><!-- end #main-->
+    </div><!-- end #body -->
+    <footer class="footer">
+    <div class="footer-inner" style="text-align: center">
+        <p>
+            <a href="/about" title="关于">关于</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <!-- 自定义链接 -->
+            <a href="/help" title="帮助">帮助</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <a href="/links" title="友链">友链</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <a href="/sitemap.xml" title="地图">地图</a>
+        </p>
+        <p>
+            本站已建立&nbsp<a href="/timeline" id="siteBuildingTime"></a>&nbsp天，<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="licence">采用知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议创作</a><br>
+            ©2017-<span id="cpYear"></span> 基于&nbsp<a href="http://hexo.io" target="_blank" rel="nofollow">Hexo</a>
+            ，主题采用&nbsp&nbsp<a href="https://github.com/tangkunyin/hexo-theme-jsimple" target="_blank" rel="bookmark">JSimple</a>
+            ，作者&nbsp<a href="https://tommy88.top" target="_blank" rel="friend">Donny</a>
+            ，Hosted by <a href="https://pages.github.com/" target="_blank" rel="nofollow">GitHub Pages</a>
+        </p>
+    </div>
+</footer>
+<script src="/js/SimpleCore.js"></script>
+
+</div>
+<!-- search pop -->
+<div class="popup search-popup local-search-popup">
+    <div class="local-search-header clearfix">
+        <span class="search-icon">
+            <i class="fa fa-search"></i>
+        </span>
+        <span class="popup-btn-close">
+            <i class="fa fa-times-circle"></i>
+        </span>
+        <div class="local-search-input-wrapper">
+            <input id="local-search-input" spellcheck="false" type="text" autocomplete="off" placeholder="请输入查询关键词">
+        </div>
+    </div>
+    <div id="local-search-result"></div>
+</div>
+<div class="fixed-btn">
+    <a class="btn-gotop" href="javascript:"> <i class="fa fa-angle-up"></i></a>
+</div>
+<script>
+    $(function () {
+        var jsi_config = {
+            buildingTime: '01/20/2016',
+            current: $('.post-tags').length > 0 ? 'post' : 'archive',
+            snsQRCode: '/images/sns-qrcode.png',
+            donateImg: '/images/donate-qr.png',
+            localSearch: { dbPath: '' },
+            readMode: 'day'
+        };
+        
+            jsi_config.localSearch = {
+                dbPath: '/search.xml',
+                trigger: 'auto',
+                topN: '1',
+                unescape: 'false'
+            }
+        
+        SimpleCore.init(jsi_config);
+        
+    });
+</script>
+</body>
+</html>

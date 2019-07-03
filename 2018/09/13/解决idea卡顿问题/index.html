@@ -1,0 +1,280 @@
+<!DOCTYPE HTML>
+<html class="no-js" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!--[if lte IE 9]>
+<meta http-equiv="refresh" content="0;url=https://tommy88.top/warn.html">
+<![endif]-->
+<meta charset="utf-8">
+<meta http-equiv="X-DNS-Prefetch-Control" content="on">
+<link rel="dns-prefetch" href="https://tommy88.top">
+<link rel="dns-prefetch" href="//www.google-analytics.com">
+<link rel="prefetch" href="https://tommy88.top">
+<link rel="prefetch" href="//www.google-analytics.com">
+
+
+    <link rel="dns-prefetch" href="//imsun.github.io">
+    <link rel="prefetch" href="//imsun.github.io">
+
+<link rel="prerender" href="https://tommy88.top">
+
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+<meta http-equiv="mobile-agent" content="format=html5; url=https://tommy88.top">
+<meta name="author" content="Donny">
+<link rel="stylesheet" href="/css/JSimple.css">
+
+<link rel="shortcut icon" href="/images/favicon.png">
+
+
+<title>解决idea卡顿问题 - Donny的技术博客</title>
+
+<meta name="keywords" content="java,前端,数据库,web,spring,redis,spring boot,spring cloud,mq">
+
+<meta name="description " content="记录工作，感悟生活">
+
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                processEscapes: true
+            }
+        });
+    </script>
+
+
+    
+
+    
+    
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="//www.googletagmanager.com/gtag/js?id=UA-105613999-1"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'UA-105613999-1');
+        </script>
+    
+    <!-- put your likes here. -->
+
+
+</head>
+<body>
+<div id="nav">
+    <nav class="nav-menu">
+        <a class="site-name current" href="/" title="Home">Home</a>
+        <a class="site-index current" href="/"><i class="fa fa-home"></i><span>首页</span></a>
+        <a href="/archives" title="归档"><i class="fa fa-archives"></i><span>归档</span></a>
+        <a href="/tags" title="标签"><i class="fa fa-tags"></i><span>标签</span></a>
+        <!-- custom single page of menus -->
+        
+        
+        <a href="/help" title="帮助">
+            <i class="fa fa-question-circle"></i>
+            <span>帮助</span>
+        </a>
+        
+    </nav>
+</div>
+
+<div class="nav-user">
+    <a class="btn-search" href="#"><i class="fa fa-search"></i></a>
+    <a class="btn-read-mode" href="#"><i class="fa fa-sun-o"></i></a>
+    <a class="btn-sns-qr" href="javascript:"><i class="fa fa-telegram"></i></a>
+</div>
+
+<div id="wrapper" class="clearfix">
+    <div id="body">
+        <div class="main" id="main">
+            <div id="cover">
+    <div class="cover-img"></div>
+    <div class="cover-info">
+        
+        <h1 class="cover-siteName">Donny的技术博客</h1>
+        <h3 class="cover-siteTitle">用代码征服世界</h3>
+        <p class="cover-siteDesc">这是一个简单的技术博客</p>
+        <div class="cover-sns">
+            
+    &nbsp;&nbsp;<div class="btn btn-github">
+        <a href="https://github.com/luckystar88" target="_blank" title="github" ref="friend">
+            <i class="fa fa-github"></i>
+        </a>
+    </div>
+
+
+        </div>
+    </div>
+</div>
+
+            <div class="page-title">
+    <ul>
+        <li><a href="/">最近</a></li>
+        
+            
+                <li class="active">
+                    <a href="/categories/tech" data-name="技术">技术</a>
+                </li>
+            
+                <li class>
+                    <a href="/categories/life" data-name="人文">人文</a>
+                </li>
+            
+                <li class>
+                    <a href="/categories/others" data-name="其他">其他</a>
+                </li>
+            
+        
+        <li class="page-search">
+    <form id="search" class="search-form">
+        <input type="text" readonly="readonly" id="local-search-input-tip" placeholder="读物检索~">
+        <button type="button" disabled="disabled" class="search-form-submit"><i class="fa fa-search"></i></button>
+    </form>
+</li>
+
+    </ul>
+</div>
+<div class="main-inner">
+    <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+        <div class="post-header">
+            <div class="post-author clearfix">
+                <a class="avatar fleft" href="https://tommy88.top" target="_blank">
+                    <img width="48" src="/images/favicon.png" alt="avatar">
+                </a>
+                <p><span class="label">作者</span>
+                    <a href="https://tommy88.top" target="_blank">Donny</a>
+                    <span title="最后编辑于&nbsp;2018-09-13">2018-09-13</span>
+                </p>
+                <p>记录工作，感悟生活</p>
+            </div>
+            <h2 class="post-title">解决idea卡顿问题</h2>
+            <div class="post-meta">
+                本文共计5309个字 |
+                您是第&nbsp;<span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>位看到它们的小伙伴
+            </div>
+        </div>
+        <div class="post-content markdown-body">
+            <p>idea非常好用，但比较吃内存。建议内存至少8G。通过下面的设置来提升idea的速度。</p>
+<h2 id="vm参数设置"><a href="#vm参数设置" class="headerlink" title="vm参数设置"></a>vm参数设置</h2><p>设置idea.exe.vmoptions/idea64.exe.vmoptions的vm参数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">-Xms2000m</span><br><span class="line">-Xmx2000m</span><br><span class="line">-Xverify:none</span><br></pre></td></tr></table></figure></p>
+<p>-Xverify：none 关闭Java字节码验证，从而加快了类装入的速度，并使得在仅为验证目的而启动的过程中无需装入类，缩短了启动时间。<br>一般8G内存建议设置2-3G，-Xms和-Xms设置一样大，一样大可以使IDEA启动时初始堆内存就直接到最大，以免中途扩容影响启动速度。<br><a id="more"></a></p>
+<h2 id="禁用不使用的插件"><a href="#禁用不使用的插件" class="headerlink" title="禁用不使用的插件"></a>禁用不使用的插件</h2><p>插件介绍：<br>参考：<a href="http://kailing.pub/idea/IntelliJ-IDEA.html">http://kailing.pub/idea/IntelliJ-IDEA.html</a>。<br>Git：Git（分布式版本控制工具）插件，需本地安装 Git。<br>Subversion：SVN 插件，新版本支持 Subversion1.8<br>ClearCase：IBM Rational 的 SCM 管理工具插件。<br>CVS：CVS 插件。<br>hg4idea：Mercurial 插件，与 Git 类似的分布式版本控制工具。<br>Perforce：Perfoce 插件，商业的版本控制工具。<br>TFS：Team Foundation Server 插件，微软的客户端-服务器源代码管理系统。<br>Visual SourceSafe：VSS 插件，微软的客户端的源代码管理系统。<br>Application Servers Views：配置应用服务器插件。<br>Database：数据库插件，可用于管理 MySQL、Oracle、SQLite 等。<br>Freemarker：支持 freemarker 语法插件。<br>Java EE: Batch Applications：新版本增加的功能，支持 Java EE 7 批处理编程模型(JSR- 352)。<br>Java EE: Bean Validator：支持 Java EE 6 的数据验证模型(JSR-303)。<br>Java EE: Contexts and Denpendency Injection：支持 Java EE6 的依赖注入模型(JSR-299)。<br>Java EE: EJB, JPA, Servlets：EJB、JPA、Servlet 的插件。<br>Java EE: JMS, JSON Processing, Concurrency Transaction：JMS, JSON, Transaction 等的 插件。<br>Java EE: RESTful Web Services： JAX-RS 插件。<br>Java EE: Web Services： JAX-WS 插件。<br>Java Server Pages： JSP 插件。<br>Persistence Frameworks：持久化(JPA、Hibernate)插件。<br>Spring Batch： Spring 批处理框架的插件。<br>Spring Data：Spring 数据访问框架(Mongodb、Redis、Hadoop)插件。<br>Spring Security：Spring 安全框架的插件。<br>Spring：Spring 插件<br>Spring Web Services：Spring Web Services 插件。<br>Spring-AOP and @AspectJ：Spring-AOP 和切面语言的插件。<br>SQL：SQL 插件<br>CoffeeScript：CoffeeScript 插件，基于 Javascript 之上的一门编程语言。<br>dmServer：dmServer 插件，基于 OSGi 的模块化部署的 java 服务器。<br>Google App Engine：GAE 插件，用于创建 GAE 项目。<br>GWT：GWT 插件，支持 GWT 代码提示、编译、组件开发等。<br>Hibernate：Hibernate 插件，支持 Hibernate 代码提示、反向生成代码等。<br>Java EE: Java Server Faces：JSF 插件，支持 JSF 语法。<br>Java EE: WebSockets：13 版本新功能，支持 Java EE WebSockets(JSR-356)。<br>JBoss Seam Pageflow：Jboss Seam PageFlow 插件。<br>Jboss Seam Pages：Jboss Seam Page 插件。<br>Playframework：Playframework 插件，一个 full-stack 的 Java web 框架。<br>Spring Integration Patterns：Spring 企业应用集成框架插件。<br>Spring OSGi：Spring OSGi 插件。<br>Spring Roo Console：Spring Roo 控制台，支持 Spring Roo 命令提示等。<br>Spring Web Flow：Spring 工作流插件。<br>Struts 1.x：Struts1 插件，支持 Struts1 语法提示，结构化显示 Action、Form 等。<br>Struts 2：Struts2 插件，支持 Struts2 语法(Xml、Tag)提示，结构化显示 Action 等。<br>Tapestry：Tapestry 插件，一个 MVC 与模板技术结合的 Java 框架。<br>Vaddin：Vaddin 插件，一个基于 GWT 的 Web RIA 框架。<br>Velocity：Velocity 插件，支持 Velocity 语法提示。<br>Resin：Resin 插件。<br>Tomcat and TomEE：Tomcat 或 TomEE 服务器插件，TomEE 是经过 J2EE 6 认证的<br>Tomcat 企业版本<br>Cloud Foundry：VMware 主导基于 Spring 的开源 PaaS 云计算平台。<br>CloudBees：基于 Tomcat 和 MySQL 的开源 PaaS 云计算平台。<br>Geronimo：Apache 的 J2EE 服务器。<br>GlassFish：Sun 的 J2EE 服务器。<br>Heroku：Heroku 是一个商业的 Rails 的 PaaS 云计算平台。<br>Jboss：Jboss 服务器插件。<br>Jetty：轻量级的 Servlet 服务器。<br>JSR45：兼容 JSR-45 的所有应用服务器，JSR-45(Debugging Support for Other Languages) 为那些非 JAVA 语言写成，却需要编译成 JAVA 代码，运行在 JVM 中的程序，提 供了一个进行调试的标准机制。<br>OpenShift：红帽的开源 PaaS 云计算平台。<br>WebLogic：Oracle 的商业 J2EE 服务器。<br>WebSphere：IBM 的商业 J2EE 服务器。<br>CSS：CSS 插件，可以直接显示 css 配色的颜色。<br>HTML Tools：Html 插件，支持 emmet 快速编写 html 代码。<br>Inspection-JS：JS 代码检测，目前还没见过哪个 IDE 对 JS 的支持有这么智能。<br>JavaScript Debugger：js 调试器，需 chrome 安装 Debugger 插件才可以支持。<br>Javascript Intention Power Pack：补充上面 JS 代码检测的不足。<br>Javascript：Javascript 插件。<br>QuirksMode：用于检测 CSS 和 HTML 的主流浏览器兼容性问题。<br>W3C Validators：W3C 标准检测插件。<br>Flash/Flex：Flash/Flex 开发插件。<br>LESS：LESS 插件，LESS 是一个 CSS 预处理器，通过简单的语法和变量对 CSS 进行扩 展。<br>SASS：SASS 语法支持，SASS 扩展了 CSS，使用特定的语法来编写 CSS。<br>Stylus：Stylus 插件，Stylus 是一个 CSS 预处理器。<br>Ant：Ant 插件。<br>AspectJ：AspectJ 切面框架插件。<br>Byte Code Viewer：java 字节码反编译查看插件。<br>Commander：提供了左右两个用于查看项目结构的插件，可用于项目结构对比或导 航。<br>Copyright：版权声明插件，保证版权信息的一致。<br>Coverage：查看代码覆盖率插件。<br>Cucumber for Java：Java 的 Cucumber 插件，Cucumber 是一个 BDD 驱动的自动化测 试工具。<br>DSM Analysis：架构可视化插件，战士模块间的依赖信息。<br>Eclipse：支持导入 eclipse 结构的项目。<br>Emma：检测代码覆盖率插件<br>Gherkin：Gherkin 语言插件，Cucumber 要用到。<br>Github：Github 集成插件。<br>IntelliLang：主要用于注解语法的注入验证、正则表达式语法检查等<br>Junit：Junit 单元测试插件。<br>Maven：Maven 插件。<br>Maven Integration Extension：Maven 依赖分析图插件。<br>Properties：属性文件(.properties)编辑插件。<br>Refactor-X：Xml 代码格式化插件。<br>Remote Hosts Access：远程主机访问，支持 ftp/ssh。<br>REST Client：用于访问 REST Web Service 的客户端插件。<br>SSH Remote Run：支持通过 Terminal 运行 SSH 脚本。<br>Structural Search：支持通过语法表达式进行搜索或替换。<br>Task Management：任务管理插件，支持 YouTrack, JIRA, Lighthouse, Pivotal Tracker, GitHub, Redmine,Trac 等问题跟踪系统。<br>Terminal：终端命令插件。<br>TestNG-J：TestNG 插件。<br>Time Tracking：任务管理插件中使用到的时间跟踪功能。<br>Type Migration：类型重构优化插件，对不够完善的代码提示重构，比如，静态方法 通过对象来调用而不是通过类调用等等。<br>UML：UML 插件。<br>XpathView+XSLT：Xpath 和 XSLT，支持高亮、分析，自动补全等。<br>XSLT-Debugger：XSLT 调试工具。<br>ZKM-Unscramble：分析 Java 堆栈跟踪插件。<br>Android Designer：安卓 UI 设计器<br>Android：安卓插件<br>ASP：ASP 编辑器<br>CFML：ColdFusion 标记语言插件，ColdFusion 是一个动态 Web 服务器，其 CFML 是 一个类似 JSTL 的程序语言。<br>Cucumber for Groovy：Groovy 的 Cucumber 插件，Cucumber 是一个 BDD 驱动的自 动化测试工具。<br>Gradle：Gradle 插件，Gradle 是一个类似 Maven 的 Java 构建工具。<br>Grails：Grails 插件，Grails 是 Rails 的 Groovy 实现。<br>Groovy：Groovy 插件，Groovy 是一种基于 JVM 的动态脚本语言。<br>GuiceyIDEA：Guice 插件，Guice 是 Google 开发的 Java IOC 框架。<br>HAML：HAML 插件，HAML 是一种 Rails 下的模板语言。<br>IDEtalk：IDEA 的即时通讯工具，用处不大。<br>J2ME：J2ME 插件。<br>JavaFX：JavaFX 插件，JavaFX 是 Sun 发布的 RIA 技术。<br>Jboss Drools：Drools 插件，Drools 是一种 Java 业务规则引擎。<br>Jboss jBPM：jBPM 插件，jBPM 是一种 Java 工作量引擎。<br>Osmorc：OSGi 插件。<br>Plugin DevKit：IDEA 插件开发工具。<br>UI Designer：Swing UI 设计插件。<br>UI Designer(Core)：Swing UI 设计插件。<br>YAML：YAML 插件，YAML 是一种数据序列化格式。</p>
+<h2 id="移除不使用的模块"><a href="#移除不使用的模块" class="headerlink" title="移除不使用的模块"></a>移除不使用的模块</h2><p>点击模块，右键，Remove Module即可（不会删除本地文件）。这其实是很重要的一点，若是一个project下有太多的module，则idea scan file index就会很久。</p>
+<h2 id="其他优化"><a href="#其他优化" class="headerlink" title="其他优化"></a>其他优化</h2><p><strong>单词拼写检查</strong><br>Settings-&gt;Editor-&gt;Inspections-&gt;Spelling勾选检查，去勾选不检查单词拼写。<br>Settings-&gt;Editor-&gt;Inspections-&gt;General-&gt;Duplicated Code，不进行重复代码检查。<br>你也可以Inspections不勾选任何东西。<br><img src="https://ws1.sinaimg.cn/large/007oxnVvgy1fwtpqrr7ufj30sj0ipwhu.jpg" alt></p>
+<h2 id="目前的配置推荐"><a href="#目前的配置推荐" class="headerlink" title="目前的配置推荐"></a>目前的配置推荐</h2><p>我目前安装的idea2017.2，编辑器使用的字体是JejaVu Sans Mono，13号字体。<br><img src="https://ws1.sinaimg.cn/large/007oxnVvgy1fwtpsvinq6j30sj0ipmzy.jpg" alt></p>
+<p>显示效果如下：<br><img src="https://ws1.sinaimg.cn/large/007oxnVvgy1fwtptclc0bj30qe0iddj4.jpg" alt></p>
+
+        </div>
+        <div class="post-tool">
+            <a class="btn-thumbs-up" href="javascript:void(0);" data-cid="52" title="95">
+                <i class="fa fa-thumbs-up" aria-hidden="true"></i> 打赏
+            </a>
+        </div>
+        
+        <div class="post-tags">标签：
+            
+            <a href="/tags/工具/">工具</a>
+            
+        </div>
+        
+    </article>
+    
+    <p style="text-align: center">本文代表个人观点，内容仅供参考。若有不恰当之处，望不吝赐教！</p>
+    
+    
+
+    
+    
+        <div id="gitment-container"></div>
+        <link rel="stylesheet" href="//imsun.github.io/gitment/style/default.css">
+        <script src="//imsun.github.io/gitment/dist/gitment.browser.js"></script>
+        <script type="text/javascript">
+            var gitment = new Gitment({
+                /*lable长度不能超过50个字符，这里使用页面的生成时间*/
+                id: 'Thu Sep 13 2018 11:20:07 GMT+0800'/*document.location.href*/,
+                owner: 'luckystar88',
+                repo: 'comments',
+                oauth: {
+                    client_id: 'd49ebe4f95abcd6163f4',
+                    client_secret: 'edd2748d6271072a6970d5cec8751f388dac8116',
+                }
+            });
+            gitment.render('gitment-container');
+        </script>
+        
+            <script>
+                document.getElementById("gitment-display-button").style.display = "none";
+                document.getElementById("gitment-container").style.display = "block";
+            </script>
+        
+    
+
+
+</div>
+<script src="/js/busuanzi.pure.mini.js"></script>
+
+
+        </div><!-- end #main-->
+    </div><!-- end #body -->
+    <footer class="footer">
+    <div class="footer-inner" style="text-align: center">
+        <p>
+            <a href="/about" title="关于">关于</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <!-- 自定义链接 -->
+            <a href="/help" title="帮助">帮助</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <a href="/links" title="友链">友链</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <a href="/sitemap.xml" title="地图">地图</a>
+        </p>
+        <p>
+            本站已建立&nbsp<a href="/timeline" id="siteBuildingTime"></a>&nbsp天，<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="licence">采用知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议创作</a><br>
+            ©2017-<span id="cpYear"></span> 基于&nbsp<a href="http://hexo.io" target="_blank" rel="nofollow">Hexo</a>
+            ，主题采用&nbsp&nbsp<a href="https://github.com/tangkunyin/hexo-theme-jsimple" target="_blank" rel="bookmark">JSimple</a>
+            ，作者&nbsp<a href="https://tommy88.top" target="_blank" rel="friend">Donny</a>
+            ，Hosted by <a href="https://pages.github.com/" target="_blank" rel="nofollow">GitHub Pages</a>
+        </p>
+    </div>
+</footer>
+<script src="/js/SimpleCore.js"></script>
+
+</div>
+<!-- search pop -->
+<div class="popup search-popup local-search-popup">
+    <div class="local-search-header clearfix">
+        <span class="search-icon">
+            <i class="fa fa-search"></i>
+        </span>
+        <span class="popup-btn-close">
+            <i class="fa fa-times-circle"></i>
+        </span>
+        <div class="local-search-input-wrapper">
+            <input id="local-search-input" spellcheck="false" type="text" autocomplete="off" placeholder="请输入查询关键词">
+        </div>
+    </div>
+    <div id="local-search-result"></div>
+</div>
+<div class="fixed-btn">
+    <a class="btn-gotop" href="javascript:"> <i class="fa fa-angle-up"></i></a>
+</div>
+<script>
+    $(function () {
+        var jsi_config = {
+            buildingTime: '01/20/2016',
+            current: $('.post-tags').length > 0 ? 'post' : 'archive',
+            snsQRCode: '/images/sns-qrcode.png',
+            donateImg: '/images/donate-qr.png',
+            localSearch: { dbPath: '' },
+            readMode: 'day'
+        };
+        
+            jsi_config.localSearch = {
+                dbPath: '/search.xml',
+                trigger: 'auto',
+                topN: '1',
+                unescape: 'false'
+            }
+        
+        SimpleCore.init(jsi_config);
+        
+    });
+</script>
+</body>
+</html>

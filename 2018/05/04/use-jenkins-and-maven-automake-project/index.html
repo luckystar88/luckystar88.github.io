@@ -1,0 +1,287 @@
+<!DOCTYPE HTML>
+<html class="no-js" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!--[if lte IE 9]>
+<meta http-equiv="refresh" content="0;url=https://tommy88.top/warn.html">
+<![endif]-->
+<meta charset="utf-8">
+<meta http-equiv="X-DNS-Prefetch-Control" content="on">
+<link rel="dns-prefetch" href="https://tommy88.top">
+<link rel="dns-prefetch" href="//www.google-analytics.com">
+<link rel="prefetch" href="https://tommy88.top">
+<link rel="prefetch" href="//www.google-analytics.com">
+
+
+    <link rel="dns-prefetch" href="//imsun.github.io">
+    <link rel="prefetch" href="//imsun.github.io">
+
+<link rel="prerender" href="https://tommy88.top">
+
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+<meta http-equiv="mobile-agent" content="format=html5; url=https://tommy88.top">
+<meta name="author" content="Donny">
+<link rel="stylesheet" href="/css/JSimple.css">
+
+<link rel="shortcut icon" href="/images/favicon.png">
+
+
+<title>使用jenkins配置+maven的自动化构建 - Donny的技术博客</title>
+
+<meta name="keywords" content="java,前端,数据库,web,spring,redis,spring boot,spring cloud,mq">
+
+<meta name="description " content="记录工作，感悟生活">
+
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                processEscapes: true
+            }
+        });
+    </script>
+
+
+    
+
+    
+    
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="//www.googletagmanager.com/gtag/js?id=UA-105613999-1"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'UA-105613999-1');
+        </script>
+    
+    <!-- put your likes here. -->
+
+
+</head>
+<body>
+<div id="nav">
+    <nav class="nav-menu">
+        <a class="site-name current" href="/" title="Home">Home</a>
+        <a class="site-index current" href="/"><i class="fa fa-home"></i><span>首页</span></a>
+        <a href="/archives" title="归档"><i class="fa fa-archives"></i><span>归档</span></a>
+        <a href="/tags" title="标签"><i class="fa fa-tags"></i><span>标签</span></a>
+        <!-- custom single page of menus -->
+        
+        
+        <a href="/help" title="帮助">
+            <i class="fa fa-question-circle"></i>
+            <span>帮助</span>
+        </a>
+        
+    </nav>
+</div>
+
+<div class="nav-user">
+    <a class="btn-search" href="#"><i class="fa fa-search"></i></a>
+    <a class="btn-read-mode" href="#"><i class="fa fa-sun-o"></i></a>
+    <a class="btn-sns-qr" href="javascript:"><i class="fa fa-telegram"></i></a>
+</div>
+
+<div id="wrapper" class="clearfix">
+    <div id="body">
+        <div class="main" id="main">
+            <div id="cover">
+    <div class="cover-img"></div>
+    <div class="cover-info">
+        
+        <h1 class="cover-siteName">Donny的技术博客</h1>
+        <h3 class="cover-siteTitle">用代码征服世界</h3>
+        <p class="cover-siteDesc">这是一个简单的技术博客</p>
+        <div class="cover-sns">
+            
+    &nbsp;&nbsp;<div class="btn btn-github">
+        <a href="https://github.com/luckystar88" target="_blank" title="github" ref="friend">
+            <i class="fa fa-github"></i>
+        </a>
+    </div>
+
+
+        </div>
+    </div>
+</div>
+
+            <div class="page-title">
+    <ul>
+        <li><a href="/">最近</a></li>
+        
+            
+                <li class="active">
+                    <a href="/categories/tech" data-name="技术">技术</a>
+                </li>
+            
+                <li class>
+                    <a href="/categories/life" data-name="人文">人文</a>
+                </li>
+            
+                <li class>
+                    <a href="/categories/others" data-name="其他">其他</a>
+                </li>
+            
+        
+        <li class="page-search">
+    <form id="search" class="search-form">
+        <input type="text" readonly="readonly" id="local-search-input-tip" placeholder="读物检索~">
+        <button type="button" disabled="disabled" class="search-form-submit"><i class="fa fa-search"></i></button>
+    </form>
+</li>
+
+    </ul>
+</div>
+<div class="main-inner">
+    <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+        <div class="post-header">
+            <div class="post-author clearfix">
+                <a class="avatar fleft" href="https://tommy88.top" target="_blank">
+                    <img width="48" src="/images/favicon.png" alt="avatar">
+                </a>
+                <p><span class="label">作者</span>
+                    <a href="https://tommy88.top" target="_blank">Donny</a>
+                    <span title="最后编辑于&nbsp;2018-05-04">2018-05-04</span>
+                </p>
+                <p>记录工作，感悟生活</p>
+            </div>
+            <h2 class="post-title">使用Jenkins配置+Maven的自动化构建</h2>
+            <div class="post-meta">
+                本文共计2168个字 |
+                您是第&nbsp;<span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>位看到它们的小伙伴
+            </div>
+        </div>
+        <div class="post-content markdown-body">
+            <p>jenkins的搭建参考前一篇文章：<a href="http://tommy88.top/Linux下安装和配置jenkins">Linux下安装和配置jenkins</a>.<br>本篇文章介绍如何通过jenkins+maven自动化构建Web应用。</p>
+<h2 id="git插件安装与配置"><a href="#git插件安装与配置" class="headerlink" title="git插件安装与配置"></a>git插件安装与配置</h2><p>如果git没有安装或配置不当，在新建任务时，会产生下面的问题。<br>问题：<br>1.jenkins Error performing command: git ls-remote -h<br><img src="http://omh46px9n.bkt.clouddn.com/18-5-4/8533399.jpg" alt><br><a id="more"></a><br>解决：<br>查看jenkins已经安装了git插件，但仍然提示这个错误。在Jenkins所在的服务器上发现git没有安装。<br>使用<code>git --version</code><br>参考地址：<a href="https://blog.csdn.net/wangfei0904306/article/details/56011877">https://blog.csdn.net/wangfei0904306/article/details/56011877</a></p>
+<p>从另外一篇文章说需要使用源码的方式安装，地址：<a href="https://blog.csdn.net/u013256816/article/details/54743470">https://blog.csdn.net/u013256816/article/details/54743470</a><br>好吧，那就来安装吧。<br>1.从<a href="https://mirrors.edge.kernel.org/pub/software/scm/git/">https://mirrors.edge.kernel.org/pub/software/scm/git/</a>下载git最新版；<br>2.参考上面链接的源码安装方式进行安装。<br>这里贴一下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">安装依赖的包 </span><br><span class="line">yum install curl-devel expat-devel gettext-devel openssl-devel zlib-devel gcc perl-ExtUtils-MakeMaker</span><br><span class="line"></span><br><span class="line">下载git源码并解压 </span><br><span class="line">目前最新版本下载地址：https://github.com/git/git/releases/tag/v2.11.0 </span><br><span class="line">解压 tar zxvf git-2.11.0.tar.gz </span><br><span class="line">cd git-2.11.0</span><br><span class="line"></span><br><span class="line">编译安装 </span><br><span class="line">make prefix=/usr/local/git all </span><br><span class="line">make prefix=/usr/local/git install</span><br><span class="line"></span><br><span class="line">配置环境变量 </span><br><span class="line">vim /etc/profile </span><br><span class="line">加入export PATH=$PATH:/usr/local/git/bin </span><br><span class="line">生效配置文件 source /etc/profile</span><br><span class="line"></span><br><span class="line">查看git </span><br><span class="line">whereis git </span><br><span class="line">git –version</span><br></pre></td></tr></table></figure></p>
+<p>最后使用<code>git --version</code>看到下面的图说明已经安装成功。<br><img src="http://omh46px9n.bkt.clouddn.com/18-5-4/98352258.jpg" alt></p>
+<p>然后在jenkins的系统设置-&gt;全局工具配置界面，配置git的路径。<br><code>Path to git executable</code>填入： “whereis git”的地址 + “/bin/git” （如上面”whereis git”的地址为”/usr/local/git”，则应该填入 “/usr/local/git/bin/git”） 并保存<br><img src="http://omh46px9n.bkt.clouddn.com/18-5-4/81733967.jpg" alt><br><img src="http://omh46px9n.bkt.clouddn.com/18-5-4/42900009.jpg" alt><br>参考这篇文章：<a href="https://blog.csdn.net/wangfei0904306/article/details/56011877">https://blog.csdn.net/wangfei0904306/article/details/56011877</a></p>
+<h2 id="maven安装与配置"><a href="#maven安装与配置" class="headerlink" title="maven安装与配置"></a>maven安装与配置</h2><p>参考：linux下maven安装参考<a href="https://www.cnblogs.com/jimisun/p/8054819.html">https://www.cnblogs.com/jimisun/p/8054819.html</a><br>maven安装后记得在jenkins的系统配置-&gt;全局工具配置中配置maven的MAVEN_HOME。</p>
+<h2 id="JAVA-HOME的配置"><a href="#JAVA-HOME的配置" class="headerlink" title="JAVA_HOME的配置"></a>JAVA_HOME的配置</h2><p>前一篇文章已经讲了，因为jenkins启动依赖Java，所以已经安装和配置了Java环境。还需要在jenkins的系统设置-&gt;全局工具配置-&gt;JDK配置JAVA_HOME。<br><img src="http://omh46px9n.bkt.clouddn.com/18-5-4/91487035.jpg" alt></p>
+<h2 id="新建一个任务"><a href="#新建一个任务" class="headerlink" title="新建一个任务"></a>新建一个任务</h2><p>配置git仓库地址<br><img src="http://omh46px9n.bkt.clouddn.com/18-5-4/43859163.jpg" alt><br>配置Maven执行目标<br><img src="http://omh46px9n.bkt.clouddn.com/18-5-4/43957886.jpg" alt><br>配置发布到容器<br>这里我们将应用部署到tomcat，需要安装一个插件.<br>在jenkins系统设置-&gt;插件管理-&gt;可选插件汇总搜索<code>Deploy to container</code>，找到插件并安装。<br><img src="http://omh46px9n.bkt.clouddn.com/18-5-4/29429594.jpg" alt><br><img src="http://omh46px9n.bkt.clouddn.com/18-5-4/94594431.jpg" alt></p>
+<p>配置tomcat用户<br><img src="http://omh46px9n.bkt.clouddn.com/18-5-4/44236479.jpg" alt></p>
+<p>tomcat配置<br>找到tomcat–&gt;config–&gt;tomcat-users.xml<br>打开后在<code>&lt;tomcat-users&gt;&lt;/tomcat-users&gt;</code>之间增加如下用户信息：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">role</span> <span class="attr">rolename</span>=<span class="string">"manager-gui"</span>&gt;</span><span class="tag">&lt;/<span class="name">role</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">role</span> <span class="attr">rolename</span>=<span class="string">"manager-script"</span>&gt;</span><span class="tag">&lt;/<span class="name">role</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">user</span> <span class="attr">username</span>=<span class="string">"tomcat"</span> <span class="attr">password</span>=<span class="string">"admin"</span> <span class="attr">roles</span>=<span class="string">"manager-gui,manager-script"</span>/&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>最后保存设置，执行构建即可。</p>
+<p>jenkins每次构建时，都会自动从git上更新，然后打包，最后发布到tomcat中。这样开发环境提交的修改，执行一次构建测试环境就可以看到最新的内容，十分方便。</p>
+<p><strong>注意</strong><br>这里要部署的tomcat必须是启动的。因为<code>Deploy to container</code>插件实际是使用的tomcat的管理控制台来部署应用的。<br>地址：<a href="http://vm1.com:8080/manager/html">http://vm1.com:8080/manager/html</a>，输入我们上面配置tomcat用户的地方的用户名和密码进入。<br>然后选择war包即可。<br><img src="http://omh46px9n.bkt.clouddn.com/18-5-4/1106392.jpg" alt></p>
+<p>所以说，这里应用的tomcat必须是启动的。<br>否则，构建时，会出现拒绝连接的错误。<br><img src="http://omh46px9n.bkt.clouddn.com/18-5-4/9137165.jpg" alt></p>
+<p>参考：<a href="https://blog.csdn.net/tengxing007/article/details/77626628">使用Jenkins配置+Maven的自动化构建</a></p>
+
+        </div>
+        <div class="post-tool">
+            <a class="btn-thumbs-up" href="javascript:void(0);" data-cid="52" title="95">
+                <i class="fa fa-thumbs-up" aria-hidden="true"></i> 打赏
+            </a>
+        </div>
+        
+        <div class="post-tags">标签：
+            
+            <a href="/tags/java/">java</a>
+            
+        </div>
+        
+    </article>
+    
+    <p style="text-align: center">本文代表个人观点，内容仅供参考。若有不恰当之处，望不吝赐教！</p>
+    
+    
+
+    
+    
+        <div id="gitment-container"></div>
+        <link rel="stylesheet" href="//imsun.github.io/gitment/style/default.css">
+        <script src="//imsun.github.io/gitment/dist/gitment.browser.js"></script>
+        <script type="text/javascript">
+            var gitment = new Gitment({
+                /*lable长度不能超过50个字符，这里使用页面的生成时间*/
+                id: 'Fri May 04 2018 18:05:32 GMT+0800'/*document.location.href*/,
+                owner: 'luckystar88',
+                repo: 'comments',
+                oauth: {
+                    client_id: 'd49ebe4f95abcd6163f4',
+                    client_secret: 'edd2748d6271072a6970d5cec8751f388dac8116',
+                }
+            });
+            gitment.render('gitment-container');
+        </script>
+        
+            <script>
+                document.getElementById("gitment-display-button").style.display = "none";
+                document.getElementById("gitment-container").style.display = "block";
+            </script>
+        
+    
+
+
+</div>
+<script src="/js/busuanzi.pure.mini.js"></script>
+
+
+        </div><!-- end #main-->
+    </div><!-- end #body -->
+    <footer class="footer">
+    <div class="footer-inner" style="text-align: center">
+        <p>
+            <a href="/about" title="关于">关于</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <!-- 自定义链接 -->
+            <a href="/help" title="帮助">帮助</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <a href="/links" title="友链">友链</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <a href="/sitemap.xml" title="地图">地图</a>
+        </p>
+        <p>
+            本站已建立&nbsp<a href="/timeline" id="siteBuildingTime"></a>&nbsp天，<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="licence">采用知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议创作</a><br>
+            ©2017-<span id="cpYear"></span> 基于&nbsp<a href="http://hexo.io" target="_blank" rel="nofollow">Hexo</a>
+            ，主题采用&nbsp&nbsp<a href="https://github.com/tangkunyin/hexo-theme-jsimple" target="_blank" rel="bookmark">JSimple</a>
+            ，作者&nbsp<a href="https://tommy88.top" target="_blank" rel="friend">Donny</a>
+            ，Hosted by <a href="https://pages.github.com/" target="_blank" rel="nofollow">GitHub Pages</a>
+        </p>
+    </div>
+</footer>
+<script src="/js/SimpleCore.js"></script>
+
+</div>
+<!-- search pop -->
+<div class="popup search-popup local-search-popup">
+    <div class="local-search-header clearfix">
+        <span class="search-icon">
+            <i class="fa fa-search"></i>
+        </span>
+        <span class="popup-btn-close">
+            <i class="fa fa-times-circle"></i>
+        </span>
+        <div class="local-search-input-wrapper">
+            <input id="local-search-input" spellcheck="false" type="text" autocomplete="off" placeholder="请输入查询关键词">
+        </div>
+    </div>
+    <div id="local-search-result"></div>
+</div>
+<div class="fixed-btn">
+    <a class="btn-gotop" href="javascript:"> <i class="fa fa-angle-up"></i></a>
+</div>
+<script>
+    $(function () {
+        var jsi_config = {
+            buildingTime: '01/20/2016',
+            current: $('.post-tags').length > 0 ? 'post' : 'archive',
+            snsQRCode: '/images/sns-qrcode.png',
+            donateImg: '/images/donate-qr.png',
+            localSearch: { dbPath: '' },
+            readMode: 'day'
+        };
+        
+            jsi_config.localSearch = {
+                dbPath: '/search.xml',
+                trigger: 'auto',
+                topN: '1',
+                unescape: 'false'
+            }
+        
+        SimpleCore.init(jsi_config);
+        
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,357 @@
+<!DOCTYPE HTML>
+<html class="no-js" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!--[if lte IE 9]>
+<meta http-equiv="refresh" content="0;url=https://tommy88.top/warn.html">
+<![endif]-->
+<meta charset="utf-8">
+<meta http-equiv="X-DNS-Prefetch-Control" content="on">
+<link rel="dns-prefetch" href="https://tommy88.top">
+<link rel="dns-prefetch" href="//www.google-analytics.com">
+<link rel="prefetch" href="https://tommy88.top">
+<link rel="prefetch" href="//www.google-analytics.com">
+
+
+    <link rel="dns-prefetch" href="//imsun.github.io">
+    <link rel="prefetch" href="//imsun.github.io">
+
+<link rel="prerender" href="https://tommy88.top">
+
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+<meta http-equiv="mobile-agent" content="format=html5; url=https://tommy88.top">
+<meta name="author" content="Donny">
+<link rel="stylesheet" href="/css/JSimple.css">
+
+<link rel="shortcut icon" href="/images/favicon.png">
+
+
+<title>springcloud系列25——springcloud配置管理 - Donny的技术博客</title>
+
+<meta name="keywords" content="java,前端,数据库,web,spring,redis,spring boot,spring cloud,mq">
+
+<meta name="description " content="记录工作，感悟生活">
+
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                processEscapes: true
+            }
+        });
+    </script>
+
+
+    
+
+    
+    
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="//www.googletagmanager.com/gtag/js?id=UA-105613999-1"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'UA-105613999-1');
+        </script>
+    
+    <!-- put your likes here. -->
+
+
+</head>
+<body>
+<div id="nav">
+    <nav class="nav-menu">
+        <a class="site-name current" href="/" title="Home">Home</a>
+        <a class="site-index current" href="/"><i class="fa fa-home"></i><span>首页</span></a>
+        <a href="/archives" title="归档"><i class="fa fa-archives"></i><span>归档</span></a>
+        <a href="/tags" title="标签"><i class="fa fa-tags"></i><span>标签</span></a>
+        <!-- custom single page of menus -->
+        
+        
+        <a href="/help" title="帮助">
+            <i class="fa fa-question-circle"></i>
+            <span>帮助</span>
+        </a>
+        
+    </nav>
+</div>
+
+<div class="nav-user">
+    <a class="btn-search" href="#"><i class="fa fa-search"></i></a>
+    <a class="btn-read-mode" href="#"><i class="fa fa-sun-o"></i></a>
+    <a class="btn-sns-qr" href="javascript:"><i class="fa fa-telegram"></i></a>
+</div>
+
+<div id="wrapper" class="clearfix">
+    <div id="body">
+        <div class="main" id="main">
+            <div id="cover">
+    <div class="cover-img"></div>
+    <div class="cover-info">
+        
+        <h1 class="cover-siteName">Donny的技术博客</h1>
+        <h3 class="cover-siteTitle">用代码征服世界</h3>
+        <p class="cover-siteDesc">这是一个简单的技术博客</p>
+        <div class="cover-sns">
+            
+    &nbsp;&nbsp;<div class="btn btn-github">
+        <a href="https://github.com/luckystar88" target="_blank" title="github" ref="friend">
+            <i class="fa fa-github"></i>
+        </a>
+    </div>
+
+
+        </div>
+    </div>
+</div>
+
+            <div class="page-title">
+    <ul>
+        <li><a href="/">最近</a></li>
+        
+            
+                <li class="active">
+                    <a href="/categories/tech" data-name="技术">技术</a>
+                </li>
+            
+                <li class>
+                    <a href="/categories/life" data-name="人文">人文</a>
+                </li>
+            
+                <li class>
+                    <a href="/categories/others" data-name="其他">其他</a>
+                </li>
+            
+        
+        <li class="page-search">
+    <form id="search" class="search-form">
+        <input type="text" readonly="readonly" id="local-search-input-tip" placeholder="读物检索~">
+        <button type="button" disabled="disabled" class="search-form-submit"><i class="fa fa-search"></i></button>
+    </form>
+</li>
+
+    </ul>
+</div>
+<div class="main-inner">
+    <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+        <div class="post-header">
+            <div class="post-author clearfix">
+                <a class="avatar fleft" href="https://tommy88.top" target="_blank">
+                    <img width="48" src="/images/favicon.png" alt="avatar">
+                </a>
+                <p><span class="label">作者</span>
+                    <a href="https://tommy88.top" target="_blank">Donny</a>
+                    <span title="最后编辑于&nbsp;2018-07-14">2018-07-14</span>
+                </p>
+                <p>记录工作，感悟生活</p>
+            </div>
+            <h2 class="post-title">springcloud系列25——SpringCloud配置管理</h2>
+            <div class="post-meta">
+                本文共计8221个字 |
+                您是第&nbsp;<span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>位看到它们的小伙伴
+            </div>
+        </div>
+        <div class="post-content markdown-body">
+            <p><a href="http://cloud.spring.io/spring-cloud-static/Edgware.SR3/single/spring-cloud.html#_spring_cloud_config">springcloud官方文档</a></p>
+<h2 id="为什么要统一管理配置？"><a href="#为什么要统一管理配置？" class="headerlink" title="为什么要统一管理配置？"></a>为什么要统一管理配置？</h2><p>1、集中管理  </p>
+<p>2、不同环境不同配置  </p>
+<p>3、运行期间动态调整配置  </p>
+<p>4、自动刷新 </p>
+<h2 id="Spring-Cloud简介"><a href="#Spring-Cloud简介" class="headerlink" title="Spring Cloud简介"></a>Spring Cloud简介</h2><p>为了解决上面的4个问题，spring cloud提供了spring cloud config组件。</p>
+<p>Spring Cloud Config为分布式系统外部化配置提供了服务器端和客户端的支持，它包括Config Server和Config Client两部分。由于Config Server和Config Cleint都实现了对Spring Environment和PropertySource抽象的映射，因此，Spring Cloud非常适合Spring应用程序，当然也可与任何其他语言编写的应用程序配合使用。</p>
+<p>Config Server是一个可横向扩展、集中式的配置服务器，它用于集中管理应用程序各个环境下的配置，默认使用Git存储配置内容(也可使用Subversion、本地文件系统或Vault存储配置),因此可以方便的实现对配置的版本控制与内容审计。</p>
+<p>Config Client 是Config Server的客户端，用于操作存储在Config Server中的配置属性。</p>
+<h2 id="springcloud架构图"><a href="#springcloud架构图" class="headerlink" title="springcloud架构图"></a>springcloud架构图</h2><p>下面是从网上弄的一张架构图</p>
+<p><img src="http://omh46px9n.bkt.clouddn.com/18-7-14/46402444.jpg" alt>.</p>
+<p>每个微服务有一个Spring Cloud Client，从Spring Cloud Config Server获取配置信息，Spring Cloud Config Server从Git仓库拉取配置。</p>
+<h2 id="Spring-Cloud-Config-Server基础使用"><a href="#Spring-Cloud-Config-Server基础使用" class="headerlink" title="Spring Cloud Config Server基础使用"></a>Spring Cloud Config Server基础使用</h2><p>1.maven依赖</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-config-server<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>2.Spring Boot主类增加@EnableConfigServer注解</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="meta">@EnableConfigServer</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">App</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">( String[] args )</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        SpringApplication.run(App.class, args);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>3.application.yml配置</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">server.port=8888</span></span><br><span class="line"><span class="string">spring.cloud.config.server.git.uri=https://gitee.com/tommy88/springcloud-demos.git</span></span><br></pre></td></tr></table></figure>
+<p>spring.cloud.config.server.git.uri配置Git仓库地址。</p>
+<p>spring cloud config server提供了下面的映射规则：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">/&#123;application&#125;/&#123;profile&#125;[/&#123;label&#125;]</span><br><span class="line">/&#123;application&#125;-&#123;profile&#125;.yml</span><br><span class="line">/&#123;label&#125;/&#123;application&#125;-&#123;profile&#125;.yml</span><br><span class="line">/&#123;application&#125;-&#123;profile&#125;.properties</span><br><span class="line">/&#123;label&#125;/&#123;application&#125;-&#123;profile&#125;.properties</span><br></pre></td></tr></table></figure>
+<p>{application}会被<code>spring.config.name</code>注入，{profile}是环境信息，比如dev/test/product。{label}是一个可选的git标签，默认是master。</p>
+<blockquote>
+<p>如果查找aaa项目的application-dev.yml，输入匹配路径/aaa/dev。如果application-dev.yml存在，则返回；如果不存在，则会返回application.yml的内容。</p>
+</blockquote>
+<h2 id="Git仓库配置详解"><a href="#Git仓库配置详解" class="headerlink" title="Git仓库配置详解"></a>Git仓库配置详解</h2><p>Spring Cloud Config支持Git/SVN/文件系统等，默认使用的是Git。这里介绍Git在Spring Cloud Config Server中的一些配置。</p>
+<h3 id="1-Git-uri中的通配符"><a href="#1-Git-uri中的通配符" class="headerlink" title="1.Git uri中的通配符"></a>1.Git uri中的通配符</h3><p>Spring Cloud Config Server支持带有{application}和{profile}（和{label}的占位符的git存储库URL（如果需要），但请记住，无论如何都要将标签应用为git标签）。 </p>
+<p>所以，你可以一个应用一个仓库，比如：</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line"><span class="attr">  cloud:</span></span><br><span class="line"><span class="attr">    config:</span></span><br><span class="line"><span class="attr">      server:</span></span><br><span class="line"><span class="attr">        git:</span></span><br><span class="line"><span class="attr">          uri:</span> <span class="attr">https://github.com/myorg/&#123;application&#125;</span></span><br></pre></td></tr></table></figure>
+<p>比如有2个Git Repo，分别为aaa和bbb。比如获取aaa的dev环境的配置，通过上面的配置可以通过/aaa/dev，同理bbb的dev环境的配置则为/bbb/dev。</p>
+<p>你也可以配置{profile}通配符，比如：</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line"><span class="attr">  cloud:</span></span><br><span class="line"><span class="attr">    config:</span></span><br><span class="line"><span class="attr">      server:</span></span><br><span class="line"><span class="attr">        git:</span></span><br><span class="line"><span class="attr">          uri:</span> <span class="attr">https://github.com/myorg/&#123;application&#125;-&#123;profile&#125;</span></span><br></pre></td></tr></table></figure>
+<h3 id="2-模式匹配"><a href="#2-模式匹配" class="headerlink" title="2.模式匹配"></a>2.模式匹配</h3><p>通过{application}和{profile}的模式匹配，可以支持更复杂的需求。模式格式是带有{application}/{profile}通配符的使用逗号分隔的列表。</p>
+<p>例如：</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line"><span class="attr">  cloud:</span></span><br><span class="line"><span class="attr">    config:</span></span><br><span class="line"><span class="attr">      server:</span></span><br><span class="line"><span class="attr">        git:</span></span><br><span class="line"><span class="attr">          uri:</span> <span class="attr">https://github.com/spring-cloud-samples/config-repo</span></span><br><span class="line"><span class="attr">          repos:</span></span><br><span class="line"><span class="attr">            simple:</span> <span class="attr">https://github.com/simple/config-repo</span></span><br><span class="line"><span class="attr">            special:</span></span><br><span class="line"><span class="attr">              pattern:</span> <span class="string">special*/dev*,special*/test*</span></span><br><span class="line"><span class="attr">              uri:</span> <span class="attr">https://github.com/special/config-repo</span></span><br><span class="line"><span class="attr">            local:</span></span><br><span class="line"><span class="attr">              pattern:</span> <span class="string">local*</span></span><br><span class="line"><span class="attr">              uri:</span> <span class="attr">file:/home/configsvc/config-repo</span></span><br></pre></td></tr></table></figure>
+<p>如果没有指定模式，则会使用/*，即匹配所有模式。</p>
+<p><code>spring.cloud.config.server.git.uri</code>是默认的git uri，如果<code>{application}/{profile}</code>没有匹配到任何模式，则会使用默认的git uri。</p>
+<p>在上面的例子中，simple/<em>模式只匹配simple应用的所有环境。special则匹配special开头的dev和test环境的配置。`local/</em>`匹配任何以local开头任意profile的配置。</p>
+<p>在上面的例子中，/special/dev会匹配到special-dev.yml，/special/default则会匹配到默认的application.yml。即上面说的，如果没有匹配到，会使用默认的git uri。</p>
+<p>上面的配置中，repos其实是一个数组。所以如果使用yml也可以下面这样配置：</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line"><span class="attr">  cloud:</span></span><br><span class="line"><span class="attr">    config:</span></span><br><span class="line"><span class="attr">      server:</span></span><br><span class="line"><span class="attr">        git:</span></span><br><span class="line"><span class="attr">          uri:</span> <span class="attr">https://github.com/spring-cloud-samples/config-repo</span></span><br><span class="line"><span class="attr">          repos:</span></span><br><span class="line"><span class="attr">            development:</span></span><br><span class="line"><span class="attr">              pattern:</span></span><br><span class="line"><span class="bullet">                -</span> <span class="string">'*/development'</span></span><br><span class="line"><span class="bullet">                -</span> <span class="string">'*/staging'</span></span><br><span class="line"><span class="attr">              uri:</span> <span class="attr">https://github.com/development/config-repo</span></span><br><span class="line"><span class="attr">            staging:</span></span><br><span class="line"><span class="attr">              pattern:</span></span><br><span class="line"><span class="bullet">                -</span> <span class="string">'*/qa'</span></span><br><span class="line"><span class="bullet">                -</span> <span class="string">'*/production'</span></span><br><span class="line"><span class="attr">              uri:</span> <span class="attr">https://github.com/staging/config-repo</span></span><br></pre></td></tr></table></figure>
+<h3 id="3-搜索路径"><a href="#3-搜索路径" class="headerlink" title="3.搜索路径"></a>3.搜索路径</h3><p>每个Git repo还可以选择将配置文件存储在子目录中，搜索这些目录的模式可以指定为searchPaths。</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line"><span class="attr">  cloud:</span></span><br><span class="line"><span class="attr">    config:</span></span><br><span class="line"><span class="attr">      server:</span></span><br><span class="line"><span class="attr">        git:</span></span><br><span class="line"><span class="attr">          uri:</span> <span class="attr">https://github.com/spring-cloud-samples/config-repo</span></span><br><span class="line"><span class="attr">          searchPaths:</span> <span class="string">foo,bar*</span></span><br></pre></td></tr></table></figure>
+<p>在这个例子中，Spring Cloud Config Server将会在/config-repo，/config-repo/foo和/config-repo/bar*开头的位置查找。</p>
+<h3 id="4-clondOnStart"><a href="#4-clondOnStart" class="headerlink" title="4.clondOnStart"></a>4.clondOnStart</h3><p>默认情况下，Spring Cloud Config Server会在第一次请求配置时克隆远程仓库。可以配置在应用启动时就克隆远程仓库，这样首次请求配置就会快一些响应。</p>
+<p>比如：</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line"><span class="attr">  cloud:</span></span><br><span class="line"><span class="attr">    config:</span></span><br><span class="line"><span class="attr">      server:</span></span><br><span class="line"><span class="attr">        git:</span></span><br><span class="line"><span class="attr">          uri:</span> <span class="attr">https://git/common/config-repo.git</span></span><br><span class="line"><span class="attr">          repos:</span></span><br><span class="line"><span class="attr">            team-a:</span></span><br><span class="line"><span class="attr">                pattern:</span> <span class="string">team-a-*</span></span><br><span class="line"><span class="attr">                cloneOnStart:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">                uri:</span> <span class="attr">http://git/team-a/config-repo.git</span></span><br><span class="line"><span class="attr">            team-b:</span></span><br><span class="line"><span class="attr">                pattern:</span> <span class="string">team-b-*</span></span><br><span class="line"><span class="attr">                cloneOnStart:</span> <span class="literal">false</span></span><br><span class="line"><span class="attr">                uri:</span> <span class="attr">http://git/team-b/config-repo.git</span></span><br><span class="line"><span class="attr">            team-c:</span></span><br><span class="line"><span class="attr">                pattern:</span> <span class="string">team-c-*</span></span><br><span class="line"><span class="attr">                uri:</span> <span class="attr">http://git/team-a/config-repo.git</span></span><br></pre></td></tr></table></figure>
+<p>在上面的配置中，team-a的配置在应用启动时就会从远程仓库克隆。其他的仓库在首次请求配置时从远程仓库克隆。</p>
+<p>上面的cloneOnStart也可以配置为全局，即在spring.cloud.config.server.git.cloneOnStart=true。配置了全局的cloneOnStart，则子repo没有配置时使用全局配置，如果子repo配置了，则使用子repo的配置。</p>
+<blockquote>
+<p>设置cloneOnStart为true有助于在Spring Cloud Config Server启动时快速识别配资源的错误，比如仓库URI错误。这样就不至于在首次请求配置时才去检查到配置错误。</p>
+</blockquote>
+<h3 id="5-配置Git仓库的用户名和密码"><a href="#5-配置Git仓库的用户名和密码" class="headerlink" title="5.配置Git仓库的用户名和密码"></a>5.配置Git仓库的用户名和密码</h3><p>如果git仓库时私有的，那么就需要用户名和密码才能访问。在配置git仓库URI时指定username和password即可。</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line"><span class="attr">  cloud:</span></span><br><span class="line"><span class="attr">    config:</span></span><br><span class="line"><span class="attr">      server:</span></span><br><span class="line"><span class="attr">        git:</span></span><br><span class="line"><span class="attr">          uri:</span> <span class="attr">https://github.com/spring-cloud-samples/config-repo</span></span><br><span class="line"><span class="attr">          username:</span> <span class="string">trolley</span></span><br><span class="line"><span class="attr">          password:</span> <span class="string">strongpassword</span></span><br></pre></td></tr></table></figure>
+<h3 id="6-搜索路径中的通配符"><a href="#6-搜索路径中的通配符" class="headerlink" title="6.搜索路径中的通配符"></a>6.搜索路径中的通配符</h3><p>Spring Cloud Config Server还支持带有{application}和{profile}（以及{label}的占位符的搜索路径。</p>
+<p>例如：</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line"><span class="attr">  cloud:</span></span><br><span class="line"><span class="attr">    config:</span></span><br><span class="line"><span class="attr">      server:</span></span><br><span class="line"><span class="attr">        git:</span></span><br><span class="line"><span class="attr">          uri:</span> <span class="attr">https://github.com/spring-cloud-samples/config-repo</span></span><br><span class="line"><span class="attr">          searchPaths:</span> <span class="string">'&#123;application&#125;'</span></span><br></pre></td></tr></table></figure>
+<p>在仓库中搜索与目录同名的文件（包括顶级目录/）。通配符在带占位符的搜索路径中也有效（搜索中包含任何匹配的目录）。</p>
+<h3 id="7-强制从Git仓库拉取更新"><a href="#7-强制从Git仓库拉取更新" class="headerlink" title="7.强制从Git仓库拉取更新"></a>7.强制从Git仓库拉取更新</h3><p>如前所述，Spring Cloud Config Server会克隆远程git存储库，并且如果本地副本变得脏了（例如，OS进程更改了文件夹内容），那么Spring Cloud Config Server无法从远程存储库更新本地副本。</p>
+<p>为了解决这个问题，有一个强制拉动属性，如果本地副本很脏，它将使Spring Cloud Config Server从远程存储库强行拉取。 例：</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line"><span class="attr">  cloud:</span></span><br><span class="line"><span class="attr">    config:</span></span><br><span class="line"><span class="attr">      server:</span></span><br><span class="line"><span class="attr">        git:</span></span><br><span class="line"><span class="attr">          uri:</span> <span class="attr">https://github.com/spring-cloud-samples/config-repo</span></span><br><span class="line"><span class="attr">          force-pull:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<p>如果您有多个存储库配置，则可以为每个存储库配置force-pull属性。 例：</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line"><span class="attr">  cloud:</span></span><br><span class="line"><span class="attr">    config:</span></span><br><span class="line"><span class="attr">      server:</span></span><br><span class="line"><span class="attr">        git:</span></span><br><span class="line"><span class="attr">          uri:</span> <span class="attr">https://git/common/config-repo.git</span></span><br><span class="line"><span class="attr">          force-pull:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">          repos:</span></span><br><span class="line"><span class="attr">            team-a:</span></span><br><span class="line"><span class="attr">                pattern:</span> <span class="string">team-a-*</span></span><br><span class="line"><span class="attr">                uri:</span> <span class="attr">http://git/team-a/config-repo.git</span></span><br><span class="line"><span class="attr">                force-pull:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">            team-b:</span></span><br><span class="line"><span class="attr">                pattern:</span> <span class="string">team-b-*</span></span><br><span class="line"><span class="attr">                uri:</span> <span class="attr">http://git/team-b/config-repo.git</span></span><br><span class="line"><span class="attr">                force-pull:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">            team-c:</span></span><br><span class="line"><span class="attr">                pattern:</span> <span class="string">team-c-*</span></span><br><span class="line"><span class="attr">                uri:</span> <span class="attr">http://git/team-a/config-repo.git</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>force-pull</code>默认值是false。</p>
+</blockquote>
+<h3 id="8-删除Git存储库中未跟踪的分支"><a href="#8-删除Git存储库中未跟踪的分支" class="headerlink" title="8.删除Git存储库中未跟踪的分支"></a>8.删除Git存储库中未跟踪的分支</h3><p>由于Spring Cloud Config Server在签出分支到本地存储库后具有远程git存储库的克隆（例如，通过标签获取属性），它将永久保留此分支或直到下一个服务器重新启动（这将创建新的本地存储库）。 因此可能存在删除远程分支但仍然可以获取其本地副本的情况。 如果Spring Cloud Config Server客户端服务以–spring.cloud.config.label = deletedRemoteBranch启动，那么它将从deletedRemoteBranch本地分支获取属性，但不从master获取属性。</p>
+<p>为了保持本地存储库分支的清洁和远程 - 可以设置deleteUntrackedBranches属性。 它将使Spring Cloud Config Server强制从本地存储库中删除未跟踪的分支。 例：</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line"><span class="attr">  cloud:</span></span><br><span class="line"><span class="attr">    config:</span></span><br><span class="line"><span class="attr">      server:</span></span><br><span class="line"><span class="attr">        git:</span></span><br><span class="line"><span class="attr">          uri:</span> <span class="attr">https://github.com/spring-cloud-samples/config-repo</span></span><br><span class="line"><span class="attr">          deleteUntrackedBranches:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code></code>deleteUntrackedBranches<code></code>默认值为false。</p>
+</blockquote>
+<h2 id="Spring-Cloud-Config-Client基础使用"><a href="#Spring-Cloud-Config-Client基础使用" class="headerlink" title="Spring Cloud Config Client基础使用"></a>Spring Cloud Config Client基础使用</h2><p>可以参考<code>springcloud系列13——实现分布式配置管理</code>一节有使用的demo。</p>
+<p>1.maven依赖</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-config-client<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>2.bootstrap.properties</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">spring.cloud.config.uri=http://127.0.0.1:$&#123;config.port:8888&#125;</span><br><span class="line">spring.cloud.config.name=cloud-config</span><br><span class="line">spring.cloud.config.profile=$&#123;config.profile:dev&#125;</span><br></pre></td></tr></table></figure>
+<p>指定spring cloud config server的地址，应用名称和环境。</p>
+<p>然后就可以使用配置属性了。如果是配置文件中使用，使用${配置项name}即可，比如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#DB Configuration:</span><br><span class="line">spring.datasource.driverClassName = com.mysql.jdbc.Driver</span><br><span class="line">spring.datasource.url = $&#123;mysqldb.datasource.url&#125;</span><br><span class="line">spring.datasource.username = $&#123;mysqldb.datasource.username&#125;</span><br><span class="line">spring.datasource.password = $&#123;mysqldb.datasource.password&#125;</span><br></pre></td></tr></table></figure>
+<p>如果是在java属性中，使用@Value(“${配置项那么}”)即可。</p>
+<blockquote>
+<p>注意：config server的uri的配置必须配置在bootstrap文件中，否则会出错。比如你config server应用端口为8080，你config server的uri配置为<a href="http://localhsot:8080，实际启动时会发现是8888端口。">http://localhsot:8080，实际启动时会发现是8888端口。</a></p>
+<p>这是因为bootstrap文件也有一个端口，默认为8888，在应用启动时会先读取bootstrap的配置。</p>
+</blockquote>
+
+        </div>
+        <div class="post-tool">
+            <a class="btn-thumbs-up" href="javascript:void(0);" data-cid="52" title="95">
+                <i class="fa fa-thumbs-up" aria-hidden="true"></i> 打赏
+            </a>
+        </div>
+        
+        <div class="post-tags">标签：
+            
+            <a href="/tags/springcloud/">springcloud</a>
+            
+        </div>
+        
+    </article>
+    
+    <p style="text-align: center">本文代表个人观点，内容仅供参考。若有不恰当之处，望不吝赐教！</p>
+    
+    
+
+    
+    
+        <div id="gitment-container"></div>
+        <link rel="stylesheet" href="//imsun.github.io/gitment/style/default.css">
+        <script src="//imsun.github.io/gitment/dist/gitment.browser.js"></script>
+        <script type="text/javascript">
+            var gitment = new Gitment({
+                /*lable长度不能超过50个字符，这里使用页面的生成时间*/
+                id: 'Sat Jul 14 2018 21:55:25 GMT+0800'/*document.location.href*/,
+                owner: 'luckystar88',
+                repo: 'comments',
+                oauth: {
+                    client_id: 'd49ebe4f95abcd6163f4',
+                    client_secret: 'edd2748d6271072a6970d5cec8751f388dac8116',
+                }
+            });
+            gitment.render('gitment-container');
+        </script>
+        
+            <script>
+                document.getElementById("gitment-display-button").style.display = "none";
+                document.getElementById("gitment-container").style.display = "block";
+            </script>
+        
+    
+
+
+</div>
+<script src="/js/busuanzi.pure.mini.js"></script>
+
+
+        </div><!-- end #main-->
+    </div><!-- end #body -->
+    <footer class="footer">
+    <div class="footer-inner" style="text-align: center">
+        <p>
+            <a href="/about" title="关于">关于</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <!-- 自定义链接 -->
+            <a href="/help" title="帮助">帮助</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <a href="/links" title="友链">友链</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <a href="/sitemap.xml" title="地图">地图</a>
+        </p>
+        <p>
+            本站已建立&nbsp<a href="/timeline" id="siteBuildingTime"></a>&nbsp天，<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="licence">采用知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议创作</a><br>
+            ©2017-<span id="cpYear"></span> 基于&nbsp<a href="http://hexo.io" target="_blank" rel="nofollow">Hexo</a>
+            ，主题采用&nbsp&nbsp<a href="https://github.com/tangkunyin/hexo-theme-jsimple" target="_blank" rel="bookmark">JSimple</a>
+            ，作者&nbsp<a href="https://tommy88.top" target="_blank" rel="friend">Donny</a>
+            ，Hosted by <a href="https://pages.github.com/" target="_blank" rel="nofollow">GitHub Pages</a>
+        </p>
+    </div>
+</footer>
+<script src="/js/SimpleCore.js"></script>
+
+</div>
+<!-- search pop -->
+<div class="popup search-popup local-search-popup">
+    <div class="local-search-header clearfix">
+        <span class="search-icon">
+            <i class="fa fa-search"></i>
+        </span>
+        <span class="popup-btn-close">
+            <i class="fa fa-times-circle"></i>
+        </span>
+        <div class="local-search-input-wrapper">
+            <input id="local-search-input" spellcheck="false" type="text" autocomplete="off" placeholder="请输入查询关键词">
+        </div>
+    </div>
+    <div id="local-search-result"></div>
+</div>
+<div class="fixed-btn">
+    <a class="btn-gotop" href="javascript:"> <i class="fa fa-angle-up"></i></a>
+</div>
+<script>
+    $(function () {
+        var jsi_config = {
+            buildingTime: '01/20/2016',
+            current: $('.post-tags').length > 0 ? 'post' : 'archive',
+            snsQRCode: '/images/sns-qrcode.png',
+            donateImg: '/images/donate-qr.png',
+            localSearch: { dbPath: '' },
+            readMode: 'day'
+        };
+        
+            jsi_config.localSearch = {
+                dbPath: '/search.xml',
+                trigger: 'auto',
+                topN: '1',
+                unescape: 'false'
+            }
+        
+        SimpleCore.init(jsi_config);
+        
+    });
+</script>
+</body>
+</html>

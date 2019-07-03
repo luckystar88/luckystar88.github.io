@@ -1,0 +1,288 @@
+<!DOCTYPE HTML>
+<html class="no-js" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!--[if lte IE 9]>
+<meta http-equiv="refresh" content="0;url=https://tommy88.top/warn.html">
+<![endif]-->
+<meta charset="utf-8">
+<meta http-equiv="X-DNS-Prefetch-Control" content="on">
+<link rel="dns-prefetch" href="https://tommy88.top">
+<link rel="dns-prefetch" href="//www.google-analytics.com">
+<link rel="prefetch" href="https://tommy88.top">
+<link rel="prefetch" href="//www.google-analytics.com">
+
+
+    <link rel="dns-prefetch" href="//imsun.github.io">
+    <link rel="prefetch" href="//imsun.github.io">
+
+<link rel="prerender" href="https://tommy88.top">
+
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+<meta http-equiv="mobile-agent" content="format=html5; url=https://tommy88.top">
+<meta name="author" content="Donny">
+<link rel="stylesheet" href="/css/JSimple.css">
+
+<link rel="shortcut icon" href="/images/favicon.png">
+
+
+<title>使用boxcryptor加密你的云盘 - Donny的技术博客</title>
+
+<meta name="keywords" content="java,前端,数据库,web,spring,redis,spring boot,spring cloud,mq">
+
+<meta name="description " content="记录工作，感悟生活">
+
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                processEscapes: true
+            }
+        });
+    </script>
+
+
+    
+
+    
+    
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="//www.googletagmanager.com/gtag/js?id=UA-105613999-1"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'UA-105613999-1');
+        </script>
+    
+    <!-- put your likes here. -->
+
+
+</head>
+<body>
+<div id="nav">
+    <nav class="nav-menu">
+        <a class="site-name current" href="/" title="Home">Home</a>
+        <a class="site-index current" href="/"><i class="fa fa-home"></i><span>首页</span></a>
+        <a href="/archives" title="归档"><i class="fa fa-archives"></i><span>归档</span></a>
+        <a href="/tags" title="标签"><i class="fa fa-tags"></i><span>标签</span></a>
+        <!-- custom single page of menus -->
+        
+        
+        <a href="/help" title="帮助">
+            <i class="fa fa-question-circle"></i>
+            <span>帮助</span>
+        </a>
+        
+    </nav>
+</div>
+
+<div class="nav-user">
+    <a class="btn-search" href="#"><i class="fa fa-search"></i></a>
+    <a class="btn-read-mode" href="#"><i class="fa fa-sun-o"></i></a>
+    <a class="btn-sns-qr" href="javascript:"><i class="fa fa-telegram"></i></a>
+</div>
+
+<div id="wrapper" class="clearfix">
+    <div id="body">
+        <div class="main" id="main">
+            <div id="cover">
+    <div class="cover-img"></div>
+    <div class="cover-info">
+        
+        <h1 class="cover-siteName">Donny的技术博客</h1>
+        <h3 class="cover-siteTitle">用代码征服世界</h3>
+        <p class="cover-siteDesc">这是一个简单的技术博客</p>
+        <div class="cover-sns">
+            
+    &nbsp;&nbsp;<div class="btn btn-github">
+        <a href="https://github.com/luckystar88" target="_blank" title="github" ref="friend">
+            <i class="fa fa-github"></i>
+        </a>
+    </div>
+
+
+        </div>
+    </div>
+</div>
+
+            <div class="page-title">
+    <ul>
+        <li><a href="/">最近</a></li>
+        
+            
+                <li class>
+                    <a href="/categories/tech" data-name="技术">技术</a>
+                </li>
+            
+                <li class="active">
+                    <a href="/categories/life" data-name="人文">人文</a>
+                </li>
+            
+                <li class>
+                    <a href="/categories/others" data-name="其他">其他</a>
+                </li>
+            
+        
+        <li class="page-search">
+    <form id="search" class="search-form">
+        <input type="text" readonly="readonly" id="local-search-input-tip" placeholder="读物检索~">
+        <button type="button" disabled="disabled" class="search-form-submit"><i class="fa fa-search"></i></button>
+    </form>
+</li>
+
+    </ul>
+</div>
+<div class="main-inner">
+    <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+        <div class="post-header">
+            <div class="post-author clearfix">
+                <a class="avatar fleft" href="https://tommy88.top" target="_blank">
+                    <img width="48" src="/images/favicon.png" alt="avatar">
+                </a>
+                <p><span class="label">作者</span>
+                    <a href="https://tommy88.top" target="_blank">Donny</a>
+                    <span title="最后编辑于&nbsp;2018-11-15">2018-11-15</span>
+                </p>
+                <p>记录工作，感悟生活</p>
+            </div>
+            <h2 class="post-title">使用Boxcryptor加密你的云盘</h2>
+            <div class="post-meta">
+                本文共计1382个字 |
+                您是第&nbsp;<span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>位看到它们的小伙伴
+            </div>
+        </div>
+        <div class="post-content markdown-body">
+            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>现在云盘大家都不陌生，有的人手好几个。经过上一次云盘的事件，目前剩下的也不多了。目前百度云、腾讯微云、天翼云盘、坚果云是用的比较多的。国外的云盘咱们就不讨论了，毕竟要翻墙，速度没保障。</p>
+<p>在这些云盘中，百度云有2T的免费空间，基本一些大的视频或文件会存储在百度云。腾讯微云、天翼云空间也只有几G到10多G，对上传下载有限制，所以用的不多。最后一个要提到的就是坚果云，<br>老实说因为不像其他3个云盘服务提供商都是大公司，所以心里没底。不过服务说实在的还是不错的。坚果云其实是一个同步工具，可以对指定的目录（可以随意指定多个）进行同步，同步的速度也很快，增量同步。<br>它没有空间的限制，不过免费用户每个月上传流量1G，下载流量3G。如果只是基于办公需求已经足够。<br><a id="more"></a><br>不过，使用云盘就不免担心个人隐私数据会不会被其他人看到。所以这里要介绍的就是如何加密你的云盘，上传到云盘上的数据都是经过加密的，只有你能解密。这里要介绍的是使用Boxcryptor加密存储在坚果云上的文件/目录。<br>为什么是坚果云？因为它是目前国内唯一支持WebDAV协议的。下面废话不多说，说一说怎么加密数据到云盘。</p>
+<h2 id="PC客户端安装与配置"><a href="#PC客户端安装与配置" class="headerlink" title="PC客户端安装与配置"></a>PC客户端安装与配置</h2><p>从<a href="https://www.boxcryptor.com/en/download/">https://www.boxcryptor.com/en/download/</a>下载PC客户端软件，下载完成后安装，一步一步直到完成即可。</p>
+<p>下一步，注册账号</p>
+<p>下一步，设置你的需要加密的文件夹路径<br><img src="http://ww1.sinaimg.cn/large/007oxnVvgy1fx8rxe2zm9j30jg0g4wew.jpg" alt></p>
+<p>注意：这个路径必须是你坚果云同步目录中，这样坚果云才会把这个目录同步。</p>
+<p>BoxCryptor会生成一个虚拟磁盘，双击打开即进入到你设置的目录。<br><img src="http://ww1.sinaimg.cn/large/007oxnVvgy1fx8s03bq01j30ba06vdg1.jpg" alt></p>
+<p>打开这个虚拟磁盘，你就可以随意创建文件或目录，创建时会提示你是否加密，你可以选择加密也可以不加密。如果不加密那么你就可以直接在坚果云上查看该目录或文件。如果选择加密，对于文件Boxcryptor会自动在文件名后加.bc后缀。<br>如果你打开带.bc后缀的文件，其实它是乱码显示的。<br><img src="http://ww1.sinaimg.cn/large/007oxnVvgy1fx8s5j45ojj30pi0233yu.jpg" alt></p>
+<p>如果你要查看，在这台电脑，在Boxcryptor的虚拟磁盘，你打开就可以查看文件内容。<br><img src="http://ww1.sinaimg.cn/large/007oxnVvgy1fx8s7mtts6j30i406yq35.jpg" alt></p>
+<p>在其他机器上如何查看加密的内容？<br>安装和配置客户端，登录即可。</p>
+<h2 id="移动端"><a href="#移动端" class="headerlink" title="移动端"></a>移动端</h2><p>Boxcryptor有手机客户端，这里以iPhone为例，在AppStore查找boxcryptor，然后下载（免费）。<br>PC端加密过的坚果云文件在其他设备查看都是需要安装Boxcryptor才可以访问，相当于Boxcryptor对这些文件上了一把锁，想要查看都是需要再通过Boxcryptor来进行解锁，移动端使用和电脑端有些区别，需要使用webDAV连接到坚果云，获取文件。</p>
+<p>1、 打开你的坚果云网页端登录后查看账户信息-安全选项里，第三方应用管理处即可添加你的应用密码；或者坚果云手机端，iOS是在更多-第三方应用管理；安卓在设置-第三方应用管理。<br><img src="http://ww1.sinaimg.cn/large/007oxnVvgy1fx8sbveioaj30ji07nq30.jpg" alt></p>
+<p>2、在手机端安装登录后，在Files界面，选择最下方的WebDAV Advanced，与坚果云进行连接。<br><img src="http://ww1.sinaimg.cn/large/007oxnVvgy1fx8sckfg8fj307o0dqta5.jpg" alt></p>
+<p>3、按照你的坚果云第三方应用管理里的信息，分别填写账号、应用密码、服务器地址，即可查看和访问坚果云里的加密文件。</p>
+<h2 id="搭建私有云"><a href="#搭建私有云" class="headerlink" title="搭建私有云"></a>搭建私有云</h2><p>用公有云总觉得不安全，数据在别人的服务器上。如果有这个担心，除了上面对文件加密上传外，还可以搭建私有云。<br>参考：<a href="https://linux.cn/article-9418-1.html">搭建私有云：OwnCloud</a>、<a href="http://www.vpsdaquan.cn/vpsdajianowncloud.html">vps搭建owncloud</a></p>
+<p>参考：<a href="http://blog.jianguoyun.com/?p=2568">如何使用Boxcryptor加密坚果云文件？</a></p>
+
+        </div>
+        <div class="post-tool">
+            <a class="btn-thumbs-up" href="javascript:void(0);" data-cid="52" title="95">
+                <i class="fa fa-thumbs-up" aria-hidden="true"></i> 打赏
+            </a>
+        </div>
+        
+        <div class="post-tags">标签：
+            
+            <a href="/tags/Boxcryptor/">Boxcryptor</a>
+            
+        </div>
+        
+    </article>
+    
+    <p style="text-align: center">本文代表个人观点，内容仅供参考。若有不恰当之处，望不吝赐教！</p>
+    
+    
+
+    
+    
+        <div id="gitment-container"></div>
+        <link rel="stylesheet" href="//imsun.github.io/gitment/style/default.css">
+        <script src="//imsun.github.io/gitment/dist/gitment.browser.js"></script>
+        <script type="text/javascript">
+            var gitment = new Gitment({
+                /*lable长度不能超过50个字符，这里使用页面的生成时间*/
+                id: 'Thu Nov 15 2018 15:49:25 GMT+0800'/*document.location.href*/,
+                owner: 'luckystar88',
+                repo: 'comments',
+                oauth: {
+                    client_id: 'd49ebe4f95abcd6163f4',
+                    client_secret: 'edd2748d6271072a6970d5cec8751f388dac8116',
+                }
+            });
+            gitment.render('gitment-container');
+        </script>
+        
+            <script>
+                document.getElementById("gitment-display-button").style.display = "none";
+                document.getElementById("gitment-container").style.display = "block";
+            </script>
+        
+    
+
+
+</div>
+<script src="/js/busuanzi.pure.mini.js"></script>
+
+
+        </div><!-- end #main-->
+    </div><!-- end #body -->
+    <footer class="footer">
+    <div class="footer-inner" style="text-align: center">
+        <p>
+            <a href="/about" title="关于">关于</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <!-- 自定义链接 -->
+            <a href="/help" title="帮助">帮助</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <a href="/links" title="友链">友链</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <a href="/sitemap.xml" title="地图">地图</a>
+        </p>
+        <p>
+            本站已建立&nbsp<a href="/timeline" id="siteBuildingTime"></a>&nbsp天，<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="licence">采用知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议创作</a><br>
+            ©2017-<span id="cpYear"></span> 基于&nbsp<a href="http://hexo.io" target="_blank" rel="nofollow">Hexo</a>
+            ，主题采用&nbsp&nbsp<a href="https://github.com/tangkunyin/hexo-theme-jsimple" target="_blank" rel="bookmark">JSimple</a>
+            ，作者&nbsp<a href="https://tommy88.top" target="_blank" rel="friend">Donny</a>
+            ，Hosted by <a href="https://pages.github.com/" target="_blank" rel="nofollow">GitHub Pages</a>
+        </p>
+    </div>
+</footer>
+<script src="/js/SimpleCore.js"></script>
+
+</div>
+<!-- search pop -->
+<div class="popup search-popup local-search-popup">
+    <div class="local-search-header clearfix">
+        <span class="search-icon">
+            <i class="fa fa-search"></i>
+        </span>
+        <span class="popup-btn-close">
+            <i class="fa fa-times-circle"></i>
+        </span>
+        <div class="local-search-input-wrapper">
+            <input id="local-search-input" spellcheck="false" type="text" autocomplete="off" placeholder="请输入查询关键词">
+        </div>
+    </div>
+    <div id="local-search-result"></div>
+</div>
+<div class="fixed-btn">
+    <a class="btn-gotop" href="javascript:"> <i class="fa fa-angle-up"></i></a>
+</div>
+<script>
+    $(function () {
+        var jsi_config = {
+            buildingTime: '01/20/2016',
+            current: $('.post-tags').length > 0 ? 'post' : 'archive',
+            snsQRCode: '/images/sns-qrcode.png',
+            donateImg: '/images/donate-qr.png',
+            localSearch: { dbPath: '' },
+            readMode: 'day'
+        };
+        
+            jsi_config.localSearch = {
+                dbPath: '/search.xml',
+                trigger: 'auto',
+                topN: '1',
+                unescape: 'false'
+            }
+        
+        SimpleCore.init(jsi_config);
+        
+    });
+</script>
+</body>
+</html>

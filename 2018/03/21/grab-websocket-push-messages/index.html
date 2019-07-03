@@ -1,0 +1,283 @@
+<!DOCTYPE HTML>
+<html class="no-js" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!--[if lte IE 9]>
+<meta http-equiv="refresh" content="0;url=https://tommy88.top/warn.html">
+<![endif]-->
+<meta charset="utf-8">
+<meta http-equiv="X-DNS-Prefetch-Control" content="on">
+<link rel="dns-prefetch" href="https://tommy88.top">
+<link rel="dns-prefetch" href="//www.google-analytics.com">
+<link rel="prefetch" href="https://tommy88.top">
+<link rel="prefetch" href="//www.google-analytics.com">
+
+
+    <link rel="dns-prefetch" href="//imsun.github.io">
+    <link rel="prefetch" href="//imsun.github.io">
+
+<link rel="prerender" href="https://tommy88.top">
+
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+<meta http-equiv="mobile-agent" content="format=html5; url=https://tommy88.top">
+<meta name="author" content="Donny">
+<link rel="stylesheet" href="/css/JSimple.css">
+
+<link rel="shortcut icon" href="/images/favicon.png">
+
+
+<title>抓取websocket推送的消息 - Donny的技术博客</title>
+
+<meta name="keywords" content="java,前端,数据库,web,spring,redis,spring boot,spring cloud,mq">
+
+<meta name="description " content="记录工作，感悟生活">
+
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                processEscapes: true
+            }
+        });
+    </script>
+
+
+    
+
+    
+    
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="//www.googletagmanager.com/gtag/js?id=UA-105613999-1"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'UA-105613999-1');
+        </script>
+    
+    <!-- put your likes here. -->
+
+
+</head>
+<body>
+<div id="nav">
+    <nav class="nav-menu">
+        <a class="site-name current" href="/" title="Home">Home</a>
+        <a class="site-index current" href="/"><i class="fa fa-home"></i><span>首页</span></a>
+        <a href="/archives" title="归档"><i class="fa fa-archives"></i><span>归档</span></a>
+        <a href="/tags" title="标签"><i class="fa fa-tags"></i><span>标签</span></a>
+        <!-- custom single page of menus -->
+        
+        
+        <a href="/help" title="帮助">
+            <i class="fa fa-question-circle"></i>
+            <span>帮助</span>
+        </a>
+        
+    </nav>
+</div>
+
+<div class="nav-user">
+    <a class="btn-search" href="#"><i class="fa fa-search"></i></a>
+    <a class="btn-read-mode" href="#"><i class="fa fa-sun-o"></i></a>
+    <a class="btn-sns-qr" href="javascript:"><i class="fa fa-telegram"></i></a>
+</div>
+
+<div id="wrapper" class="clearfix">
+    <div id="body">
+        <div class="main" id="main">
+            <div id="cover">
+    <div class="cover-img"></div>
+    <div class="cover-info">
+        
+        <h1 class="cover-siteName">Donny的技术博客</h1>
+        <h3 class="cover-siteTitle">用代码征服世界</h3>
+        <p class="cover-siteDesc">这是一个简单的技术博客</p>
+        <div class="cover-sns">
+            
+    &nbsp;&nbsp;<div class="btn btn-github">
+        <a href="https://github.com/luckystar88" target="_blank" title="github" ref="friend">
+            <i class="fa fa-github"></i>
+        </a>
+    </div>
+
+
+        </div>
+    </div>
+</div>
+
+            <div class="page-title">
+    <ul>
+        <li><a href="/">最近</a></li>
+        
+            
+                <li class="active">
+                    <a href="/categories/tech" data-name="技术">技术</a>
+                </li>
+            
+                <li class>
+                    <a href="/categories/life" data-name="人文">人文</a>
+                </li>
+            
+                <li class>
+                    <a href="/categories/others" data-name="其他">其他</a>
+                </li>
+            
+        
+        <li class="page-search">
+    <form id="search" class="search-form">
+        <input type="text" readonly="readonly" id="local-search-input-tip" placeholder="读物检索~">
+        <button type="button" disabled="disabled" class="search-form-submit"><i class="fa fa-search"></i></button>
+    </form>
+</li>
+
+    </ul>
+</div>
+<div class="main-inner">
+    <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+        <div class="post-header">
+            <div class="post-author clearfix">
+                <a class="avatar fleft" href="https://tommy88.top" target="_blank">
+                    <img width="48" src="/images/favicon.png" alt="avatar">
+                </a>
+                <p><span class="label">作者</span>
+                    <a href="https://tommy88.top" target="_blank">Donny</a>
+                    <span title="最后编辑于&nbsp;2018-03-21">2018-03-21</span>
+                </p>
+                <p>记录工作，感悟生活</p>
+            </div>
+            <h2 class="post-title">抓取WebSocket推送的消息</h2>
+            <div class="post-meta">
+                本文共计4249个字 |
+                您是第&nbsp;<span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>位看到它们的小伙伴
+            </div>
+        </div>
+        <div class="post-content markdown-body">
+            <h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>很多直播或对数据及时性要求比较高的网站，使用了WebSocket。这种数据要怎么抓呢？</p>
+<p>我们这里以socket.io为例，我们可以查看网站网页源代码看使用的H5的WebSocket还是socket.io等JS库。</p>
+<p>这里以java语言为例说明。假定网站使用的是socket.io库来实现消息推送。我们如何通过java来获取服务端推送的信息呢？</p>
+<p>socket.io提供了java的客户端实现socket.io-client。所以获取服务端推送的数据，本质是作为一个客户端连接上WebSocket server。<br><a id="more"></a></p>
+<h2 id="连接websocket-server接收推送的数据"><a href="#连接websocket-server接收推送的数据" class="headerlink" title="连接websocket server接收推送的数据"></a>连接websocket server接收推送的数据</h2><h3 id="首先添加依赖"><a href="#首先添加依赖" class="headerlink" title="首先添加依赖"></a>首先添加依赖</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>io.socket<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>socket.io-client<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.0.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="ws地址的java代码"><a href="#ws地址的java代码" class="headerlink" title="ws地址的java代码"></a>ws地址的java代码</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> Socket socket = IO.socket(<span class="string">"http://localhost:9098/"</span>);</span><br><span class="line">socket.on(Socket.EVENT_CONNECTING, <span class="keyword">new</span> Emitter.Listener() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">call</span><span class="params">(Object... objects)</span> </span>&#123;</span><br><span class="line">            System.out.println(<span class="string">"WebSocket连接中"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;).on(Socket.EVENT_CONNECT, <span class="keyword">new</span> Emitter.Listener() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">call</span><span class="params">(Object... objects)</span> </span>&#123;</span><br><span class="line">            System.out.println(<span class="string">"WebSocket连接成功！"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;).on(<span class="string">"OnMSG"</span>, <span class="keyword">new</span> Emitter.Listener() &#123; <span class="comment">// 这里指定要接收的事件名称</span></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">call</span><span class="params">(Object... objects)</span> </span>&#123;</span><br><span class="line">            JSONObject object = (JSONObject) objects[<span class="number">0</span>];</span><br><span class="line">            System.out.println(<span class="string">"OnMSG:\n"</span>+object.toString());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;).on(Socket.EVENT_DISCONNECT, <span class="keyword">new</span> Emitter.Listener() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">call</span><span class="params">(Object... objects)</span> </span>&#123;</span><br><span class="line">            System.out.println(<span class="string">"WebSocket连接关闭！"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line"><span class="comment">// 连接websocket server</span></span><br><span class="line">socket.connect();</span><br><span class="line"><span class="comment">// 休眠3S后发送一条信息给websocket server</span></span><br><span class="line">Thread.sleep(<span class="number">3000L</span>);</span><br><span class="line"><span class="keyword">if</span> (socket.connected()) &#123;</span><br><span class="line">    JSONObject msg = <span class="keyword">new</span> JSONObject();</span><br><span class="line">    msg.put(<span class="string">"from"</span>,<span class="string">"jack"</span>);</span><br><span class="line">    msg.put(<span class="string">"to"</span>,<span class="string">"admin"</span>);</span><br><span class="line">    msg.put(<span class="string">"content"</span>,<span class="string">"Hello,I am jack!"</span>);</span><br><span class="line">    socket.emit(<span class="string">"OnMSG"</span>, msg);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果websocket地址是ws://localhost:9098，则在socket.io-java中地址写<a href="http://localhost:9098">http://localhost:9098</a>；如果是wss://localhost:9098，则写为<a href="https://localhost:9098">https://localhost:9098</a>.</p>
+<p>服务端的例子参考：<a href="http://tommy88.top/2018/03/08/socketio%E6%8E%A8%E9%80%81%E6%8A%80%E6%9C%AF/">socketio推送技术</a>。</p>
+<h3 id="wss地址的java代码"><a href="#wss地址的java代码" class="headerlink" title="wss地址的java代码"></a>wss地址的java代码</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> HostnameVerifier <span class="title">getMyHostnameVerifier</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> HostnameVerifier() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">verify</span><span class="params">(String s, SSLSession sslSession)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> X509TrustManager <span class="title">getTrustManager</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> X509TrustManager() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> java.security.cert.X509Certificate[] getAcceptedIssuers() &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> java.security.cert.X509Certificate[] &#123;&#125;;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">checkClientTrusted</span><span class="params">(X509Certificate[] certs, String authType)</span> </span>&#123;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">checkServerTrusted</span><span class="params">(X509Certificate[] certs, String authType)</span> </span>&#123;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> SSLContext <span class="title">createSSLContext</span><span class="params">(X509TrustManager trustManager)</span> <span class="keyword">throws</span> GeneralSecurityException, IOException </span>&#123;</span><br><span class="line"><span class="comment">//        Security.insertProviderAt(new BouncyCastleProvider(), 1);</span></span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        TrustManager[] trustAllCerts = <span class="keyword">new</span> TrustManager[]&#123;trustManager&#125;;</span><br><span class="line">        <span class="comment">// Install the all-trusting trust manager</span></span><br><span class="line">        SSLContext sc = SSLContext.getInstance(<span class="string">"SSL"</span>);</span><br><span class="line">        sc.init(<span class="keyword">null</span>, trustAllCerts, <span class="keyword">new</span> java.security.SecureRandom());</span><br><span class="line">        <span class="keyword">return</span> sc;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception exception) &#123;</span><br><span class="line">        exception.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">&#125;</span><br><span class="line">X509TrustManager trustManager = getTrustManager();</span><br><span class="line">SSLContext sslContext = createSSLContext(trustManager);</span><br><span class="line">HostnameVerifier myHostnameVerifier = getMyHostnameVerifier();</span><br><span class="line">OkHttpClient okHttpClient = <span class="keyword">new</span> OkHttpClient.Builder()</span><br><span class="line">        .hostnameVerifier(myHostnameVerifier)</span><br><span class="line">        .sslSocketFactory(sslContext.getSocketFactory(), trustManager)</span><br><span class="line">        .build();</span><br><span class="line"><span class="comment">// default settings for all sockets</span></span><br><span class="line">IO.setDefaultOkHttpWebSocketFactory(okHttpClient);</span><br><span class="line">IO.setDefaultOkHttpCallFactory(okHttpClient);</span><br><span class="line"><span class="comment">// set as an option</span></span><br><span class="line">IO.Options opts = <span class="keyword">new</span> IO.Options();</span><br><span class="line">opts.callFactory = okHttpClient;</span><br><span class="line">opts.webSocketFactory = okHttpClient;</span><br><span class="line">opts.port = <span class="number">443</span>;</span><br><span class="line">opts.secure = <span class="keyword">true</span>;</span><br><span class="line"><span class="keyword">final</span> Socket socket = IO.socket(<span class="string">"http://localhost:9098/"</span>, opts);</span><br><span class="line">...</span><br><span class="line">其他部分的代码参考ws部分</span><br></pre></td></tr></table></figure>
+<p>在浏览器中，在websocket请求的Frames部分是发送和接收到消息。如图：<br><img src="http://omh46px9n.bkt.clouddn.com/18-3-21/2140342.jpg" alt><br>向上箭头（绿色）表示向websocket server发送的消息，向下箭头（红色）表示接收的消息。</p>
+<h2 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h2><p>有些网站可能对url上加了token或其他参数验证，防止不可靠的连接，一般比如会员登录后，生成token并发起websocket连接。这就需要自己处理token。</p>
+
+        </div>
+        <div class="post-tool">
+            <a class="btn-thumbs-up" href="javascript:void(0);" data-cid="52" title="95">
+                <i class="fa fa-thumbs-up" aria-hidden="true"></i> 打赏
+            </a>
+        </div>
+        
+        <div class="post-tags">标签：
+            
+            <a href="/tags/推送技术/">推送技术</a>
+            
+        </div>
+        
+    </article>
+    
+    <p style="text-align: center">本文代表个人观点，内容仅供参考。若有不恰当之处，望不吝赐教！</p>
+    
+    
+
+    
+    
+        <div id="gitment-container"></div>
+        <link rel="stylesheet" href="//imsun.github.io/gitment/style/default.css">
+        <script src="//imsun.github.io/gitment/dist/gitment.browser.js"></script>
+        <script type="text/javascript">
+            var gitment = new Gitment({
+                /*lable长度不能超过50个字符，这里使用页面的生成时间*/
+                id: 'Wed Mar 21 2018 16:09:20 GMT+0800'/*document.location.href*/,
+                owner: 'luckystar88',
+                repo: 'comments',
+                oauth: {
+                    client_id: 'd49ebe4f95abcd6163f4',
+                    client_secret: 'edd2748d6271072a6970d5cec8751f388dac8116',
+                }
+            });
+            gitment.render('gitment-container');
+        </script>
+        
+            <script>
+                document.getElementById("gitment-display-button").style.display = "none";
+                document.getElementById("gitment-container").style.display = "block";
+            </script>
+        
+    
+
+
+</div>
+<script src="/js/busuanzi.pure.mini.js"></script>
+
+
+        </div><!-- end #main-->
+    </div><!-- end #body -->
+    <footer class="footer">
+    <div class="footer-inner" style="text-align: center">
+        <p>
+            <a href="/about" title="关于">关于</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <!-- 自定义链接 -->
+            <a href="/help" title="帮助">帮助</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <a href="/links" title="友链">友链</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <a href="/sitemap.xml" title="地图">地图</a>
+        </p>
+        <p>
+            本站已建立&nbsp<a href="/timeline" id="siteBuildingTime"></a>&nbsp天，<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="licence">采用知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议创作</a><br>
+            ©2017-<span id="cpYear"></span> 基于&nbsp<a href="http://hexo.io" target="_blank" rel="nofollow">Hexo</a>
+            ，主题采用&nbsp&nbsp<a href="https://github.com/tangkunyin/hexo-theme-jsimple" target="_blank" rel="bookmark">JSimple</a>
+            ，作者&nbsp<a href="https://tommy88.top" target="_blank" rel="friend">Donny</a>
+            ，Hosted by <a href="https://pages.github.com/" target="_blank" rel="nofollow">GitHub Pages</a>
+        </p>
+    </div>
+</footer>
+<script src="/js/SimpleCore.js"></script>
+
+</div>
+<!-- search pop -->
+<div class="popup search-popup local-search-popup">
+    <div class="local-search-header clearfix">
+        <span class="search-icon">
+            <i class="fa fa-search"></i>
+        </span>
+        <span class="popup-btn-close">
+            <i class="fa fa-times-circle"></i>
+        </span>
+        <div class="local-search-input-wrapper">
+            <input id="local-search-input" spellcheck="false" type="text" autocomplete="off" placeholder="请输入查询关键词">
+        </div>
+    </div>
+    <div id="local-search-result"></div>
+</div>
+<div class="fixed-btn">
+    <a class="btn-gotop" href="javascript:"> <i class="fa fa-angle-up"></i></a>
+</div>
+<script>
+    $(function () {
+        var jsi_config = {
+            buildingTime: '01/20/2016',
+            current: $('.post-tags').length > 0 ? 'post' : 'archive',
+            snsQRCode: '/images/sns-qrcode.png',
+            donateImg: '/images/donate-qr.png',
+            localSearch: { dbPath: '' },
+            readMode: 'day'
+        };
+        
+            jsi_config.localSearch = {
+                dbPath: '/search.xml',
+                trigger: 'auto',
+                topN: '1',
+                unescape: 'false'
+            }
+        
+        SimpleCore.init(jsi_config);
+        
+    });
+</script>
+</body>
+</html>

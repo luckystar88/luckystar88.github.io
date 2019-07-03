@@ -1,0 +1,302 @@
+<!DOCTYPE HTML>
+<html class="no-js" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!--[if lte IE 9]>
+<meta http-equiv="refresh" content="0;url=https://tommy88.top/warn.html">
+<![endif]-->
+<meta charset="utf-8">
+<meta http-equiv="X-DNS-Prefetch-Control" content="on">
+<link rel="dns-prefetch" href="https://tommy88.top">
+<link rel="dns-prefetch" href="//www.google-analytics.com">
+<link rel="prefetch" href="https://tommy88.top">
+<link rel="prefetch" href="//www.google-analytics.com">
+
+
+    <link rel="dns-prefetch" href="//imsun.github.io">
+    <link rel="prefetch" href="//imsun.github.io">
+
+<link rel="prerender" href="https://tommy88.top">
+
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+<meta http-equiv="mobile-agent" content="format=html5; url=https://tommy88.top">
+<meta name="author" content="Donny">
+<link rel="stylesheet" href="/css/JSimple.css">
+
+<link rel="shortcut icon" href="/images/favicon.png">
+
+
+<title>activemq之prefect机制 - Donny的技术博客</title>
+
+<meta name="keywords" content="jms, activemq, 预取值, prefetch">
+
+<meta name="description " content="ActiveMQ预取的原因以及如何设置预取值（prefetch size），以及预取相关的注意事项。">
+
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                processEscapes: true
+            }
+        });
+    </script>
+
+
+    
+
+    
+    
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="//www.googletagmanager.com/gtag/js?id=UA-105613999-1"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'UA-105613999-1');
+        </script>
+    
+    <!-- put your likes here. -->
+
+
+</head>
+<body>
+<div id="nav">
+    <nav class="nav-menu">
+        <a class="site-name current" href="/" title="Home">Home</a>
+        <a class="site-index current" href="/"><i class="fa fa-home"></i><span>首页</span></a>
+        <a href="/archives" title="归档"><i class="fa fa-archives"></i><span>归档</span></a>
+        <a href="/tags" title="标签"><i class="fa fa-tags"></i><span>标签</span></a>
+        <!-- custom single page of menus -->
+        
+        
+        <a href="/help" title="帮助">
+            <i class="fa fa-question-circle"></i>
+            <span>帮助</span>
+        </a>
+        
+    </nav>
+</div>
+
+<div class="nav-user">
+    <a class="btn-search" href="#"><i class="fa fa-search"></i></a>
+    <a class="btn-read-mode" href="#"><i class="fa fa-sun-o"></i></a>
+    <a class="btn-sns-qr" href="javascript:"><i class="fa fa-telegram"></i></a>
+</div>
+
+<div id="wrapper" class="clearfix">
+    <div id="body">
+        <div class="main" id="main">
+            <div id="cover">
+    <div class="cover-img"></div>
+    <div class="cover-info">
+        
+        <h1 class="cover-siteName">Donny的技术博客</h1>
+        <h3 class="cover-siteTitle">用代码征服世界</h3>
+        <p class="cover-siteDesc">这是一个简单的技术博客</p>
+        <div class="cover-sns">
+            
+    &nbsp;&nbsp;<div class="btn btn-github">
+        <a href="https://github.com/luckystar88" target="_blank" title="github" ref="friend">
+            <i class="fa fa-github"></i>
+        </a>
+    </div>
+
+
+        </div>
+    </div>
+</div>
+
+            <div class="page-title">
+    <ul>
+        <li><a href="/">最近</a></li>
+        
+            
+                <li class="active">
+                    <a href="/categories/tech" data-name="技术">技术</a>
+                </li>
+            
+                <li class>
+                    <a href="/categories/life" data-name="人文">人文</a>
+                </li>
+            
+                <li class>
+                    <a href="/categories/others" data-name="其他">其他</a>
+                </li>
+            
+        
+        <li class="page-search">
+    <form id="search" class="search-form">
+        <input type="text" readonly="readonly" id="local-search-input-tip" placeholder="读物检索~">
+        <button type="button" disabled="disabled" class="search-form-submit"><i class="fa fa-search"></i></button>
+    </form>
+</li>
+
+    </ul>
+</div>
+<div class="main-inner">
+    <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+        <div class="post-header">
+            <div class="post-author clearfix">
+                <a class="avatar fleft" href="https://tommy88.top" target="_blank">
+                    <img width="48" src="/images/favicon.png" alt="avatar">
+                </a>
+                <p><span class="label">作者</span>
+                    <a href="https://tommy88.top" target="_blank">Donny</a>
+                    <span title="最后编辑于&nbsp;2019-03-21">2019-03-21</span>
+                </p>
+                <p>记录工作，感悟生活</p>
+            </div>
+            <h2 class="post-title">ActiveMQ之Prefect机制</h2>
+            <div class="post-meta">
+                本文共计2570个字 |
+                您是第&nbsp;<span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>位看到它们的小伙伴
+            </div>
+        </div>
+        <div class="post-content markdown-body">
+            <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>ActiveMQ的设计目标是成为一个高性能的消息总线。这意味着使用SEDA架构可以异步执行尽可能多的工作。 为了有效利用网络资源，Broker利用“推送”模型向消费者发送消息。 这可确保消费者始终拥有准备处理的消息的本地缓冲区。 替代方案是让消费者明确地从Broker那里提取消息。 单独提取消息不是非常有效，并且会增加每个消息的延迟。</p>
+<p>但是，在不限制推送给消费者的消息数量的情况下，客户端的资源可能会被耗尽。因为消息消费通常比消息发送慢的多。为了避免这种情况，ActiveMQ使用预取限制（Prefetch Limit）来限制可以一次发送给单个消费者的最大消息数。消费者依次使用预取限制来调整其预取消息缓冲区的大小。</p>
+<p>一旦broker向消费者发送了预取数量的消息，它将不会再向该消费者发送任何消息，直到消费者至少确认了50%的预取消息，比如prefetch size / 2。当broker收到确认后，它将向消费者发送prefect size一半的消息，以填充消费者的本地缓冲区。注意，可以为每个消费者指定预取消息数量。</p>
+<p>在数据量较大的情况下，建议使用较大的预取值。但是，对于数据量较小的情况，每个消息需要很长时间处理，预取值应该设置为1.这可以保证消费者一次只处理一条消息。但是，将预取值设置为0将导致消费者每次轮询一条消息，而不是将消息推送给消费者。</p>
+<ul>
+<li>何为慢速消费者？<blockquote>
+<p>一个消费者当前待处理的消息数量达到配置的prefetch size的2倍以上，那么该消费者就是慢速消费者。</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="指定Prefect策略"><a href="#指定Prefect策略" class="headerlink" title="指定Prefect策略"></a>指定Prefect策略</h2><p>你可以在ActiveMQConnectionFactory或ActiveMQConnection上指定ActiveMQPrefectPolicy。这允许你配置单独的预取值。<br>比如：<br><img src="/img/Snipaste_2019-03-21_14-40-13.png" alt></p>
+<p>如果是在AciveMQConnectionFactory上配置PrefetchPolicy，那么就是所有的Connection都使用此策略；如果是在某个ActiveMQConnection上配置，则是对此Connection起作用。</p>
+<ul>
+<li>持久化的queue（默认值：1000）</li>
+<li>非持久化的queue（默认值：1000）</li>
+<li>持久化的topic（默认值：100）</li>
+<li>非持久化的topic（默认值：Short.MAX_VALUE-1）</li>
+</ul>
+<p>还可以在用来和broker建立连接的URI上配置prefect限制。<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tcp://localhost:61616?jms.prefetchPolicy.all=50</span><br></pre></td></tr></table></figure></p>
+<p>上面的配置表示所有的Destination的预取值限制为50.</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tcp://localhost:61616?jms.prefetchPolicy.queuePrefetch=1</span><br></pre></td></tr></table></figure>
+<p>上面的配置表示所有的queue的预取值为1，即每次只推送1条消息给queue的消费者。</p>
+<p>也可以针对某个consumer配置，比如：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">queue = <span class="keyword">new</span> ActiveMQQueue(<span class="string">"TEST.QUEUE?consumer.prefetchSize=10"</span>);</span><br><span class="line">consumer = session.createConsumer(queue);</span><br></pre></td></tr></table></figure></p>
+<h2 id="消费者池与预取"><a href="#消费者池与预取" class="headerlink" title="消费者池与预取"></a>消费者池与预取</h2><p>使用消费者池消费消息时，预取将会是一个问题。未被消费的预取消息只有在消费者关闭时才会释放，但是为了池中的消费者可以被重用，关闭会被延迟到消费者池关闭。这将导致预取的消息直到消费者被重用时才会被消费。从性能角度来看，这个特性是可以被接受的。但是，当池中有多个消费者存在时，这将导致消息投递顺序错乱。 因此，org.apache.activemq.pool.PooledConnectionFactory不会对消费者进行池化。</p>
+<p>Springs CachingConnectionFactory支持池化消费者（默认情况下关闭）。如果您在Spring的 DefaultMessageListenerContainer（DMLC）中配置了一个包含多个Consumer线程一起使用的CachingConnectionFactory，那么您要么关闭CachingConnectionFactory中的消费者池（默认情况下是关闭的），要么在使用消费者池时将预取值设置为0.这与每次调用receive(timeout)方法，消费者将使用pool的方式来获取消息。通常建议关闭Spring的CachingConnectionFactory以及任何其他允许池化JMS消费者框架中的缓存。</p>
+<p>需要注意的是，Spring的DefaultMessageListenerContainer（DMLC）及其CACHE_CONSUMER缓存级别不受此问题的影响！Spring的DMLC在某种意义上并不池化消费者（pool consumers），即其内部并不使用由多个消费者实例组成的消费者池。相反，它会缓存消费者，也就是说，在DMLC实例的整个生命周期中，都会重用同一个JMS 消费者对象来接收所有消息。其表现很像单纯的手写JMS代码-创建JMS连接，会话，消费者，然后用这个消费者实例接收所有消息。</p>
+<p>因此在Spring的DMLC中使用CACHE_CONSUMER是没问题的，即使是使用多个消费者线程，除非你在使用XA事务。CACHE_CONSUMER对XA事务并不生效。然而本地JMS事务和非事务性消费者在Spring的DMLC中使用CACHE_CONSUMER是没问题的。</p>
+<p>另请注意，Camel的JMS或ActiveMQ组件在内部使用Springs DMLC。 所以关于Springs DMLC和CACHE_CONSUMER的所有内容都适用于这两个Camel组件。</p>
+<h2 id="内存与性能的权衡"><a href="#内存与性能的权衡" class="headerlink" title="内存与性能的权衡"></a>内存与性能的权衡</h2><p>设置相对较高的预取值可以提高性能。因此，默认值通常大于1000，并且对于对于topic会更高。预取值的大小决定了客户端RAM中保存的消息个数。因此如果RAM有限，你可能需要设置一个较低的值，比如1或10等。</p>
+<p>参考：<a href="http://activemq.apache.org/what-is-the-prefetch-limit-for.html">http://activemq.apache.org/what-is-the-prefetch-limit-for.html</a><br>参考：<a href="https://blog.csdn.net/a19881029/article/details/85730150">https://blog.csdn.net/a19881029/article/details/85730150</a></p>
+
+        </div>
+        <div class="post-tool">
+            <a class="btn-thumbs-up" href="javascript:void(0);" data-cid="52" title="95">
+                <i class="fa fa-thumbs-up" aria-hidden="true"></i> 打赏
+            </a>
+        </div>
+        
+        <div class="post-tags">标签：
+            
+            <a href="/tags/activemq/">activemq</a>
+            
+        </div>
+        
+    </article>
+    
+    <p style="text-align: center">本文代表个人观点，内容仅供参考。若有不恰当之处，望不吝赐教！</p>
+    
+    
+
+    
+    
+        <div id="gitment-container"></div>
+        <link rel="stylesheet" href="//imsun.github.io/gitment/style/default.css">
+        <script src="//imsun.github.io/gitment/dist/gitment.browser.js"></script>
+        <script type="text/javascript">
+            var gitment = new Gitment({
+                /*lable长度不能超过50个字符，这里使用页面的生成时间*/
+                id: 'Thu Mar 21 2019 15:25:07 GMT+0800'/*document.location.href*/,
+                owner: 'luckystar88',
+                repo: 'comments',
+                oauth: {
+                    client_id: 'd49ebe4f95abcd6163f4',
+                    client_secret: 'edd2748d6271072a6970d5cec8751f388dac8116',
+                }
+            });
+            gitment.render('gitment-container');
+        </script>
+        
+            <script>
+                document.getElementById("gitment-display-button").style.display = "none";
+                document.getElementById("gitment-container").style.display = "block";
+            </script>
+        
+    
+
+
+</div>
+<script src="/js/busuanzi.pure.mini.js"></script>
+
+
+        </div><!-- end #main-->
+    </div><!-- end #body -->
+    <footer class="footer">
+    <div class="footer-inner" style="text-align: center">
+        <p>
+            <a href="/about" title="关于">关于</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <!-- 自定义链接 -->
+            <a href="/help" title="帮助">帮助</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <a href="/links" title="友链">友链</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <a href="/sitemap.xml" title="地图">地图</a>
+        </p>
+        <p>
+            本站已建立&nbsp<a href="/timeline" id="siteBuildingTime"></a>&nbsp天，<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="licence">采用知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议创作</a><br>
+            ©2017-<span id="cpYear"></span> 基于&nbsp<a href="http://hexo.io" target="_blank" rel="nofollow">Hexo</a>
+            ，主题采用&nbsp&nbsp<a href="https://github.com/tangkunyin/hexo-theme-jsimple" target="_blank" rel="bookmark">JSimple</a>
+            ，作者&nbsp<a href="https://tommy88.top" target="_blank" rel="friend">Donny</a>
+            ，Hosted by <a href="https://pages.github.com/" target="_blank" rel="nofollow">GitHub Pages</a>
+        </p>
+    </div>
+</footer>
+<script src="/js/SimpleCore.js"></script>
+
+</div>
+<!-- search pop -->
+<div class="popup search-popup local-search-popup">
+    <div class="local-search-header clearfix">
+        <span class="search-icon">
+            <i class="fa fa-search"></i>
+        </span>
+        <span class="popup-btn-close">
+            <i class="fa fa-times-circle"></i>
+        </span>
+        <div class="local-search-input-wrapper">
+            <input id="local-search-input" spellcheck="false" type="text" autocomplete="off" placeholder="请输入查询关键词">
+        </div>
+    </div>
+    <div id="local-search-result"></div>
+</div>
+<div class="fixed-btn">
+    <a class="btn-gotop" href="javascript:"> <i class="fa fa-angle-up"></i></a>
+</div>
+<script>
+    $(function () {
+        var jsi_config = {
+            buildingTime: '01/20/2016',
+            current: $('.post-tags').length > 0 ? 'post' : 'archive',
+            snsQRCode: '/images/sns-qrcode.png',
+            donateImg: '/images/donate-qr.png',
+            localSearch: { dbPath: '' },
+            readMode: 'day'
+        };
+        
+            jsi_config.localSearch = {
+                dbPath: '/search.xml',
+                trigger: 'auto',
+                topN: '1',
+                unescape: 'false'
+            }
+        
+        SimpleCore.init(jsi_config);
+        
+    });
+</script>
+</body>
+</html>

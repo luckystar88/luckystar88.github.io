@@ -1,0 +1,289 @@
+<!DOCTYPE HTML>
+<html class="no-js" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!--[if lte IE 9]>
+<meta http-equiv="refresh" content="0;url=https://tommy88.top/warn.html">
+<![endif]-->
+<meta charset="utf-8">
+<meta http-equiv="X-DNS-Prefetch-Control" content="on">
+<link rel="dns-prefetch" href="https://tommy88.top">
+<link rel="dns-prefetch" href="//www.google-analytics.com">
+<link rel="prefetch" href="https://tommy88.top">
+<link rel="prefetch" href="//www.google-analytics.com">
+
+
+    <link rel="dns-prefetch" href="//imsun.github.io">
+    <link rel="prefetch" href="//imsun.github.io">
+
+<link rel="prerender" href="https://tommy88.top">
+
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+<meta http-equiv="mobile-agent" content="format=html5; url=https://tommy88.top">
+<meta name="author" content="Donny">
+<link rel="stylesheet" href="/css/JSimple.css">
+
+<link rel="shortcut icon" href="/images/favicon.png">
+
+
+<title>在windows server 上搭建shadowsocks服务器 - Donny的技术博客</title>
+
+<meta name="keywords" content="java,前端,数据库,web,spring,redis,spring boot,spring cloud,mq">
+
+<meta name="description " content="记录工作，感悟生活">
+
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                processEscapes: true
+            }
+        });
+    </script>
+
+
+    
+
+    
+    
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="//www.googletagmanager.com/gtag/js?id=UA-105613999-1"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'UA-105613999-1');
+        </script>
+    
+    <!-- put your likes here. -->
+
+
+</head>
+<body>
+<div id="nav">
+    <nav class="nav-menu">
+        <a class="site-name current" href="/" title="Home">Home</a>
+        <a class="site-index current" href="/"><i class="fa fa-home"></i><span>首页</span></a>
+        <a href="/archives" title="归档"><i class="fa fa-archives"></i><span>归档</span></a>
+        <a href="/tags" title="标签"><i class="fa fa-tags"></i><span>标签</span></a>
+        <!-- custom single page of menus -->
+        
+        
+        <a href="/help" title="帮助">
+            <i class="fa fa-question-circle"></i>
+            <span>帮助</span>
+        </a>
+        
+    </nav>
+</div>
+
+<div class="nav-user">
+    <a class="btn-search" href="#"><i class="fa fa-search"></i></a>
+    <a class="btn-read-mode" href="#"><i class="fa fa-sun-o"></i></a>
+    <a class="btn-sns-qr" href="javascript:"><i class="fa fa-telegram"></i></a>
+</div>
+
+<div id="wrapper" class="clearfix">
+    <div id="body">
+        <div class="main" id="main">
+            <div id="cover">
+    <div class="cover-img"></div>
+    <div class="cover-info">
+        
+        <h1 class="cover-siteName">Donny的技术博客</h1>
+        <h3 class="cover-siteTitle">用代码征服世界</h3>
+        <p class="cover-siteDesc">这是一个简单的技术博客</p>
+        <div class="cover-sns">
+            
+    &nbsp;&nbsp;<div class="btn btn-github">
+        <a href="https://github.com/luckystar88" target="_blank" title="github" ref="friend">
+            <i class="fa fa-github"></i>
+        </a>
+    </div>
+
+
+        </div>
+    </div>
+</div>
+
+            <div class="page-title">
+    <ul>
+        <li><a href="/">最近</a></li>
+        
+            
+                <li class="active">
+                    <a href="/categories/tech" data-name="技术">技术</a>
+                </li>
+            
+                <li class>
+                    <a href="/categories/life" data-name="人文">人文</a>
+                </li>
+            
+                <li class>
+                    <a href="/categories/others" data-name="其他">其他</a>
+                </li>
+            
+        
+        <li class="page-search">
+    <form id="search" class="search-form">
+        <input type="text" readonly="readonly" id="local-search-input-tip" placeholder="读物检索~">
+        <button type="button" disabled="disabled" class="search-form-submit"><i class="fa fa-search"></i></button>
+    </form>
+</li>
+
+    </ul>
+</div>
+<div class="main-inner">
+    <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+        <div class="post-header">
+            <div class="post-author clearfix">
+                <a class="avatar fleft" href="https://tommy88.top" target="_blank">
+                    <img width="48" src="/images/favicon.png" alt="avatar">
+                </a>
+                <p><span class="label">作者</span>
+                    <a href="https://tommy88.top" target="_blank">Donny</a>
+                    <span title="最后编辑于&nbsp;2018-01-27">2018-01-27</span>
+                </p>
+                <p>记录工作，感悟生活</p>
+            </div>
+            <h2 class="post-title">在Windows Server 上搭建Shadowsocks服务器</h2>
+            <div class="post-meta">
+                本文共计3249个字 |
+                您是第&nbsp;<span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>位看到它们的小伙伴
+            </div>
+        </div>
+        <div class="post-content markdown-body">
+            <p>这里是在windows上搭建Shadowsocks服务器，使用的是github上的<code>libQtShadowsocks</code>项目。<br>项目地址：<a href="https://github.com/shadowsocks/libQtShadowsocks">https://github.com/shadowsocks/libQtShadowsocks</a></p>
+<a id="more"></a>
+<h2 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h2><p>一台可以翻墙的windows。</p>
+<h2 id="下载libQtShadowsocks"><a href="#下载libQtShadowsocks" class="headerlink" title="下载libQtShadowsocks"></a>下载libQtShadowsocks</h2><p>从<a href="https://github.com/shadowsocks/libQtShadowsocks/releases">https://github.com/shadowsocks/libQtShadowsocks/releases</a>下载一个已经编译好的版本，这里是shadowsocks-libqss-v1.10.0-win64.7z，原来下载的是最新的2.0版本，结果用不了。<br>下载后解压到任意位置，里面就一个shadowsocks-libqss.exe文件。</p>
+<h2 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h2><p>在解压目录下创建2个文件，一个config.json，一个shadowsocks-server.bat。<br>config.json放置配置信息。<br>内容如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#123;  </span><br><span class="line">    &quot;server&quot;:&quot;0.0.0.0&quot;,  </span><br><span class="line">    &quot;server_port&quot;:8023,  </span><br><span class="line">    &quot;local_address&quot;:&quot;127.0.0.1&quot;,  </span><br><span class="line">    &quot;local_port&quot;:1080,  </span><br><span class="line">    &quot;password&quot;:&quot;wyvbboy&quot;,  </span><br><span class="line">    &quot;timeout&quot;:600,  </span><br><span class="line">    &quot;method&quot;:&quot;aes-256-cfb&quot;,  </span><br><span class="line">    &quot;http_proxy&quot;: false,  </span><br><span class="line">    &quot;auth&quot;: false  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>配置说明：<br><strong>server</strong><br>the address your server listens（服务器IP）<br><strong>local_address</strong><br>the address your local listens（本地代理地址）<br><strong>local_port</strong><br>local port（本地代理端口）（写之前创建的ss的端口）<br><strong>port_password</strong><br>password used for encryption(自己设定的服务器端口和密码)（自己可以随便设定）<br><strong>timeout</strong><br>in seconds（超时断开，以秒为单位）<br><strong>method</strong><br>default: “aes-256-cfb”, see Encryption（加密方式）<br><strong>fast_open</strong><br>use TCP_FASTOPEN, true / false（是否使用TCP）<br><strong>workers</strong><br>number of workers, available on Unix/Linux（这个只在Unix和Linux下有用，可不设置）。  </p>
+<p>shadowsocks-server.bat内容如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">@echo off</span><br><span class="line">shadowsocks-libqss.exe -c config.json -S</span><br></pre></td></tr></table></figure></p>
+<h2 id="运行Shadowsocks服务"><a href="#运行Shadowsocks服务" class="headerlink" title="运行Shadowsocks服务"></a>运行Shadowsocks服务</h2><p>直接运行shadowsocks-server.bat即可运行Shadowsocks服务，你也可以在命令提示符进入软件目录，运行<code>shadowsocks-libqss.exe -c config.json -S</code>这行命令。</p>
+<h2 id="客户端配置"><a href="#客户端配置" class="headerlink" title="客户端配置"></a>客户端配置</h2><p>这里使用的客户端为Shadowsocks，github地址：<a href="https://github.com/shadowsocks/shadowsocks-windows">https://github.com/shadowsocks/shadowsocks-windows</a>。<br><img src="http://omh46px9n.bkt.clouddn.com/18-1-27/20320334.jpg" alt></p>
+<div class="tip"><br>注意：要以PAC模式运行，如果选择全局模式，所有的访问都会使用shadowsocks；如果选择了PaC模式，则只有pac.txt中的网址才会使用shadowsocks。<br></div><br><img src="http://omh46px9n.bkt.clouddn.com/18-1-27/26369304.jpg" alt><br><br><div class="tip"><br>注意防火墙开通相应的端口。<br></div>
+
+<h2 id="自定义规则"><a href="#自定义规则" class="headerlink" title="自定义规则"></a>自定义规则</h2><p>参考：<a href="http://honglu.me/2015/06/26/ShadowSocks%E8%87%AA%E5%AE%9A%E4%B9%89%E8%A7%84%E5%88%99/">http://honglu.me/2015/06/26/ShadowSocks%E8%87%AA%E5%AE%9A%E4%B9%89%E8%A7%84%E5%88%99/</a><br>从网上查阅的资料<br>编辑FGWList的用户规则<br><img src="http://omh46px9n.bkt.clouddn.com/18-1-27/22145328.jpg" alt><br><img src="http://omh46px9n.bkt.clouddn.com/18-1-27/57076129.jpg" alt><br>但我本地最后从FGWList更新本地pac时报错了<br><img src="http://omh46px9n.bkt.clouddn.com/18-1-27/88271228.jpg" alt></p>
+<p>所以我是直接修改的pac.txt文件，在其中加入你想使用shadowsocks访问的网址，最后选择使用PAC模式即可。</p>
+<h2 id="多用户"><a href="#多用户" class="headerlink" title="多用户"></a>多用户</h2><p>如果希望多个用户使用shadowsocks服务，使用下面的配置替换<code>password:xxx</code>部分。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&quot;port_password&quot;: &#123;  </span><br><span class="line">   &quot;8381&quot;: &quot;foobar1&quot;,  </span><br><span class="line">   &quot;8382&quot;: &quot;foobar2&quot;,  </span><br><span class="line">   &quot;8383&quot;: &quot;foobar3&quot;,  </span><br><span class="line">   &quot;8384&quot;: &quot;foobar4&quot; </span><br><span class="line"> &#125;,</span><br></pre></td></tr></table></figure></p>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>更新于2018-05-31.<br>某天shadowsocks服务不能使用了。<br>server端日志：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">2018-05-31 16:15:41.382 INFO: Connecting clients1.google.com:443 from 183.62.174.53:48977</span><br><span class="line">2018-05-31 16:15:44.649 INFO: Connecting clients1.google.com:443 from 183.62.174.53:49021</span><br><span class="line">2018-05-31 16:15:44.665 INFO: Connecting clients1.google.com:443 from 183.62.174.53:49032</span><br><span class="line">2018-05-31 16:15:50.803 INFO: Connecting clients1.google.com:443 from 183.62.174.53:49103</span><br><span class="line">2018-05-31 16:15:56.177 INFO: Connecting www.google.com:443 from 183.62.174.53:49199</span><br><span class="line">2018-05-31 16:15:56.185 INFO: Connecting www.google.com:443 from 183.62.174.53:49200</span><br><span class="line">2018-05-31 16:16:11.364 DEBUG: Local socket: The remote host closed the connection</span><br><span class="line">2018-05-31 16:16:14.637 DEBUG: Local socket: The remote host closed the connection</span><br><span class="line">2018-05-31 16:16:14.654 DEBUG: Local socket: The remote host closed the connection</span><br><span class="line">2018-05-31 16:16:20.794 DEBUG: Local socket: The remote host closed the connection</span><br><span class="line">2018-05-31 16:16:26.164 DEBUG: Local socket: The remote host closed the connection</span><br><span class="line">2018-05-31 16:16:26.172 DEBUG: Local socket: The remote host closed the connection</span><br></pre></td></tr></table></figure></p>
+<p>更换了算法、端口还是不行，客户端更新版本也不行，最后更新服务端版本后ok了。这里使用的版本是：shadowsocks-libqss-v2.0.2-win64.7z。</p>
+<p>PS：有问题先看看github上相关的Issues。</p>
+
+        </div>
+        <div class="post-tool">
+            <a class="btn-thumbs-up" href="javascript:void(0);" data-cid="52" title="95">
+                <i class="fa fa-thumbs-up" aria-hidden="true"></i> 打赏
+            </a>
+        </div>
+        
+        <div class="post-tags">标签：
+            
+            <a href="/tags/工具/">工具</a>
+            
+        </div>
+        
+    </article>
+    
+    <p style="text-align: center">本文代表个人观点，内容仅供参考。若有不恰当之处，望不吝赐教！</p>
+    
+    
+
+    
+    
+        <div id="gitment-container"></div>
+        <link rel="stylesheet" href="//imsun.github.io/gitment/style/default.css">
+        <script src="//imsun.github.io/gitment/dist/gitment.browser.js"></script>
+        <script type="text/javascript">
+            var gitment = new Gitment({
+                /*lable长度不能超过50个字符，这里使用页面的生成时间*/
+                id: 'Sat Jan 27 2018 10:00:49 GMT+0800'/*document.location.href*/,
+                owner: 'luckystar88',
+                repo: 'comments',
+                oauth: {
+                    client_id: 'd49ebe4f95abcd6163f4',
+                    client_secret: 'edd2748d6271072a6970d5cec8751f388dac8116',
+                }
+            });
+            gitment.render('gitment-container');
+        </script>
+        
+            <script>
+                document.getElementById("gitment-display-button").style.display = "none";
+                document.getElementById("gitment-container").style.display = "block";
+            </script>
+        
+    
+
+
+</div>
+<script src="/js/busuanzi.pure.mini.js"></script>
+
+
+        </div><!-- end #main-->
+    </div><!-- end #body -->
+    <footer class="footer">
+    <div class="footer-inner" style="text-align: center">
+        <p>
+            <a href="/about" title="关于">关于</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <!-- 自定义链接 -->
+            <a href="/help" title="帮助">帮助</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <a href="/links" title="友链">友链</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <a href="/sitemap.xml" title="地图">地图</a>
+        </p>
+        <p>
+            本站已建立&nbsp<a href="/timeline" id="siteBuildingTime"></a>&nbsp天，<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="licence">采用知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议创作</a><br>
+            ©2017-<span id="cpYear"></span> 基于&nbsp<a href="http://hexo.io" target="_blank" rel="nofollow">Hexo</a>
+            ，主题采用&nbsp&nbsp<a href="https://github.com/tangkunyin/hexo-theme-jsimple" target="_blank" rel="bookmark">JSimple</a>
+            ，作者&nbsp<a href="https://tommy88.top" target="_blank" rel="friend">Donny</a>
+            ，Hosted by <a href="https://pages.github.com/" target="_blank" rel="nofollow">GitHub Pages</a>
+        </p>
+    </div>
+</footer>
+<script src="/js/SimpleCore.js"></script>
+
+</div>
+<!-- search pop -->
+<div class="popup search-popup local-search-popup">
+    <div class="local-search-header clearfix">
+        <span class="search-icon">
+            <i class="fa fa-search"></i>
+        </span>
+        <span class="popup-btn-close">
+            <i class="fa fa-times-circle"></i>
+        </span>
+        <div class="local-search-input-wrapper">
+            <input id="local-search-input" spellcheck="false" type="text" autocomplete="off" placeholder="请输入查询关键词">
+        </div>
+    </div>
+    <div id="local-search-result"></div>
+</div>
+<div class="fixed-btn">
+    <a class="btn-gotop" href="javascript:"> <i class="fa fa-angle-up"></i></a>
+</div>
+<script>
+    $(function () {
+        var jsi_config = {
+            buildingTime: '01/20/2016',
+            current: $('.post-tags').length > 0 ? 'post' : 'archive',
+            snsQRCode: '/images/sns-qrcode.png',
+            donateImg: '/images/donate-qr.png',
+            localSearch: { dbPath: '' },
+            readMode: 'day'
+        };
+        
+            jsi_config.localSearch = {
+                dbPath: '/search.xml',
+                trigger: 'auto',
+                topN: '1',
+                unescape: 'false'
+            }
+        
+        SimpleCore.init(jsi_config);
+        
+    });
+</script>
+</body>
+</html>

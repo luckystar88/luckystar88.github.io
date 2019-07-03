@@ -1,0 +1,294 @@
+<!DOCTYPE HTML>
+<html class="no-js" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!--[if lte IE 9]>
+<meta http-equiv="refresh" content="0;url=https://tommy88.top/warn.html">
+<![endif]-->
+<meta charset="utf-8">
+<meta http-equiv="X-DNS-Prefetch-Control" content="on">
+<link rel="dns-prefetch" href="https://tommy88.top">
+<link rel="dns-prefetch" href="//www.google-analytics.com">
+<link rel="prefetch" href="https://tommy88.top">
+<link rel="prefetch" href="//www.google-analytics.com">
+
+
+    <link rel="dns-prefetch" href="//imsun.github.io">
+    <link rel="prefetch" href="//imsun.github.io">
+
+<link rel="prerender" href="https://tommy88.top">
+
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+<meta http-equiv="mobile-agent" content="format=html5; url=https://tommy88.top">
+<meta name="author" content="Donny">
+<link rel="stylesheet" href="/css/JSimple.css">
+
+<link rel="shortcut icon" href="/images/favicon.png">
+
+
+<title>spring boot整合ehcache - Donny的技术博客</title>
+
+<meta name="keywords" content="java,前端,数据库,web,spring,redis,spring boot,spring cloud,mq">
+
+<meta name="description " content="记录工作，感悟生活">
+
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                processEscapes: true
+            }
+        });
+    </script>
+
+
+    
+
+    
+    
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="//www.googletagmanager.com/gtag/js?id=UA-105613999-1"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'UA-105613999-1');
+        </script>
+    
+    <!-- put your likes here. -->
+
+
+</head>
+<body>
+<div id="nav">
+    <nav class="nav-menu">
+        <a class="site-name current" href="/" title="Home">Home</a>
+        <a class="site-index current" href="/"><i class="fa fa-home"></i><span>首页</span></a>
+        <a href="/archives" title="归档"><i class="fa fa-archives"></i><span>归档</span></a>
+        <a href="/tags" title="标签"><i class="fa fa-tags"></i><span>标签</span></a>
+        <!-- custom single page of menus -->
+        
+        
+        <a href="/help" title="帮助">
+            <i class="fa fa-question-circle"></i>
+            <span>帮助</span>
+        </a>
+        
+    </nav>
+</div>
+
+<div class="nav-user">
+    <a class="btn-search" href="#"><i class="fa fa-search"></i></a>
+    <a class="btn-read-mode" href="#"><i class="fa fa-sun-o"></i></a>
+    <a class="btn-sns-qr" href="javascript:"><i class="fa fa-telegram"></i></a>
+</div>
+
+<div id="wrapper" class="clearfix">
+    <div id="body">
+        <div class="main" id="main">
+            <div id="cover">
+    <div class="cover-img"></div>
+    <div class="cover-info">
+        
+        <h1 class="cover-siteName">Donny的技术博客</h1>
+        <h3 class="cover-siteTitle">用代码征服世界</h3>
+        <p class="cover-siteDesc">这是一个简单的技术博客</p>
+        <div class="cover-sns">
+            
+    &nbsp;&nbsp;<div class="btn btn-github">
+        <a href="https://github.com/luckystar88" target="_blank" title="github" ref="friend">
+            <i class="fa fa-github"></i>
+        </a>
+    </div>
+
+
+        </div>
+    </div>
+</div>
+
+            <div class="page-title">
+    <ul>
+        <li><a href="/">最近</a></li>
+        
+            
+                <li class="active">
+                    <a href="/categories/tech" data-name="技术">技术</a>
+                </li>
+            
+                <li class>
+                    <a href="/categories/life" data-name="人文">人文</a>
+                </li>
+            
+                <li class>
+                    <a href="/categories/others" data-name="其他">其他</a>
+                </li>
+            
+        
+        <li class="page-search">
+    <form id="search" class="search-form">
+        <input type="text" readonly="readonly" id="local-search-input-tip" placeholder="读物检索~">
+        <button type="button" disabled="disabled" class="search-form-submit"><i class="fa fa-search"></i></button>
+    </form>
+</li>
+
+    </ul>
+</div>
+<div class="main-inner">
+    <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+        <div class="post-header">
+            <div class="post-author clearfix">
+                <a class="avatar fleft" href="https://tommy88.top" target="_blank">
+                    <img width="48" src="/images/favicon.png" alt="avatar">
+                </a>
+                <p><span class="label">作者</span>
+                    <a href="https://tommy88.top" target="_blank">Donny</a>
+                    <span title="最后编辑于&nbsp;2018-11-07">2018-11-07</span>
+                </p>
+                <p>记录工作，感悟生活</p>
+            </div>
+            <h2 class="post-title">Spring Boot整合EHCache</h2>
+            <div class="post-meta">
+                本文共计3653个字 |
+                您是第&nbsp;<span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>位看到它们的小伙伴
+            </div>
+        </div>
+        <div class="post-content markdown-body">
+            <h2 id="Spring-Cache简介"><a href="#Spring-Cache简介" class="headerlink" title="Spring Cache简介"></a>Spring Cache简介</h2><p>Spring定义了CacheManager和Cache接口统一不同的缓存技术。其中CacheManager是Spring提供的各种缓存技术的抽象接口。而Cache接口包含缓存的各种操作，当然我们一般情况下不会直接操作Cache接口。</p>
+<p>Spring针对不同的缓存技术，需要实现不同的cacheManager，Spring定义了如下的cacheManger实现：<br><a id="more"></a><br>|CacheManger|    描述|<br>|- |:—:|<br>|SimpleCacheManager    |使用简单的Collection来存储缓存，主要用于测试<br>|ConcurrentMapCacheManager|    使用ConcurrentMap作为缓存技术（默认）<br>|NoOpCacheManager    |测试用<br>|EhCacheCacheManager    |使用Ehcache作为缓存技术，以前在HIbernate的时候经常用<br>|GuavaCacheManager    |使用google guava的GuavaCache作为缓存技术<br>|HazelcastCacheManager    |使用Hazelcast作为缓存技术<br>|JCacheCacheManager    |使用JCache标准的实现作为缓存技术，如Apache Commons JCS<br>|RedisCacheManager    |使用Redis作为缓存技术</p>
+<p>常规的SpringBoot已经为我们自动配置了EhCache、Collection、Guava、ConcurrentMap等缓存，默认使用SimpleCacheConfiguration，即使用ConcurrentMapCacheManager。</p>
+<h2 id="SpringBoot整合EHCache"><a href="#SpringBoot整合EHCache" class="headerlink" title="SpringBoot整合EHCache"></a>SpringBoot整合EHCache</h2><h3 id="pom-xml引入spring-boot-starter-cache和ehcache"><a href="#pom-xml引入spring-boot-starter-cache和ehcache" class="headerlink" title="pom.xml引入spring-boot-starter-cache和ehcache"></a>pom.xml引入spring-boot-starter-cache和ehcache</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-cache<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>net.sf.ehcache<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>ehcache<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="配置ehcache-xml"><a href="#配置ehcache-xml" class="headerlink" title="配置ehcache.xml"></a>配置ehcache.xml</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;ehcache xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span><br><span class="line">         xsi:noNamespaceSchemaLocation=&quot;http://ehcache.org/ehcache.xsd&quot;</span><br><span class="line">         updateCheck=&quot;false&quot;&gt;</span><br><span class="line">    &lt;diskStore path=&quot;java.io.tmpdir/Tmp_EhCache&quot;/&gt;</span><br><span class="line">    &lt;defaultCache eternal=&quot;false&quot; maxElementsInMemory=&quot;1000&quot;</span><br><span class="line">                  overflowToDisk=&quot;false&quot; diskPersistent=&quot;false&quot; timeToIdleSeconds=&quot;0&quot;</span><br><span class="line">                  timeToLiveSeconds=&quot;600&quot; memoryStoreEvictionPolicy=&quot;LRU&quot;/&gt;</span><br><span class="line">    &lt;cache name=&quot;user&quot; eternal=&quot;false&quot; maxElementsInMemory=&quot;10000&quot;</span><br><span class="line">           overflowToDisk=&quot;false&quot; diskPersistent=&quot;false&quot; timeToIdleSeconds=&quot;0&quot;</span><br><span class="line">           timeToLiveSeconds=&quot;0&quot; memoryStoreEvictionPolicy=&quot;LFU&quot;/&gt;</span><br><span class="line">&lt;/ehcache&gt;</span><br></pre></td></tr></table></figure>
+<p>需要说明的是，这里maxElementsInMemory属性是必须的。</p>
+<h3 id="配置application-yml"><a href="#配置application-yml" class="headerlink" title="配置application.yml"></a>配置application.yml</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">spring:</span><br><span class="line">  cache:</span><br><span class="line">	type: ehcache</span><br><span class="line">    ehcache:</span><br><span class="line">      config: classpath:config/ehcache.xml</span><br></pre></td></tr></table></figure>
+<p>如果ehcache.xml在/resources下，则不用配置<code>spring.cache.ehcache.config</code>。</p>
+<h3 id="Spring-Boot启动类增加-EnableCaching开启缓存"><a href="#Spring-Boot启动类增加-EnableCaching开启缓存" class="headerlink" title="Spring Boot启动类增加@EnableCaching开启缓存"></a>Spring Boot启动类增加@EnableCaching开启缓存</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="meta">@EnableCaching</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Application</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SpringApplication.run(Application.class, args);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="缓存注解说明"><a href="#缓存注解说明" class="headerlink" title="缓存注解说明"></a>缓存注解说明</h3><ul>
+<li>@CacheConfig(cacheNames = {“lemonCache”})：设置了ehcache的名称，这个名称就是ehcache.xml内的名称； </li>
+<li>@Cacheable：应用到读取数据的方法上，即可缓存的方法，如查找方法：先从缓存中读取，如果没有再调 用方法获取数据，然后把数据添加到缓存中，适用于查找； </li>
+<li>@CachePut：主要针对方法配置，能够根据方法的请求参数对其结果进行缓存，和 @Cacheable 不同的是，它每次都会触发真实方法的调用。适用于更新和插入； </li>
+<li>@CacheEvict：主要针对方法配置，能够根据一定的条件对缓存进行清空。适用于删除。</li>
+</ul>
+<h3 id="示例："><a href="#示例：" class="headerlink" title="示例："></a>示例：</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@CacheConfig</span>(cacheNames = <span class="string">"user"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserServiceImpl</span> <span class="keyword">implements</span> <span class="title">UserService</span> </span>&#123;</span><br><span class="line">	<span class="meta">@Cacheable</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> UserDO <span class="title">get</span><span class="params">(String username)</span> </span>&#123;</span><br><span class="line">        Map&lt;String,Object&gt; map = <span class="keyword">new</span> HashedMap(<span class="number">1</span>);</span><br><span class="line">        map.put(<span class="string">"username"</span>,username);</span><br><span class="line">        UserDO user = list(map).get(<span class="number">0</span>);</span><br><span class="line">        <span class="keyword">return</span> user;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="与Shiro结合导致缓存不生效的问题"><a href="#与Shiro结合导致缓存不生效的问题" class="headerlink" title="与Shiro结合导致缓存不生效的问题"></a>与Shiro结合导致缓存不生效的问题</h3><p>基本确定是shiro框架与spring框架的BeanFactory有所冲突，导致注入shiro框架的类不能被spring正确初始化。</p>
+<p>在我们自定义的Shiro Realm中注入的Service增加@Lazy。</p>
+<p>参考：<a href="https://www.cnblogs.com/yueshutong/p/9381558.html">https://www.cnblogs.com/yueshutong/p/9381558.html</a></p>
+<p>参考：<a href="https://www.cnblogs.com/yueshutong/p/9381540.html">https://www.cnblogs.com/yueshutong/p/9381540.html</a></p>
+<p>Spring Cache Key的生成使用Spring EL表达式，自定义生成策略参考：<a href="https://www.jianshu.com/p/2a584aaafad3">https://www.jianshu.com/p/2a584aaafad3</a></p>
+<p>Spring Cache章节：<a href="https://docs.spring.io/spring/docs/5.0.8.RELEASE/spring-framework-reference/integration.html#cache">https://docs.spring.io/spring/docs/5.0.8.RELEASE/spring-framework-reference/integration.html#cache</a><br>Spring Boot Cache章节：<a href="https://docs.spring.io/spring-boot/docs/2.0.4.RELEASE/reference/html/boot-features-caching.html">https://docs.spring.io/spring-boot/docs/2.0.4.RELEASE/reference/html/boot-features-caching.html</a></p>
+
+        </div>
+        <div class="post-tool">
+            <a class="btn-thumbs-up" href="javascript:void(0);" data-cid="52" title="95">
+                <i class="fa fa-thumbs-up" aria-hidden="true"></i> 打赏
+            </a>
+        </div>
+        
+        <div class="post-tags">标签：
+            
+            <a href="/tags/springboot/">springboot</a>
+            
+        </div>
+        
+    </article>
+    
+    <p style="text-align: center">本文代表个人观点，内容仅供参考。若有不恰当之处，望不吝赐教！</p>
+    
+    
+
+    
+    
+        <div id="gitment-container"></div>
+        <link rel="stylesheet" href="//imsun.github.io/gitment/style/default.css">
+        <script src="//imsun.github.io/gitment/dist/gitment.browser.js"></script>
+        <script type="text/javascript">
+            var gitment = new Gitment({
+                /*lable长度不能超过50个字符，这里使用页面的生成时间*/
+                id: 'Wed Nov 07 2018 11:20:07 GMT+0800'/*document.location.href*/,
+                owner: 'luckystar88',
+                repo: 'comments',
+                oauth: {
+                    client_id: 'd49ebe4f95abcd6163f4',
+                    client_secret: 'edd2748d6271072a6970d5cec8751f388dac8116',
+                }
+            });
+            gitment.render('gitment-container');
+        </script>
+        
+            <script>
+                document.getElementById("gitment-display-button").style.display = "none";
+                document.getElementById("gitment-container").style.display = "block";
+            </script>
+        
+    
+
+
+</div>
+<script src="/js/busuanzi.pure.mini.js"></script>
+
+
+        </div><!-- end #main-->
+    </div><!-- end #body -->
+    <footer class="footer">
+    <div class="footer-inner" style="text-align: center">
+        <p>
+            <a href="/about" title="关于">关于</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <!-- 自定义链接 -->
+            <a href="/help" title="帮助">帮助</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <a href="/links" title="友链">友链</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <a href="/sitemap.xml" title="地图">地图</a>
+        </p>
+        <p>
+            本站已建立&nbsp<a href="/timeline" id="siteBuildingTime"></a>&nbsp天，<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="licence">采用知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议创作</a><br>
+            ©2017-<span id="cpYear"></span> 基于&nbsp<a href="http://hexo.io" target="_blank" rel="nofollow">Hexo</a>
+            ，主题采用&nbsp&nbsp<a href="https://github.com/tangkunyin/hexo-theme-jsimple" target="_blank" rel="bookmark">JSimple</a>
+            ，作者&nbsp<a href="https://tommy88.top" target="_blank" rel="friend">Donny</a>
+            ，Hosted by <a href="https://pages.github.com/" target="_blank" rel="nofollow">GitHub Pages</a>
+        </p>
+    </div>
+</footer>
+<script src="/js/SimpleCore.js"></script>
+
+</div>
+<!-- search pop -->
+<div class="popup search-popup local-search-popup">
+    <div class="local-search-header clearfix">
+        <span class="search-icon">
+            <i class="fa fa-search"></i>
+        </span>
+        <span class="popup-btn-close">
+            <i class="fa fa-times-circle"></i>
+        </span>
+        <div class="local-search-input-wrapper">
+            <input id="local-search-input" spellcheck="false" type="text" autocomplete="off" placeholder="请输入查询关键词">
+        </div>
+    </div>
+    <div id="local-search-result"></div>
+</div>
+<div class="fixed-btn">
+    <a class="btn-gotop" href="javascript:"> <i class="fa fa-angle-up"></i></a>
+</div>
+<script>
+    $(function () {
+        var jsi_config = {
+            buildingTime: '01/20/2016',
+            current: $('.post-tags').length > 0 ? 'post' : 'archive',
+            snsQRCode: '/images/sns-qrcode.png',
+            donateImg: '/images/donate-qr.png',
+            localSearch: { dbPath: '' },
+            readMode: 'day'
+        };
+        
+            jsi_config.localSearch = {
+                dbPath: '/search.xml',
+                trigger: 'auto',
+                topN: '1',
+                unescape: 'false'
+            }
+        
+        SimpleCore.init(jsi_config);
+        
+    });
+</script>
+</body>
+</html>

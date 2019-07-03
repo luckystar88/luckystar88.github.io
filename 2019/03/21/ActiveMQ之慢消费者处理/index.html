@@ -1,0 +1,317 @@
+<!DOCTYPE HTML>
+<html class="no-js" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!--[if lte IE 9]>
+<meta http-equiv="refresh" content="0;url=https://tommy88.top/warn.html">
+<![endif]-->
+<meta charset="utf-8">
+<meta http-equiv="X-DNS-Prefetch-Control" content="on">
+<link rel="dns-prefetch" href="https://tommy88.top">
+<link rel="dns-prefetch" href="//www.google-analytics.com">
+<link rel="prefetch" href="https://tommy88.top">
+<link rel="prefetch" href="//www.google-analytics.com">
+
+
+    <link rel="dns-prefetch" href="//imsun.github.io">
+    <link rel="prefetch" href="//imsun.github.io">
+
+<link rel="prerender" href="https://tommy88.top">
+
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+<meta http-equiv="mobile-agent" content="format=html5; url=https://tommy88.top">
+<meta name="author" content="Donny">
+<link rel="stylesheet" href="/css/JSimple.css">
+
+<link rel="shortcut icon" href="/images/favicon.png">
+
+
+<title>activemq之慢消费者处理 - Donny的技术博客</title>
+
+<meta name="keywords" content="jms, activemq, 慢速消费者, slow consumer">
+
+<meta name="description " content="慢消费者在非持久性主题上会出现问题，因为它们会强制broker为它们在内存保留旧消息。一旦填满，就会导致broker放慢生产者的速度，导致快的消费者也会变慢。ActiveMQ提供了几种策略来丢弃老的消息并保留一定数量的最新消息在内存中。">
+
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                processEscapes: true
+            }
+        });
+    </script>
+
+
+    
+
+    
+    
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="//www.googletagmanager.com/gtag/js?id=UA-105613999-1"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'UA-105613999-1');
+        </script>
+    
+    <!-- put your likes here. -->
+
+
+</head>
+<body>
+<div id="nav">
+    <nav class="nav-menu">
+        <a class="site-name current" href="/" title="Home">Home</a>
+        <a class="site-index current" href="/"><i class="fa fa-home"></i><span>首页</span></a>
+        <a href="/archives" title="归档"><i class="fa fa-archives"></i><span>归档</span></a>
+        <a href="/tags" title="标签"><i class="fa fa-tags"></i><span>标签</span></a>
+        <!-- custom single page of menus -->
+        
+        
+        <a href="/help" title="帮助">
+            <i class="fa fa-question-circle"></i>
+            <span>帮助</span>
+        </a>
+        
+    </nav>
+</div>
+
+<div class="nav-user">
+    <a class="btn-search" href="#"><i class="fa fa-search"></i></a>
+    <a class="btn-read-mode" href="#"><i class="fa fa-sun-o"></i></a>
+    <a class="btn-sns-qr" href="javascript:"><i class="fa fa-telegram"></i></a>
+</div>
+
+<div id="wrapper" class="clearfix">
+    <div id="body">
+        <div class="main" id="main">
+            <div id="cover">
+    <div class="cover-img"></div>
+    <div class="cover-info">
+        
+        <h1 class="cover-siteName">Donny的技术博客</h1>
+        <h3 class="cover-siteTitle">用代码征服世界</h3>
+        <p class="cover-siteDesc">这是一个简单的技术博客</p>
+        <div class="cover-sns">
+            
+    &nbsp;&nbsp;<div class="btn btn-github">
+        <a href="https://github.com/luckystar88" target="_blank" title="github" ref="friend">
+            <i class="fa fa-github"></i>
+        </a>
+    </div>
+
+
+        </div>
+    </div>
+</div>
+
+            <div class="page-title">
+    <ul>
+        <li><a href="/">最近</a></li>
+        
+            
+                <li class="active">
+                    <a href="/categories/tech" data-name="技术">技术</a>
+                </li>
+            
+                <li class>
+                    <a href="/categories/life" data-name="人文">人文</a>
+                </li>
+            
+                <li class>
+                    <a href="/categories/others" data-name="其他">其他</a>
+                </li>
+            
+        
+        <li class="page-search">
+    <form id="search" class="search-form">
+        <input type="text" readonly="readonly" id="local-search-input-tip" placeholder="读物检索~">
+        <button type="button" disabled="disabled" class="search-form-submit"><i class="fa fa-search"></i></button>
+    </form>
+</li>
+
+    </ul>
+</div>
+<div class="main-inner">
+    <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+        <div class="post-header">
+            <div class="post-author clearfix">
+                <a class="avatar fleft" href="https://tommy88.top" target="_blank">
+                    <img width="48" src="/images/favicon.png" alt="avatar">
+                </a>
+                <p><span class="label">作者</span>
+                    <a href="https://tommy88.top" target="_blank">Donny</a>
+                    <span title="最后编辑于&nbsp;2019-03-21">2019-03-21</span>
+                </p>
+                <p>记录工作，感悟生活</p>
+            </div>
+            <h2 class="post-title">ActiveMQ之慢消费者处理</h2>
+            <div class="post-meta">
+                本文共计4508个字 |
+                您是第&nbsp;<span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>位看到它们的小伙伴
+            </div>
+        </div>
+        <div class="post-content markdown-body">
+            <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>慢消费者在非持久性主题上会出现问题，因为它们会强制broker为它们在内存保留旧消息。一旦填满，就会导致broker放慢生产者的速度，导致快的消费者也会变慢。</p>
+<p>目前，有一个策略可以让你配置broker除了prefect bufer之外还将为消费者保留的最大匹配的消息数。在达到此最大值后，当新消息进入时，旧消息将被丢弃。这将允许你在内存中保留当前消息并继续向慢消费者发送消息，但会丢弃旧消息。</p>
+<h2 id="Pending-Message-Limit-Strategy"><a href="#Pending-Message-Limit-Strategy" class="headerlink" title="Pending Message Limit Strategy"></a>Pending Message Limit Strategy</h2><p>你可以在Destination map配置PendingMessageLimitStrategy的实现类，以便不同topic有不用的策略来处理慢速消费者。例如，你可能希望将此策略引用于价格非常高的，但对于交易和订单而言，你可能不希望丢弃旧的消息。</p>
+<p>该策略计算消费者在内存中保留的最大待处理消息数（高于prefetch size）。值为0意味着除了prefect size外不保留任何消息。大于0的值将保留该数量的消息，在新消息进入时丢弃旧的消息。值为-1表示禁止丢弃消息。</p>
+<p>目前有两种不同的策略实现：</p>
+<ul>
+<li>ConstantPendingMessageLimitStrategy</li>
+<li>PrefetchRatePendingMessageLimitStrategy</li>
+</ul>
+<h3 id="ConstantPendingMessageLimitStrategy"><a href="#ConstantPendingMessageLimitStrategy" class="headerlink" title="ConstantPendingMessageLimitStrategy"></a>ConstantPendingMessageLimitStrategy</h3><p>此策略对所有使用者使用常量限制（高于其预取大小）。</p>
+<p>示例：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">constantPendingMessageLimitStrategy</span> <span class="attr">limit</span>=<span class="string">"50"</span>/&gt;</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="PrefetchRatePendingMessageLimitStrategy"><a href="#PrefetchRatePendingMessageLimitStrategy" class="headerlink" title="PrefetchRatePendingMessageLimitStrategy"></a>PrefetchRatePendingMessageLimitStrategy</h3><p>此种策略是将prefect size 乘以一个你配置的数来计算待处理消息的最大数量。比如，你可以为每个消费者保留大约2.5倍的prefect size的消息。</p>
+<p>示例：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">prefetchRatePendingMessageLimitStrategy</span> <span class="attr">multiplier</span>=<span class="string">"2.5"</span>/&gt;</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="使用Prefect策略来配置限制"><a href="#使用Prefect策略来配置限制" class="headerlink" title="使用Prefect策略来配置限制"></a>使用Prefect策略来配置限制</h3><p>在JMS客户端，您可以为持久性的和非持久性的queue和topic配置prefect策略。prefect策略还允许为每个连接/消费者指定最大的预处理消息的数量。</p>
+<p>prefect 策略参考：<a href="http://activemq.apache.org/what-is-the-prefetch-limit-for.html">http://activemq.apache.org/what-is-the-prefetch-limit-for.html</a></p>
+<h3 id="配置驱逐策略"><a href="#配置驱逐策略" class="headerlink" title="配置驱逐策略"></a>配置驱逐策略</h3><p>ActiveMQ有一个MessageEvictionStrategy，用于决定哪个消息应该在慢速消费者身上被驱逐。 默认实现是：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">oldestMessageEvictionStrategy</span>/&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>这表示丢弃最旧的消息。</p>
+<p>你还可以根据JMS消息属性来丢弃给定属性的消息。</p>
+<p>示例：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">uniquePropertyMessageEvictionStrategy</span> <span class="attr">propertyName</span>=<span class="string">"STOCK"</span>/&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>propertyName是为特定的价格指定的JMS消息属性。上面的示例表示移除有STOCK属性且最旧的消息。</p>
+<p>另外，还可以删除最低优先级且最旧的消息。<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">oldestMessageWithLowestPriorityEvictionStrategy</span>/&gt;</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><p>下面的例子展示了ActiveMQ borker的配置文件。对于PRICES.&gt;通配符范围的topic，pendingMessageLimitStrategy属性设置为仅为每个消费者保留除Prefetch size外，再保留10条消息。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">xmlns</span>=<span class="string">"http://www.springframework.org/schema/beans"</span> <span class="attr">xmlns:amq</span>=<span class="string">"http://activemq.apache.org/schema/core"</span> <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span> <span class="attr">xsi:schemaLocation</span>=<span class="string">"http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://activemq.apache.org/schema/core  http://activemq.apache.org/schema/core/activemq-core.xsd"</span>&gt;</span>  </span><br><span class="line">  <span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">"org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"</span>/&gt;</span>  </span><br><span class="line">  <span class="tag">&lt;<span class="name">broker</span> <span class="attr">xmlns</span>=<span class="string">"http://activemq.apache.org/schema/core"</span> <span class="attr">persistent</span>=<span class="string">"false"</span> <span class="attr">brokerName</span>=<span class="string">"$&#123;brokername&#125;"</span>&gt;</span>  </span><br><span class="line">    <span class="comment">&lt;!-- lets define the dispatch policy --&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;<span class="name">destinationPolicy</span>&gt;</span> </span><br><span class="line">      <span class="tag">&lt;<span class="name">policyMap</span>&gt;</span> </span><br><span class="line">        <span class="tag">&lt;<span class="name">policyEntries</span>&gt;</span> </span><br><span class="line">          <span class="tag">&lt;<span class="name">policyEntry</span> <span class="attr">topic</span>=<span class="string">"FOO.&gt;"</span>&gt;</span> </span><br><span class="line">            <span class="comment">&lt;!--消息分发策略：使用轮询策略--&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">dispatchPolicy</span>&gt;</span> </span><br><span class="line">              <span class="tag">&lt;<span class="name">roundRobinDispatchPolicy</span>/&gt;</span> </span><br><span class="line">            <span class="tag">&lt;/<span class="name">dispatchPolicy</span>&gt;</span>  </span><br><span class="line">            <span class="comment">&lt;!--恢复策略：只恢复最后1个消息--&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">subscriptionRecoveryPolicy</span>&gt;</span> </span><br><span class="line">              <span class="tag">&lt;<span class="name">lastImageSubscriptionRecoveryPolicy</span>/&gt;</span> </span><br><span class="line">            <span class="tag">&lt;/<span class="name">subscriptionRecoveryPolicy</span>&gt;</span> </span><br><span class="line">          <span class="tag">&lt;/<span class="name">policyEntry</span>&gt;</span>  </span><br><span class="line">          <span class="comment">&lt;!--对于ORDERS.开头的topic，消息分发策略为：按顺序分发--&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">policyEntry</span> <span class="attr">topic</span>=<span class="string">"ORDERS.&gt;"</span>&gt;</span> </span><br><span class="line">            <span class="tag">&lt;<span class="name">dispatchPolicy</span>&gt;</span> </span><br><span class="line">              <span class="tag">&lt;<span class="name">strictOrderDispatchPolicy</span>/&gt;</span> </span><br><span class="line">            <span class="tag">&lt;/<span class="name">dispatchPolicy</span>&gt;</span>  </span><br><span class="line">            <span class="comment">&lt;!-- 恢复最近1分钟内的消息 --&gt;</span>  </span><br><span class="line">            <span class="tag">&lt;<span class="name">subscriptionRecoveryPolicy</span>&gt;</span> </span><br><span class="line">              <span class="tag">&lt;<span class="name">timedSubscriptionRecoveryPolicy</span> <span class="attr">recoverDuration</span>=<span class="string">"60000"</span>/&gt;</span> </span><br><span class="line">            <span class="tag">&lt;/<span class="name">subscriptionRecoveryPolicy</span>&gt;</span> </span><br><span class="line">          <span class="tag">&lt;/<span class="name">policyEntry</span>&gt;</span>  </span><br><span class="line">          <span class="tag">&lt;<span class="name">policyEntry</span> <span class="attr">topic</span>=<span class="string">"PRICES.&gt;"</span>&gt;</span> </span><br><span class="line">            <span class="comment">&lt;!-- lets force old messages to be discarded for slow consumers --&gt;</span>  </span><br><span class="line">            <span class="tag">&lt;<span class="name">pendingMessageLimitStrategy</span>&gt;</span> </span><br><span class="line">              <span class="tag">&lt;<span class="name">constantPendingMessageLimitStrategy</span> <span class="attr">limit</span>=<span class="string">"10"</span>/&gt;</span> </span><br><span class="line">            <span class="tag">&lt;/<span class="name">pendingMessageLimitStrategy</span>&gt;</span>  </span><br><span class="line">            <span class="comment">&lt;!-- 10 seconds worth --&gt;</span>  </span><br><span class="line">            <span class="tag">&lt;<span class="name">subscriptionRecoveryPolicy</span>&gt;</span> </span><br><span class="line">              <span class="tag">&lt;<span class="name">timedSubscriptionRecoveryPolicy</span> <span class="attr">recoverDuration</span>=<span class="string">"10000"</span>/&gt;</span> </span><br><span class="line">            <span class="tag">&lt;/<span class="name">subscriptionRecoveryPolicy</span>&gt;</span> </span><br><span class="line">          <span class="tag">&lt;/<span class="name">policyEntry</span>&gt;</span>  </span><br><span class="line">          <span class="tag">&lt;<span class="name">policyEntry</span> <span class="attr">tempTopic</span>=<span class="string">"true"</span> <span class="attr">advisoryForConsumed</span>=<span class="string">"true"</span>/&gt;</span>  </span><br><span class="line">          <span class="tag">&lt;<span class="name">policyEntry</span> <span class="attr">tempQueue</span>=<span class="string">"true"</span> <span class="attr">advisoryForConsumed</span>=<span class="string">"true"</span>/&gt;</span> </span><br><span class="line">        <span class="tag">&lt;/<span class="name">policyEntries</span>&gt;</span> </span><br><span class="line">      <span class="tag">&lt;/<span class="name">policyMap</span>&gt;</span> </span><br><span class="line">    <span class="tag">&lt;/<span class="name">destinationPolicy</span>&gt;</span> </span><br><span class="line">  <span class="tag">&lt;/<span class="name">broker</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="使用技巧"><a href="#使用技巧" class="headerlink" title="使用技巧"></a>使用技巧</h2><p>如果你知道某个特定的消费者会变慢，那么设置它的prefect size小于快速消费者的大小。</p>
+<p>例如，如果您知道特定服务器速度很慢并且您的消息速率非常高并且您有一些非常快的消费者，那么您可能希望启用此功能并将慢速服务器上的预取设置为略低于 快速服务器。</p>
+<h3 id="监测慢消费者的状况"><a href="#监测慢消费者的状况" class="headerlink" title="监测慢消费者的状况"></a>监测慢消费者的状况</h3><p>您还可以使用JMX控制台查看活动订阅的统计信息。 这允许您在TopicSubscriptionViewMBean上查看以下统计信息：</p>
+<table>
+<thead>
+<tr>
+<th>统计信息</th>
+<th>说明 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>discarded</td>
+<td>在成为慢速消费者后，在订阅的生命周期中丢弃了多少条消息 </td>
+</tr>
+<tr>
+<td>matched</td>
+<td>当前匹配的消息数量，只要预取缓冲区中有一些容量可用，就会立即发送到订阅。因此，非零值意味着此订阅的预取缓冲区已满</td>
+</tr>
+</tbody>
+</table>
+<p>参考：<a href="http://activemq.apache.org/slow-consumer-handling.html">http://activemq.apache.org/slow-consumer-handling.html</a></p>
+
+        </div>
+        <div class="post-tool">
+            <a class="btn-thumbs-up" href="javascript:void(0);" data-cid="52" title="95">
+                <i class="fa fa-thumbs-up" aria-hidden="true"></i> 打赏
+            </a>
+        </div>
+        
+        <div class="post-tags">标签：
+            
+            <a href="/tags/activemq/">activemq</a>
+            
+        </div>
+        
+    </article>
+    
+    <p style="text-align: center">本文代表个人观点，内容仅供参考。若有不恰当之处，望不吝赐教！</p>
+    
+    
+
+    
+    
+        <div id="gitment-container"></div>
+        <link rel="stylesheet" href="//imsun.github.io/gitment/style/default.css">
+        <script src="//imsun.github.io/gitment/dist/gitment.browser.js"></script>
+        <script type="text/javascript">
+            var gitment = new Gitment({
+                /*lable长度不能超过50个字符，这里使用页面的生成时间*/
+                id: 'Thu Mar 21 2019 12:02:07 GMT+0800'/*document.location.href*/,
+                owner: 'luckystar88',
+                repo: 'comments',
+                oauth: {
+                    client_id: 'd49ebe4f95abcd6163f4',
+                    client_secret: 'edd2748d6271072a6970d5cec8751f388dac8116',
+                }
+            });
+            gitment.render('gitment-container');
+        </script>
+        
+            <script>
+                document.getElementById("gitment-display-button").style.display = "none";
+                document.getElementById("gitment-container").style.display = "block";
+            </script>
+        
+    
+
+
+</div>
+<script src="/js/busuanzi.pure.mini.js"></script>
+
+
+        </div><!-- end #main-->
+    </div><!-- end #body -->
+    <footer class="footer">
+    <div class="footer-inner" style="text-align: center">
+        <p>
+            <a href="/about" title="关于">关于</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <!-- 自定义链接 -->
+            <a href="/help" title="帮助">帮助</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <a href="/links" title="友链">友链</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <a href="/sitemap.xml" title="地图">地图</a>
+        </p>
+        <p>
+            本站已建立&nbsp<a href="/timeline" id="siteBuildingTime"></a>&nbsp天，<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="licence">采用知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议创作</a><br>
+            ©2017-<span id="cpYear"></span> 基于&nbsp<a href="http://hexo.io" target="_blank" rel="nofollow">Hexo</a>
+            ，主题采用&nbsp&nbsp<a href="https://github.com/tangkunyin/hexo-theme-jsimple" target="_blank" rel="bookmark">JSimple</a>
+            ，作者&nbsp<a href="https://tommy88.top" target="_blank" rel="friend">Donny</a>
+            ，Hosted by <a href="https://pages.github.com/" target="_blank" rel="nofollow">GitHub Pages</a>
+        </p>
+    </div>
+</footer>
+<script src="/js/SimpleCore.js"></script>
+
+</div>
+<!-- search pop -->
+<div class="popup search-popup local-search-popup">
+    <div class="local-search-header clearfix">
+        <span class="search-icon">
+            <i class="fa fa-search"></i>
+        </span>
+        <span class="popup-btn-close">
+            <i class="fa fa-times-circle"></i>
+        </span>
+        <div class="local-search-input-wrapper">
+            <input id="local-search-input" spellcheck="false" type="text" autocomplete="off" placeholder="请输入查询关键词">
+        </div>
+    </div>
+    <div id="local-search-result"></div>
+</div>
+<div class="fixed-btn">
+    <a class="btn-gotop" href="javascript:"> <i class="fa fa-angle-up"></i></a>
+</div>
+<script>
+    $(function () {
+        var jsi_config = {
+            buildingTime: '01/20/2016',
+            current: $('.post-tags').length > 0 ? 'post' : 'archive',
+            snsQRCode: '/images/sns-qrcode.png',
+            donateImg: '/images/donate-qr.png',
+            localSearch: { dbPath: '' },
+            readMode: 'day'
+        };
+        
+            jsi_config.localSearch = {
+                dbPath: '/search.xml',
+                trigger: 'auto',
+                topN: '1',
+                unescape: 'false'
+            }
+        
+        SimpleCore.init(jsi_config);
+        
+    });
+</script>
+</body>
+</html>

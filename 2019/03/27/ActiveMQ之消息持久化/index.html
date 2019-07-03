@@ -1,0 +1,733 @@
+<!DOCTYPE HTML>
+<html class="no-js" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!--[if lte IE 9]>
+<meta http-equiv="refresh" content="0;url=https://tommy88.top/warn.html">
+<![endif]-->
+<meta charset="utf-8">
+<meta http-equiv="X-DNS-Prefetch-Control" content="on">
+<link rel="dns-prefetch" href="https://tommy88.top">
+<link rel="dns-prefetch" href="//www.google-analytics.com">
+<link rel="prefetch" href="https://tommy88.top">
+<link rel="prefetch" href="//www.google-analytics.com">
+
+
+    <link rel="dns-prefetch" href="//imsun.github.io">
+    <link rel="prefetch" href="//imsun.github.io">
+
+<link rel="prerender" href="https://tommy88.top">
+
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+<meta http-equiv="mobile-agent" content="format=html5; url=https://tommy88.top">
+<meta name="author" content="Donny">
+<link rel="stylesheet" href="/css/JSimple.css">
+
+<link rel="shortcut icon" href="/images/favicon.png">
+
+
+<title>activemq之消息持久化 - Donny的技术博客</title>
+
+<meta name="keywords" content="jms, activemq, 持久化, mysql, LevelDB， Replicated LevelDB，AMQ, KahaDB">
+
+<meta name="description " content="介绍ActiveMQ（5.14）包含的几种持久化方式。包括AMQ、KahaDB、LevelDB、Replicated LevelDB。">
+
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                processEscapes: true
+            }
+        });
+    </script>
+
+
+    
+
+    
+    
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="//www.googletagmanager.com/gtag/js?id=UA-105613999-1"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'UA-105613999-1');
+        </script>
+    
+    <!-- put your likes here. -->
+
+
+</head>
+<body>
+<div id="nav">
+    <nav class="nav-menu">
+        <a class="site-name current" href="/" title="Home">Home</a>
+        <a class="site-index current" href="/"><i class="fa fa-home"></i><span>首页</span></a>
+        <a href="/archives" title="归档"><i class="fa fa-archives"></i><span>归档</span></a>
+        <a href="/tags" title="标签"><i class="fa fa-tags"></i><span>标签</span></a>
+        <!-- custom single page of menus -->
+        
+        
+        <a href="/help" title="帮助">
+            <i class="fa fa-question-circle"></i>
+            <span>帮助</span>
+        </a>
+        
+    </nav>
+</div>
+
+<div class="nav-user">
+    <a class="btn-search" href="#"><i class="fa fa-search"></i></a>
+    <a class="btn-read-mode" href="#"><i class="fa fa-sun-o"></i></a>
+    <a class="btn-sns-qr" href="javascript:"><i class="fa fa-telegram"></i></a>
+</div>
+
+<div id="wrapper" class="clearfix">
+    <div id="body">
+        <div class="main" id="main">
+            <div id="cover">
+    <div class="cover-img"></div>
+    <div class="cover-info">
+        
+        <h1 class="cover-siteName">Donny的技术博客</h1>
+        <h3 class="cover-siteTitle">用代码征服世界</h3>
+        <p class="cover-siteDesc">这是一个简单的技术博客</p>
+        <div class="cover-sns">
+            
+    &nbsp;&nbsp;<div class="btn btn-github">
+        <a href="https://github.com/luckystar88" target="_blank" title="github" ref="friend">
+            <i class="fa fa-github"></i>
+        </a>
+    </div>
+
+
+        </div>
+    </div>
+</div>
+
+            <div class="page-title">
+    <ul>
+        <li><a href="/">最近</a></li>
+        
+            
+                <li class="active">
+                    <a href="/categories/tech" data-name="技术">技术</a>
+                </li>
+            
+                <li class>
+                    <a href="/categories/life" data-name="人文">人文</a>
+                </li>
+            
+                <li class>
+                    <a href="/categories/others" data-name="其他">其他</a>
+                </li>
+            
+        
+        <li class="page-search">
+    <form id="search" class="search-form">
+        <input type="text" readonly="readonly" id="local-search-input-tip" placeholder="读物检索~">
+        <button type="button" disabled="disabled" class="search-form-submit"><i class="fa fa-search"></i></button>
+    </form>
+</li>
+
+    </ul>
+</div>
+<div class="main-inner">
+    <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+        <div class="post-header">
+            <div class="post-author clearfix">
+                <a class="avatar fleft" href="https://tommy88.top" target="_blank">
+                    <img width="48" src="/images/favicon.png" alt="avatar">
+                </a>
+                <p><span class="label">作者</span>
+                    <a href="https://tommy88.top" target="_blank">Donny</a>
+                    <span title="最后编辑于&nbsp;2019-03-27">2019-03-27</span>
+                </p>
+                <p>记录工作，感悟生活</p>
+            </div>
+            <h2 class="post-title">ActiveMQ之消息持久化</h2>
+            <div class="post-meta">
+                本文共计13306个字 |
+                您是第&nbsp;<span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>位看到它们的小伙伴
+            </div>
+        </div>
+        <div class="post-content markdown-body">
+            <h2 id="持久化方式"><a href="#持久化方式" class="headerlink" title="持久化方式"></a>持久化方式</h2><p>目前ActiveMQ包含以下几种存储方式：</p>
+<ul>
+<li>AMQ消息存储<br>基于文件的存储方式，是以前的默认消息存储</li>
+<li>JDBC消息存储<br>使用数据库作为消息存储</li>
+<li>KahaDB消息存储<br>提供了容量的提升和恢复能力，是现在的默认存储方式</li>
+<li>LevelDB消息存储<br>基于Google的LevelDB库</li>
+<li>Replicated LevelDB消息存储<br>复制的LevelDB存储，需要ZK来选择master节点。</li>
+</ul>
+<p>如果你不想使用activeMQ的持久存储，可以在activemq.xml中设置<code>persistent=false</code>来禁用它。<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">broker</span> <span class="attr">persistent</span>=<span class="string">"false"</span>&gt;</span> <span class="tag">&lt;/<span class="name">broker</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>这样broker会使用<code>&lt;memoryPersistenceAdapter&gt;</code></p>
+<h2 id="各种存储方式介绍"><a href="#各种存储方式介绍" class="headerlink" title="各种存储方式介绍"></a>各种存储方式介绍</h2><h3 id="AMQ消息存储"><a href="#AMQ消息存储" class="headerlink" title="AMQ消息存储"></a>AMQ消息存储</h3><h4 id="AMQ介绍"><a href="#AMQ介绍" class="headerlink" title="AMQ介绍"></a>AMQ介绍</h4><blockquote>
+<p>官方文档说ActiveMQ5.0及以上版本，AMQ消息存储是默认的存储方式，这个是不对的。在早期版本的ActiveMQ中默认使用的是AMQ，在5.0以后使用的是KahaDB。</p>
+</blockquote>
+<p> AMQ消息存储是一种可嵌入的事务性消息存储解决方案，非常快速和可靠。消息以日志的形式存储在data log中，以实现持久化。同时被reference store进行索引以提高存取速度。消息索引存储在内存（cache）中，ActiveMQ会定期将索引持久化到Reference store以提高性能。data log文件是有容量限制的，默认为32MB，可以自行配置。当该data log文件中所有消息都被消费完毕的时候，data log文件会被标记为可删除或存档，在下一次消息清理时可以被删除或归档。<br> <img src="/img/amqstore.png" alt="AMQ Store"></p>
+<h4 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h4><p> AMQ消息存储配置示例：<br> <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">broker</span> <span class="attr">brokerName</span>=<span class="string">"broker"</span> <span class="attr">persistent</span>=<span class="string">"true"</span> <span class="attr">useShutdownHook</span>=<span class="string">"false"</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">persistenceAdapter</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">amqPersistenceAdapter</span> <span class="attr">directory</span>=<span class="string">"$&#123;activemq.base&#125;/activemq-data"</span> <span class="attr">maxFileLength</span>=<span class="string">"32mb"</span>/&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">persistenceAdapter</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">transportConnectors</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">transportConnector</span> <span class="attr">uri</span>=<span class="string">"tcp://localhost:61616"</span>/&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">transportConnectors</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">broker</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<h4 id="AMQ存储配置选项"><a href="#AMQ存储配置选项" class="headerlink" title="AMQ存储配置选项"></a>AMQ存储配置选项</h4><table>
+<thead>
+<tr>
+<th>属性名</th>
+<th>默认值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>directory</td>
+<td>activemq-data</td>
+<td>存储消息文件和日志的目录</td>
+</tr>
+<tr>
+<td>useNIO</td>
+<td>true</td>
+<td>使用 NIO 特性</td>
+</tr>
+<tr>
+<td>syncOnWrite</td>
+<td>false</td>
+<td>同步写文件到磁盘</td>
+</tr>
+<tr>
+<td>maxFileLength</td>
+<td>32mb</td>
+<td>Message Data日志文件的最大 Size</td>
+</tr>
+<tr>
+<td>persistentIndex</td>
+<td>false</td>
+<td>持久化日志索引，如果设为 false ，则在内存中保存</td>
+</tr>
+<tr>
+<td>maxCheckpointMessageAddSize</td>
+<td>4kb</td>
+<td>在自动提交前在事务中能保持的最大消息数</td>
+</tr>
+<tr>
+<td>cleanupInterval</td>
+<td>30000</td>
+<td>每隔多少时间清理不再使用的消息日志（毫秒）</td>
+</tr>
+<tr>
+<td>indexBinSize</td>
+<td>1024</td>
+<td>这个值是用来提升索引的性能的，值越大，索引相对性能越好</td>
+</tr>
+<tr>
+<td>indexKeySize</td>
+<td>96</td>
+<td>index key的size，index key基于message id</td>
+</tr>
+<tr>
+<td>indexPageSize</td>
+<td>16kb</td>
+<td>索引页的size</td>
+</tr>
+<tr>
+<td>directoryArchive</td>
+<td>archive</td>
+<td>消费完的Data Log存放的目录</td>
+</tr>
+<tr>
+<td>archiveDataLogs</td>
+<td>false</td>
+<td>设置为true的话，消费完的Data Log就放到Archive目录，而不是删除。</td>
+</tr>
+</tbody>
+</table>
+<h4 id="AMQ存储数据结构"><a href="#AMQ存储数据结构" class="headerlink" title="AMQ存储数据结构"></a>AMQ存储数据结构</h4><p>在AMQ消息存储中有如下目录结构：<br><img src="/img/amqdir.png" alt="AMQ Dir"></p>
+<p><strong>broker name</strong><br>broker name用来区分消息数据的目录。默认目录是localhost。下面是它的子目录：</p>
+<p><strong>archive</strong><br>丢弃的Data Log就放到这里，当archiveDataLogs 属性配置为true时才会存在</p>
+<p><strong>journal</strong><br>用来保存消息数据日志</p>
+<p><strong>kr-store</strong><br>reference store目录。</p>
+<p><strong>data</strong><br>引用索引所在目录</p>
+<p><strong>state</strong><br>存储的状态。如果broker没有正确关闭，那么将清理reference store indexes，并回放消息数据文件（包括消息/ack和事物边界），以重建消息存储状态。如果使用Kaha reference store（缺省值），通过删除/krstore/state目录可以强制恢复。</p>
+<p><strong>tmp-storage</strong><br>用于保存可能存储在磁盘上的临时消息的数据文件，以减少内存消耗——例如，非持久性主题消息等待交付给活动但速度较慢的订阅者。</p>
+<h3 id="KahaDB消息存储"><a href="#KahaDB消息存储" class="headerlink" title="KahaDB消息存储"></a>KahaDB消息存储</h3><h4 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h4><p>KahaDB是一个基于文件的持久性数据库，并对快速持久化做了优化。它是ActiveMQ5.4及后续版本的默认存储机制。KahaDB使用较少的文件描述符，并提供了比它的前身<a href="http://activemq.apache.org/amq-message-store.html">AMQ</a>更快的恢复能力。</p>
+<h4 id="配置-1"><a href="#配置-1" class="headerlink" title="配置"></a>配置</h4><p>要使用KahaDB作为broker的持久性适配器，你可以按如下方式配置：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">broker</span> <span class="attr">brokerName</span>=<span class="string">"broker"</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">persistenceAdapter</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">kahaDB</span> <span class="attr">directory</span>=<span class="string">"activemq-data"</span> <span class="attr">journalMaxFileLength</span>=<span class="string">"32mb"</span>/&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">persistenceAdapter</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">broker</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<h4 id="配置选项"><a href="#配置选项" class="headerlink" title="配置选项"></a>配置选项</h4><table>
+<thead>
+<tr>
+<th>属性</th>
+<th>默认值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>archiveCorruptedIndex</td>
+<td>false</td>
+<td>是否归档错误的索引</td>
+</tr>
+<tr>
+<td>archiveDataLogs</td>
+<td>false</td>
+<td>当为true时，归档的消息文件被移到directoryArchive,而不是直接删除</td>
+</tr>
+<tr>
+<td>checkForCorruptJournalFiles</td>
+<td>false</td>
+<td>检查消息文件是否损坏，true，检查发现损坏会尝试修复</td>
+</tr>
+<tr>
+<td>checkpointInterval</td>
+<td>5000</td>
+<td>索引写入到消息文件的周期，单位ms</td>
+</tr>
+<tr>
+<td>checksumJournalFiles</td>
+<td>false</td>
+<td>产生一个checksum，以便能够检测journal文件是否损坏。</td>
+</tr>
+<tr>
+<td>cleanupInterval</td>
+<td>30000</td>
+<td>清除操作周期，单位ms</td>
+</tr>
+<tr>
+<td>compactAcksAfterNoGC</td>
+<td>10</td>
+<td>从ActiveMQ5.14.0开始：当确认压缩特性启用时，此值控制必须完成多少存储GC周期，并且在触发压缩逻辑之前不清理任何其他文件，从而可能将跨越日志文件的旧确认压缩到新的日志文件中。值设置得越低，压缩可能发生得越快，如果压缩经常运行，则会影响性能。</td>
+</tr>
+<tr>
+<td>compactAcksIgnoresStoreGrowth</td>
+<td>false</td>
+<td>从ActiveMQ 5.14.0开始:当确认压缩特性启用时，该值控制是否在存储仍在增长时运行压缩，或者是否应该只在存储停止增长时运行压缩(由于空闲或达到存储限制)。如果启用了压缩，则无论存储是否仍然有空间或是否处于活动状态都可以运行压缩，这可能会降低总体性能，但会更快地回收空间。</td>
+</tr>
+<tr>
+<td>concurrentStoreAndDispatchQueues</td>
+<td>true</td>
+<td>当写入消息的时候，是否转发队列消息</td>
+</tr>
+<tr>
+<td>concurrentStoreAndDispatchTopics</td>
+<td>false</td>
+<td>当写入消息的时候，是否转发主题消息（不推荐启用该属性）</td>
+</tr>
+<tr>
+<td>directory</td>
+<td>activemq-data</td>
+<td>消息文件和日志的存储目录</td>
+</tr>
+<tr>
+<td>directoryArchive</td>
+<td>null</td>
+<td>存储被归档的消息文件目录</td>
+</tr>
+<tr>
+<td>enableAckCompaction</td>
+<td>true</td>
+<td>From ActiveMQ 5.14.0:此设置控制存储是否将定期压缩只包含消息确认的旧日志文件。通过将这些较早的确认压缩到新的日志文件中，可以删除较早的文件，从而释放空间，并允许消息存储在不触及存储大小限制的情况下继续运行。</td>
+</tr>
+<tr>
+<td>enableIndexWriteAsync</td>
+<td>false</td>
+<td>true表示异步更新索引</td>
+</tr>
+<tr>
+<td>enableJournalDiskSyncs</td>
+<td>true</td>
+<td>从ActiveMQ5.14.0已废弃，请参考journalDiskSyncStrategy</td>
+</tr>
+<tr>
+<td>ignoreMissingJournalfiles</td>
+<td>false</td>
+<td>忽略丢失的消息文件，false，当丢失了消息文件，启动异常</td>
+</tr>
+<tr>
+<td>indexCacheSize</td>
+<td>10000</td>
+<td>内存中，索引的页大小</td>
+</tr>
+<tr>
+<td>indexDirectory</td>
+<td></td>
+<td>从ActiveMQ 5.10.0开始：如果设置，则配置将存储KahaDB索引文件（db.data和db.redo）的位置。 如果未设置，索引文件将存储在directory属性指定的目录中。</td>
+</tr>
+<tr>
+<td>indexWriteBatchSize</td>
+<td>1000</td>
+<td>批量写入的索引数量</td>
+</tr>
+<tr>
+<td>journalDiskSyncInterval</td>
+<td>1000</td>
+<td>同步磁盘时间间隔（单位毫秒）</td>
+</tr>
+<tr>
+<td>journalDiskSyncStrategy</td>
+<td>always</td>
+<td>从ActiveMQ 5.14.0:该设置配置磁盘同步策略。可用的同步策略列表如下(按安全性递减，性能递增的顺序）：<strong>always</strong> 始终确保每次写日志之后都有磁盘同步(JMS持久性要求)。这是最安全的选择，但也是最慢的选择，因为它需要在每个消息写入之后进行同步。这相当于废弃的enableJournalDiskSyncs=true属性。<strong>periodic</strong>磁盘将以设定的时间间隔（如果发生写入）而不是在每次日志写入之后同步，这将减少磁盘上的负载并且应该提高吞吐量。滚动到新的日志文件时，磁盘也将同步。默认间隔为1秒。默认间隔提供非常好的性能，同时比从不磁盘同步更安全，因为数据丢失限制为最多1秒的值。请参阅journalDiskSyncInterval以更改磁盘同步的频率。<strong>nevel</strong> 永远不会被显式调用，它将由操作系统刷新到磁盘。这相当于设置废弃的属性enableJournalDiskSyncs=false。这是最快的选择，但也是最不安全的，因为无法保证何时将数据刷新到磁盘。因此，broker失败时可能发生消息丢失。</td>
+</tr>
+<tr>
+<td>journalMaxFileLength</td>
+<td>32mb</td>
+<td>一个消息文件的大小</td>
+</tr>
+<tr>
+<td>maxAsyncJobs</td>
+<td>10000</td>
+<td>排队等待存储的异步消息的最大数量(应该与MessageProducer的数量一样）</td>
+</tr>
+<tr>
+<td>preallocationScope</td>
+<td>entire_journal</td>
+<td>从ActiveMQ 5.14.0:该设置配置如何预先分配日志数据文件。默认策略在第一次使用appender线程时预先分配日志文件。<strong>entire_journal</strong>：将在首次使用时使用appender线程预分配日志文件。<strong>entire_journal_async</strong>：将在单独的线程中提前使用预分配。<strong>none</strong>：禁用预分配。在SSD上，使用entire_journal_async可以避免在首次使用时延迟写入等待预分配。注意：在HDD上，磁盘的额外线程争用会产生负面影响。 因此使用默认值。</td>
+</tr>
+<tr>
+<td>preallocationStrategy</td>
+<td>sparse_file</td>
+<td>从ActiveMQ 5.12.0：此设置配置broker在需要新日志文件时尝试预分配日志文件的方式。<strong>sparse_file</strong>:设置文件长度，<strong>os_kernel_copy</strong>:委托给操作系统，<strong>zeros</strong>:不设置文件长度</td>
+</tr>
+<tr>
+<td>purgeRecoveredXATransactionStrategy</td>
+<td>never</td>
+<td>从ActiveMQ 5.15.5开始：此设置将在恢复期间提交或回滚所有准备好的XA事务。<strong>never</strong>：在恢复期间对准备好的XA事务不做任何操作；<strong>commit</strong>：在恢复期间提交准备好的XA事务；<strong>rollback</strong>：在恢复期间回滚准备好的XA事务。此功能将对所有准备好的XA事务执行提交或回滚，请考虑使用RecoverXATransaction MBean手动检查特定事务的提交或回滚。</td>
+</tr>
+<tr>
+<td>storeOpenWireVersion</td>
+<td>11</td>
+<td>确定KahaDB日志的OpenWire命令的版本。在ActiveMQ 5.12.0之前：默认值为6。broker的某些功能取决于较新协议修订版中存储在OpenWire命令中的信息，如果将存储版本设置为较低值，这些功能可能无法正常工作。 在许多情况下，broker版本大于5.9.0的KahaDB存储仍然可以被broker读取，但会导致broker继续使用较旧的存储版本，这意味着较新的功能可能无法按预期工作。对于在ActiveMQ 5.9.0之前的版本中创建的KahaDB存储，需要手动设置storeOpenWireVersion =“6”以便启动broker而不会出现错误。</td>
+</tr>
+<tr>
+<td>cleanupOnStop</td>
+<td>true</td>
+<td>是否在broker关闭时执行gc/cleanup操作。</td>
+</tr>
+</tbody>
+</table>
+<h4 id="慢速文件系统访问诊断日志记录"><a href="#慢速文件系统访问诊断日志记录" class="headerlink" title="慢速文件系统访问诊断日志记录"></a>慢速文件系统访问诊断日志记录</h4><p>您可以为数据库更新配置一个以毫秒为单位的非零阈值。如果数据库操作比该阈值慢(例如，如果将其设置为500)，您可能会看到如下消息:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Slow KahaDB access: cleanup took 1277 | org.apache.activemq.store.kahadb.MessageDatabase | ActiveMQ Journal Checkpoint Worker</span><br></pre></td></tr></table></figure></p>
+<p>您可以使用系统属性配置用于记录这些消息的阈值，并将其调整为磁盘速度，以便您可以轻松获取运行时异常。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-Dorg.apache.activemq.store.kahadb.LOG_SLOW_ACCESS_TIME=1500</span><br></pre></td></tr></table></figure></p>
+<h3 id="jdbc消息存储"><a href="#jdbc消息存储" class="headerlink" title="jdbc消息存储"></a>jdbc消息存储</h3><p>ActiveMQ支持一系列的SQL数据库作为消息存储。比如：</p>
+<ul>
+<li>Apache Derby</li>
+<li>Axion</li>
+<li>DB2</li>
+<li>HSQL</li>
+<li>Informix</li>
+<li>MaxDB</li>
+<li>MySQL</li>
+<li>Oracle</li>
+<li>Postgresql</li>
+<li>SQLServer</li>
+<li>Sybase<br>以及一些通用JDBC provider。</li>
+</ul>
+<h4 id="自动发现JDBC-provider"><a href="#自动发现JDBC-provider" class="headerlink" title="自动发现JDBC provider"></a>自动发现JDBC provider</h4><p>ActiveMQ会尝试通过这些配置文件和JDBC驱动程序的返回字符串从JDBC驱动程序自动检测要使用的JDBCAdapter。</p>
+<p>你可以在activemq.xml中使用其xbean标识符显式指定JDBC适配器…<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">jdbcPersistenceAdapter</span> <span class="attr">adapter</span>=<span class="string">"postgresql-jdbc-adapter"</span>/&gt;</span></span><br></pre></td></tr></table></figure></p>
+<h4 id="自定义-SQL-DDL"><a href="#自定义-SQL-DDL" class="headerlink" title="自定义 SQL DDL"></a>自定义 SQL DDL</h4><p>您可以使用statements元素配置各种SQL数据类型 - 例如列大小等<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">broker</span> <span class="attr">useJmx</span>=<span class="string">"false"</span>&gt;</span></span><br><span class="line"> </span><br><span class="line">  <span class="tag">&lt;<span class="name">persistenceAdapter</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">journaledJDBC</span> <span class="attr">useJournal</span>=<span class="string">"false"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">statements</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">statements</span> <span class="attr">stringIdDataType</span> =<span class="string">"VARCHAR(128)"</span>/&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">statements</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">journaledJDBC</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">persistenceAdapter</span>&gt;</span></span><br><span class="line"> </span><br><span class="line"><span class="tag">&lt;/<span class="name">broker</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>有关可以在statements元素上设置哪些属性的更多信息，请参阅<a href="http://activemq.apache.org/maven/apidocs/org/apache/activemq/store/jdbc/Statements.html">Statements</a>类。 所有可设置的bean属性都可以用作<statements>元素的属性。</statements></p>
+<h4 id="使用MySQL"><a href="#使用MySQL" class="headerlink" title="使用MySQL"></a>使用MySQL</h4><p>如果您使用的是MySQL，则应将relaxAutoCommit标志设置为true。 例如<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">...</span>&gt;</span></span><br><span class="line">    ...</span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"mysql-ds"</span></span></span><br><span class="line"><span class="tag">          <span class="attr">class</span>=<span class="string">"org.apache.commons.dbcp.BasicDataSource"</span></span></span><br><span class="line"><span class="tag">          <span class="attr">destroy-method</span>=<span class="string">"close"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"driverClassName"</span> <span class="attr">value</span>=<span class="string">"com.mysql.jdbc.Driver"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"url"</span> <span class="attr">value</span>=<span class="string">"jdbc:mysql://localhost/activemq?relaxAutoCommit=true"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"username"</span> <span class="attr">value</span>=<span class="string">"amq"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"password"</span> <span class="attr">value</span>=<span class="string">"amqPass"</span>/&gt;</span> <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"poolPreparedStatements"</span> <span class="attr">value</span>=<span class="string">"true"</span>/&gt;</span> <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">broker</span> <span class="attr">...</span>&gt;</span></span><br><span class="line">        ...</span><br><span class="line">        <span class="tag">&lt;<span class="name">persistenceAdapter</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">jdbcPersistenceAdapter</span> <span class="attr">dataSource</span>=<span class="string">"#mysql-ds"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">persistenceAdapter</span>&gt;</span></span><br><span class="line">        ...</span><br><span class="line">    <span class="tag">&lt;/<span class="name">broker</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<h4 id="使用Oracle"><a href="#使用Oracle" class="headerlink" title="使用Oracle"></a>使用Oracle</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">...</span> &gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">broker</span> <span class="attr">xmlns</span>=<span class="string">"http://activemq.apache.org/schema/core"</span></span></span><br><span class="line"><span class="tag">          <span class="attr">brokerName</span>=<span class="string">"localhost"</span>&gt;</span></span><br><span class="line">    ...</span><br><span class="line">    <span class="tag">&lt;<span class="name">persistenceAdapter</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">jdbcPersistenceAdapter</span></span></span><br><span class="line"><span class="tag">            <span class="attr">dataDirectory</span>=<span class="string">"$&#123;activemq.base&#125;/data"</span></span></span><br><span class="line"><span class="tag">            <span class="attr">dataSource</span>=<span class="string">"#oracle-ds"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">persistenceAdapter</span>&gt;</span></span><br><span class="line">    ...</span><br><span class="line">  <span class="tag">&lt;/<span class="name">broker</span>&gt;</span></span><br><span class="line"> </span><br><span class="line">  <span class="comment">&lt;!-- Oracle DataSource Sample Setup --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"oracle-ds"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">class</span>=<span class="string">"org.apache.commons.dbcp.BasicDataSource"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">destroy-method</span>=<span class="string">"close"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"driverClassName"</span> <span class="attr">value</span>=<span class="string">"oracle.jdbc.driver.OracleDriver"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"url"</span> <span class="attr">value</span>=<span class="string">"jdbc:oracle:thin:@localhost:1521:AMQDB"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"username"</span> <span class="attr">value</span>=<span class="string">"scott"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"password"</span> <span class="attr">value</span>=<span class="string">"tiger"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"maxActive"</span> <span class="attr">value</span>=<span class="string">"200"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"poolPreparedStatements"</span> <span class="attr">value</span>=<span class="string">"true"</span>/&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>使用Spring bean元素配置JDBC驱动程序。 id属性指定配置JDBC持久性适配器时引用驱动程序的名称。 class属性指定实现用于与JDBC驱动程序接口的数据源的类。 destroy-method属性指定JDBC驱动程序关闭时要调用的方法的名称。</p>
+<h3 id="LevelDB消息存储"><a href="#LevelDB消息存储" class="headerlink" title="LevelDB消息存储"></a>LevelDB消息存储</h3><blockquote>
+<p>注意：LevelDB存储已被废弃，并不再推荐使用。推荐的存储是：KahaDB。</p>
+</blockquote>
+<p>LevelDB持久性适配器使用LevelDB作为高性能的消息存储。它是一个基于文件的存储库，它使用了Google的LevelDB，将索引保存到包含消息的日志文件中。它经过优化，提供了比KahaDB更快的持久性。它类似于KahahDB，但是它没有使用自定义的b树实现来索引写前日志，而是使用基于LevelDB的索引，由于“append only”文件访问模式，这些索引具有一些很好的属性：</p>
+<ul>
+<li>快速更新(不需要进行随机磁盘更新)</li>
+<li>并发读取</li>
+<li>使用硬链接的快速索引快照</li>
+</ul>
+<p>KahaDB和LevelDB存储都必须进行周期性的垃圾收集，以确定可以删除哪些日志文件。在KahaDB的情况下，这可能非常昂贵，因为您增加了存储的数据量，并且在收集发生时可能导致读/写停止。LevelDB存储使用一种便宜得多的算法来确定何时可以收集日志文件并避免这些停顿。</p>
+<p>LevelDB的主要优势有：</p>
+<ul>
+<li>更高的持久吞吐量</li>
+<li>broker重启时恢复时间更快</li>
+<li>支持并发的读访问</li>
+<li>在垃圾回收周期中不会暂停</li>
+<li>使用较少的读取IO操作来加载存储的消息</li>
+<li>支持XA事务</li>
+<li>检查重复的消息</li>
+<li>通过JMX暴露公开状态以进行监控</li>
+<li>支持复制</li>
+</ul>
+<h4 id="基础配置"><a href="#基础配置" class="headerlink" title="基础配置"></a>基础配置</h4><p>通过在broker中的<code>persistenceAdapter</code>中加入<code>levelDB</code>元素来配置LevelDB存储。<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">broker</span> <span class="attr">brokerName</span>=<span class="string">"broker"</span> <span class="attr">persistent</span>=<span class="string">"true"</span> <span class="attr">...</span> &gt;</span></span><br><span class="line">  ...</span><br><span class="line">  <span class="tag">&lt;<span class="name">persistenceAdapter</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">levelDB</span> <span class="attr">directory</span>=<span class="string">"activemq-data"</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">persistenceAdapter</span>&gt;</span></span><br><span class="line">  ...</span><br><span class="line"><span class="tag">&lt;/<span class="name">broker</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<h4 id="配置属性"><a href="#配置属性" class="headerlink" title="配置属性"></a>配置属性</h4><table>
+<thead>
+<tr>
+<th>属性名</th>
+<th>默认值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>directory</td>
+<td>activemq-data</td>
+<td>数据文件的存储目录</td>
+</tr>
+<tr>
+<td>readThreads</td>
+<td>10</td>
+<td>指定允许的并发IO读取数</td>
+</tr>
+<tr>
+<td>sync</td>
+<td>true</td>
+<td>是否进行磁盘的同步写操作</td>
+</tr>
+<tr>
+<td>logSize</td>
+<td>104857600（100mb）</td>
+<td>log日志文件的最大值（以字节为单位）</td>
+</tr>
+<tr>
+<td>verifyChecksums</td>
+<td>false</td>
+<td>是否对从文件系统读取的数据进行强制校验</td>
+</tr>
+<tr>
+<td>paranoidChecks</td>
+<td>false</td>
+<td>指定LevelDB在检测到内部错误时是否尽快出错。</td>
+</tr>
+<tr>
+<td>indexFactory</td>
+<td>org.fusesource.leveldbjni.JniDBFactory, org.iq80.leveldb.impl.Iq80DBFactory</td>
+<td>指定broker尝试加载的LevelDB API工厂实现类的列表（用逗号分隔）。broker将使用第一个成功加载的工厂类。<strong>org.fusesource.leveldbjni.JniDBFactory</strong>：启用JNI的基本实现。<strong>org.iq80.leveldb.impl.Iq80DBFactory</strong>：启用纯Java的实现。</td>
+</tr>
+<tr>
+<td>indexMaxOpenFiles</td>
+<td>1000</td>
+<td>指定索引可以使用的打开文件数。LevelDB内部使用多线程进行文件读写操作</td>
+</tr>
+<tr>
+<td>indexBlockRestartInterval</td>
+<td>16</td>
+<td>Specifies the number of keys between restart points for delta encoding of keys.</td>
+</tr>
+<tr>
+<td>indexWriteBufferSize</td>
+<td>4194304</td>
+<td>指定在转换为已排序的磁盘文件之前要在内存中构建的索引数据的数量(以字节为单位)。</td>
+</tr>
+<tr>
+<td>indexBlockSize</td>
+<td>4096</td>
+<td>指定每个块的索引数据的大小(以字节为单位)。</td>
+</tr>
+<tr>
+<td>indexCacheSize</td>
+<td>268435456（256MB）</td>
+<td>指定用于缓存索引块的内存的最大量（以字节为单位）</td>
+</tr>
+<tr>
+<td>indexCompression</td>
+<td>snappy</td>
+<td>指定要应用于索引块的压缩类型。<strong>snappy</strong>或<strong>none</strong>。</td>
+</tr>
+<tr>
+<td>logCompression</td>
+<td>snappy</td>
+<td>指定要应用于日志记录的压缩类型。<strong>snappy</strong>或<strong>none</strong>。</td>
+</tr>
+</tbody>
+</table>
+<h3 id="Replicated-LevelDB消息存储"><a href="#Replicated-LevelDB消息存储" class="headerlink" title="Replicated LevelDB消息存储"></a>Replicated LevelDB消息存储</h3><h4 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h4><p>Replicated LevelDB使用Apache Zookeeper从一组配置为Replicated LevelDB存储的broker节点选择一个作为master。然后，通过复制master的所有更新来同步所有的slave的LevelDB存储，从而使slave保持最新。</p>
+<p>Replicated LevelDB存储使用预LevelDB存储相同的数据文件，因此broker可以随时在Replicated LevelDB和LevelDB之间随时切换。</p>
+<h4 id="工作原理"><a href="#工作原理" class="headerlink" title="工作原理"></a>工作原理</h4><p><img src="/img/replicated-leveldb-store.png" alt="replicated-leveldb-store.png"></p>
+<p>它使用Apache Zookeeper来协调集群中的哪个节点作为master节点。选定的master节点启动并接受客户端连接。其他节点成为slave节点，并连接master，与master保持同步。从节点不接受客户端连接。所有持久化操作都将复制到slave节点。如果master挂掉，则具有最新更新的slave节点被提升为master。然后，故障节点可以重新连接，并作为slave节点。</p>
+<p>所有的需要同步到磁盘的消息操作都将等待法定数量的slave节点复制数据完成。因此，如果你配置了<code>replicas=3</code>，那么法定的节点数量为3/2+1=2个。master会在本地存储更新，并等待另外一个slave节点存储更新后才会报告成功。换一种说法，Replicated LevelDB存储将会同步复制到法定数量的slave节点，并将异步复制到任何其他节点。</p>
+<p>当选择新的master节点时，你还需要至少一个在线的法定数量的节点才能找到具有最新更新的节点。具有最新更新的节点将成为master节点。因此，建议至少使用3个节点，以便在服务不中断的情况下关闭其中一个节点。</p>
+<h4 id="部署建议"><a href="#部署建议" class="headerlink" title="部署建议"></a>部署建议</h4><p>客户端应该使用failover连接集群中的节点，比如：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">failover:(tcp:<span class="comment">//broker1:61616,tcp://broker2:61616,tcp://broker3:61616)</span></span><br></pre></td></tr></table></figure></p>
+<p>同时为了Zookeeper的高可用，你需要至少运行3个Zookeeperjieidan。不要过渡时会用Zookeeper，过度的Zookeeper可能会认为复制的节点由于处理心跳消息的延迟而离线了。</p>
+<p>为了获得最佳结果，确保将hostname属性配置为了集群中其他节点的主机名或ip地址。其他集群成员无法始终访问自动确定的主机名，从而导致slave节点无法与master建立复制会话。</p>
+<h4 id="配置-2"><a href="#配置-2" class="headerlink" title="配置"></a>配置</h4><p>您可以配置ActiveMQ使用LevelDB作为它的持久性适配器，如下：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">broker</span> <span class="attr">brokerName</span>=<span class="string">"broker"</span> <span class="attr">...</span> &gt;</span></span><br><span class="line">  ...</span><br><span class="line">  <span class="tag">&lt;<span class="name">persistenceAdapter</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">replicatedLevelDB</span></span></span><br><span class="line"><span class="tag">      <span class="attr">directory</span>=<span class="string">"activemq-data"</span></span></span><br><span class="line"><span class="tag">      <span class="attr">replicas</span>=<span class="string">"3"</span></span></span><br><span class="line"><span class="tag">      <span class="attr">bind</span>=<span class="string">"tcp://0.0.0.0:0"</span></span></span><br><span class="line"><span class="tag">      <span class="attr">zkAddress</span>=<span class="string">"zoo1.example.org:2181,zoo2.example.org:2181,zoo3.example.org:2181"</span></span></span><br><span class="line"><span class="tag">      <span class="attr">zkPassword</span>=<span class="string">"password"</span></span></span><br><span class="line"><span class="tag">      <span class="attr">zkPath</span>=<span class="string">"/activemq/leveldb-stores"</span></span></span><br><span class="line"><span class="tag">      <span class="attr">hostname</span>=<span class="string">"broker1.example.org"</span></span></span><br><span class="line"><span class="tag">      /&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">persistenceAdapter</span>&gt;</span></span><br><span class="line">  ...</span><br><span class="line"><span class="tag">&lt;/<span class="name">broker</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<h4 id="Replicated-LevelDB存储属性"><a href="#Replicated-LevelDB存储属性" class="headerlink" title="Replicated LevelDB存储属性"></a>Replicated LevelDB存储属性</h4><p>相同复制集中的的broker节点应该有相同的broker name，相同的复制集中的下面的属性也应该相同。</p>
+<table>
+<thead>
+<tr>
+<th>属性名</th>
+<th>默认值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>replicas</td>
+<td>3</td>
+<td>集群节点的数量，至少(replicas/2)+1个，以避免服务中断。 </td>
+</tr>
+<tr>
+<td>securityToken</td>
+<td></td>
+<td>一个安全令牌，必须在所有复制节点上匹配，才能接受彼此的复制请求。</td>
+</tr>
+<tr>
+<td>zkAddress</td>
+<td>127.0.0.1:2181</td>
+<td>逗号分隔的ZooKeeper服务器列表。</td>
+</tr>
+<tr>
+<td>zkPassword</td>
+<td></td>
+<td>连接到Zookeeper时使用的密码</td>
+</tr>
+<tr>
+<td>zkPath</td>
+<td>/default</td>
+<td>Zookeeper主从选举使用的Zookeeper的目录路径</td>
+</tr>
+<tr>
+<td>zkSessionTimeout</td>
+<td>2s</td>
+<td>Zookeeper多久检测一个节点失败。（5.11以前，有一个错字zkSessionTmeout）</td>
+</tr>
+<tr>
+<td>sync</td>
+<td>quorum_mem</td>
+<td>用于控制同步的区域，以“，”分割多个区域。可选项有：local_mem, local_disk, remote_mem, remote_disk, quorum_mem, quorum_disk.如果你配置多个区域，将更强的保证机制将被触发。例如：local_mem, local_disk 与 local_disk 等同quorum_mem 与local_mem, remote_mem 等同quorum_disk  与local_disk, remote_disk等同</td>
+</tr>
+</tbody>
+</table>
+<p>不同的复制集可以共享相同的zkPath只要他们有不同的brokerName.</p>
+<p>下面的配置属性每个节点特殊的配置：</p>
+<table>
+<thead>
+<tr>
+<th>属性名</th>
+<th>默认值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>bind</td>
+<td>tcp://0.0.0.0:61619</td>
+<td>当该节点成为主节点时，绑定的地址和端口，用于服务复制协议还支持使用动态端口，只需配置tcp:/ / 0.0.0.0:0</td>
+</tr>
+<tr>
+<td>hostname</td>
+<td></td>
+<td>用于在此节点成为主节点时通告复制服务的主机名。 如果未设置，将自动确定。</td>
+</tr>
+<tr>
+<td>weight</td>
+<td>1</td>
+<td>具有最高权重的最新更新的复制节点将成为主节点。 用于优先选择某些节点成为主节点。</td>
+</tr>
+</tbody>
+</table>
+<p>该存储还支持与标准LevelDB存储相同的配置属性，但它不支持可插拔的存储锁。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p>参考：<a href="http://activemq.apache.org/persistence.html">http://activemq.apache.org/persistence.html</a><br>AMQ消息存储参考：<a href="http://activemq.apache.org/amq-message-store.html">http://activemq.apache.org/amq-message-store.html</a><br>KahaDB消息存储参考：<a href="http://activemq.apache.org/kahadb.html">http://activemq.apache.org/kahadb.html</a><br>JDBC消息存储参考：<a href="http://activemq.apache.org/jdbc-support.html">http://activemq.apache.org/jdbc-support.html</a>、<a href="https://access.redhat.com/documentation/en-us/red_hat_jboss_a-mq/6.2/html/configuring_broker_persistence/fusembpersistjdbcstore">USING JDBC TO CONNECT TO A DATABASE STORE</a><br>LevelDB消息存储参考：<a href="http://activemq.apache.org/leveldb-store.html">http://activemq.apache.org/leveldb-store.html</a>、<a href="https://access.redhat.com/documentation/en-us/red_hat_jboss_a-mq/6.2/html/configuring_broker_persistence/leveldbconfiguration">https://access.redhat.com/documentation/en-us/red_hat_jboss_a-mq/6.2/html/configuring_broker_persistence/leveldbconfiguration</a><br>Replicated LevelDB消息存储参考：<a href="http://activemq.apache.org/replicated-leveldb-store.html">http://activemq.apache.org/replicated-leveldb-store.html</a>、<a href="https://access.redhat.com/documentation/en-us/red_hat_jboss_a-mq/6.2/html/configuring_broker_persistence/repleveldbconfig">USING THE REPLICATED LEVELDB PERSISTENCE ADAPTER</a><br>多KahaDB存储：<a href="https://access.redhat.com/documentation/en-us/red_hat_jboss_a-mq/6.2/html/configuring_broker_persistence/fusembmultikahadb">https://access.redhat.com/documentation/en-us/red_hat_jboss_a-mq/6.2/html/configuring_broker_persistence/fusembmultikahadb</a></p>
+
+        </div>
+        <div class="post-tool">
+            <a class="btn-thumbs-up" href="javascript:void(0);" data-cid="52" title="95">
+                <i class="fa fa-thumbs-up" aria-hidden="true"></i> 打赏
+            </a>
+        </div>
+        
+        <div class="post-tags">标签：
+            
+            <a href="/tags/activemq/">activemq</a>
+            
+        </div>
+        
+    </article>
+    
+    <p style="text-align: center">本文代表个人观点，内容仅供参考。若有不恰当之处，望不吝赐教！</p>
+    
+    
+
+    
+    
+        <div id="gitment-container"></div>
+        <link rel="stylesheet" href="//imsun.github.io/gitment/style/default.css">
+        <script src="//imsun.github.io/gitment/dist/gitment.browser.js"></script>
+        <script type="text/javascript">
+            var gitment = new Gitment({
+                /*lable长度不能超过50个字符，这里使用页面的生成时间*/
+                id: 'Wed Mar 27 2019 12:22:07 GMT+0800'/*document.location.href*/,
+                owner: 'luckystar88',
+                repo: 'comments',
+                oauth: {
+                    client_id: 'd49ebe4f95abcd6163f4',
+                    client_secret: 'edd2748d6271072a6970d5cec8751f388dac8116',
+                }
+            });
+            gitment.render('gitment-container');
+        </script>
+        
+            <script>
+                document.getElementById("gitment-display-button").style.display = "none";
+                document.getElementById("gitment-container").style.display = "block";
+            </script>
+        
+    
+
+
+</div>
+<script src="/js/busuanzi.pure.mini.js"></script>
+
+
+        </div><!-- end #main-->
+    </div><!-- end #body -->
+    <footer class="footer">
+    <div class="footer-inner" style="text-align: center">
+        <p>
+            <a href="/about" title="关于">关于</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <!-- 自定义链接 -->
+            <a href="/help" title="帮助">帮助</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <a href="/links" title="友链">友链</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <a href="/sitemap.xml" title="地图">地图</a>
+        </p>
+        <p>
+            本站已建立&nbsp<a href="/timeline" id="siteBuildingTime"></a>&nbsp天，<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="licence">采用知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议创作</a><br>
+            ©2017-<span id="cpYear"></span> 基于&nbsp<a href="http://hexo.io" target="_blank" rel="nofollow">Hexo</a>
+            ，主题采用&nbsp&nbsp<a href="https://github.com/tangkunyin/hexo-theme-jsimple" target="_blank" rel="bookmark">JSimple</a>
+            ，作者&nbsp<a href="https://tommy88.top" target="_blank" rel="friend">Donny</a>
+            ，Hosted by <a href="https://pages.github.com/" target="_blank" rel="nofollow">GitHub Pages</a>
+        </p>
+    </div>
+</footer>
+<script src="/js/SimpleCore.js"></script>
+
+</div>
+<!-- search pop -->
+<div class="popup search-popup local-search-popup">
+    <div class="local-search-header clearfix">
+        <span class="search-icon">
+            <i class="fa fa-search"></i>
+        </span>
+        <span class="popup-btn-close">
+            <i class="fa fa-times-circle"></i>
+        </span>
+        <div class="local-search-input-wrapper">
+            <input id="local-search-input" spellcheck="false" type="text" autocomplete="off" placeholder="请输入查询关键词">
+        </div>
+    </div>
+    <div id="local-search-result"></div>
+</div>
+<div class="fixed-btn">
+    <a class="btn-gotop" href="javascript:"> <i class="fa fa-angle-up"></i></a>
+</div>
+<script>
+    $(function () {
+        var jsi_config = {
+            buildingTime: '01/20/2016',
+            current: $('.post-tags').length > 0 ? 'post' : 'archive',
+            snsQRCode: '/images/sns-qrcode.png',
+            donateImg: '/images/donate-qr.png',
+            localSearch: { dbPath: '' },
+            readMode: 'day'
+        };
+        
+            jsi_config.localSearch = {
+                dbPath: '/search.xml',
+                trigger: 'auto',
+                topN: '1',
+                unescape: 'false'
+            }
+        
+        SimpleCore.init(jsi_config);
+        
+    });
+</script>
+</body>
+</html>

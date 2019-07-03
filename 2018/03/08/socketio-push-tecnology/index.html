@@ -1,0 +1,289 @@
+<!DOCTYPE HTML>
+<html class="no-js" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!--[if lte IE 9]>
+<meta http-equiv="refresh" content="0;url=https://tommy88.top/warn.html">
+<![endif]-->
+<meta charset="utf-8">
+<meta http-equiv="X-DNS-Prefetch-Control" content="on">
+<link rel="dns-prefetch" href="https://tommy88.top">
+<link rel="dns-prefetch" href="//www.google-analytics.com">
+<link rel="prefetch" href="https://tommy88.top">
+<link rel="prefetch" href="//www.google-analytics.com">
+
+
+    <link rel="dns-prefetch" href="//imsun.github.io">
+    <link rel="prefetch" href="//imsun.github.io">
+
+<link rel="prerender" href="https://tommy88.top">
+
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+<meta http-equiv="mobile-agent" content="format=html5; url=https://tommy88.top">
+<meta name="author" content="Donny">
+<link rel="stylesheet" href="/css/JSimple.css">
+
+<link rel="shortcut icon" href="/images/favicon.png">
+
+
+<title>socket.io数据推送 - Donny的技术博客</title>
+
+<meta name="keywords" content="java,前端,数据库,web,spring,redis,spring boot,spring cloud,mq">
+
+<meta name="description " content="记录工作，感悟生活">
+
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                processEscapes: true
+            }
+        });
+    </script>
+
+
+    
+
+    
+    
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="//www.googletagmanager.com/gtag/js?id=UA-105613999-1"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'UA-105613999-1');
+        </script>
+    
+    <!-- put your likes here. -->
+
+
+</head>
+<body>
+<div id="nav">
+    <nav class="nav-menu">
+        <a class="site-name current" href="/" title="Home">Home</a>
+        <a class="site-index current" href="/"><i class="fa fa-home"></i><span>首页</span></a>
+        <a href="/archives" title="归档"><i class="fa fa-archives"></i><span>归档</span></a>
+        <a href="/tags" title="标签"><i class="fa fa-tags"></i><span>标签</span></a>
+        <!-- custom single page of menus -->
+        
+        
+        <a href="/help" title="帮助">
+            <i class="fa fa-question-circle"></i>
+            <span>帮助</span>
+        </a>
+        
+    </nav>
+</div>
+
+<div class="nav-user">
+    <a class="btn-search" href="#"><i class="fa fa-search"></i></a>
+    <a class="btn-read-mode" href="#"><i class="fa fa-sun-o"></i></a>
+    <a class="btn-sns-qr" href="javascript:"><i class="fa fa-telegram"></i></a>
+</div>
+
+<div id="wrapper" class="clearfix">
+    <div id="body">
+        <div class="main" id="main">
+            <div id="cover">
+    <div class="cover-img"></div>
+    <div class="cover-info">
+        
+        <h1 class="cover-siteName">Donny的技术博客</h1>
+        <h3 class="cover-siteTitle">用代码征服世界</h3>
+        <p class="cover-siteDesc">这是一个简单的技术博客</p>
+        <div class="cover-sns">
+            
+    &nbsp;&nbsp;<div class="btn btn-github">
+        <a href="https://github.com/luckystar88" target="_blank" title="github" ref="friend">
+            <i class="fa fa-github"></i>
+        </a>
+    </div>
+
+
+        </div>
+    </div>
+</div>
+
+            <div class="page-title">
+    <ul>
+        <li><a href="/">最近</a></li>
+        
+            
+                <li class="active">
+                    <a href="/categories/tech" data-name="技术">技术</a>
+                </li>
+            
+                <li class>
+                    <a href="/categories/life" data-name="人文">人文</a>
+                </li>
+            
+                <li class>
+                    <a href="/categories/others" data-name="其他">其他</a>
+                </li>
+            
+        
+        <li class="page-search">
+    <form id="search" class="search-form">
+        <input type="text" readonly="readonly" id="local-search-input-tip" placeholder="读物检索~">
+        <button type="button" disabled="disabled" class="search-form-submit"><i class="fa fa-search"></i></button>
+    </form>
+</li>
+
+    </ul>
+</div>
+<div class="main-inner">
+    <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+        <div class="post-header">
+            <div class="post-author clearfix">
+                <a class="avatar fleft" href="https://tommy88.top" target="_blank">
+                    <img width="48" src="/images/favicon.png" alt="avatar">
+                </a>
+                <p><span class="label">作者</span>
+                    <a href="https://tommy88.top" target="_blank">Donny</a>
+                    <span title="最后编辑于&nbsp;2018-03-08">2018-03-08</span>
+                </p>
+                <p>记录工作，感悟生活</p>
+            </div>
+            <h2 class="post-title">socket.io数据推送</h2>
+            <div class="post-meta">
+                本文共计7340个字 |
+                您是第&nbsp;<span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>位看到它们的小伙伴
+            </div>
+        </div>
+        <div class="post-content markdown-body">
+            <p>参考：<a href="https://www.cnblogs.com/wxgblogs/p/6852470.html">基于netty-socketio的web推送服务</a>、<a href="http://blog.csdn.net/sun_t89/article/details/52060946">Spring Boot实战之netty-socketio实现简单聊天室(给指定用户推送消息)</a>、<a href="http://blog.csdn.net/function__/article/details/73089504">socket.io 中文文档</a></p>
+<p>socketio简介<br>Socket.io是一个WebSocket库，包括了客户端的js和服务器端的nodejs，它的目标是构建可以在不同浏览器和移动设备上使用的实时应用。它会自动根据浏览器从WebSocket、AJAX长轮询、Iframe流等等各种方式中选择最佳的方式来实现网络实时应用，非常方便和人性化，而且支持的浏览器最低达IE5.5.<br><a id="more"></a></p>
+<p>socket.io特点<br>实时分析：将数据推送到客户端，这些客户端会被表示为实时计数器，图表或日志客户。<br>实时通信和聊天：只需几行代码便可写成一个Socket.IO的”Hello,World”聊天应用。<br>二进制流传输：从1.0版本开始，Socket.IO支持任何形式的二进制文件传输，例如：图片，视频，音频等。<br>文档合并：允许多个用户同时编辑一个文档，并且能够看到每个用户做出的修改。</p>
+<h2 id="Demo简介"><a href="#Demo简介" class="headerlink" title="Demo简介"></a>Demo简介</h2><p>服务端使用netty-socketio，客户端使用socket.io.js。<br>本例完全来自上面的链接，这里只是测试效果以及做备忘。本例实现的功能是一个用户向另外一个用法发小消息。</p>
+<h2 id="maven中添加依赖"><a href="#maven中添加依赖" class="headerlink" title="maven中添加依赖"></a>maven中添加依赖</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.corundumstudio.socketio<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>netty-socketio<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.7.3<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="服务端SocketServer"><a href="#服务端SocketServer" class="headerlink" title="服务端SocketServer"></a>服务端SocketServer</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ChatServer</span> <span class="keyword">implements</span> <span class="title">InitializingBean</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> EventListenner eventListenner;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">afterPropertiesSet</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        Configuration config = <span class="keyword">new</span> Configuration();</span><br><span class="line">        config.setPort(<span class="number">9098</span>);</span><br><span class="line">        SocketConfig socketConfig = <span class="keyword">new</span> SocketConfig();</span><br><span class="line">        socketConfig.setReuseAddress(<span class="keyword">true</span>);</span><br><span class="line">        socketConfig.setTcpNoDelay(<span class="keyword">true</span>);</span><br><span class="line">        socketConfig.setSoLinger(<span class="number">0</span>);</span><br><span class="line">        config.setSocketConfig(socketConfig);</span><br><span class="line">        config.setHostname(<span class="string">"localhost"</span>);</span><br><span class="line">        SocketIOServer server = <span class="keyword">new</span> SocketIOServer(config);</span><br><span class="line">        server.addListeners(eventListenner);</span><br><span class="line">        server.start();</span><br><span class="line">        System.out.println(<span class="string">"启动正常"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="缓存类，缓存客户端连接"><a href="#缓存类，缓存客户端连接" class="headerlink" title="缓存类，缓存客户端连接"></a>缓存类，缓存客户端连接</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span>(<span class="string">"clientCache"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SocketIOClientCache</span> </span>&#123;</span><br><span class="line">    <span class="comment">//String：EventType类型</span></span><br><span class="line">    <span class="keyword">private</span> Map&lt;String,SocketIOClient&gt; clients=<span class="keyword">new</span> ConcurrentHashMap&lt;String,SocketIOClient&gt;();</span><br><span class="line">    <span class="comment">//用户发送消息添加</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addClient</span><span class="params">(SocketIOClient client,MsgBean msgBean)</span></span>&#123;</span><br><span class="line">        clients.put(msgBean.getFrom(),client);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//用户退出时移除</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">remove</span><span class="params">(MsgBean msgBean)</span> </span>&#123;</span><br><span class="line">        clients.remove(msgBean.getFrom());</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//获取所有</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span>  SocketIOClient <span class="title">getClient</span><span class="params">(String to)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> clients.get(to);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="消息发送的类"><a href="#消息发送的类" class="headerlink" title="消息发送的类"></a>消息发送的类</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service</span>(<span class="string">"socketIOResponse"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SocketIOResponse</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sendEvent</span><span class="params">(SocketIOClient client, MsgBean bean)</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"推送消息"</span>);</span><br><span class="line">        client.sendEvent(<span class="string">"OnMSG"</span>, bean);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="事件监听器"><a href="#事件监听器" class="headerlink" title="事件监听器"></a>事件监听器</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service</span>(<span class="string">"eventListenner"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">EventListenner</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Resource</span>(name = <span class="string">"clientCache"</span>)</span><br><span class="line">    <span class="keyword">private</span> SocketIOClientCache clientCache;</span><br><span class="line">    <span class="meta">@Resource</span>(name = <span class="string">"socketIOResponse"</span>)</span><br><span class="line">    <span class="keyword">private</span> SocketIOResponse socketIOResponse;</span><br><span class="line">    <span class="meta">@OnConnect</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onConnect</span><span class="params">(SocketIOClient client)</span> </span>&#123;</span><br><span class="line">       System.out.println(<span class="string">"建立连接"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@OnEvent</span>(<span class="string">"OnMSG"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onSync</span><span class="params">(SocketIOClient client, MsgBean bean)</span> </span>&#123;</span><br><span class="line">        System.out.printf(<span class="string">"收到消息-from: %s to:%s\n"</span>, bean.getFrom(), bean.getTo());</span><br><span class="line">        clientCache.addClient(client, bean);</span><br><span class="line">        SocketIOClient ioClients = clientCache.getClient(bean.getTo());</span><br><span class="line">        System.out.println(<span class="string">"clientCache"</span>);</span><br><span class="line">        <span class="keyword">if</span> (ioClients == <span class="keyword">null</span>) &#123;</span><br><span class="line">            System.out.println(<span class="string">"你发送消息的用户不在线"</span>);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        socketIOResponse.sendEvent(ioClients,bean);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@OnDisconnect</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onDisconnect</span><span class="params">(SocketIOClient client)</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"关闭连接"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="消息bean"><a href="#消息bean" class="headerlink" title="消息bean"></a>消息bean</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MsgBean</span> </span>&#123; </span><br><span class="line">    <span class="keyword">private</span> String from;</span><br><span class="line">    <span class="keyword">private</span> String to;</span><br><span class="line">    <span class="keyword">private</span> String content;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getFrom</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> from;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setFrom</span><span class="params">(String from)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.from = from;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getTo</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> to;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setTo</span><span class="params">(String to)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.to = to;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getContent</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> content;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setContent</span><span class="params">(String content)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.content = content;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"MsgBean [from="</span> + from + <span class="string">", to="</span> + to + <span class="string">", content="</span> + content + <span class="string">"]"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="页面"><a href="#页面" class="headerlink" title="页面"></a>页面</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">xmlns</span>=<span class="string">"http://www.w3.org/1999/xhtml"</span> <span class="attr">xmlns:th</span>=<span class="string">"http://www.thymeleaf.org"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>socket.io demo<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"content-type"</span> <span class="attr">content</span>=<span class="string">"text/html; charset=UTF-8"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span> <span class="attr">th:src</span>=<span class="string">"@&#123;/js/jquery.js&#125;"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span> <span class="attr">th:src</span>=<span class="string">"@&#123;/js/socket.io.min.js&#125;"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">style</span>&gt;</span></span><br><span class="line">        body &#123;</span><br><span class="line">            padding: 20px;</span><br><span class="line">        &#125;</span><br><span class="line"><span class="css">        <span class="selector-id">#console</span> &#123;</span></span><br><span class="line">            height: 400px;</span><br><span class="line">            overflow: auto;</span><br><span class="line">        &#125;</span><br><span class="line"><span class="css">        <span class="selector-class">.username-msg</span> &#123;</span></span><br><span class="line">            color: orange;</span><br><span class="line">        &#125;</span><br><span class="line"><span class="css">        <span class="selector-class">.connect-msg</span> &#123;</span></span><br><span class="line">            color: green;</span><br><span class="line">        &#125;</span><br><span class="line"><span class="css">        <span class="selector-class">.disconnect-msg</span> &#123;</span></span><br><span class="line">            color: red;</span><br><span class="line">        &#125;</span><br><span class="line"><span class="css">        <span class="selector-class">.send-msg</span> &#123;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">color</span>: <span class="selector-id">#888</span></span></span><br><span class="line">        &#125;</span><br><span class="line">    <span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>Netty-socketio chat demo<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">br</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"console"</span> <span class="attr">class</span>=<span class="string">"well"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">class</span>=<span class="string">"well form-inline"</span> <span class="attr">onsubmit</span>=<span class="string">"return false;"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">id</span>=<span class="string">"from"</span> <span class="attr">class</span>=<span class="string">"input-xlarge"</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">placeholder</span>=<span class="string">"from. . . "</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">id</span>=<span class="string">"to"</span> <span class="attr">class</span>=<span class="string">"input-xlarge"</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">placeholder</span>=<span class="string">"to. . . "</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">id</span>=<span class="string">"content"</span> <span class="attr">class</span>=<span class="string">"input-xlarge"</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">placeholder</span>=<span class="string">"content. . . "</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">button</span> <span class="attr">type</span>=<span class="string">"button"</span> <span class="attr">onClick</span>=<span class="string">"sendMessage()"</span> <span class="attr">class</span>=<span class="string">"btn"</span>&gt;</span>Send<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">button</span> <span class="attr">type</span>=<span class="string">"button"</span> <span class="attr">onClick</span>=<span class="string">"sendDisconnect()"</span> <span class="attr">class</span>=<span class="string">"btn"</span>&gt;</span>Disconnect<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span></span><br><span class="line"><span class="javascript">    <span class="keyword">var</span> socket = io.connect(<span class="string">'http://localhost:9098'</span>);</span></span><br><span class="line"><span class="javascript">    socket.on(<span class="string">'connect'</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span></span><br><span class="line"><span class="xml">        output('<span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">"connect-msg"</span>&gt;</span>Client has connected to the server!<span class="tag">&lt;/<span class="name">span</span>&gt;</span>');</span></span><br><span class="line">    &#125;);</span><br><span class="line"><span class="javascript">    socket.on(<span class="string">'OnMSG'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">data</span>) </span>&#123;</span></span><br><span class="line"><span class="xml">        output('<span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">"username-msg"</span>&gt;</span>' + data.content + ' : <span class="tag">&lt;/<span class="name">span</span>&gt;</span>');</span></span><br><span class="line">    &#125;);</span><br><span class="line"><span class="javascript">    socket.on(<span class="string">'disconnect'</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span></span><br><span class="line"><span class="xml">        output('<span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">"disconnect-msg"</span>&gt;</span>The client has disconnected! <span class="tag">&lt;/<span class="name">span</span>&gt;</span>');</span></span><br><span class="line">    &#125;);</span><br><span class="line"><span class="javascript">    <span class="function"><span class="keyword">function</span> <span class="title">sendDisconnect</span>(<span class="params"></span>) </span>&#123;</span></span><br><span class="line">        socket.disconnect();</span><br><span class="line">    &#125;</span><br><span class="line"><span class="javascript">    <span class="function"><span class="keyword">function</span> <span class="title">sendMessage</span>(<span class="params"></span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">        <span class="keyword">var</span> <span class="keyword">from</span> = $(<span class="string">"#from"</span>).val();</span></span><br><span class="line"><span class="javascript">        <span class="keyword">var</span> to = $(<span class="string">"#to"</span>).val();</span></span><br><span class="line"><span class="javascript">        <span class="keyword">var</span> content = $(<span class="string">'#content'</span>).val();</span></span><br><span class="line"><span class="javascript">        socket.emit(<span class="string">'OnMSG'</span>, &#123;</span></span><br><span class="line"><span class="javascript">            <span class="keyword">from</span> : <span class="keyword">from</span>,</span></span><br><span class="line">            to : to,</span><br><span class="line">            content : content</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"><span class="javascript">    <span class="function"><span class="keyword">function</span> <span class="title">output</span>(<span class="params">message</span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">        <span class="built_in">console</span>.log(message)</span></span><br><span class="line"><span class="javascript">        <span class="keyword">var</span> currentTime = <span class="string">"&lt;span&gt;"</span> + <span class="keyword">new</span> <span class="built_in">Date</span>() + <span class="string">"&lt;/span&gt;"</span>;</span></span><br><span class="line"><span class="javascript">        <span class="keyword">var</span> element = $(<span class="string">"&lt;div&gt;"</span> + currentTime + <span class="string">" "</span> + message + <span class="string">"&lt;/div&gt;&lt;br/&gt;"</span>);</span></span><br><span class="line"><span class="javascript">        $(<span class="string">'#console'</span>).prepend(element);</span></span><br><span class="line">    &#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>说明:工程基于springboot，关于springboot相关的内容并未给出。</p>
+<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><p>浏览器2个标签页分页输入地址，进入到聊天页面。<br>标签页1<br><img src="http://omh46px9n.bkt.clouddn.com/18-3-8/38185838.jpg" alt></p>
+<p>我们假定标签页1用户为admin，标签页2用户为test。<br>标签页1：admin向test发送1条消息，点击发送，切换到标签页2，发现并没有消息。因为这个时候缓存中没有test，所以没有发送成功。<br>标签页2：test向admin发送1条消息。<br><img src="http://omh46px9n.bkt.clouddn.com/18-3-8/13550640.jpg" alt><br>切换到标签页1，可以发现已经接受到test发送的消息<br><img src="http://omh46px9n.bkt.clouddn.com/18-3-8/94183906.jpg" alt></p>
+<p>我们F12打开开发人员工具，可以看到多次发送消息并没有产生新的请求。</p>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>1.中文乱码<br>尚未找到解决方案。</p>
+<p>netty-socketio:<a href="https://github.com/mrniko/netty-socketio">https://github.com/mrniko/netty-socketio</a><br>netty-socketio-demo:<a href="https://github.com/mrniko/netty-socketio-demo">https://github.com/mrniko/netty-socketio-demo</a></p>
+
+        </div>
+        <div class="post-tool">
+            <a class="btn-thumbs-up" href="javascript:void(0);" data-cid="52" title="95">
+                <i class="fa fa-thumbs-up" aria-hidden="true"></i> 打赏
+            </a>
+        </div>
+        
+        <div class="post-tags">标签：
+            
+            <a href="/tags/推送技术/">推送技术</a>
+            
+        </div>
+        
+    </article>
+    
+    <p style="text-align: center">本文代表个人观点，内容仅供参考。若有不恰当之处，望不吝赐教！</p>
+    
+    
+
+    
+    
+        <div id="gitment-container"></div>
+        <link rel="stylesheet" href="//imsun.github.io/gitment/style/default.css">
+        <script src="//imsun.github.io/gitment/dist/gitment.browser.js"></script>
+        <script type="text/javascript">
+            var gitment = new Gitment({
+                /*lable长度不能超过50个字符，这里使用页面的生成时间*/
+                id: 'Thu Mar 08 2018 17:45:25 GMT+0800'/*document.location.href*/,
+                owner: 'luckystar88',
+                repo: 'comments',
+                oauth: {
+                    client_id: 'd49ebe4f95abcd6163f4',
+                    client_secret: 'edd2748d6271072a6970d5cec8751f388dac8116',
+                }
+            });
+            gitment.render('gitment-container');
+        </script>
+        
+            <script>
+                document.getElementById("gitment-display-button").style.display = "none";
+                document.getElementById("gitment-container").style.display = "block";
+            </script>
+        
+    
+
+
+</div>
+<script src="/js/busuanzi.pure.mini.js"></script>
+
+
+        </div><!-- end #main-->
+    </div><!-- end #body -->
+    <footer class="footer">
+    <div class="footer-inner" style="text-align: center">
+        <p>
+            <a href="/about" title="关于">关于</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <!-- 自定义链接 -->
+            <a href="/help" title="帮助">帮助</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <a href="/links" title="友链">友链</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <a href="/sitemap.xml" title="地图">地图</a>
+        </p>
+        <p>
+            本站已建立&nbsp<a href="/timeline" id="siteBuildingTime"></a>&nbsp天，<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="licence">采用知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议创作</a><br>
+            ©2017-<span id="cpYear"></span> 基于&nbsp<a href="http://hexo.io" target="_blank" rel="nofollow">Hexo</a>
+            ，主题采用&nbsp&nbsp<a href="https://github.com/tangkunyin/hexo-theme-jsimple" target="_blank" rel="bookmark">JSimple</a>
+            ，作者&nbsp<a href="https://tommy88.top" target="_blank" rel="friend">Donny</a>
+            ，Hosted by <a href="https://pages.github.com/" target="_blank" rel="nofollow">GitHub Pages</a>
+        </p>
+    </div>
+</footer>
+<script src="/js/SimpleCore.js"></script>
+
+</div>
+<!-- search pop -->
+<div class="popup search-popup local-search-popup">
+    <div class="local-search-header clearfix">
+        <span class="search-icon">
+            <i class="fa fa-search"></i>
+        </span>
+        <span class="popup-btn-close">
+            <i class="fa fa-times-circle"></i>
+        </span>
+        <div class="local-search-input-wrapper">
+            <input id="local-search-input" spellcheck="false" type="text" autocomplete="off" placeholder="请输入查询关键词">
+        </div>
+    </div>
+    <div id="local-search-result"></div>
+</div>
+<div class="fixed-btn">
+    <a class="btn-gotop" href="javascript:"> <i class="fa fa-angle-up"></i></a>
+</div>
+<script>
+    $(function () {
+        var jsi_config = {
+            buildingTime: '01/20/2016',
+            current: $('.post-tags').length > 0 ? 'post' : 'archive',
+            snsQRCode: '/images/sns-qrcode.png',
+            donateImg: '/images/donate-qr.png',
+            localSearch: { dbPath: '' },
+            readMode: 'day'
+        };
+        
+            jsi_config.localSearch = {
+                dbPath: '/search.xml',
+                trigger: 'auto',
+                topN: '1',
+                unescape: 'false'
+            }
+        
+        SimpleCore.init(jsi_config);
+        
+    });
+</script>
+</body>
+</html>

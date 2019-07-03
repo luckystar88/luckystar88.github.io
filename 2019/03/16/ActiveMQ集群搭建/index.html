@@ -1,0 +1,425 @@
+<!DOCTYPE HTML>
+<html class="no-js" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!--[if lte IE 9]>
+<meta http-equiv="refresh" content="0;url=https://tommy88.top/warn.html">
+<![endif]-->
+<meta charset="utf-8">
+<meta http-equiv="X-DNS-Prefetch-Control" content="on">
+<link rel="dns-prefetch" href="https://tommy88.top">
+<link rel="dns-prefetch" href="//www.google-analytics.com">
+<link rel="prefetch" href="https://tommy88.top">
+<link rel="prefetch" href="//www.google-analytics.com">
+
+
+    <link rel="dns-prefetch" href="//imsun.github.io">
+    <link rel="prefetch" href="//imsun.github.io">
+
+<link rel="prerender" href="https://tommy88.top">
+
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+<meta http-equiv="mobile-agent" content="format=html5; url=https://tommy88.top">
+<meta name="author" content="Donny">
+<link rel="stylesheet" href="/css/JSimple.css">
+
+<link rel="shortcut icon" href="/images/favicon.png">
+
+
+<title>activemq集群搭建 - Donny的技术博客</title>
+
+<meta name="keywords" content="java,前端,数据库,web,spring,redis,spring boot,spring cloud,mq">
+
+<meta name="description " content="记录工作，感悟生活">
+
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                processEscapes: true
+            }
+        });
+    </script>
+
+
+    
+
+    
+    
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="//www.googletagmanager.com/gtag/js?id=UA-105613999-1"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'UA-105613999-1');
+        </script>
+    
+    <!-- put your likes here. -->
+
+
+</head>
+<body>
+<div id="nav">
+    <nav class="nav-menu">
+        <a class="site-name current" href="/" title="Home">Home</a>
+        <a class="site-index current" href="/"><i class="fa fa-home"></i><span>首页</span></a>
+        <a href="/archives" title="归档"><i class="fa fa-archives"></i><span>归档</span></a>
+        <a href="/tags" title="标签"><i class="fa fa-tags"></i><span>标签</span></a>
+        <!-- custom single page of menus -->
+        
+        
+        <a href="/help" title="帮助">
+            <i class="fa fa-question-circle"></i>
+            <span>帮助</span>
+        </a>
+        
+    </nav>
+</div>
+
+<div class="nav-user">
+    <a class="btn-search" href="#"><i class="fa fa-search"></i></a>
+    <a class="btn-read-mode" href="#"><i class="fa fa-sun-o"></i></a>
+    <a class="btn-sns-qr" href="javascript:"><i class="fa fa-telegram"></i></a>
+</div>
+
+<div id="wrapper" class="clearfix">
+    <div id="body">
+        <div class="main" id="main">
+            <div id="cover">
+    <div class="cover-img"></div>
+    <div class="cover-info">
+        
+        <h1 class="cover-siteName">Donny的技术博客</h1>
+        <h3 class="cover-siteTitle">用代码征服世界</h3>
+        <p class="cover-siteDesc">这是一个简单的技术博客</p>
+        <div class="cover-sns">
+            
+    &nbsp;&nbsp;<div class="btn btn-github">
+        <a href="https://github.com/luckystar88" target="_blank" title="github" ref="friend">
+            <i class="fa fa-github"></i>
+        </a>
+    </div>
+
+
+        </div>
+    </div>
+</div>
+
+            <div class="page-title">
+    <ul>
+        <li><a href="/">最近</a></li>
+        
+            
+                <li class="active">
+                    <a href="/categories/tech" data-name="技术">技术</a>
+                </li>
+            
+                <li class>
+                    <a href="/categories/life" data-name="人文">人文</a>
+                </li>
+            
+                <li class>
+                    <a href="/categories/others" data-name="其他">其他</a>
+                </li>
+            
+        
+        <li class="page-search">
+    <form id="search" class="search-form">
+        <input type="text" readonly="readonly" id="local-search-input-tip" placeholder="读物检索~">
+        <button type="button" disabled="disabled" class="search-form-submit"><i class="fa fa-search"></i></button>
+    </form>
+</li>
+
+    </ul>
+</div>
+<div class="main-inner">
+    <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+        <div class="post-header">
+            <div class="post-author clearfix">
+                <a class="avatar fleft" href="https://tommy88.top" target="_blank">
+                    <img width="48" src="/images/favicon.png" alt="avatar">
+                </a>
+                <p><span class="label">作者</span>
+                    <a href="https://tommy88.top" target="_blank">Donny</a>
+                    <span title="最后编辑于&nbsp;2019-03-16">2019-03-16</span>
+                </p>
+                <p>记录工作，感悟生活</p>
+            </div>
+            <h2 class="post-title">ActiveMQ集群搭建</h2>
+            <div class="post-meta">
+                本文共计4365个字 |
+                您是第&nbsp;<span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>位看到它们的小伙伴
+            </div>
+        </div>
+        <div class="post-content markdown-body">
+            <h2 id="简述"><a href="#简述" class="headerlink" title="简述"></a>简述</h2><p>activemq提供了多种方式来保证activemq的可靠性。<br>包括：</p>
+<ul>
+<li>纯Master/Slave </li>
+<li>Shared File System Master Slave</li>
+<li>JDBC Master Slave</li>
+<li>Broker clusters-静态</li>
+<li>Broker clusters-动态（基于组播，动态发现brokers）</li>
+</ul>
+<p>但单纯的使用上面的一种没法既达到高可用，同时有具有负载均衡的能力。</p>
+<h2 id="生成环境集群搭建建议"><a href="#生成环境集群搭建建议" class="headerlink" title="生成环境集群搭建建议"></a>生成环境集群搭建建议</h2><p>所以可以考虑Master/Slave+Broker clusters-静态来实现。Master/Slave保证了Slave复制master的数据，Broker clusters-静态实现了非消息生产者的broker拥有对外提供消费的能力。即在broker1上生产了消息，如果broker1与broker2配置了static network Connectors，那么客户端监听broker2也可以拿到broker1生产的消息。所以生产环境建议二者集合。<br><a id="more"></a><br>生产环境：</p>
+<ul>
+<li><p>如果数据量不大，可以考虑Zookeeper来搭建Master/Slave。<br>由于ZK选举至少需要2N+1个节点，所以mq至少要3个节点。如果生产消息的broker挂掉，ZK会从其他的节点选择一个作为Master。客户端使用failover会自动连接到提升为Master的节点，消费挂掉的broker的消息没有问题。</p>
+</li>
+<li><p>数据量比较大，考虑Zookeeper+静态网络连接来实现高可用与负载均衡能力。<br>比如2个ZK（假定分别为zk1和zk2），每个ZK分别管理1组（3台）MQ节点。这样启动全部的MQ节点，2组MQ节点中会分别有1台Master对外提供服务。然后2组MQ之间通过static network Connectors+duplex=true来实现failover功能。</p>
+</li>
+</ul>
+<p>配置1：<br><img src="https://app.yinxiang.com/shard/s64/nl/13987728/a5337336-4489-482f-9cde-5531127a51a2/res/7ae0ffda-501f-40be-a4f1-19823127319b.png?resizeSmall&amp;width=832" alt><br>这种配置，一个缺点就是没有保障ZK的高可用。</p>
+<p>如果希望ZK也高可用，则每组ZK至少配置3个ZK节点（ZN+1原则）。<br>比如下面的配置2组ZK+2组MQ。</p>
+<table>
+<thead>
+<tr>
+<th>作用</th>
+<th style="text-align:left">openwire端口</th>
+<th style="text-align:left">admin端口</th>
+<th style="text-align:left">zk端口</th>
+<th style="text-align:left">组 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>mq1</td>
+<td style="text-align:left">61616</td>
+<td style="text-align:left">8161</td>
+<td style="text-align:left">zk1,2,3的2181,2182,2183</td>
+<td style="text-align:left">Group1  </td>
+</tr>
+<tr>
+<td>mq2</td>
+<td style="text-align:left">61617</td>
+<td style="text-align:left">8162</td>
+<td style="text-align:left">zk1,2,3的2181,2182,2183</td>
+<td style="text-align:left">Group1  </td>
+</tr>
+<tr>
+<td>mq3</td>
+<td style="text-align:left">61618</td>
+<td style="text-align:left">8163</td>
+<td style="text-align:left">zk1,2,3的2181,2182,2183</td>
+<td style="text-align:left">Group1  </td>
+</tr>
+<tr>
+<td>mq4</td>
+<td style="text-align:left">61616</td>
+<td style="text-align:left">8161</td>
+<td style="text-align:left">zk4,5,6的2181,2182,2183</td>
+<td style="text-align:left">Group2  </td>
+</tr>
+<tr>
+<td>mq5</td>
+<td style="text-align:left">61617</td>
+<td style="text-align:left">8162</td>
+<td style="text-align:left">zk4,5,6的2181,2182,2183</td>
+<td style="text-align:left">Group2  </td>
+</tr>
+<tr>
+<td>mq6</td>
+<td style="text-align:left">61618</td>
+<td style="text-align:left">8163</td>
+<td style="text-align:left">zk4,5,6的2181,2182,2183</td>
+<td style="text-align:left">Group2  </td>
+</tr>
+<tr>
+<td>zk1</td>
+<td style="text-align:left">/</td>
+<td style="text-align:left">/</td>
+<td style="text-align:left">2181</td>
+<td style="text-align:left">Group1  </td>
+</tr>
+<tr>
+<td>zk2</td>
+<td style="text-align:left">/</td>
+<td style="text-align:left">/</td>
+<td style="text-align:left">2182</td>
+<td style="text-align:left">Group1  </td>
+</tr>
+<tr>
+<td>zk3</td>
+<td style="text-align:left">/</td>
+<td style="text-align:left">/</td>
+<td style="text-align:left">2183</td>
+<td style="text-align:left">Group1  </td>
+</tr>
+<tr>
+<td>zk4</td>
+<td style="text-align:left">/</td>
+<td style="text-align:left">/</td>
+<td style="text-align:left">2181</td>
+<td style="text-align:left">Group2  </td>
+</tr>
+<tr>
+<td>zk5</td>
+<td style="text-align:left">/</td>
+<td style="text-align:left">/</td>
+<td style="text-align:left">2182</td>
+<td style="text-align:left">Group2  </td>
+</tr>
+<tr>
+<td>zk6</td>
+<td style="text-align:left">/</td>
+<td style="text-align:left">/</td>
+<td style="text-align:left">2183</td>
+<td style="text-align:left">Group2  </td>
+</tr>
+</tbody>
+</table>
+<p>这里假定Group1和Group2是2台机器，ZK1和ZK2为2台机器。其中，mq1-3为Group1，zkAddress=zk1:2181,zk2:2182,zk3:2183.mq4-6为Group2，zkAddress=zk4:2181,zk5:2182,zk6:2183.注意：6台MQ的brokerName必须全部一样。</p>
+<p>当然了，你还可以继续扩展，比如3组ZK+3组MQ，这样同时对外提供服务的MQ就是3台。</p>
+<h2 id="关键配置"><a href="#关键配置" class="headerlink" title="关键配置"></a>关键配置</h2><h3 id="1-ZK集群搭建"><a href="#1-ZK集群搭建" class="headerlink" title="1.ZK集群搭建"></a>1.ZK集群搭建</h3><p>那一组ZK来说<br>在该组ZK的根目录创建data目录，然后创建3个子目录，名字分别为1,2,3，在每个子目录下面创建myid文件，内容与目录名字相同（即如果属于目录1，则内容为1）。</p>
+<p>在每个ZK节点的配置文件zoo.cfg中最后加入：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">server.1=127.0.0.1:2887:3887</span><br><span class="line">server.2=127.0.0.1:2888:3888</span><br><span class="line">server.3=127.0.0.1:2889:3889</span><br></pre></td></tr></table></figure></p>
+<p>每个ZK节点的dataDir指向它所属的data目录。比如ZK1的dataDir=/usr/local/zookeeper/data/1。其中/usr/local/zookeeper是该组ZK集群的根目录。</p>
+<h3 id="2-ActiveMQ集群配置"><a href="#2-ActiveMQ集群配置" class="headerlink" title="2.ActiveMQ集群配置"></a>2.ActiveMQ集群配置</h3><p>打开activemq.xml，修改或加入如下内容：</p>
+<ol>
+<li>修改brokerName；</li>
+<li><persistenceadapter>中的内容为：<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">persistenceAdapter</span>&gt;</span></span><br><span class="line">           <span class="comment">&lt;!-- &lt;kahaDB directory="$&#123;activemq.data&#125;/kahadb"/&gt;--&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">replicatedLevelDB</span> </span></span><br><span class="line"><span class="tag">               <span class="attr">directory</span>=<span class="string">"$&#123;activemq.data&#125;/leveldb"</span> </span></span><br><span class="line"><span class="tag">               <span class="attr">replicas</span>=<span class="string">"3"</span></span></span><br><span class="line"><span class="tag">               <span class="attr">bind</span>=<span class="string">"tcp://0.0.0.0:0"</span></span></span><br><span class="line"><span class="tag">               <span class="attr">zkAddress</span>=<span class="string">"127.0.0.1:2181,127.0.0.1:2181,127.0.0.1:2183"</span></span></span><br><span class="line"><span class="tag">               <span class="attr">zkPassword</span>=<span class="string">""</span></span></span><br><span class="line"><span class="tag">               <span class="attr">zkPath</span>=<span class="string">"/activemq-cluster/leveldb-stores/group1"</span></span></span><br><span class="line"><span class="tag">               <span class="attr">hostname</span>=<span class="string">"vm1"</span></span></span><br><span class="line"><span class="tag">               <span class="attr">sync</span>=<span class="string">"local_disk"</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+</persistenceadapter></li>
+</ol>
+<p>此处需注意：replicas是MQ节点的数量，需要为2N+1.zkAddress指定ZK集群的地址，多个地址用逗号分隔，zkPath保证不与其他ZK组的path一样（如果2组ZK在不同的机器可以忽略），否则会导致选举Master出现问题，因为各个ZK组都查找到了相同的节点。</p>
+<ol start="3">
+<li>修改transportConnector<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">transportConnectors</span>&gt;</span></span><br><span class="line">            <span class="comment">&lt;!-- DOS protection, limit concurrent connections to 1000 and frame size to 100MB --&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">transportConnector</span> <span class="attr">name</span>=<span class="string">"openwire"</span> <span class="attr">uri</span>=<span class="string">"tcp://0.0.0.0:61616?maximumConnections=1000&amp;amp;wireFormat.maxFrameSize=104857600"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">transportConnectors</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>一个是修改openwrie的端口，然后把其他协议的注释掉。（这里根据需要，只保留使用的协议）。</p>
+<ol start="4">
+<li>增加static network Connector配置<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">networkConnectors</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">networkConnector</span> <span class="attr">uri</span>=<span class="string">"static:(tcp://192.168.199.199:61619,tcp://192.168.199.199:61620,tcp://192.168.199.199:61621)"</span> <span class="attr">duplex</span>=<span class="string">"true"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">networkConnectors</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>这里的IP和端口是其他Group的IP和端口。因为你希望在Group1生产的数据在Group2的节点能够消费，反之亦然。所以这里配置的是其他组的IP和端口。另外，需要配置duplex=true。否则，比如Group1的mq1生产消息，然后停止mq1，此时消费者连接上Group2，是没法消费消息的。配置上duplex=true，就可以保证在Group2也能消费到Group1生产的消息。反之亦然。</p>
+<ol start="5">
+<li><p>修改每个mq的管理端口<br>修改jetty.xml中的port即可。</p>
+</li>
+<li><p>应用程序配置<br>程序使用failover来连接broker。<br>比如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> <span class="keyword">static</span> String uris = </span><br><span class="line"><span class="string">"failover:(tcp://192.168.199.199:61616,tcp://192.168.199.199:61617,tcp://192.168.199.199:61618,"</span> +        </span><br><span class="line"><span class="string">"tcp://192.168.199.199:61619,tcp://192.168.199.199:61620,tcp://192.168.199.199:61621)"</span> +        </span><br><span class="line"><span class="string">"?randomize=true&amp;initialReconnectDelay=1000&amp;maxReconnectDelay=30000"</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">final</span> <span class="keyword">static</span> String MQ_USERNAME = <span class="string">"admin"</span>;</span><br><span class="line"><span class="keyword">final</span> <span class="keyword">static</span> String MQ_PASSWORD = <span class="string">"admin"</span>;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>上面配置完毕后，先启动各个ZK，没问题再启动各个MQ节点。观察日志输出，每组ZK只会有一个是Master，其他是Slave。每组MQ只会有一个是Master，其他是Slave。</p>
+<p>配置完毕后，将MQ的openwire的端口对外开放，程序就可以访问了。</p>
+<h2 id="集群测试"><a href="#集群测试" class="headerlink" title="集群测试"></a>集群测试</h2><ol>
+<li>测试某组MQ节点之间数据是否正常（测试Master/Slave功能）；<br>生产者和消费者都使用failover连接所有MQ节点，生产者发送消息。消息发送完毕后，将发送消息的MQ节点停掉，然后消费者连接发送消息的MQ所在组的其他MQ节点，看是否正常消费消息。<br>比如Group1节点分别为mq1,mq2,mq3，假定发送消息的MQ节点是mq1，那么发送消息完毕后，停掉mq1.然后启动消费者，看消费者能否消费消息。这里生产者和消费者都使用failover连接mq1,mq2,mq3.</li>
+</ol>
+<ol start="2">
+<li>测试组间数据是否正常（测试Static NetWork Connector功能）。<br>生产者与#1一致，发送消息后关闭该mq节点。消费者使用failover连接另外一组MQ，看是否能够消费消息。</li>
+</ol>
+<p>各种MQ集群配置参考：<a href="https://blog.csdn.net/aa1215018028/article/details/82700872">ActiveMQ集群搭建详解</a></p>
+
+        </div>
+        <div class="post-tool">
+            <a class="btn-thumbs-up" href="javascript:void(0);" data-cid="52" title="95">
+                <i class="fa fa-thumbs-up" aria-hidden="true"></i> 打赏
+            </a>
+        </div>
+        
+        <div class="post-tags">标签：
+            
+            <a href="/tags/java/">java</a>
+            
+        </div>
+        
+    </article>
+    
+    <p style="text-align: center">本文代表个人观点，内容仅供参考。若有不恰当之处，望不吝赐教！</p>
+    
+    
+
+    
+    
+        <div id="gitment-container"></div>
+        <link rel="stylesheet" href="//imsun.github.io/gitment/style/default.css">
+        <script src="//imsun.github.io/gitment/dist/gitment.browser.js"></script>
+        <script type="text/javascript">
+            var gitment = new Gitment({
+                /*lable长度不能超过50个字符，这里使用页面的生成时间*/
+                id: 'Sat Mar 16 2019 16:01:07 GMT+0800'/*document.location.href*/,
+                owner: 'luckystar88',
+                repo: 'comments',
+                oauth: {
+                    client_id: 'd49ebe4f95abcd6163f4',
+                    client_secret: 'edd2748d6271072a6970d5cec8751f388dac8116',
+                }
+            });
+            gitment.render('gitment-container');
+        </script>
+        
+            <script>
+                document.getElementById("gitment-display-button").style.display = "none";
+                document.getElementById("gitment-container").style.display = "block";
+            </script>
+        
+    
+
+
+</div>
+<script src="/js/busuanzi.pure.mini.js"></script>
+
+
+        </div><!-- end #main-->
+    </div><!-- end #body -->
+    <footer class="footer">
+    <div class="footer-inner" style="text-align: center">
+        <p>
+            <a href="/about" title="关于">关于</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <!-- 自定义链接 -->
+            <a href="/help" title="帮助">帮助</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <a href="/links" title="友链">友链</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <a href="/sitemap.xml" title="地图">地图</a>
+        </p>
+        <p>
+            本站已建立&nbsp<a href="/timeline" id="siteBuildingTime"></a>&nbsp天，<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="licence">采用知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议创作</a><br>
+            ©2017-<span id="cpYear"></span> 基于&nbsp<a href="http://hexo.io" target="_blank" rel="nofollow">Hexo</a>
+            ，主题采用&nbsp&nbsp<a href="https://github.com/tangkunyin/hexo-theme-jsimple" target="_blank" rel="bookmark">JSimple</a>
+            ，作者&nbsp<a href="https://tommy88.top" target="_blank" rel="friend">Donny</a>
+            ，Hosted by <a href="https://pages.github.com/" target="_blank" rel="nofollow">GitHub Pages</a>
+        </p>
+    </div>
+</footer>
+<script src="/js/SimpleCore.js"></script>
+
+</div>
+<!-- search pop -->
+<div class="popup search-popup local-search-popup">
+    <div class="local-search-header clearfix">
+        <span class="search-icon">
+            <i class="fa fa-search"></i>
+        </span>
+        <span class="popup-btn-close">
+            <i class="fa fa-times-circle"></i>
+        </span>
+        <div class="local-search-input-wrapper">
+            <input id="local-search-input" spellcheck="false" type="text" autocomplete="off" placeholder="请输入查询关键词">
+        </div>
+    </div>
+    <div id="local-search-result"></div>
+</div>
+<div class="fixed-btn">
+    <a class="btn-gotop" href="javascript:"> <i class="fa fa-angle-up"></i></a>
+</div>
+<script>
+    $(function () {
+        var jsi_config = {
+            buildingTime: '01/20/2016',
+            current: $('.post-tags').length > 0 ? 'post' : 'archive',
+            snsQRCode: '/images/sns-qrcode.png',
+            donateImg: '/images/donate-qr.png',
+            localSearch: { dbPath: '' },
+            readMode: 'day'
+        };
+        
+            jsi_config.localSearch = {
+                dbPath: '/search.xml',
+                trigger: 'auto',
+                topN: '1',
+                unescape: 'false'
+            }
+        
+        SimpleCore.init(jsi_config);
+        
+    });
+</script>
+</body>
+</html>

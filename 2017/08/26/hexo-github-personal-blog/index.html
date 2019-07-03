@@ -1,0 +1,309 @@
+<!DOCTYPE HTML>
+<html class="no-js" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!--[if lte IE 9]>
+<meta http-equiv="refresh" content="0;url=https://tommy88.top/warn.html">
+<![endif]-->
+<meta charset="utf-8">
+<meta http-equiv="X-DNS-Prefetch-Control" content="on">
+<link rel="dns-prefetch" href="https://tommy88.top">
+<link rel="dns-prefetch" href="//www.google-analytics.com">
+<link rel="prefetch" href="https://tommy88.top">
+<link rel="prefetch" href="//www.google-analytics.com">
+
+
+    <link rel="dns-prefetch" href="//imsun.github.io">
+    <link rel="prefetch" href="//imsun.github.io">
+
+<link rel="prerender" href="https://tommy88.top">
+
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+<meta http-equiv="mobile-agent" content="format=html5; url=https://tommy88.top">
+<meta name="author" content="Donny">
+<link rel="stylesheet" href="/css/JSimple.css">
+
+<link rel="shortcut icon" href="/images/favicon.png">
+
+
+<title>使用hexo+github搭建个人博客 - Donny的技术博客</title>
+
+<meta name="keywords" content="java,前端,数据库,web,spring,redis,spring boot,spring cloud,mq">
+
+<meta name="description " content="记录工作，感悟生活">
+
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                processEscapes: true
+            }
+        });
+    </script>
+
+
+    
+
+    
+    
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="//www.googletagmanager.com/gtag/js?id=UA-105613999-1"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'UA-105613999-1');
+        </script>
+    
+    <!-- put your likes here. -->
+
+
+</head>
+<body>
+<div id="nav">
+    <nav class="nav-menu">
+        <a class="site-name current" href="/" title="Home">Home</a>
+        <a class="site-index current" href="/"><i class="fa fa-home"></i><span>首页</span></a>
+        <a href="/archives" title="归档"><i class="fa fa-archives"></i><span>归档</span></a>
+        <a href="/tags" title="标签"><i class="fa fa-tags"></i><span>标签</span></a>
+        <!-- custom single page of menus -->
+        
+        
+        <a href="/help" title="帮助">
+            <i class="fa fa-question-circle"></i>
+            <span>帮助</span>
+        </a>
+        
+    </nav>
+</div>
+
+<div class="nav-user">
+    <a class="btn-search" href="#"><i class="fa fa-search"></i></a>
+    <a class="btn-read-mode" href="#"><i class="fa fa-sun-o"></i></a>
+    <a class="btn-sns-qr" href="javascript:"><i class="fa fa-telegram"></i></a>
+</div>
+
+<div id="wrapper" class="clearfix">
+    <div id="body">
+        <div class="main" id="main">
+            <div id="cover">
+    <div class="cover-img"></div>
+    <div class="cover-info">
+        
+        <h1 class="cover-siteName">Donny的技术博客</h1>
+        <h3 class="cover-siteTitle">用代码征服世界</h3>
+        <p class="cover-siteDesc">这是一个简单的技术博客</p>
+        <div class="cover-sns">
+            
+    &nbsp;&nbsp;<div class="btn btn-github">
+        <a href="https://github.com/luckystar88" target="_blank" title="github" ref="friend">
+            <i class="fa fa-github"></i>
+        </a>
+    </div>
+
+
+        </div>
+    </div>
+</div>
+
+            <div class="page-title">
+    <ul>
+        <li><a href="/">最近</a></li>
+        
+            
+                <li class="active">
+                    <a href="/categories/tech" data-name="技术">技术</a>
+                </li>
+            
+                <li class>
+                    <a href="/categories/life" data-name="人文">人文</a>
+                </li>
+            
+                <li class>
+                    <a href="/categories/others" data-name="其他">其他</a>
+                </li>
+            
+        
+        <li class="page-search">
+    <form id="search" class="search-form">
+        <input type="text" readonly="readonly" id="local-search-input-tip" placeholder="读物检索~">
+        <button type="button" disabled="disabled" class="search-form-submit"><i class="fa fa-search"></i></button>
+    </form>
+</li>
+
+    </ul>
+</div>
+<div class="main-inner">
+    <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+        <div class="post-header">
+            <div class="post-author clearfix">
+                <a class="avatar fleft" href="https://tommy88.top" target="_blank">
+                    <img width="48" src="/images/favicon.png" alt="avatar">
+                </a>
+                <p><span class="label">作者</span>
+                    <a href="https://tommy88.top" target="_blank">Donny</a>
+                    <span title="最后编辑于&nbsp;2017-08-26">2017-08-26</span>
+                </p>
+                <p>记录工作，感悟生活</p>
+            </div>
+            <h2 class="post-title">使用hexo+github搭建个人博客</h2>
+            <div class="post-meta">
+                本文共计3483个字 |
+                您是第&nbsp;<span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>位看到它们的小伙伴
+            </div>
+        </div>
+        <div class="post-content markdown-body">
+            <p>hexo+github搭建个人博客</p>
+<p>参考：<br><a href="http://www.cnblogs.com/dantefung/p/d8c48ba8030bcab7cfc364d423186fee.html">http://www.cnblogs.com/dantefung/p/d8c48ba8030bcab7cfc364d423186fee.html</a>  </p>
+<h3 id="问题记录"><a href="#问题记录" class="headerlink" title="问题记录"></a>问题记录</h3><p>问题1：执行npm install时或安装hexo时很久没反应。<br>解决：<br>受网络影响建议安装cnpm（淘宝团队建立的中国镜像）<br>npm install cnpm -g –registry=<a href="https://registry.npm.taobao.org">https://registry.npm.taobao.org</a><br>后面可以使用cnpm来替代npm.<br><a id="more"></a><br>错误2：fatal: could not read Username for ‘<a href="https://github.com&#39;">https://github.com&#39;</a>: No error<br><img src="http://omh46px9n.bkt.clouddn.com/17-8-26/25091116.jpg" alt><br>解决：<br>修改_config.yml中的部署配置：<br><!--more--><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># Deployment</span><br><span class="line">## Docs: https://hexo.io/docs/deployment.html</span><br><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repo: git@github.com:luckystar88/luckystar88.github.io.git</span><br></pre></td></tr></table></figure></p>
+<p>错误3：Please make sure you have the correct access rights<br><img src="http://omh46px9n.bkt.clouddn.com/17-8-26/18925.jpg" alt><br>解决：<br>参考：<a href="http://blog.csdn.net/u014343528/article/details/48787221">http://blog.csdn.net/u014343528/article/details/48787221</a><br>在git Bash中，输入：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa -C &quot;username&quot; (注：username为你git上的用户名)</span><br></pre></td></tr></table></figure></p>
+<p>后面一直回车，直到结束。  </p>
+<p>参考：<br><a href="http://blog.csdn.net/binyao02123202/article/details/20130891">http://blog.csdn.net/binyao02123202/article/details/20130891</a><br>打开生成的id_rsa.pub文件，复制公钥到github的ssh key。<br><img src="http://omh46px9n.bkt.clouddn.com/17-8-26/43905479.jpg" alt><br><img src="http://omh46px9n.bkt.clouddn.com/17-8-26/71412724.jpg" alt></p>
+<p>配置完毕后，使用下面的命令测试一下SSH Key<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -T git@github.com</span><br></pre></td></tr></table></figure></p>
+<p>后面你使用<code>hexo d</code>直接就提交到github仓库中了。</p>
+<h3 id="更多配置"><a href="#更多配置" class="headerlink" title="更多配置"></a>更多配置</h3><p>hexo站点域名配置：<a href="http://www.cnblogs.com/penglei-it/p/hexo_domain_name.html">http://www.cnblogs.com/penglei-it/p/hexo_domain_name.html</a></p>
+<p>hexo提交搜索引起：<a href="http://www.cnblogs.com/tengj/p/5357879.html">http://www.cnblogs.com/tengj/p/5357879.html</a></p>
+<p>hexo主题next优化： <a href="http://blog.csdn.net/mynamelijun/article/details/52196184">http://blog.csdn.net/mynamelijun/article/details/52196184</a></p>
+<p>Hexo添加不蒜子和LeanCloud统计无标题文章:<a href="http://www.jianshu.com/p/702a7aec4d00">http://www.jianshu.com/p/702a7aec4d00</a><br>注意：LeanCloud中Web安全域名要配置正确，否则可能会导致403禁止访问。<br><img src="http://omh46px9n.bkt.clouddn.com/17-8-31/20074557.jpg" alt><br>next主题使用帮助：<a href="http://theme-next.iissnan.com/getting-started.html">http://theme-next.iissnan.com/getting-started.html</a></p>
+<h3 id="加入站点内容搜索功能"><a href="#加入站点内容搜索功能" class="headerlink" title="加入站点内容搜索功能:"></a>加入站点内容搜索功能:</h3><p>本站点使用的是Local Search。加入站点内容搜索功能步骤如下：</p>
+<p>安装hexo-generator-searchdb<br>$ npm install hexo-generator-searchdb –save<br>注意：安装时应在站点根目录下</p>
+<p>然后将next主题配置文件中的搜索enable设置为true即可。<br><img src="http://omh46px9n.bkt.clouddn.com/17-8-30/45453439.jpg" alt></p>
+<h3 id="使用友言评论"><a href="#使用友言评论" class="headerlink" title="使用友言评论"></a>使用友言评论</h3><p>友言官网：<a href="http://www.uyan.cc/">http://www.uyan.cc/</a><br>进入官网，注册，登陆，获取代码。你需要记下来的是代码中uid=”***”的值，等下要用到。这一步很简单。 </p>
+<p>修改主题中的youyan_uid为上面的uid即可。<br><img src="http://omh46px9n.bkt.clouddn.com/17-8-30/77606245.jpg" alt></p>
+<h3 id="加入百度统计"><a href="#加入百度统计" class="headerlink" title="加入百度统计"></a>加入百度统计</h3><p>到<a href="https://tongji.baidu.com注册，并添加域名后，复制代码中的问号后面的一串id。">https://tongji.baidu.com注册，并添加域名后，复制代码中的问号后面的一串id。</a><br><img src="http://omh46px9n.bkt.clouddn.com/17-8-30/72231015.jpg" alt></p>
+<p>修改主题中的baidu_analytics为上面复制的id。<br><img src="http://omh46px9n.bkt.clouddn.com/17-8-30/1936862.jpg" alt></p>
+<h3 id="菜单与logo设置"><a href="#菜单与logo设置" class="headerlink" title="菜单与logo设置"></a>菜单与logo设置</h3><p>在next主题的_config.yml中，找到menu:配置<br>菜单项的配置：<code>技术: /categories/tech || th-list</code><br>冒号前是菜单项的名字，||前是路径，后面是logo。logo的名字可以在<a href="http://fontawesome.dashgame.com/查看。">http://fontawesome.dashgame.com/查看。</a></p>
+<h3 id="将博客文章、配置与主题设置备份到osc"><a href="#将博客文章、配置与主题设置备份到osc" class="headerlink" title="将博客文章、配置与主题设置备份到osc"></a>将博客文章、配置与主题设置备份到osc</h3><p>我的博客文章发布在github，备份在osc。<br>这里说一下怎么将博客文章、配置与主题备份到osc。<br>在博客目录执行<code>git init</code>命令初始化博客与git关联。<br>在博客跟目录执行<code>git remote add origin https://xxx.git</code>(osc上的git路径)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git pull origin master // 拉取更新</span><br><span class="line">git add . // 添加本地文件</span><br><span class="line">git commit // 提交到本地</span><br><span class="line">git push origin master // 提交到远程分支</span><br></pre></td></tr></table></figure></p>
+<p>但是，这个时候发现主题没有提交上去。<br>到hexo-theme-next中查看已经存在.git文件夹，删除它。<br>（如果你直接在hexo-theme-next执行<code>git add /git commit</code>会提示<code>modified:   hexo-theme-next (modified content, untracked content)</code>）。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git rm -rf --cached themes/hexo-theme-next/</span><br><span class="line">git add themes/hexo-theme-next/*</span><br><span class="line">git commit</span><br><span class="line">git push origin master</span><br></pre></td></tr></table></figure></p>
+<p>搞定。</p>
+<p>后面添加新的文章，只需要在博客根目录执行下面的命令即可：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git add .</span><br><span class="line">git commit -m &apos;注释信息&apos;</span><br><span class="line">git push origin master</span><br></pre></td></tr></table></figure></p>
+<p>参考：<a href="http://www.cnblogs.com/wanqieddy/p/4210767.html">http://www.cnblogs.com/wanqieddy/p/4210767.html</a><br><a href="http://www.cnblogs.com/super-d2/p/3341864.html">http://www.cnblogs.com/super-d2/p/3341864.html</a></p>
+<h3 id="写文章用到的图片处理"><a href="#写文章用到的图片处理" class="headerlink" title="写文章用到的图片处理"></a>写文章用到的图片处理</h3><p>使用markdown写文章有一个问题就是图片只支持链接，不能粘贴。我这里使用的是“极简图床”提供的服务，支持上传图片、拖拽、粘贴图片，可以生成外链地址，并可以直接以markdown复制。<br>我这里绑定了七牛云，可以使用10G的免费空间。<br><img src="http://omh46px9n.bkt.clouddn.com/17-8-31/8149063.jpg" alt></p>
+<h3 id="Hexo博客收录百度、谷歌、360-基于Next主题"><a href="#Hexo博客收录百度、谷歌、360-基于Next主题" class="headerlink" title="Hexo博客收录百度、谷歌、360-基于Next主题"></a>Hexo博客收录百度、谷歌、360-基于Next主题</h3><p>分别注册，并添加站点。选择“HTML标签验证”，然后复制<meta>标签的content内容。<br>在next主题的配置文件中，添加<br><img src="http://omh46px9n.bkt.clouddn.com/17-8-31/5077441.jpg" alt><br>然后使用hexo g,hexo d重新生成文章，并发布。然后在百度/谷歌/360的站长平台点击“验证”。</p>
+<h3 id="去掉底部的“由Hexo强力驱动”"><a href="#去掉底部的“由Hexo强力驱动”" class="headerlink" title="去掉底部的“由Hexo强力驱动”"></a>去掉底部的“由Hexo强力驱动”</h3><p><img src="http://omh46px9n.bkt.clouddn.com/17-8-31/5696103.jpg" alt><br>修改\themes\hexo-theme-next\layout_partials\footer.swig，去掉文件最后下面截图中的部分。<br><img src="http://omh46px9n.bkt.clouddn.com/17-8-31/18041034.jpg" alt></p>
+<h3 id="博客首页文章只显示摘要部分"><a href="#博客首页文章只显示摘要部分" class="headerlink" title="博客首页文章只显示摘要部分"></a>博客首页文章只显示摘要部分</h3><p>默认首页显示5篇文章，且显示的是全部的内容，导致首页内容太多。<br>解决方法有2种：<br>1.在next主题的_config.yml文件中，找到<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">auto_excerpt:</span><br><span class="line">  enable: false</span><br><span class="line">  length: 150</span><br></pre></td></tr></table></figure></p>
+<p>将enable改成true，length即为摘要显示的长度。<br>不过这样有个缺陷，会导致本来该一起显示的内容可能会被分开。</p>
+<p>2.文章中使用<code>&lt;!-- more --&gt;</code><br>可以在文章显示摘要结束的部分增加<code>&lt;!-- more --&gt;</code>来标识。<code>&lt;!-- more --&gt;</code>之前的内容即为要显示的摘要部分。</p>
+<p>Next中推荐的是第2种，这样可以自主控制摘要部分。</p>
+<h3 id="github-pages开启https支持"><a href="#github-pages开启https支持" class="headerlink" title="github pages开启https支持"></a>github pages开启https支持</h3><p>参考：<a href="https://likfe.com/2018/05/03/github-pages-custom-domains-support-https/">https://likfe.com/2018/05/03/github-pages-custom-domains-support-https/</a></p>
+<h2 id="使用hexo-theme-bubuzou主题"><a href="#使用hexo-theme-bubuzou主题" class="headerlink" title="使用hexo-theme-bubuzou主题"></a>使用hexo-theme-bubuzou主题</h2><p>目前在用的主题是hexo-theme-bubuzou，使用比较简单，使用参考<a href="https://github.com/Bulandent/hexo-theme-bubuzou">https://github.com/Bulandent/hexo-theme-bubuzou</a>。<br>更新于2017.11</p>
+<h3 id="使用hexo-s命令不成功"><a href="#使用hexo-s命令不成功" class="headerlink" title="使用hexo s命令不成功"></a>使用hexo s命令不成功</h3><p>提示如下：<br><img src="/img/hexo_command_error.png" alt><br>但是hexo g命令是成功的。</p>
+<p>PS：需要执行<code>npm install hexo-server --save</code>，然后再执行hexo s即可。</p>
+<p>可能还缺少其他的组件，使用<code>npm audit fix</code>来查看缺少的组件，然后依次安装。<br><img src="/img/npm_audit_fix.png" alt></p>
+
+        </div>
+        <div class="post-tool">
+            <a class="btn-thumbs-up" href="javascript:void(0);" data-cid="52" title="95">
+                <i class="fa fa-thumbs-up" aria-hidden="true"></i> 打赏
+            </a>
+        </div>
+        
+        <div class="post-tags">标签：
+            
+            <a href="/tags/hexo/">hexo</a>
+            
+        </div>
+        
+    </article>
+    
+    <p style="text-align: center">本文代表个人观点，内容仅供参考。若有不恰当之处，望不吝赐教！</p>
+    
+    
+
+    
+    
+        <div id="gitment-container"></div>
+        <link rel="stylesheet" href="//imsun.github.io/gitment/style/default.css">
+        <script src="//imsun.github.io/gitment/dist/gitment.browser.js"></script>
+        <script type="text/javascript">
+            var gitment = new Gitment({
+                /*lable长度不能超过50个字符，这里使用页面的生成时间*/
+                id: 'Sat Aug 26 2017 17:59:25 GMT+0800'/*document.location.href*/,
+                owner: 'luckystar88',
+                repo: 'comments',
+                oauth: {
+                    client_id: 'd49ebe4f95abcd6163f4',
+                    client_secret: 'edd2748d6271072a6970d5cec8751f388dac8116',
+                }
+            });
+            gitment.render('gitment-container');
+        </script>
+        
+            <script>
+                document.getElementById("gitment-display-button").style.display = "none";
+                document.getElementById("gitment-container").style.display = "block";
+            </script>
+        
+    
+
+
+</div>
+<script src="/js/busuanzi.pure.mini.js"></script>
+
+
+        </div><!-- end #main-->
+    </div><!-- end #body -->
+    <footer class="footer">
+    <div class="footer-inner" style="text-align: center">
+        <p>
+            <a href="/about" title="关于">关于</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <!-- 自定义链接 -->
+            <a href="/help" title="帮助">帮助</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <a href="/links" title="友链">友链</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <a href="/sitemap.xml" title="地图">地图</a>
+        </p>
+        <p>
+            本站已建立&nbsp<a href="/timeline" id="siteBuildingTime"></a>&nbsp天，<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="licence">采用知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议创作</a><br>
+            ©2017-<span id="cpYear"></span> 基于&nbsp<a href="http://hexo.io" target="_blank" rel="nofollow">Hexo</a>
+            ，主题采用&nbsp&nbsp<a href="https://github.com/tangkunyin/hexo-theme-jsimple" target="_blank" rel="bookmark">JSimple</a>
+            ，作者&nbsp<a href="https://tommy88.top" target="_blank" rel="friend">Donny</a>
+            ，Hosted by <a href="https://pages.github.com/" target="_blank" rel="nofollow">GitHub Pages</a>
+        </p>
+    </div>
+</footer>
+<script src="/js/SimpleCore.js"></script>
+
+</div>
+<!-- search pop -->
+<div class="popup search-popup local-search-popup">
+    <div class="local-search-header clearfix">
+        <span class="search-icon">
+            <i class="fa fa-search"></i>
+        </span>
+        <span class="popup-btn-close">
+            <i class="fa fa-times-circle"></i>
+        </span>
+        <div class="local-search-input-wrapper">
+            <input id="local-search-input" spellcheck="false" type="text" autocomplete="off" placeholder="请输入查询关键词">
+        </div>
+    </div>
+    <div id="local-search-result"></div>
+</div>
+<div class="fixed-btn">
+    <a class="btn-gotop" href="javascript:"> <i class="fa fa-angle-up"></i></a>
+</div>
+<script>
+    $(function () {
+        var jsi_config = {
+            buildingTime: '01/20/2016',
+            current: $('.post-tags').length > 0 ? 'post' : 'archive',
+            snsQRCode: '/images/sns-qrcode.png',
+            donateImg: '/images/donate-qr.png',
+            localSearch: { dbPath: '' },
+            readMode: 'day'
+        };
+        
+            jsi_config.localSearch = {
+                dbPath: '/search.xml',
+                trigger: 'auto',
+                topN: '1',
+                unescape: 'false'
+            }
+        
+        SimpleCore.init(jsi_config);
+        
+    });
+</script>
+</body>
+</html>

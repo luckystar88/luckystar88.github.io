@@ -1,0 +1,304 @@
+<!DOCTYPE HTML>
+<html class="no-js" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!--[if lte IE 9]>
+<meta http-equiv="refresh" content="0;url=https://tommy88.top/warn.html">
+<![endif]-->
+<meta charset="utf-8">
+<meta http-equiv="X-DNS-Prefetch-Control" content="on">
+<link rel="dns-prefetch" href="https://tommy88.top">
+<link rel="dns-prefetch" href="//www.google-analytics.com">
+<link rel="prefetch" href="https://tommy88.top">
+<link rel="prefetch" href="//www.google-analytics.com">
+
+
+    <link rel="dns-prefetch" href="//imsun.github.io">
+    <link rel="prefetch" href="//imsun.github.io">
+
+<link rel="prerender" href="https://tommy88.top">
+
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+<meta http-equiv="mobile-agent" content="format=html5; url=https://tommy88.top">
+<meta name="author" content="Donny">
+<link rel="stylesheet" href="/css/JSimple.css">
+
+<link rel="shortcut icon" href="/images/favicon.png">
+
+
+<title>java数据结构之map - Donny的技术博客</title>
+
+<meta name="keywords" content="java,前端,数据库,web,spring,redis,spring boot,spring cloud,mq">
+
+<meta name="description " content="记录工作，感悟生活">
+
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                processEscapes: true
+            }
+        });
+    </script>
+
+
+    
+
+    
+    
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="//www.googletagmanager.com/gtag/js?id=UA-105613999-1"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'UA-105613999-1');
+        </script>
+    
+    <!-- put your likes here. -->
+
+
+</head>
+<body>
+<div id="nav">
+    <nav class="nav-menu">
+        <a class="site-name current" href="/" title="Home">Home</a>
+        <a class="site-index current" href="/"><i class="fa fa-home"></i><span>首页</span></a>
+        <a href="/archives" title="归档"><i class="fa fa-archives"></i><span>归档</span></a>
+        <a href="/tags" title="标签"><i class="fa fa-tags"></i><span>标签</span></a>
+        <!-- custom single page of menus -->
+        
+        
+        <a href="/help" title="帮助">
+            <i class="fa fa-question-circle"></i>
+            <span>帮助</span>
+        </a>
+        
+    </nav>
+</div>
+
+<div class="nav-user">
+    <a class="btn-search" href="#"><i class="fa fa-search"></i></a>
+    <a class="btn-read-mode" href="#"><i class="fa fa-sun-o"></i></a>
+    <a class="btn-sns-qr" href="javascript:"><i class="fa fa-telegram"></i></a>
+</div>
+
+<div id="wrapper" class="clearfix">
+    <div id="body">
+        <div class="main" id="main">
+            <div id="cover">
+    <div class="cover-img"></div>
+    <div class="cover-info">
+        
+        <h1 class="cover-siteName">Donny的技术博客</h1>
+        <h3 class="cover-siteTitle">用代码征服世界</h3>
+        <p class="cover-siteDesc">这是一个简单的技术博客</p>
+        <div class="cover-sns">
+            
+    &nbsp;&nbsp;<div class="btn btn-github">
+        <a href="https://github.com/luckystar88" target="_blank" title="github" ref="friend">
+            <i class="fa fa-github"></i>
+        </a>
+    </div>
+
+
+        </div>
+    </div>
+</div>
+
+            <div class="page-title">
+    <ul>
+        <li><a href="/">最近</a></li>
+        
+            
+                <li class="active">
+                    <a href="/categories/tech" data-name="技术">技术</a>
+                </li>
+            
+                <li class>
+                    <a href="/categories/life" data-name="人文">人文</a>
+                </li>
+            
+                <li class>
+                    <a href="/categories/others" data-name="其他">其他</a>
+                </li>
+            
+        
+        <li class="page-search">
+    <form id="search" class="search-form">
+        <input type="text" readonly="readonly" id="local-search-input-tip" placeholder="读物检索~">
+        <button type="button" disabled="disabled" class="search-form-submit"><i class="fa fa-search"></i></button>
+    </form>
+</li>
+
+    </ul>
+</div>
+<div class="main-inner">
+    <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+        <div class="post-header">
+            <div class="post-author clearfix">
+                <a class="avatar fleft" href="https://tommy88.top" target="_blank">
+                    <img width="48" src="/images/favicon.png" alt="avatar">
+                </a>
+                <p><span class="label">作者</span>
+                    <a href="https://tommy88.top" target="_blank">Donny</a>
+                    <span title="最后编辑于&nbsp;2018-04-17">2018-04-17</span>
+                </p>
+                <p>记录工作，感悟生活</p>
+            </div>
+            <h2 class="post-title">java数据结构之Map</h2>
+            <div class="post-meta">
+                本文共计5800个字 |
+                您是第&nbsp;<span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>位看到它们的小伙伴
+            </div>
+        </div>
+        <div class="post-content markdown-body">
+            <p>Java中的List和Map是使用频率非常高的数据结构。这里介绍下常用的Map实现。<br>先来看下类图：<br><img src="http://omh46px9n.bkt.clouddn.com/18-4-17/76935559.jpg" alt></p>
+<h2 id="HashMap的实现原理"><a href="#HashMap的实现原理" class="headerlink" title="HashMap的实现原理"></a>HashMap的实现原理</h2><p>HashMap的实现原理参考：<a href="http://tommy88.top/2018/03/20/HashMap%E7%9A%84%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90/">HashMap的实现原理</a></p>
+<h2 id="HashMap与HashTable的异同"><a href="#HashMap与HashTable的异同" class="headerlink" title="HashMap与HashTable的异同"></a>HashMap与HashTable的异同</h2><p>HashTable与HashMap的存储机制基本相同，都是采用数组+链表。<br>不同点：<br>1.HashMap是非线程安全的，HashTable是线程安全的。它的大多数方法都加了synchronized。<br>2.HashMap允许key和value的值为null，HashTable不允许null值的存在。在HashTable的put方法中，如果V为null，直接抛出NullPointerException。<br>3.因为HashTable加了同步处理，所以HashMap效率高于HashTable。</p>
+<h2 id="HashTable与ConcurrentHashMap有何不同？"><a href="#HashTable与ConcurrentHashMap有何不同？" class="headerlink" title="HashTable与ConcurrentHashMap有何不同？"></a>HashTable与ConcurrentHashMap有何不同？</h2><p>HashTable与ConcurrentHashMap都是线程安全的Map，有何不同？<br>HashTable使用的synchronized对方法加锁，实际锁住的是整个对象；而ConcurrentHashMap使用的是lock，这样在操作的时候锁住的不是这个对象。<br>而且ConcurrentHashMap采用了分段锁的设计，只有在同一个分段内才存在竞态关系，不同的分段锁之间没有锁竞争。相比于对整个Map加锁的设计，分段锁大大的提高了高并发环境下的处理能力。</p>
+<p>ConcurrentHashMap使用多个子Hash表，即Segment。每个Segment是一个子Hash表。</p>
+<p>ConcurrentHashMap要避免调用size()和containsValue()方法，会对整个Map进行扫描。</p>
+<p>参考：<a href="http://www.importnew.com/22007.html">ConcurrentHashMap总结</a>、<a href="http://www.importnew.com/21786.html">Java集合—ConcurrentHashMap原理分析</a></p>
+<h2 id="LinkedHashMap——有序的HashMap"><a href="#LinkedHashMap——有序的HashMap" class="headerlink" title="LinkedHashMap——有序的HashMap"></a>LinkedHashMap——有序的HashMap</h2><p>LinkedHashMap继承自HashMap，在HashMap的基础上增加了一个链表，用以存放元素的顺序。</p>
+<p>LinkedHashMap提供2种类型的顺序：一是元素插入时的顺序；二是最近访问的顺序。<br>可以通过下面的构造函数指定排序行为：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">LinkedHashMap</span><span class="params">(<span class="keyword">int</span> initialCapacity,</span></span></span><br><span class="line"><span class="function"><span class="params">                     <span class="keyword">float</span> loadFactor,</span></span></span><br><span class="line"><span class="function"><span class="params">                     <span class="keyword">boolean</span> accessOrder)</span> </span>&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>accessOrder为true时表示按照元素访问时间排序；为false时表示按照元素插入的顺序排序。默认是false。<br>示例代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Map&lt;String,String&gt; map = <span class="keyword">new</span> LinkedHashMap&lt;&gt;(<span class="number">16</span>,<span class="number">0.75f</span>,<span class="keyword">false</span>);</span><br><span class="line">map.put(<span class="string">"hello"</span>,<span class="string">"hello"</span>);</span><br><span class="line">map.put(<span class="string">"world"</span>,<span class="string">"world"</span>);</span><br><span class="line">map.put(<span class="string">"!"</span>,<span class="string">"!"</span>);</span><br><span class="line"><span class="keyword">for</span> (Iterator&lt;String&gt; iterator = map.keySet().iterator();iterator.hasNext();) &#123;</span><br><span class="line">    String key = iterator.next();</span><br><span class="line">    System.out.println(key + <span class="string">"-&gt;"</span> + map.get(key));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>输出如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hello-&gt;hello</span><br><span class="line">world-&gt;world</span><br><span class="line">!-&gt;!</span><br></pre></td></tr></table></figure></p>
+<p>按照元素插入的顺序输出。<br>如果把上面的构造函数的最后一个参数accessOrder改为true，则在迭代器遍历时会报错。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Map&lt;String,String&gt; map = <span class="keyword">new</span> LinkedHashMap&lt;&gt;(<span class="number">16</span>,<span class="number">0.75f</span>,<span class="keyword">true</span>);</span><br></pre></td></tr></table></figure></p>
+<p>错误信息：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Exception in thread &quot;main&quot; java.util.ConcurrentModificationException</span><br><span class="line">	at java.util.LinkedHashMap$LinkedHashIterator.nextEntry(LinkedHashMap.java:390)</span><br><span class="line">	at java.util.LinkedHashMap$KeyIterator.next(LinkedHashMap.java:401)</span><br><span class="line">	at com.tommy.core.test.Test.main(Test.java:54)</span><br><span class="line">	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)</span><br><span class="line">	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)</span><br><span class="line">	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)</span><br><span class="line">	at java.lang.reflect.Method.invoke(Method.java:601)</span><br><span class="line">	at com.intellij.rt.execution.application.AppMain.main(AppMain.java:140)</span><br></pre></td></tr></table></figure></p>
+<p>ConcurrentModificationException异常一般是在对集合迭代的过程中被修改时抛出。不仅仅是LinkedHashMap，所有的集合都不允许在迭代器中修改集合的结构。</p>
+<p>因为我们将accessOrder改为true，表示按照最后访问的时间排序。在迭代器中遍历时会将访问的元素移动链表到尾部，发生了修改操作。</p>
+<p>我们看下LinkedHashMap的get方法：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> V <span class="title">get</span><span class="params">(Object key)</span> </span>&#123;</span><br><span class="line">    Entry&lt;K,V&gt; e = (Entry&lt;K,V&gt;)getEntry(key);</span><br><span class="line">    <span class="keyword">if</span> (e == <span class="keyword">null</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    e.recordAccess(<span class="keyword">this</span>);</span><br><span class="line">    <span class="keyword">return</span> e.value;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">recordAccess</span><span class="params">(HashMap&lt;K,V&gt; m)</span> </span>&#123;</span><br><span class="line">    LinkedHashMap&lt;K,V&gt; lm = (LinkedHashMap&lt;K,V&gt;)m;</span><br><span class="line">    <span class="keyword">if</span> (lm.accessOrder) &#123;</span><br><span class="line">        lm.modCount++;</span><br><span class="line">        remove();</span><br><span class="line">        addBefore(lm.header);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>可以看到，在get方法中调用了e.recordAccess()方法，recordAccess方法中如果accessOrder=true会有修改操作。所以在迭代器中循环get时出错了。</p>
+<p>但是，如果把遍历的代码改一下，运行就正常了。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (Iterator&lt;Map.Entry&lt;String,String&gt;&gt; iterator = map.entrySet().iterator();iterator.hasNext();) &#123;</span><br><span class="line">    Map.Entry&lt;String,String&gt; entry = iterator.next();</span><br><span class="line">    System.out.println(entry.getKey() + <span class="string">"-&gt;"</span> + entry.getValue());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>没报错是因为没有对数据结构修改，因为直接调用的getKey和getValue方法。</p>
+<h2 id="TreeMap——另一种排序的Map"><a href="#TreeMap——另一种排序的Map" class="headerlink" title="TreeMap——另一种排序的Map"></a>TreeMap——另一种排序的Map</h2><p>TreeMap实现了SortedMap接口，这意味着它可以对元素进行排序。</p>
+<p>但TreeMap与LinkedHashMap的排序不同，它是通过指定的Comparator或Comparable确定。</p>
+<p>为了确定Key的排序算法，可以通过2种方式制定：<br>1.在TreeMap的构造函数中注入一个Comparator<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">TreeMap</span><span class="params">(Comparator&lt;? <span class="keyword">super</span> K&gt; comparator)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.comparator = comparator;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>2.使用实现了Comparable接口的Key。</p>
+<p>如果不指定Comparable或Compartor，则在put时会报ClassCastException。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Exception in thread &quot;main&quot; java.lang.ClassCastException: com.tommy.core.test.Test$Student cannot be cast to java.lang.Comparable</span><br><span class="line">	at java.util.TreeMap.compare(TreeMap.java:1188)</span><br><span class="line">	at java.util.TreeMap.put(TreeMap.java:531)</span><br><span class="line">	at com.tommy.core.test.Test.main(Test.java:62)</span><br><span class="line">	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)</span><br><span class="line">	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)</span><br><span class="line">	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)</span><br><span class="line">	at java.lang.reflect.Method.invoke(Method.java:601)</span><br><span class="line">	at com.intellij.rt.execution.application.AppMain.main(AppMain.java:140)</span><br></pre></td></tr></table></figure></p>
+<p>因为构造函数没有传入Comparator，TreeMap认为你的Key（即这里的Student）应该实现了Comparable接口，所以会做一个转换，就出错了。</p>
+<p>示例代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span> <span class="keyword">implements</span> <span class="title">Comparable</span>&lt;<span class="title">Student</span>&gt;</span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> id;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Student</span><span class="params">(<span class="keyword">int</span> id, String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.id = id;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">compareTo</span><span class="params">(Student o)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (o == <span class="keyword">null</span> || <span class="keyword">this</span>.id &gt; o.id</span><br><span class="line">                ) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">this</span>.id == o.id) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">TreeMap&lt;Student,Student&gt; map = <span class="keyword">new</span> TreeMap&lt;&gt;();</span><br><span class="line">Student s1 = <span class="keyword">new</span> Student(<span class="number">1003</span>,<span class="string">"张三"</span>);</span><br><span class="line">Student s2 = <span class="keyword">new</span> Student(<span class="number">1002</span>,<span class="string">"李四"</span>);</span><br><span class="line">Student s3 = <span class="keyword">new</span> Student(<span class="number">1001</span>,<span class="string">"王五"</span>);</span><br><span class="line">map.put(s1,s1);</span><br><span class="line">map.put(s2,s2);</span><br><span class="line">map.put(s3,s3);</span><br><span class="line"><span class="keyword">for</span>(Iterator&lt;Student&gt; iterator = map.keySet().iterator();iterator.hasNext();) &#123;</span><br><span class="line">    Student student = iterator.next();</span><br><span class="line">    System.out.println(student.id+<span class="string">":"</span>+student.name);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>或者TreeMap的初始化指定Comparator：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">TreeMap&lt;Student, Student&gt; map = <span class="keyword">new</span> TreeMap&lt;&gt;(<span class="keyword">new</span> Comparator() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">compare</span><span class="params">(Object o1, Object o2)</span> </span>&#123;</span><br><span class="line">        Student s1 = (Student) o1;</span><br><span class="line">        Student s2 = (Student) o2;</span><br><span class="line">        <span class="keyword">boolean</span> f1 = s1 == <span class="keyword">null</span> &amp;&amp; s2 == <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">return</span> (f1 || s1.id == s2.id) ? <span class="number">0</span> : (s1.id &gt; s2.id ? <span class="number">1</span> : -<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<p>输出：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1001:王五</span><br><span class="line">1002:李四</span><br><span class="line">1003:张三</span><br></pre></td></tr></table></figure></p>
+<p>此外，TreeMap还提供了一系列有用的方法，用于获取大于，小于，以及2个Key直接的子Map的功能。</p>
+<blockquote>
+<p>如果需要使用Map，并且需要实现排序的功能，建议使用TreeMap。</p>
+</blockquote>
+
+        </div>
+        <div class="post-tool">
+            <a class="btn-thumbs-up" href="javascript:void(0);" data-cid="52" title="95">
+                <i class="fa fa-thumbs-up" aria-hidden="true"></i> 打赏
+            </a>
+        </div>
+        
+        <div class="post-tags">标签：
+            
+            <a href="/tags/java/">java</a>
+            
+        </div>
+        
+    </article>
+    
+    <p style="text-align: center">本文代表个人观点，内容仅供参考。若有不恰当之处，望不吝赐教！</p>
+    
+    
+
+    
+    
+        <div id="gitment-container"></div>
+        <link rel="stylesheet" href="//imsun.github.io/gitment/style/default.css">
+        <script src="//imsun.github.io/gitment/dist/gitment.browser.js"></script>
+        <script type="text/javascript">
+            var gitment = new Gitment({
+                /*lable长度不能超过50个字符，这里使用页面的生成时间*/
+                id: 'Tue Apr 17 2018 16:46:23 GMT+0800'/*document.location.href*/,
+                owner: 'luckystar88',
+                repo: 'comments',
+                oauth: {
+                    client_id: 'd49ebe4f95abcd6163f4',
+                    client_secret: 'edd2748d6271072a6970d5cec8751f388dac8116',
+                }
+            });
+            gitment.render('gitment-container');
+        </script>
+        
+            <script>
+                document.getElementById("gitment-display-button").style.display = "none";
+                document.getElementById("gitment-container").style.display = "block";
+            </script>
+        
+    
+
+
+</div>
+<script src="/js/busuanzi.pure.mini.js"></script>
+
+
+        </div><!-- end #main-->
+    </div><!-- end #body -->
+    <footer class="footer">
+    <div class="footer-inner" style="text-align: center">
+        <p>
+            <a href="/about" title="关于">关于</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <!-- 自定义链接 -->
+            <a href="/help" title="帮助">帮助</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <a href="/links" title="友链">友链</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <a href="/sitemap.xml" title="地图">地图</a>
+        </p>
+        <p>
+            本站已建立&nbsp<a href="/timeline" id="siteBuildingTime"></a>&nbsp天，<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="licence">采用知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议创作</a><br>
+            ©2017-<span id="cpYear"></span> 基于&nbsp<a href="http://hexo.io" target="_blank" rel="nofollow">Hexo</a>
+            ，主题采用&nbsp&nbsp<a href="https://github.com/tangkunyin/hexo-theme-jsimple" target="_blank" rel="bookmark">JSimple</a>
+            ，作者&nbsp<a href="https://tommy88.top" target="_blank" rel="friend">Donny</a>
+            ，Hosted by <a href="https://pages.github.com/" target="_blank" rel="nofollow">GitHub Pages</a>
+        </p>
+    </div>
+</footer>
+<script src="/js/SimpleCore.js"></script>
+
+</div>
+<!-- search pop -->
+<div class="popup search-popup local-search-popup">
+    <div class="local-search-header clearfix">
+        <span class="search-icon">
+            <i class="fa fa-search"></i>
+        </span>
+        <span class="popup-btn-close">
+            <i class="fa fa-times-circle"></i>
+        </span>
+        <div class="local-search-input-wrapper">
+            <input id="local-search-input" spellcheck="false" type="text" autocomplete="off" placeholder="请输入查询关键词">
+        </div>
+    </div>
+    <div id="local-search-result"></div>
+</div>
+<div class="fixed-btn">
+    <a class="btn-gotop" href="javascript:"> <i class="fa fa-angle-up"></i></a>
+</div>
+<script>
+    $(function () {
+        var jsi_config = {
+            buildingTime: '01/20/2016',
+            current: $('.post-tags').length > 0 ? 'post' : 'archive',
+            snsQRCode: '/images/sns-qrcode.png',
+            donateImg: '/images/donate-qr.png',
+            localSearch: { dbPath: '' },
+            readMode: 'day'
+        };
+        
+            jsi_config.localSearch = {
+                dbPath: '/search.xml',
+                trigger: 'auto',
+                topN: '1',
+                unescape: 'false'
+            }
+        
+        SimpleCore.init(jsi_config);
+        
+    });
+</script>
+</body>
+</html>

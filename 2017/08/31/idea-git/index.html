@@ -1,0 +1,301 @@
+<!DOCTYPE HTML>
+<html class="no-js" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!--[if lte IE 9]>
+<meta http-equiv="refresh" content="0;url=https://tommy88.top/warn.html">
+<![endif]-->
+<meta charset="utf-8">
+<meta http-equiv="X-DNS-Prefetch-Control" content="on">
+<link rel="dns-prefetch" href="https://tommy88.top">
+<link rel="dns-prefetch" href="//www.google-analytics.com">
+<link rel="prefetch" href="https://tommy88.top">
+<link rel="prefetch" href="//www.google-analytics.com">
+
+
+    <link rel="dns-prefetch" href="//imsun.github.io">
+    <link rel="prefetch" href="//imsun.github.io">
+
+<link rel="prerender" href="https://tommy88.top">
+
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+<meta http-equiv="mobile-agent" content="format=html5; url=https://tommy88.top">
+<meta name="author" content="Donny">
+<link rel="stylesheet" href="/css/JSimple.css">
+
+<link rel="shortcut icon" href="/images/favicon.png">
+
+
+<title>idea git操作 - Donny的技术博客</title>
+
+<meta name="keywords" content="java,前端,数据库,web,spring,redis,spring boot,spring cloud,mq">
+
+<meta name="description " content="记录工作，感悟生活">
+
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                processEscapes: true
+            }
+        });
+    </script>
+
+
+    
+
+    
+    
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="//www.googletagmanager.com/gtag/js?id=UA-105613999-1"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'UA-105613999-1');
+        </script>
+    
+    <!-- put your likes here. -->
+
+
+</head>
+<body>
+<div id="nav">
+    <nav class="nav-menu">
+        <a class="site-name current" href="/" title="Home">Home</a>
+        <a class="site-index current" href="/"><i class="fa fa-home"></i><span>首页</span></a>
+        <a href="/archives" title="归档"><i class="fa fa-archives"></i><span>归档</span></a>
+        <a href="/tags" title="标签"><i class="fa fa-tags"></i><span>标签</span></a>
+        <!-- custom single page of menus -->
+        
+        
+        <a href="/help" title="帮助">
+            <i class="fa fa-question-circle"></i>
+            <span>帮助</span>
+        </a>
+        
+    </nav>
+</div>
+
+<div class="nav-user">
+    <a class="btn-search" href="#"><i class="fa fa-search"></i></a>
+    <a class="btn-read-mode" href="#"><i class="fa fa-sun-o"></i></a>
+    <a class="btn-sns-qr" href="javascript:"><i class="fa fa-telegram"></i></a>
+</div>
+
+<div id="wrapper" class="clearfix">
+    <div id="body">
+        <div class="main" id="main">
+            <div id="cover">
+    <div class="cover-img"></div>
+    <div class="cover-info">
+        
+        <h1 class="cover-siteName">Donny的技术博客</h1>
+        <h3 class="cover-siteTitle">用代码征服世界</h3>
+        <p class="cover-siteDesc">这是一个简单的技术博客</p>
+        <div class="cover-sns">
+            
+    &nbsp;&nbsp;<div class="btn btn-github">
+        <a href="https://github.com/luckystar88" target="_blank" title="github" ref="friend">
+            <i class="fa fa-github"></i>
+        </a>
+    </div>
+
+
+        </div>
+    </div>
+</div>
+
+            <div class="page-title">
+    <ul>
+        <li><a href="/">最近</a></li>
+        
+            
+                <li class="active">
+                    <a href="/categories/tech" data-name="技术">技术</a>
+                </li>
+            
+                <li class>
+                    <a href="/categories/life" data-name="人文">人文</a>
+                </li>
+            
+                <li class>
+                    <a href="/categories/others" data-name="其他">其他</a>
+                </li>
+            
+        
+        <li class="page-search">
+    <form id="search" class="search-form">
+        <input type="text" readonly="readonly" id="local-search-input-tip" placeholder="读物检索~">
+        <button type="button" disabled="disabled" class="search-form-submit"><i class="fa fa-search"></i></button>
+    </form>
+</li>
+
+    </ul>
+</div>
+<div class="main-inner">
+    <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+        <div class="post-header">
+            <div class="post-author clearfix">
+                <a class="avatar fleft" href="https://tommy88.top" target="_blank">
+                    <img width="48" src="/images/favicon.png" alt="avatar">
+                </a>
+                <p><span class="label">作者</span>
+                    <a href="https://tommy88.top" target="_blank">Donny</a>
+                    <span title="最后编辑于&nbsp;2017-08-31">2017-08-31</span>
+                </p>
+                <p>记录工作，感悟生活</p>
+            </div>
+            <h2 class="post-title">idea git操作</h2>
+            <div class="post-meta">
+                本文共计2785个字 |
+                您是第&nbsp;<span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>位看到它们的小伙伴
+            </div>
+        </div>
+        <div class="post-content markdown-body">
+            <p>这里以git@oschina举例说明。<br>git的pull就相当于svn的update，push就相当于commit。</p>
+<a id="more"></a>
+<h2 id="前提"><a href="#前提" class="headerlink" title="前提"></a>前提</h2><p>虽然idea集成了git插件，但你仍然需要安装git（windows版本git for windows）。<br>然后在idea的Version Control中选择git.exe的位置。<br><img src="/img/idea-git-set-gitpath.png" alt></p>
+<p>下面的例子已osc@git为例说明</p>
+<h2 id="一、从git仓库checkout项目到idea"><a href="#一、从git仓库checkout项目到idea" class="headerlink" title="一、从git仓库checkout项目到idea"></a>一、从git仓库checkout项目到idea</h2><p>复制git仓库地址，然后idea中选择VCS-&gt;Check out from Version Control-&gt;Git<br><img src="/img/idea-checkout-from-git.png" alt><br>后面会提示你输入osc@git的用户名和密码，然后就可以checkout下来了。</p>
+<h2 id="二、将idea中已有的项目分享到git-osc"><a href="#二、将idea中已有的项目分享到git-osc" class="headerlink" title="二、将idea中已有的项目分享到git@osc"></a>二、将idea中已有的项目分享到git@osc</h2><p>1  .在osc@git上创建一个仓库，比如：<br><a href="https://git.oschina.net/qincd/readimage.git">https://git.oschina.net/qincd/readimage.git</a><br>2  .idea操作<br>没有办法像SVN一样，直接将项目share到远程仓库。<br>需要使用命令行执行git命令。如下：<br>1）选择要share的项目，然后vcs-&gt;Import into Version Control-&gt;Create git repository<br><img src="/img/idea-git-share-porject-1.png" alt><br>然后选择你要share的项目。</p>
+<p>2)打开命令行，切换到你要share的项目路径，执行下面的命令<br><img src="/img/idea-git-share-project-2.png" alt><br>执行完毕后，就将本地仓库和远程仓库建立了联系。</p>
+<p>3）回到idea，执行git-&gt;add命令，然后commit and push就可以了，后面就可以愉快的执行pull/push操作了。<br><img src="/img/idea-git-share-project-3.png" alt><br>注意：<br>执行git的commit只是提交到本地仓库，需要再执行push命令才能提交到远程git仓库</p>
+<p><img src="/img/idea-git-commit-and-push.png" alt></p>
+<h2 id="提交代码到远程操作"><a href="#提交代码到远程操作" class="headerlink" title="提交代码到远程操作"></a>提交代码到远程操作</h2><p>1.执行add操作（右键Git–&gt;Add），将文件添加到版本控制；<br>2.执行commit操作（右键Git-&gt;Commit Directory/File），将文件提交到本地仓库；<br>3.执行push操作（这一步是将本地仓库的变更提交到远程仓库）。<br><img src="/img/idea-git-push.png" alt><br>如果在第2步，最后点的“Commit”按钮，那么可以通过右键-&gt;Git-&gt;Repository-&gt;Push来执行Push操作。</p>
+<h2 id="从远程仓库更新代码"><a href="#从远程仓库更新代码" class="headerlink" title="从远程仓库更新代码"></a>从远程仓库更新代码</h2><p>右键Git-Repository-Pull即可。</p>
+<p>注意：如果有多个分支，注意选择对应的分支更新。<br><img src="/img/idea-git-pull-choose-branch.png" alt></p>
+<h2 id="查看提交历史记录"><a href="#查看提交历史记录" class="headerlink" title="查看提交历史记录"></a>查看提交历史记录</h2><p>右键Git-&gt;Show History。<br>注意：所有pull/push操作都是可以针对某个目录或文件的。</p>
+<h2 id="git冲突解决"><a href="#git冲突解决" class="headerlink" title="git冲突解决"></a>git冲突解决</h2><p>如果本地修改了某个文件，此时从远程仓库更新会提示冲突。<br>解决方法有2种：<br>1.执行commit，然后push操作，这时会提示你有冲突（会弹出一个提示窗口，可以选择Merge），Merge即可；</p>
+<p>2.如果代码未开发完，此时还不想提交。可以执行Git-&gt;Repository-Stash Changes（此操作会将你的本地变更保存起来）起一个名字，然后执行pull操作。<br>此时更新操作会成功，然后执行Git-&gt;Repository-Unstash Changes，选择刚刚Stash Changes起的名字，此时会提示代码有冲突。会弹出Merge窗口，执行Merge操作即可。</p>
+<p>注意：执行此操作后Merge后的文件只是在本地，需要执行Git Commit&amp;Push来提交到远程仓库。</p>
+<p>参考：<a href="https://blog.csdn.net/qq_33039699/article/details/82866785">https://blog.csdn.net/qq_33039699/article/details/82866785</a></p>
+<h2 id="Checkout某个分支-Tag-某次提交"><a href="#Checkout某个分支-Tag-某次提交" class="headerlink" title="Checkout某个分支/Tag/某次提交"></a>Checkout某个分支/Tag/某次提交</h2><p><strong>1.checkout某个分支</strong><br>一般开发中都会有Master/Develop/feature/fix等等分支，checkout某个分支很简单。<br>在idea右下角显示的是当前的分支，点击当前显示的分支，然后选择当前项目的要切换的分支，选择Checkout即可。<br><img src="/img/idea-checkout-branch.png" alt></p>
+<p><strong>2.checkout某个Tag</strong><br>在idea右下角显示的是当前的分支，点击当前显示的分支，然后点“Checkout Tag or Revision”，然后输入Tag即可。<br><img src="/img/git-checkout-tag.png" alt></p>
+<p><strong>3.checkout某次提交</strong><br>a. Git-&gt;Show History，找到你想checkout的某次提交；<br>b. 右键，选择“Copy Revision Number”；<br><img src="/img/idea-git-copy-revision-number.png" alt><br>c. 点击在idea右下角的当前显示的分支，然后选择“Checkout Tag or Revision”，然后粘贴刚刚复制的Revision Number即可。</p>
+<p>注意：如果已经checkout了某个分支，比如feature，你切换到其他分支，比如develop，此时想切到feature，那么选择的是“local branch”，然后点“checkout”。<br><img src="/img/git-checkout-exist-local-branch.png" alt></p>
+<h2 id="合并分支"><a href="#合并分支" class="headerlink" title="合并分支"></a>合并分支</h2><p>比如我们在Develop分支开发，在上线后需要将Develop分支合并到Master分支。</p>
+<p>1.checkout master分支；<br>2.点击要Merge的项目的Remote Branches，选择要合并的分支（这里是Develop），然后选择“Merge into current”。<br><img src="/img/idea-git-merge-branch.png" alt></p>
+<h2 id="创建-搜索-删除Tag"><a href="#创建-搜索-删除Tag" class="headerlink" title="创建/搜索/删除Tag"></a>创建/搜索/删除Tag</h2><p><strong>创建Tag</strong><br>1.Git-&gt;Show History。<br>2.选择要打tag的某次提交，然后右键New Tag，然后输入Tag的名字。名字最好有意义，可以是版本号。这里只是测试，输入的名字为testtag2<br><img src="/img/idea-git-create-tag-1.png" alt><br>3.push到远程仓库。项目右键Git-&gt;Repository-Push。注意要勾选“Push Tags”，另外注意一下All和Current Branch的区别。<br><img src="/img/idea-git-create-tag-2.png" alt><br>All和Current Branch的区别：<br><img src="/img/idea-git-push-tags.png" alt><br>也就是说，如果你选择All，不属于当前选择分支的tag也会提交到远程仓库；如果你选择Current Branch，那么就只会提交当前分支的Tag。</p>
+<p><strong>搜索Tag</strong><br>在Git-&gt;Show History中，点击查找按钮，然后输入Tag名字即可，回车后即跳转到创建Tag的某次提交记录。<br><img src="/img/idea-git-search-tags.png" alt></p>
+<p><strong>删除Tag</strong><br>1.查找到Tag对应的提交记录；<br>2.右键-&gt;Tag xx-&gt;delete<br><img src="/img/idea-git-delete-tag.png" alt><br>3.在删除本地的Tag后，会有提示框，点击“Delete On Remote”来删除远程参考的Tag。<br><img src="/img/idea-git-delete-remote-tag.png" alt></p>
+<h2 id="创建-删除分支"><a href="#创建-删除分支" class="headerlink" title="创建/删除分支"></a>创建/删除分支</h2><p><strong>创建分支</strong><br>1.Git-&gt;Show History。<br>2.选择要创建分支的某次提交记录。<br>3.右键New branch，然后输入名字。<br><img src="/img/idea-git-create-branch-1.png" alt></p>
+<p>此时，分支只是在本地创建好了。修改代码，然后提交到远程仓库在远程参考创建分支。<br><img src="/img/idea-create-branch-2.png" alt></p>
+<p><strong>删除分支</strong><br>1.Git-&gt;Show History。<br>2.搜索要删除的分支；<br>3.右键选择Branch XXX -&gt; Delete。此时idea询问是否删除远程的branch，选择是，这样远程参考的分支就删除了。<br><img src="/img/idea-git-delete-branch.png" alt></p>
+
+        </div>
+        <div class="post-tool">
+            <a class="btn-thumbs-up" href="javascript:void(0);" data-cid="52" title="95">
+                <i class="fa fa-thumbs-up" aria-hidden="true"></i> 打赏
+            </a>
+        </div>
+        
+        <div class="post-tags">标签：
+            
+            <a href="/tags/idea/">idea</a>
+            
+        </div>
+        
+    </article>
+    
+    <p style="text-align: center">本文代表个人观点，内容仅供参考。若有不恰当之处，望不吝赐教！</p>
+    
+    
+
+    
+    
+        <div id="gitment-container"></div>
+        <link rel="stylesheet" href="//imsun.github.io/gitment/style/default.css">
+        <script src="//imsun.github.io/gitment/dist/gitment.browser.js"></script>
+        <script type="text/javascript">
+            var gitment = new Gitment({
+                /*lable长度不能超过50个字符，这里使用页面的生成时间*/
+                id: 'Thu Aug 31 2017 15:55:18 GMT+0800'/*document.location.href*/,
+                owner: 'luckystar88',
+                repo: 'comments',
+                oauth: {
+                    client_id: 'd49ebe4f95abcd6163f4',
+                    client_secret: 'edd2748d6271072a6970d5cec8751f388dac8116',
+                }
+            });
+            gitment.render('gitment-container');
+        </script>
+        
+            <script>
+                document.getElementById("gitment-display-button").style.display = "none";
+                document.getElementById("gitment-container").style.display = "block";
+            </script>
+        
+    
+
+
+</div>
+<script src="/js/busuanzi.pure.mini.js"></script>
+
+
+        </div><!-- end #main-->
+    </div><!-- end #body -->
+    <footer class="footer">
+    <div class="footer-inner" style="text-align: center">
+        <p>
+            <a href="/about" title="关于">关于</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <!-- 自定义链接 -->
+            <a href="/help" title="帮助">帮助</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <a href="/links" title="友链">友链</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <a href="/sitemap.xml" title="地图">地图</a>
+        </p>
+        <p>
+            本站已建立&nbsp<a href="/timeline" id="siteBuildingTime"></a>&nbsp天，<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="licence">采用知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议创作</a><br>
+            ©2017-<span id="cpYear"></span> 基于&nbsp<a href="http://hexo.io" target="_blank" rel="nofollow">Hexo</a>
+            ，主题采用&nbsp&nbsp<a href="https://github.com/tangkunyin/hexo-theme-jsimple" target="_blank" rel="bookmark">JSimple</a>
+            ，作者&nbsp<a href="https://tommy88.top" target="_blank" rel="friend">Donny</a>
+            ，Hosted by <a href="https://pages.github.com/" target="_blank" rel="nofollow">GitHub Pages</a>
+        </p>
+    </div>
+</footer>
+<script src="/js/SimpleCore.js"></script>
+
+</div>
+<!-- search pop -->
+<div class="popup search-popup local-search-popup">
+    <div class="local-search-header clearfix">
+        <span class="search-icon">
+            <i class="fa fa-search"></i>
+        </span>
+        <span class="popup-btn-close">
+            <i class="fa fa-times-circle"></i>
+        </span>
+        <div class="local-search-input-wrapper">
+            <input id="local-search-input" spellcheck="false" type="text" autocomplete="off" placeholder="请输入查询关键词">
+        </div>
+    </div>
+    <div id="local-search-result"></div>
+</div>
+<div class="fixed-btn">
+    <a class="btn-gotop" href="javascript:"> <i class="fa fa-angle-up"></i></a>
+</div>
+<script>
+    $(function () {
+        var jsi_config = {
+            buildingTime: '01/20/2016',
+            current: $('.post-tags').length > 0 ? 'post' : 'archive',
+            snsQRCode: '/images/sns-qrcode.png',
+            donateImg: '/images/donate-qr.png',
+            localSearch: { dbPath: '' },
+            readMode: 'day'
+        };
+        
+            jsi_config.localSearch = {
+                dbPath: '/search.xml',
+                trigger: 'auto',
+                topN: '1',
+                unescape: 'false'
+            }
+        
+        SimpleCore.init(jsi_config);
+        
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,422 @@
+<!DOCTYPE HTML>
+<html class="no-js" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!--[if lte IE 9]>
+<meta http-equiv="refresh" content="0;url=https://tommy88.top/warn.html">
+<![endif]-->
+<meta charset="utf-8">
+<meta http-equiv="X-DNS-Prefetch-Control" content="on">
+<link rel="dns-prefetch" href="https://tommy88.top">
+<link rel="dns-prefetch" href="//www.google-analytics.com">
+<link rel="prefetch" href="https://tommy88.top">
+<link rel="prefetch" href="//www.google-analytics.com">
+
+
+    <link rel="dns-prefetch" href="//imsun.github.io">
+    <link rel="prefetch" href="//imsun.github.io">
+
+<link rel="prerender" href="https://tommy88.top">
+
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+<meta http-equiv="mobile-agent" content="format=html5; url=https://tommy88.top">
+<meta name="author" content="Donny">
+<link rel="stylesheet" href="/css/JSimple.css">
+
+<link rel="shortcut icon" href="/images/favicon.png">
+
+
+<title>jdk8之用流收集数据 - Donny的技术博客</title>
+
+<meta name="keywords" content="java,前端,数据库,web,spring,redis,spring boot,spring cloud,mq">
+
+<meta name="description " content="记录工作，感悟生活">
+
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                processEscapes: true
+            }
+        });
+    </script>
+
+
+    
+
+    
+    
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="//www.googletagmanager.com/gtag/js?id=UA-105613999-1"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'UA-105613999-1');
+        </script>
+    
+    <!-- put your likes here. -->
+
+
+</head>
+<body>
+<div id="nav">
+    <nav class="nav-menu">
+        <a class="site-name current" href="/" title="Home">Home</a>
+        <a class="site-index current" href="/"><i class="fa fa-home"></i><span>首页</span></a>
+        <a href="/archives" title="归档"><i class="fa fa-archives"></i><span>归档</span></a>
+        <a href="/tags" title="标签"><i class="fa fa-tags"></i><span>标签</span></a>
+        <!-- custom single page of menus -->
+        
+        
+        <a href="/help" title="帮助">
+            <i class="fa fa-question-circle"></i>
+            <span>帮助</span>
+        </a>
+        
+    </nav>
+</div>
+
+<div class="nav-user">
+    <a class="btn-search" href="#"><i class="fa fa-search"></i></a>
+    <a class="btn-read-mode" href="#"><i class="fa fa-sun-o"></i></a>
+    <a class="btn-sns-qr" href="javascript:"><i class="fa fa-telegram"></i></a>
+</div>
+
+<div id="wrapper" class="clearfix">
+    <div id="body">
+        <div class="main" id="main">
+            <div id="cover">
+    <div class="cover-img"></div>
+    <div class="cover-info">
+        
+        <h1 class="cover-siteName">Donny的技术博客</h1>
+        <h3 class="cover-siteTitle">用代码征服世界</h3>
+        <p class="cover-siteDesc">这是一个简单的技术博客</p>
+        <div class="cover-sns">
+            
+    &nbsp;&nbsp;<div class="btn btn-github">
+        <a href="https://github.com/luckystar88" target="_blank" title="github" ref="friend">
+            <i class="fa fa-github"></i>
+        </a>
+    </div>
+
+
+        </div>
+    </div>
+</div>
+
+            <div class="page-title">
+    <ul>
+        <li><a href="/">最近</a></li>
+        
+            
+                <li class="active">
+                    <a href="/categories/tech" data-name="技术">技术</a>
+                </li>
+            
+                <li class>
+                    <a href="/categories/life" data-name="人文">人文</a>
+                </li>
+            
+                <li class>
+                    <a href="/categories/others" data-name="其他">其他</a>
+                </li>
+            
+        
+        <li class="page-search">
+    <form id="search" class="search-form">
+        <input type="text" readonly="readonly" id="local-search-input-tip" placeholder="读物检索~">
+        <button type="button" disabled="disabled" class="search-form-submit"><i class="fa fa-search"></i></button>
+    </form>
+</li>
+
+    </ul>
+</div>
+<div class="main-inner">
+    <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+        <div class="post-header">
+            <div class="post-author clearfix">
+                <a class="avatar fleft" href="https://tommy88.top" target="_blank">
+                    <img width="48" src="/images/favicon.png" alt="avatar">
+                </a>
+                <p><span class="label">作者</span>
+                    <a href="https://tommy88.top" target="_blank">Donny</a>
+                    <span title="最后编辑于&nbsp;2018-09-11">2018-09-11</span>
+                </p>
+                <p>记录工作，感悟生活</p>
+            </div>
+            <h2 class="post-title">JDK8之用流收集数据</h2>
+            <div class="post-meta">
+                本文共计16178个字 |
+                您是第&nbsp;<span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>位看到它们的小伙伴
+            </div>
+        </div>
+        <div class="post-content markdown-body">
+            <h2 id="收集器简介"><a href="#收集器简介" class="headerlink" title="收集器简介"></a>收集器简介</h2><p>收集器非常有用，用它来可以简洁而灵活的定义collect用来生成结果集合的标准。对流调用collect方法会对流中的每个元素触发规约操作。一般来说，收集器会对元素应用一个转换函数，并将结果累积在一个数据结构中，从而产生这一过程的最终输出。</p>
+<h2 id="规约和汇总"><a href="#规约和汇总" class="headerlink" title="规约和汇总"></a>规约和汇总</h2><p>在将流中的项目合并成一个结果时，一般会使用收集器（Stream的collect）。这个结果可以是任何类型，可以复杂如一棵树的多级映射，或是简单如一个整数。<br><a id="more"></a><br>假定有如下菜单：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Dish&gt; menu = Arrays.asList(</span><br><span class="line">    <span class="keyword">new</span> Dish(<span class="string">"pork"</span>, <span class="keyword">false</span>, <span class="number">800</span>, Dish.Type.MEAT),</span><br><span class="line">    <span class="keyword">new</span> Dish(<span class="string">"beef"</span>, <span class="keyword">false</span>, <span class="number">700</span>, Dish.Type.MEAT),</span><br><span class="line">    <span class="keyword">new</span> Dish(<span class="string">"chicken"</span>, <span class="keyword">false</span>, <span class="number">400</span>, Dish.Type.MEAT),</span><br><span class="line">    <span class="keyword">new</span> Dish(<span class="string">"french fries"</span>, <span class="keyword">true</span>, <span class="number">530</span>, Dish.Type.OTHER),</span><br><span class="line">    <span class="keyword">new</span> Dish(<span class="string">"rice"</span>, <span class="keyword">true</span>, <span class="number">300</span>, Dish.Type.OTHER),</span><br><span class="line">    <span class="keyword">new</span> Dish(<span class="string">"season fruit"</span>, <span class="keyword">true</span>, <span class="number">120</span>, Dish.Type.OTHER),</span><br><span class="line">    <span class="keyword">new</span> Dish(<span class="string">"pizza"</span>, <span class="keyword">false</span>, <span class="number">300</span>, Dish.Type.OTHER),</span><br><span class="line">    <span class="keyword">new</span> Dish(<span class="string">"prawns"</span>, <span class="keyword">false</span>, <span class="number">300</span>, Dish.Type.FISH),</span><br><span class="line">    <span class="keyword">new</span> Dish(<span class="string">"salmon"</span>, <span class="keyword">false</span>, <span class="number">450</span>, Dish.Type.FISH)</span><br><span class="line">);</span><br></pre></td></tr></table></figure></p>
+<p>在下面的所有示例中，假定你已经导入了Collectors的所有静态工厂方法<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="keyword">static</span> java.util.stream.Collectors.*;</span><br></pre></td></tr></table></figure></p>
+<h3 id="查找流中的最大值和最小值"><a href="#查找流中的最大值和最小值" class="headerlink" title="查找流中的最大值和最小值"></a>查找流中的最大值和最小值</h3><p>假如你想找出菜中热量最高的菜和热量最低的菜，可以使用Collectors.maxBy和Collectors.minBy这2个收集器。它们接收一个Comparator参数来比较流中的元素。<br>比如找出菜单中热量最多的菜<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 创建比较器</span></span><br><span class="line">Comparator&lt;Dish&gt; dishComparator = Comparator.comparingInt(Dish::getCalories);</span><br><span class="line"><span class="comment">// 根据热量比较，找出最大热量的菜</span></span><br><span class="line">Optional&lt;Dish&gt; maxCaloriesDish = menu.stream().collect(maxBy(dishComparator));</span><br><span class="line">maxCaloriesDish.ifPresent(System.out::println);</span><br></pre></td></tr></table></figure></p>
+<h3 id="汇总"><a href="#汇总" class="headerlink" title="汇总"></a>汇总</h3><p><strong>求和</strong><br>Collectors类专门为汇总提供了一个工厂方法：Collectors.summingInt。它接收一个把对象映射为求和所需的int的函数，并返回一个收集器。该收集器在传递给普通的collect方法后即自行我们需要的汇总操作。</p>
+<p>比如计算菜的总热量<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> totalCalories = menu.stream().collect(summingInt(Dish::getCalories));</span><br></pre></td></tr></table></figure></p>
+<p>在遍历流时，会将每道菜都映射为其热量，然后把数字累加到一个累加器（这里初始值为0）。</p>
+<p>Collectors的summingLong和summingDouble方法与summingInt用法一样，用于处理long和double的情况。</p>
+<p><strong>求平均值</strong><br>使用Collectors.averageInt/averageLong,averageDouble来求平均数。</p>
+<p>比如，求所有菜平均的热量。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">double</span> avgCalories = menu.stream().collect(averagingDouble(Dish::getCalories));</span><br></pre></td></tr></table></figure></p>
+<p><strong>一次性获得多个汇总值</strong><br>如果你想一次性获取到多个汇总的结果，比如一次性获取到最大值、最小值，平均值，求和的结果等等，可以使用Collectors.summarizingInt方法。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">IntSummaryStatistics summaryStatistics = menu.stream().collect(summarizingInt(Dish::getCalories));</span><br><span class="line">System.out.println(summaryStatistics);</span><br></pre></td></tr></table></figure></p>
+<p>输出结果如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">IntSummaryStatistics&#123;count=9, sum=3900, min=120, average=433.333333, max=800&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="连接字符串"><a href="#连接字符串" class="headerlink" title="连接字符串"></a>连接字符串</h3><p>Collectors.joining方法会将流中的每个元素应用toString()方法，然后将所得到的字符串连接在一起。</p>
+<p>比如将菜单中所有菜名连接起来：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">String menuNames = menu.stream().map(Dish::getName).collect(joining());</span><br><span class="line">System.out.println(menuNames); <span class="comment">// 使用joining()无参数的方法只会将结果连接在一起</span></span><br></pre></td></tr></table></figure></p>
+<p>输出结果：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">porkbeefchickenfrench friesriceseason fruitpizzaprawnssalmon</span><br></pre></td></tr></table></figure></p>
+<p>可以发现，可读性并不好，幸好提供了重载方法。我们可以提供一个分隔符。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">menuNames = menu.stream().map(Dish::getName).collect(joining(<span class="string">","</span>));</span><br><span class="line">System.out.println(menuNames); <span class="comment">// 用逗号分隔的菜肴名称</span></span><br></pre></td></tr></table></figure></p>
+<p>输出结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pork,beef,chicken,french fries,rice,season fruit,pizza,prawns,salmon</span><br></pre></td></tr></table></figure></p>
+<h3 id="广义的规约汇总"><a href="#广义的规约汇总" class="headerlink" title="广义的规约汇总"></a>广义的规约汇总</h3><p>我们之前讨论的所有收集器，都是一个可以用reducing工厂方法定义的规约过程的特殊情况而已。<br>比如使用reducing方法来计算菜单的总热量：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> totalCalories = menu.stream().collect(reducing(<span class="number">0</span>, Dish::getCalories, (i, j) -&gt; i + j));</span><br></pre></td></tr></table></figure></p>
+<p>它需要3个参数：</p>
+<ul>
+<li>第一个参数是规约操作的起始值，也是流中没有元素时的返回值；</li>
+<li>第二个参数是将菜肴转换为一个表示其所含热量的int。</li>
+<li>第三个参数是一个BinaryOpeartor<t>，将2个项目累积成一个同类型的值。在这里是对2个int求和。</t></li>
+</ul>
+<p>也可以使用下面的单参数的reducing方法来计算菜品的总热量。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Optional&lt;Dish&gt; totalCaloriesDish = menu.stream().collect(reducing((d1,d2) -&gt; d1.getCalories() &gt; d2.getCalories() ? d1 : d2));</span><br></pre></td></tr></table></figure></p>
+<p>你可以把单参数的reducing方法看做一个三参数的特殊情况。它把流中的第一个元素作为起点，把恒等函数（即一个函数仅仅返回你参数本身）作为一个转换函数。这也就意味着把单参数的reducing方法传递给一个collect方法，收集器就没有起点，所以会返回一个Optional对象。</p>
+<h2 id="分组"><a href="#分组" class="headerlink" title="分组"></a>分组</h2><p>Collectors提供了groupingBy方法来对元素进行分组。</p>
+<p>比如按照类别对菜肴进行分组：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Map&lt;Dish.Type, List&lt;Dish&gt;&gt; byTypeDishes = menu.stream().collect(groupingBy(Dish::getType));</span><br><span class="line">System.out.println(byTypeDishes);</span><br></pre></td></tr></table></figure></p>
+<p>输出结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">OTHER=[Dish&#123;name=&apos;french fries&apos;, vegetarian=true, calories=530, type=OTHER&#125;, </span><br><span class="line">       Dish&#123;name=&apos;rice&apos;, vegetarian=true, calories=300, type=OTHER&#125;, </span><br><span class="line">       Dish&#123;name=&apos;season fruit&apos;, vegetarian=true, calories=120, type=OTHER&#125;, </span><br><span class="line">       Dish&#123;name=&apos;pizza&apos;, vegetarian=false, calories=300, type=OTHER&#125;], </span><br><span class="line"></span><br><span class="line">FISH=[Dish&#123;name=&apos;prawns&apos;, vegetarian=false, calories=300, type=FISH&#125;, </span><br><span class="line">      Dish&#123;name=&apos;salmon&apos;, vegetarian=false, calories=450, type=FISH&#125;], </span><br><span class="line"></span><br><span class="line">MEAT=[Dish&#123;name=&apos;pork&apos;, vegetarian=false, calories=800, type=MEAT&#125;, </span><br><span class="line">      Dish&#123;name=&apos;beef&apos;, vegetarian=false, calories=700, type=MEAT&#125;, </span><br><span class="line">      Dish&#123;name=&apos;chicken&apos;, vegetarian=false, calories=400, type=MEAT&#125;]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="多级分组"><a href="#多级分组" class="headerlink" title="多级分组"></a>多级分组</h3><p>要实现多级分组，可以使用Collectors.groupingBy的双参数的重载方法，它除了普通的分类函数外，还接受一个collector类型的第2个参数。那么进行二级分组的话，可以把一个内层的groupingBy传递给外层的groupingBy，并定义一个为流中项目分类的二级标准。</p>
+<p>比如按类别和热量等级分组：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 定义400以下为低热量，700以下为一般，700以上为高热量</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">enum</span> CaloricLevel &#123;DIET, NORMAL, FAT&#125;</span><br><span class="line">大分组为类别，小分组为热量</span><br><span class="line">Map&lt;Dish.Type, Map&lt;CaloricLevel, List&lt;Dish&gt;&gt;&gt; dishesByTypeCaloriesLevel = menu.stream().collect(groupingBy(Dish::getType, groupingBy(dish -&gt; &#123;</span><br><span class="line">    <span class="keyword">if</span> (dish.getCalories() &lt;= <span class="number">400</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> CaloricLevel.DIET;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (dish.getCalories() &lt;= <span class="number">700</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> CaloricLevel.NORMAL;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> CaloricLevel.FAT;</span><br><span class="line">&#125;)));</span><br><span class="line">System.out.println(dishesByTypeCaloriesLevel);</span><br></pre></td></tr></table></figure></p>
+<p>输出结果（格式化后）：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">OTHER=&#123;</span><br><span class="line">    DIET=[Dish&#123;name=&apos;rice&apos;, vegetarian=true, calories=300, type=OTHER&#125;, </span><br><span class="line">          Dish&#123;name=&apos;season fruit&apos;, vegetarian=true, calories=120, type=OTHER&#125;, </span><br><span class="line">          Dish&#123;name=&apos;pizza&apos;, vegetarian=false, calories=300, type=OTHER&#125;], </span><br><span class="line">    NORMAL=[Dish&#123;name=&apos;french fries&apos;, vegetarian=true, calories=530, type=OTHER&#125;]&#125;, </span><br><span class="line"></span><br><span class="line">FISH=&#123;</span><br><span class="line">    DIET=[Dish&#123;name=&apos;prawns&apos;, vegetarian=false, calories=300, type=FISH&#125;], </span><br><span class="line">    NORMAL=[Dish&#123;name=&apos;salmon&apos;, vegetarian=false, calories=450, type=FISH&#125;]&#125;, </span><br><span class="line"></span><br><span class="line">MEAT=&#123;</span><br><span class="line">    DIET=[Dish&#123;name=&apos;chicken&apos;, vegetarian=false, calories=400, type=MEAT&#125;], </span><br><span class="line">    NORMAL=[Dish&#123;name=&apos;beef&apos;, vegetarian=false, calories=700, type=MEAT&#125;], </span><br><span class="line">    FAT=[Dish&#123;name=&apos;pork&apos;, vegetarian=false, calories=800, type=MEAT&#125;]&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="按子组收集数据"><a href="#按子组收集数据" class="headerlink" title="按子组收集数据"></a>按子组收集数据</h3><p>我们把第二个groupingBy传递给外层收集器来实现多级分组，但进一步讲，传递给第一个收集器的第二个收集器可以是任意类型，而不一定是一个groupingBy。<br>比如，要统计菜单中每种菜有多少种，可以传递counting收集器作为groupingBy收集器的第二个收集器。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Map&lt;Dish.Type, Long&gt; typesCount = menu.stream().collect(groupingBy(Dish::getType, counting()));</span><br><span class="line">System.out.println(typesCount);</span><br></pre></td></tr></table></figure></p>
+<p>输出结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;OTHER=4, FISH=2, MEAT=3&#125;</span><br></pre></td></tr></table></figure></p>
+<p>再比如，查找每个菜品类型热量最高的菜<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Map&lt;Dish.Type, Optional&lt;Dish&gt;&gt; maxCaloricByType = menu.stream().collect(groupingBy(Dish::getType, maxBy(Comparator.comparingInt(Dish::getCalories))));</span><br><span class="line">System.out.println(maxCaloricByType);</span><br></pre></td></tr></table></figure></p>
+<p>输出结果（格式化后）：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">OTHER=Optional[Dish&#123;name=&apos;french fries&apos;, vegetarian=true, calories=530, type=OTHER&#125;], </span><br><span class="line"></span><br><span class="line">FISH=Optional[Dish&#123;name=&apos;salmon&apos;, vegetarian=false, calories=450, type=FISH&#125;], </span><br><span class="line"></span><br><span class="line">MEAT=Optional[Dish&#123;name=&apos;pork&apos;, vegetarian=false, calories=800, type=MEAT&#125;]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="将收集器的结果转换为另一种类型"><a href="#将收集器的结果转换为另一种类型" class="headerlink" title="将收集器的结果转换为另一种类型"></a>将收集器的结果转换为另一种类型</h3><p>分组操作的Map结果中的每个值上包装的Optional没什么用，你可以使用Collectors.collectingAndThen收集器去掉Optional。该方法接收2个参数——要转换的收集器和转换方法，并返回另一个收集器。<br>这个收集器相当于旧收集器的一个包装，collect操作的最后一步就是将返回值用转换方法做一个映射。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">把收集器的结果转换为另一种类型（比如去掉上面的Optional）</span><br><span class="line">Map&lt;Dish.Type, Dish&gt; maxCaloricByTypeDishes = menu.stream()</span><br><span class="line">        .collect(groupingBy(Dish::getType,</span><br><span class="line">                collectingAndThen(</span><br><span class="line">                        maxBy(Comparator.comparingInt(Dish::getCalories)), Optional::get)));</span><br><span class="line">System.out.println(maxCaloricByTypeDishes);</span><br></pre></td></tr></table></figure></p>
+<p>输出结果（格式化后）：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">OTHER=Dish&#123;name=&apos;french fries&apos;, vegetarian=true, calories=530, type=OTHER&#125;, </span><br><span class="line">FISH=Dish&#123;name=&apos;salmon&apos;, vegetarian=false, calories=450, type=FISH&#125;, </span><br><span class="line">MEAT=Dish&#123;name=&apos;pork&apos;, vegetarian=false, calories=800, type=MEAT&#125;&#125;</span><br><span class="line">``</span><br><span class="line"></span><br><span class="line">### Collectors.mapping</span><br><span class="line">常常和groupingBy一起使用的另一个收集器是mapping方法生成的。它接收2个参数：一个函数对流中的元素做变换，另一个则将变换的结果对象收集起来。其目的是在累加之前对每个输入元素应用一个映射函数，这样就可以让特定类型元素的收集器适应不同类型的对象。</span><br><span class="line"></span><br><span class="line">比如想知道每种类型的Dish中有哪些CaloricLevel。</span><br><span class="line">```java</span><br><span class="line">Map&lt;Dish.Type, Set&lt;CaloricLevel&gt;&gt; byTypeCaloricDishes = menu.stream().collect(groupingBy(Dish::getType, mapping(dish -&gt; &#123;</span><br><span class="line">    if (dish.getCalories() &lt;= 400) &#123;</span><br><span class="line">        return CaloricLevel.DIET;</span><br><span class="line">    &#125; else if (dish.getCalories() &lt;= 700) &#123;</span><br><span class="line">        return CaloricLevel.NORMAL;</span><br><span class="line">    &#125;</span><br><span class="line">    return CaloricLevel.FAT;</span><br><span class="line">&#125;, toSet())));</span><br><span class="line">System.out.println(byTypeCaloricDishes);</span><br></pre></td></tr></table></figure></p>
+<p>输出结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;OTHER=[DIET, NORMAL], FISH=[DIET, NORMAL], MEAT=[DIET, NORMAL, FAT]&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="分区"><a href="#分区" class="headerlink" title="分区"></a>分区</h2><p>分区是分组的特殊情况，由一个谓词（返回一个布尔值的函数）作为分类函数，它称分区函数。分区函数返回一个布尔值，则意味着得到的分组Map的键类型是Boolean，于是它最多可以分为2组——true是一组，false是一组。</p>
+<p>比如将菜单按照素食和非素食分开：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1.按素菜 OR 荤菜分组</span></span><br><span class="line"><span class="comment">// true表示素菜；false为非素菜</span></span><br><span class="line">Map&lt;Boolean, List&lt;Dish&gt;&gt; partitionedMenu = menu.stream().collect(partitioningBy(Dish::isVegetarian));</span><br><span class="line">System.out.println(partitionedMenu + <span class="string">"\n"</span>);</span><br></pre></td></tr></table></figure></p>
+<p>输出结果（格式化后）：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">false=[Dish&#123;name=&apos;pork&apos;, vegetarian=false, calories=800, type=MEAT&#125;, </span><br><span class="line">       Dish&#123;name=&apos;beef&apos;, vegetarian=false, calories=700, type=MEAT&#125;, </span><br><span class="line">       Dish&#123;name=&apos;chicken&apos;, vegetarian=false, calories=400, type=MEAT&#125;, </span><br><span class="line">       Dish&#123;name=&apos;pizza&apos;, vegetarian=false, calories=300, type=OTHER&#125;, </span><br><span class="line">       Dish&#123;name=&apos;prawns&apos;, vegetarian=false, calories=300, type=FISH&#125;, </span><br><span class="line">       Dish&#123;name=&apos;salmon&apos;, vegetarian=false, calories=450, type=FISH&#125;], </span><br><span class="line"></span><br><span class="line">true=[Dish&#123;name=&apos;french fries&apos;, vegetarian=true, calories=530, type=OTHER&#125;, </span><br><span class="line">      Dish&#123;name=&apos;rice&apos;, vegetarian=true, calories=300, type=OTHER&#125;, </span><br><span class="line">      Dish&#123;name=&apos;season fruit&apos;, vegetarian=true, calories=120, type=OTHER&#125;]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="分区的好处"><a href="#分区的好处" class="headerlink" title="分区的好处"></a>分区的好处</h3><p>分区的好处在于分区函数保留了true和false2套流元素列表。比如上面的例子中，要得到素菜列表，使用<code>partitionedMenu.get(true)即可。</code></p>
+<p>partitionBy方法还有一个重载版本，可以传递第2个收集器。</p>
+<p>比如，按是否素菜分区，再根据Type分组：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 分区+分组</span></span><br><span class="line"><span class="comment">// 先按是否素菜分区，然后将同类别的菜放到一起</span></span><br><span class="line">Map&lt;Boolean, Map&lt;Dish.Type, List&lt;Dish&gt;&gt;&gt; vegetarianDishesByType = menu.stream().collect(partitioningBy(Dish::isVegetarian, groupingBy(Dish::getType)));</span><br><span class="line">System.out.println(vegetarianDishesByType + <span class="string">"\n"</span>);</span><br></pre></td></tr></table></figure></p>
+<p>输出结果（格式化）：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">false=&#123;</span><br><span class="line">    OTHER=[Dish&#123;name=&apos;pizza&apos;, vegetarian=false, calories=300, type=OTHER&#125;], </span><br><span class="line">    FISH=[Dish&#123;name=&apos;prawns&apos;, vegetarian=false, calories=300, type=FISH&#125;, </span><br><span class="line">          Dish&#123;name=&apos;salmon&apos;, vegetarian=false, calories=450, type=FISH&#125;], </span><br><span class="line">    MEAT=[Dish&#123;name=&apos;pork&apos;, vegetarian=false, calories=800, type=MEAT&#125;, </span><br><span class="line">          Dish&#123;name=&apos;beef&apos;, vegetarian=false, calories=700, type=MEAT&#125;, </span><br><span class="line">          Dish&#123;name=&apos;chicken&apos;, vegetarian=false, calories=400, type=MEAT&#125;]&#125;, </span><br><span class="line"></span><br><span class="line">true=&#123;</span><br><span class="line">    OTHER=[Dish&#123;name=&apos;french fries&apos;, vegetarian=true, calories=530, type=OTHER&#125;, </span><br><span class="line">           Dish&#123;name=&apos;rice&apos;, vegetarian=true, calories=300, type=OTHER&#125;, </span><br><span class="line">           Dish&#123;name=&apos;season fruit&apos;, vegetarian=true, calories=120, type=OTHER&#125;]&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>查找素菜和非素菜中热量最高的菜<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 找到素菜和非素菜卡路里含量最高的菜</span></span><br><span class="line">Map&lt;Boolean, Dish&gt; mostCaloricPartitionedByVegetarian =</span><br><span class="line">        menu.stream()</span><br><span class="line">                .collect(partitioningBy(Dish::isVegetarian,</span><br><span class="line">                        collectingAndThen(maxBy(comparingInt(Dish::getCalories)), Optional::get)));</span><br><span class="line">System.out.println(mostCaloricPartitionedByVegetarian + <span class="string">"\n"</span>);</span><br></pre></td></tr></table></figure></p>
+<p>输出结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;false=Dish&#123;name=&apos;pork&apos;, vegetarian=false, calories=800, type=MEAT&#125;, true=Dish&#123;name=&apos;french fries&apos;, vegetarian=true, calories=530, type=OTHER&#125;&#125;</span><br></pre></td></tr></table></figure></p>
+<p>找出素菜和非素菜的数量<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Map&lt;Boolean, Long&gt; partitionedByVegetarianCount = menu.stream().collect(partitioningBy(Dish::isVegetarian, counting()));</span><br><span class="line">System.out.println(partitionedByVegetarianCount + <span class="string">"\n"</span>);</span><br></pre></td></tr></table></figure></p>
+<p>输出结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;false=6, true=3&#125;</span><br></pre></td></tr></table></figure></p>
+<p>按是否为素菜分组，找出热量在500以上和500一下的菜<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Map&lt;Boolean, Map&lt;Boolean, List&lt;Dish&gt;&gt;&gt; twoPartitionedDishes = menu.stream().collect(partitioningBy(Dish::isVegetarian, partitioningBy(d -&gt; d.getCalories() &gt; <span class="number">500</span>)));</span><br><span class="line">System.out.println(twoPartitionedDishes + <span class="string">"\n"</span>);</span><br></pre></td></tr></table></figure></p>
+<p>输出结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    false=&#123;</span><br><span class="line">        false=[Dish&#123;name=&apos;chicken&apos;, vegetarian=false, calories=400, type=MEAT&#125;, Dish&#123;name=&apos;pizza&apos;, vegetarian=false, calories=300, type=OTHER&#125;, Dish&#123;name=&apos;prawns&apos;, vegetarian=false, calories=300, type=FISH&#125;, Dish&#123;name=&apos;salmon&apos;, vegetarian=false, calories=450, type=FISH&#125;], </span><br><span class="line"></span><br><span class="line">        true=[Dish&#123;name=&apos;pork&apos;, vegetarian=false, calories=800, type=MEAT&#125;, Dish&#123;name=&apos;beef&apos;, vegetarian=false, calories=700, type=MEAT&#125;]</span><br><span class="line">    &#125;, </span><br><span class="line"></span><br><span class="line">    true=&#123;</span><br><span class="line">        false=[Dish&#123;name=&apos;rice&apos;, vegetarian=true, calories=300, type=OTHER&#125;, Dish&#123;name=&apos;season fruit&apos;, vegetarian=true, calories=120, type=OTHER&#125;], </span><br><span class="line">        true=[Dish&#123;name=&apos;french fries&apos;, vegetarian=true, calories=530, type=OTHER&#125;]</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>找出给定数字范围内的质数和非质数<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Map&lt;Boolean, List&lt;Integer&gt;&gt; primeNumbers = IntStream.rangeClosed(<span class="number">2</span>, <span class="number">10</span>).boxed().collect(partitioningBy(i -&gt; isPrime(i)));</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">isPrime</span><span class="params">(<span class="keyword">int</span> i)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> IntStream.range(<span class="number">2</span>, i).noneMatch(n -&gt; i % n == <span class="number">0</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="Collectors类的静态工厂方法"><a href="#Collectors类的静态工厂方法" class="headerlink" title="Collectors类的静态工厂方法"></a>Collectors类的静态工厂方法</h3><table>
+<thead>
+<tr>
+<th>工厂方法</th>
+<th style="text-align:left">返回类型</th>
+<th style="text-align:left">用于</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>toList</td>
+<td style="text-align:left">List</td>
+<td style="text-align:left">把流中所有项目收集到一个List</td>
+</tr>
+<tr>
+<td>toSet</td>
+<td style="text-align:left">Set</td>
+<td style="text-align:left">把流中所有项目收集到一个Set，删除重复项</td>
+</tr>
+<tr>
+<td>toCollection</td>
+<td style="text-align:left">Collection</td>
+<td style="text-align:left">把流中所有项目收集到给定的供应源创建的集合</td>
+</tr>
+<tr>
+<td>counting</td>
+<td style="text-align:left">Long</td>
+<td style="text-align:left">计算流中元素的个数</td>
+</tr>
+<tr>
+<td>summingInt</td>
+<td style="text-align:left">Integer</td>
+<td style="text-align:left">对流中项目的一个整数属性求和</td>
+</tr>
+<tr>
+<td>averagingInt</td>
+<td style="text-align:left">Double</td>
+<td style="text-align:left">计算流中项目Integer 属性的平均值</td>
+</tr>
+<tr>
+<td>summarizingInt</td>
+<td style="text-align:left">IntSummaryStatistics</td>
+<td style="text-align:left">收集关于流中项目Integer 属性的统计值，例如最大、最小、总和与平均值</td>
+</tr>
+<tr>
+<td>joining`</td>
+<td style="text-align:left">String</td>
+<td style="text-align:left">连接对流中每个项目调用toString 方法所生成的字符串</td>
+</tr>
+<tr>
+<td>maxBy</td>
+<td style="text-align:left">Optional</td>
+<td style="text-align:left">一个包裹了流中按照给定比较器选出的最大元素的Optional，或如果流为空则为Optional.empty()</td>
+</tr>
+<tr>
+<td>minBy</td>
+<td style="text-align:left">Optional</td>
+<td style="text-align:left">一个包裹了流中按照给定比较器选出的最小元素的Optional，或如果流为空则为Optional.empty()</td>
+</tr>
+<tr>
+<td>reducing</td>
+<td style="text-align:left">归约操作产生的类型</td>
+<td style="text-align:left">从一个作为累加器的初始值开始，利用BinaryOperator 与流中的元素逐个结合，从而将流归约为单个值</td>
+</tr>
+<tr>
+<td>collectingAndThen</td>
+<td style="text-align:left">转换函数返回的类型</td>
+<td style="text-align:left">包裹另一个收集器，对其结果应用转换函数</td>
+</tr>
+<tr>
+<td>groupingBy</td>
+<td style="text-align:left">Map&lt;K, List<t>&gt;</t></td>
+<td style="text-align:left">根据项目的一个属性的值对流中的项目作问组，并将属性值作为结果Map 的键</td>
+</tr>
+<tr>
+<td>partitioningBy</td>
+<td style="text-align:left">Map&lt;Boolean,List<t>&gt;</t></td>
+<td style="text-align:left">根据对流中每个项目应用谓词的结果来对项进行分区</td>
+</tr>
+</tbody>
+</table>
+<h2 id="收集器接口"><a href="#收集器接口" class="headerlink" title="收集器接口"></a>收集器接口</h2><p>前面已经使用了很多Collector接口实现的收集器，像toList,groupingBy等。</p>
+<p>下面看下Collector接口的定义：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Collector</span>&lt;<span class="title">T</span>, <span class="title">A</span>, <span class="title">R</span>&gt; </span>&#123;</span><br><span class="line">    <span class="function">Supplier&lt;A&gt; <span class="title">supplier</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function">BiConsumer&lt;A, T&gt; <span class="title">accumulator</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function">BinaryOperator&lt;A&gt; <span class="title">combiner</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function">Function&lt;A, R&gt; <span class="title">finisher</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function">Set&lt;Characteristics&gt; <span class="title">characteristics</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>T是流中要手机的项目的类型。<br>A是累加器的类型，累加器是在收集过程中用于累积部分结果的对象。<br>R是收集操作得到的对象的类型。<br>例如，你可以实现一个ToListCollector<t>类，将Stream<t>中的所有元素收集到List<t>中，它的签名如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ToListCollector</span>&lt;<span class="title">T</span>&gt; <span class="keyword">implements</span> <span class="title">Collector</span>&lt;<span class="title">T</span>,<span class="title">List</span>&lt;<span class="title">T</span>&gt;,<span class="title">List</span>&lt;<span class="title">T</span>&gt;&gt;</span></span><br></pre></td></tr></table></figure></t></t></t></p>
+<h3 id="建立新的结果容器：supplier方法"><a href="#建立新的结果容器：supplier方法" class="headerlink" title="建立新的结果容器：supplier方法"></a>建立新的结果容器：supplier方法</h3><p>supplier方法必须返回一个结果为空的Supplier，也就是一个无参数函数，在调用时它会创建一个空的累加器实例，供数据收集过程使用。</p>
+<h3 id="将元素天剑到结果容器：accumulator方法"><a href="#将元素天剑到结果容器：accumulator方法" class="headerlink" title="将元素天剑到结果容器：accumulator方法"></a>将元素天剑到结果容器：accumulator方法</h3><p>accumulator方法会返回执行规约操作的函数。当遍历到流中第n个元素时，这个函数执行时会有2个参数：保存规约结果的累加器，还有第n个元素本身。</p>
+<h3 id="对结果容器应用最终转换：finisher方法"><a href="#对结果容器应用最终转换：finisher方法" class="headerlink" title="对结果容器应用最终转换：finisher方法"></a>对结果容器应用最终转换：finisher方法</h3><p>在遍历完流后，finisher方法必须返回在累积过程的最后要调用的一个函数，以便将累加器对象转换为整个集合操作的最终结果。</p>
+<h3 id="合并2个结果容器：combiner方法"><a href="#合并2个结果容器：combiner方法" class="headerlink" title="合并2个结果容器：combiner方法"></a>合并2个结果容器：combiner方法</h3><p>combiner方法会返回一个供规约操作使用的函数，它定义了对流的各个部分进行并行处理时，各个子部分规约说的的累加器要如何合并。</p>
+<h3 id="characteristics方法"><a href="#characteristics方法" class="headerlink" title="characteristics方法"></a>characteristics方法</h3><p>characteristics方法会返回一个不可变的Characteristics集合，他定义了收集器的行为，尤其是关于流是否可以并行规约，以及可以使用哪些优化的提示。<br>Characteristics是一个包含三个项目的枚举：</p>
+<ul>
+<li>UNORDERED——规约结果不受流中项目的遍历和累积顺序的影响。</li>
+<li>CONCURRENT——accumulator函数可以从多个线程同时调用，且该收集器可以并行规约流。如果收集器没有标为UNORDERED，那它仅在用于无序数据源时才可进行并行规约。</li>
+<li>IDENTITY_FINISH——这表明完成器方法返回的函数时一个恒等函数，可以跳过。这种情况下，累加器对象会直接用做规约过程的最终结果。这也意味着，将累加器A不加检查的转换为R也是安全的。</li>
+</ul>
+<p>我们开发的ToListCollector是IDENTIFY_FINISHE的，因为用来累积流中元素的List已经是我们要的最终结果，用不着进一步转换了。</p>
+<h3 id="实现自己的收集器"><a href="#实现自己的收集器" class="headerlink" title="实现自己的收集器"></a>实现自己的收集器</h3><p>下面实现一个自己的ToListCollector<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">ToListCollector</span>&lt;<span class="title">T</span>&gt; <span class="keyword">implements</span> <span class="title">Collector</span>&lt;<span class="title">T</span>,<span class="title">List</span>&lt;<span class="title">T</span>&gt;,<span class="title">List</span>&lt;<span class="title">T</span>&gt;&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> Supplier&lt;List&lt;T&gt;&gt; supplier() &#123; <span class="comment">// 建立新的结果容器</span></span><br><span class="line">        <span class="keyword">return</span> () -&gt; <span class="keyword">new</span> ArrayList&lt;T&gt;();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> BiConsumer&lt;List&lt;T&gt;, T&gt; accumulator() &#123; <span class="comment">// 将元素追加到结果容器</span></span><br><span class="line">        <span class="keyword">return</span> (List,item) -&gt; List.add(item);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> BinaryOperator&lt;List&lt;T&gt;&gt; combiner() &#123; <span class="comment">// 合并2个结果容器</span></span><br><span class="line">        <span class="keyword">return</span> (list1,list2) -&gt; &#123;</span><br><span class="line">            list1.addAll(list2);</span><br><span class="line">            <span class="keyword">return</span> list1;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> Function&lt;List&lt;T&gt;, List&lt;T&gt;&gt; finisher() &#123; <span class="comment">// 对结果容器进行最终转换</span></span><br><span class="line">        <span class="keyword">return</span> Function.identity();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Set&lt;Characteristics&gt; <span class="title">characteristics</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> Collections.unmodifiableSet(EnumSet.of(Characteristics.IDENTITY_FINISH,Characteristics.CONCURRENT));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用自定义的收集器</span></span><br><span class="line">List&lt;Dish&gt; dishes = menu.stream().collect(<span class="keyword">new</span> ToListCollector&lt;Dish&gt;());</span><br></pre></td></tr></table></figure></p>
+<p>参考《java8实战》</p>
+
+        </div>
+        <div class="post-tool">
+            <a class="btn-thumbs-up" href="javascript:void(0);" data-cid="52" title="95">
+                <i class="fa fa-thumbs-up" aria-hidden="true"></i> 打赏
+            </a>
+        </div>
+        
+        <div class="post-tags">标签：
+            
+            <a href="/tags/java/">java</a>
+            
+        </div>
+        
+    </article>
+    
+    <p style="text-align: center">本文代表个人观点，内容仅供参考。若有不恰当之处，望不吝赐教！</p>
+    
+    
+
+    
+    
+        <div id="gitment-container"></div>
+        <link rel="stylesheet" href="//imsun.github.io/gitment/style/default.css">
+        <script src="//imsun.github.io/gitment/dist/gitment.browser.js"></script>
+        <script type="text/javascript">
+            var gitment = new Gitment({
+                /*lable长度不能超过50个字符，这里使用页面的生成时间*/
+                id: 'Tue Sep 11 2018 15:55:07 GMT+0800'/*document.location.href*/,
+                owner: 'luckystar88',
+                repo: 'comments',
+                oauth: {
+                    client_id: 'd49ebe4f95abcd6163f4',
+                    client_secret: 'edd2748d6271072a6970d5cec8751f388dac8116',
+                }
+            });
+            gitment.render('gitment-container');
+        </script>
+        
+            <script>
+                document.getElementById("gitment-display-button").style.display = "none";
+                document.getElementById("gitment-container").style.display = "block";
+            </script>
+        
+    
+
+
+</div>
+<script src="/js/busuanzi.pure.mini.js"></script>
+
+
+        </div><!-- end #main-->
+    </div><!-- end #body -->
+    <footer class="footer">
+    <div class="footer-inner" style="text-align: center">
+        <p>
+            <a href="/about" title="关于">关于</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <!-- 自定义链接 -->
+            <a href="/help" title="帮助">帮助</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <a href="/links" title="友链">友链</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <a href="/sitemap.xml" title="地图">地图</a>
+        </p>
+        <p>
+            本站已建立&nbsp<a href="/timeline" id="siteBuildingTime"></a>&nbsp天，<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="licence">采用知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议创作</a><br>
+            ©2017-<span id="cpYear"></span> 基于&nbsp<a href="http://hexo.io" target="_blank" rel="nofollow">Hexo</a>
+            ，主题采用&nbsp&nbsp<a href="https://github.com/tangkunyin/hexo-theme-jsimple" target="_blank" rel="bookmark">JSimple</a>
+            ，作者&nbsp<a href="https://tommy88.top" target="_blank" rel="friend">Donny</a>
+            ，Hosted by <a href="https://pages.github.com/" target="_blank" rel="nofollow">GitHub Pages</a>
+        </p>
+    </div>
+</footer>
+<script src="/js/SimpleCore.js"></script>
+
+</div>
+<!-- search pop -->
+<div class="popup search-popup local-search-popup">
+    <div class="local-search-header clearfix">
+        <span class="search-icon">
+            <i class="fa fa-search"></i>
+        </span>
+        <span class="popup-btn-close">
+            <i class="fa fa-times-circle"></i>
+        </span>
+        <div class="local-search-input-wrapper">
+            <input id="local-search-input" spellcheck="false" type="text" autocomplete="off" placeholder="请输入查询关键词">
+        </div>
+    </div>
+    <div id="local-search-result"></div>
+</div>
+<div class="fixed-btn">
+    <a class="btn-gotop" href="javascript:"> <i class="fa fa-angle-up"></i></a>
+</div>
+<script>
+    $(function () {
+        var jsi_config = {
+            buildingTime: '01/20/2016',
+            current: $('.post-tags').length > 0 ? 'post' : 'archive',
+            snsQRCode: '/images/sns-qrcode.png',
+            donateImg: '/images/donate-qr.png',
+            localSearch: { dbPath: '' },
+            readMode: 'day'
+        };
+        
+            jsi_config.localSearch = {
+                dbPath: '/search.xml',
+                trigger: 'auto',
+                topN: '1',
+                unescape: 'false'
+            }
+        
+        SimpleCore.init(jsi_config);
+        
+    });
+</script>
+</body>
+</html>

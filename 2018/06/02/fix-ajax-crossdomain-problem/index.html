@@ -1,0 +1,337 @@
+<!DOCTYPE HTML>
+<html class="no-js" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!--[if lte IE 9]>
+<meta http-equiv="refresh" content="0;url=https://tommy88.top/warn.html">
+<![endif]-->
+<meta charset="utf-8">
+<meta http-equiv="X-DNS-Prefetch-Control" content="on">
+<link rel="dns-prefetch" href="https://tommy88.top">
+<link rel="dns-prefetch" href="//www.google-analytics.com">
+<link rel="prefetch" href="https://tommy88.top">
+<link rel="prefetch" href="//www.google-analytics.com">
+
+
+    <link rel="dns-prefetch" href="//imsun.github.io">
+    <link rel="prefetch" href="//imsun.github.io">
+
+<link rel="prerender" href="https://tommy88.top">
+
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+<meta http-equiv="mobile-agent" content="format=html5; url=https://tommy88.top">
+<meta name="author" content="Donny">
+<link rel="stylesheet" href="/css/JSimple.css">
+
+<link rel="shortcut icon" href="/images/favicon.png">
+
+
+<title>ajax跨域问题 - Donny的技术博客</title>
+
+<meta name="keywords" content="java,前端,数据库,web,spring,redis,spring boot,spring cloud,mq">
+
+<meta name="description " content="记录工作，感悟生活">
+
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                processEscapes: true
+            }
+        });
+    </script>
+
+
+    
+
+    
+    
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="//www.googletagmanager.com/gtag/js?id=UA-105613999-1"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'UA-105613999-1');
+        </script>
+    
+    <!-- put your likes here. -->
+
+
+</head>
+<body>
+<div id="nav">
+    <nav class="nav-menu">
+        <a class="site-name current" href="/" title="Home">Home</a>
+        <a class="site-index current" href="/"><i class="fa fa-home"></i><span>首页</span></a>
+        <a href="/archives" title="归档"><i class="fa fa-archives"></i><span>归档</span></a>
+        <a href="/tags" title="标签"><i class="fa fa-tags"></i><span>标签</span></a>
+        <!-- custom single page of menus -->
+        
+        
+        <a href="/help" title="帮助">
+            <i class="fa fa-question-circle"></i>
+            <span>帮助</span>
+        </a>
+        
+    </nav>
+</div>
+
+<div class="nav-user">
+    <a class="btn-search" href="#"><i class="fa fa-search"></i></a>
+    <a class="btn-read-mode" href="#"><i class="fa fa-sun-o"></i></a>
+    <a class="btn-sns-qr" href="javascript:"><i class="fa fa-telegram"></i></a>
+</div>
+
+<div id="wrapper" class="clearfix">
+    <div id="body">
+        <div class="main" id="main">
+            <div id="cover">
+    <div class="cover-img"></div>
+    <div class="cover-info">
+        
+        <h1 class="cover-siteName">Donny的技术博客</h1>
+        <h3 class="cover-siteTitle">用代码征服世界</h3>
+        <p class="cover-siteDesc">这是一个简单的技术博客</p>
+        <div class="cover-sns">
+            
+    &nbsp;&nbsp;<div class="btn btn-github">
+        <a href="https://github.com/luckystar88" target="_blank" title="github" ref="friend">
+            <i class="fa fa-github"></i>
+        </a>
+    </div>
+
+
+        </div>
+    </div>
+</div>
+
+            <div class="page-title">
+    <ul>
+        <li><a href="/">最近</a></li>
+        
+            
+                <li class="active">
+                    <a href="/categories/tech" data-name="技术">技术</a>
+                </li>
+            
+                <li class>
+                    <a href="/categories/life" data-name="人文">人文</a>
+                </li>
+            
+                <li class>
+                    <a href="/categories/others" data-name="其他">其他</a>
+                </li>
+            
+        
+        <li class="page-search">
+    <form id="search" class="search-form">
+        <input type="text" readonly="readonly" id="local-search-input-tip" placeholder="读物检索~">
+        <button type="button" disabled="disabled" class="search-form-submit"><i class="fa fa-search"></i></button>
+    </form>
+</li>
+
+    </ul>
+</div>
+<div class="main-inner">
+    <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+        <div class="post-header">
+            <div class="post-author clearfix">
+                <a class="avatar fleft" href="https://tommy88.top" target="_blank">
+                    <img width="48" src="/images/favicon.png" alt="avatar">
+                </a>
+                <p><span class="label">作者</span>
+                    <a href="https://tommy88.top" target="_blank">Donny</a>
+                    <span title="最后编辑于&nbsp;2018-06-02">2018-06-02</span>
+                </p>
+                <p>记录工作，感悟生活</p>
+            </div>
+            <h2 class="post-title">ajax跨域问题</h2>
+            <div class="post-meta">
+                本文共计12094个字 |
+                您是第&nbsp;<span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>位看到它们的小伙伴
+            </div>
+        </div>
+        <div class="post-content markdown-body">
+            <h2 id="什么是Ajax跨域问题"><a href="#什么是Ajax跨域问题" class="headerlink" title="什么是Ajax跨域问题"></a>什么是Ajax跨域问题</h2><p>这里通过一个示例来说明。<br>我们这里准备了2个Springboot工程。<br>crossdomain-server:<br>端口：8080</p>
+<p>对外提供的接口如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/test"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@RequestMapping</span>(<span class="string">"/get"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> ResultBean <span class="title">get</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"TestController.get()."</span>);</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ResultBean(<span class="string">"hello,justin"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>通过浏览器请求<a href="http://localhost:8080/test/get">http://localhost:8080/test/get</a>得到如下结果：<br><img src="http://omh46px9n.bkt.clouddn.com/18-6-2/11597273.jpg" alt><br><a id="more"></a><br>crossdomain-client:<br>端口：8081<br>提供了一个简单的页面，用于Ajax请求crossdomain-server的接口。<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span><span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span> <span class="attr">src</span>=<span class="string">"/jquery.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"#"</span> <span class="attr">onclick</span>=<span class="string">"get1();"</span>&gt;</span>get请求<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span></span><br><span class="line"><span class="javascript">        <span class="function"><span class="keyword">function</span> <span class="title">get1</span>(<span class="params"></span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">            $.getJSON(<span class="string">"http://localhost:8080/test/get"</span>,<span class="function"><span class="keyword">function</span>(<span class="params">json</span>) </span>&#123;</span></span><br><span class="line">                alert(json);</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;</span><br><span class="line">    <span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>但是点击“get请求”后，发现控制台报错了。<br>如下：<br><img src="http://omh46px9n.bkt.clouddn.com/18-6-2/93569935.jpg" alt></p>
+<p>这个就是Ajax跨域问题。</p>
+<h2 id="Ajax跨域的原因"><a href="#Ajax跨域的原因" class="headerlink" title="Ajax跨域的原因"></a>Ajax跨域的原因</h2><p>产生跨域是由于浏览器的安全策略，JavaScript只能访问和操作自己域下的资源，不能访问和操作其他域下的资源。跨域问题是针对JS和ajax的，html本身没有跨域问题，比如a标签、script标签、甚至form标签（可以直接跨域发送数据并接收数据）等。所谓的同源，指的是域名、协议、端口均相等。</p>
+<h2 id="解决Ajax跨域的方式"><a href="#解决Ajax跨域的方式" class="headerlink" title="解决Ajax跨域的方式"></a>解决Ajax跨域的方式</h2><h3 id="1-jsonp"><a href="#1-jsonp" class="headerlink" title="1.jsonp"></a>1.jsonp</h3><p>我们对crossdomain-server做些修改：<br>a.增加ControllerAdvice<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@ControllerAdvice</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JsonpAdvice</span> <span class="keyword">extends</span> <span class="title">AbstractJsonpResponseBodyAdvice</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">JsonpAdvice</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(<span class="string">"callback"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>b.页面Ajax请求方式改为jsonp<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 每个测试用例的超时时间</span></span><br><span class="line">jasmine.DEFAULT_TIMEOUT_INTERVAL = <span class="number">1000</span>;</span><br><span class="line"><span class="keyword">var</span> base = <span class="string">"http://localhost:8080/test"</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 测试模块</span></span><br><span class="line">describe(<span class="string">"ajax跨域"</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    it(<span class="string">"jsonp请求"</span>,<span class="function"><span class="keyword">function</span>(<span class="params">done</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> result;</span><br><span class="line">        </span><br><span class="line">        $.ajax(&#123;</span><br><span class="line">            url:base+<span class="string">"/get"</span>,</span><br><span class="line">            dataType:<span class="string">"jsonp"</span>,</span><br><span class="line">            success:<span class="function"><span class="keyword">function</span>(<span class="params">callback</span>) </span>&#123;</span><br><span class="line">                result = callback;</span><br><span class="line">                </span><br><span class="line">                expect(result).toEqual(&#123;</span><br><span class="line">                    <span class="string">"data"</span>: <span class="string">"hello,justin"</span></span><br><span class="line">                &#125;)</span><br><span class="line">                </span><br><span class="line">                <span class="comment">// 校验完成，通知jasmine框架</span></span><br><span class="line">                done();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<p>浏览器输入<a href="http://localhost:8081">http://localhost:8081</a>可以看到测试通过，<br><img src="http://omh46px9n.bkt.clouddn.com/18-6-2/87147828.jpg" alt></p>
+<p>看下jsonp请求：<br><img src="http://omh46px9n.bkt.clouddn.com/18-6-2/21203667.jpg" alt></p>
+<blockquote>
+<p>这里使用了jasmine测试框架，具体使用方法可以执行百度。jasmine的github地址为：<a href="https://jasmine.github.io">https://jasmine.github.io</a>，可以在release中下载。使用可以参考：<a href="https://jasmine.github.io/2.3/introduction.html">https://jasmine.github.io/2.3/introduction.html</a>。</p>
+</blockquote>
+<blockquote>
+<p>jsonp虽然可以解决跨域问题，但jsonp只支持get请求，而且还需要修改前后台代码。<br>jsonp为什么只支持get，不支持post？<br>jsonp不是使用xhr发送的，是使用动态插入script标签实现的，当前无法指定请求的method，只能是get。<br>调用的地方看着一样，实际上和普通的ajax有2点明显差异：1. 不是使用xhr 2.服务器返回的不是json数据，而是js代码。</p>
+</blockquote>
+<h3 id="2-被调用方修改以支持跨域"><a href="#2-被调用方修改以支持跨域" class="headerlink" title="2.被调用方修改以支持跨域"></a>2.被调用方修改以支持跨域</h3><p>我们这里使用Filter，在响应中增加Access-Control-Allow-Origin。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CrossdoaminServerApplication</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SpringApplication.run(CrossdoaminServerApplication.class, args);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> FilterRegistrationBean <span class="title">crossFilter</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        FilterRegistrationBean bean = <span class="keyword">new</span> FilterRegistrationBean();</span><br><span class="line">        bean.addUrlPatterns(<span class="string">"/*"</span>);</span><br><span class="line">        bean.setFilter(<span class="keyword">new</span> CrossFilter());</span><br><span class="line">        <span class="keyword">return</span> bean;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CrossFilter</span> <span class="keyword">implements</span> <span class="title">Filter</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">(FilterConfig filterConfig)</span> <span class="keyword">throws</span> ServletException </span>&#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doFilter</span><span class="params">(ServletRequest request, ServletResponse response, FilterChain chain)</span></span></span><br><span class="line"><span class="function">            <span class="keyword">throws</span> IOException, ServletException </span>&#123;</span><br><span class="line">        HttpServletRequest req = (HttpServletRequest) request;</span><br><span class="line">        HttpServletResponse resp = (HttpServletResponse) response;</span><br><span class="line">        <span class="comment">// 允许http://localhost:8081域访问</span></span><br><span class="line">        resp.addHeader(<span class="string">"Access-Control-Allow-Origin"</span>, <span class="string">"http://localhost:8081"</span>);</span><br><span class="line">        </span><br><span class="line">        chain.doFilter(request, response);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">destroy</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>crossdomain-client前端测试点：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 测试模块</span></span><br><span class="line">describe(<span class="string">"ajax跨域"</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">     it(<span class="string">"get请求"</span>,<span class="function"><span class="keyword">function</span>(<span class="params">done</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> result;</span><br><span class="line">        </span><br><span class="line">        $.getJSON(base+<span class="string">"/get"</span>,<span class="function"><span class="keyword">function</span>(<span class="params">json</span>)</span>&#123;</span><br><span class="line">            result = json;</span><br><span class="line">            </span><br><span class="line">            expect(result).toEqual(&#123;</span><br><span class="line">                <span class="string">"data"</span>: <span class="string">"hello,justin"</span></span><br><span class="line">            &#125;)</span><br><span class="line">            </span><br><span class="line">            <span class="comment">// 校验完成，通知jasmine框架</span></span><br><span class="line">            done();</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;); </span><br><span class="line">    </span><br><span class="line">    it(<span class="string">"jsonp请求"</span>,<span class="function"><span class="keyword">function</span>(<span class="params">done</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> result;</span><br><span class="line">        </span><br><span class="line">        $.ajax(&#123;</span><br><span class="line">            method:<span class="string">"post"</span>,</span><br><span class="line">            url:base+<span class="string">"/get"</span>,</span><br><span class="line">            dataType:<span class="string">"jsonp"</span>,</span><br><span class="line">            success:<span class="function"><span class="keyword">function</span>(<span class="params">callback</span>) </span>&#123;</span><br><span class="line">                result = callback;</span><br><span class="line">                </span><br><span class="line">                expect(result).toEqual(&#123;</span><br><span class="line">                    <span class="string">"data"</span>: <span class="string">"hello,justin"</span></span><br><span class="line">                &#125;)</span><br><span class="line">                </span><br><span class="line">                <span class="comment">// 校验完成，通知jasmine框架</span></span><br><span class="line">                done();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<p>测试结果：<br><img src="http://omh46px9n.bkt.clouddn.com/18-6-2/25273026.jpg" alt></p>
+<p>可以将<code>Access-Control-Allow-Origin</code>设置为*，这样任何域都可以访问。同时可以通过<code>Access-Control-Allow-Methods</code>指定允许访问的方法。<br>如允许GET请求：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 同样可以将Access-Control-Allow-Methods设置为*，表示允许所有方法。</span><br><span class="line">resp.addHeader(&quot;Access-Control-Allow-Methods&quot;, &quot;GET&quot;);</span><br></pre></td></tr></table></figure></p>
+<h3 id="带cookie的跨域"><a href="#带cookie的跨域" class="headerlink" title="带cookie的跨域"></a>带cookie的跨域</h3><p>我们在crossdomain-server增加一个测试方法：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@GetMapping</span>(<span class="string">"/getCookie"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> ResultBean <span class="title">getCookie</span><span class="params">(@CookieValue(name=<span class="string">"cookie1"</span>)</span> String cookie1) </span>&#123;</span><br><span class="line">    System.out.println(<span class="string">"TestController.getCookie().cookie1="</span> + cookie1);</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> ResultBean(<span class="string">"cookie:"</span> + cookie1);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>然后浏览器访问crossdomain-server的任意一个请求，使用<code>document.cookie=&quot;cookie1=justin&quot;</code>来增加一个名为cookie1，值为justin的cookie。<br><img src="http://omh46px9n.bkt.clouddn.com/18-6-6/71187588.jpg" alt></p>
+<p>crossdomain-client增加一个测试用例：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">it(<span class="string">"getCookie请求"</span>,<span class="function"><span class="keyword">function</span>(<span class="params">done</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> result;</span><br><span class="line">    </span><br><span class="line">    $.ajax(&#123;</span><br><span class="line">        type:<span class="string">"get"</span>,</span><br><span class="line">        url:base+<span class="string">"/getCookie"</span>,</span><br><span class="line">        xhrFields: &#123;</span><br><span class="line">            <span class="comment">// 默认情况下，跨源请求不提供凭据(cookie、HTTP认证及客户端SSL证明等)。通过将withCredentials属性设置为true，可以指定某个请求应该发送凭据。如果服务器接收带凭据的请求，会用下面的HTTP头部来响应。</span></span><br><span class="line">            withCredentials: <span class="literal">true</span></span><br><span class="line">        &#125;,  </span><br><span class="line">        success:<span class="function"><span class="keyword">function</span>(<span class="params">json</span>) </span>&#123;</span><br><span class="line">            result = json;</span><br><span class="line">            </span><br><span class="line">            expect(result).toEqual(&#123;</span><br><span class="line">                <span class="string">"data"</span>: <span class="string">"cookie:justin"</span></span><br><span class="line">            &#125;)</span><br><span class="line">            </span><br><span class="line">            <span class="comment">// 校验完成，通知jasmine框架</span></span><br><span class="line">            done();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<p>我们访问<a href="http://localhsot:8081，">http://localhsot:8081，</a><br><img src="http://omh46px9n.bkt.clouddn.com/18-6-6/98074659.jpg" alt><br>可以看到，请求是成功的（statuscode=200），请求也带上了cookie。但jasmine提示失败。<br>我们看下浏览器控制台：<br><img src="http://omh46px9n.bkt.clouddn.com/18-6-6/66778521.jpg" alt><br>提示信息很明确了：提示我们响应头需要设置Access-Control-Allow-Credentials为true。<br>我们到CrossFilter设置一下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">resp.addHeader(<span class="string">"Access-Control-Allow-Credentials"</span>, <span class="string">"true"</span>);</span><br></pre></td></tr></table></figure></p>
+<p>ok，加上以后再次请求就成功了。</p>
+<p>注意：这里不能设置Access-Control-Allow-Origin为*，否则会报下面的错误：<br><img src="http://omh46px9n.bkt.clouddn.com/18-6-6/67848327.jpg" alt><br>但是，我们不可能只有一个跨域的站，怎么处理？<br>我们观察浏览器的请求，可以发现，如果是跨域请求，会有Origin请求头，我们后台根据这个请求头设置即可。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">String url = req.getHeader(<span class="string">"Origin"</span>);</span><br><span class="line"><span class="keyword">if</span> (!StringUtils.isEmpty(url)) &#123;</span><br><span class="line">    resp.addHeader(<span class="string">"Access-Control-Allow-Origin"</span>, url);</span><br><span class="line">    resp.addHeader(<span class="string">"Access-Control-Allow-Credentials"</span>, <span class="string">"true"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>错误：Missing cookie ‘cookie1’ for method parameter of type String</strong><br>最后发现是jquery版本太低，这里使用了jquery1.11.3后ok了。</p>
+<h3 id="带自定义请求头的跨域访问"><a href="#带自定义请求头的跨域访问" class="headerlink" title="带自定义请求头的跨域访问"></a>带自定义请求头的跨域访问</h3><p>在crossdomain-server增加一个请求方法：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@GetMapping</span>(<span class="string">"/customHeader"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> ResultBean <span class="title">getCustomHeader</span><span class="params">(@RequestHeader(<span class="string">"X-My-Header"</span>)</span> String myHeader) </span>&#123;</span><br><span class="line">    System.out.println(<span class="string">"TestController.getCustomHeader().myHeader="</span> + myHeader);</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> ResultBean(<span class="string">"header:"</span> + myHeader);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在crossdomain-client增加一个测试用例：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">it(<span class="string">"getCustomeHeader请求"</span>,<span class="function"><span class="keyword">function</span>(<span class="params">done</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> result;</span><br><span class="line">    </span><br><span class="line">    $.ajax(&#123;</span><br><span class="line">        type:<span class="string">"get"</span>,</span><br><span class="line">        url:base+<span class="string">"/customHeader"</span>,</span><br><span class="line">        headers:&#123;</span><br><span class="line">            <span class="string">'X-My-Header'</span>:<span class="string">'justin'</span></span><br><span class="line">        &#125;,  </span><br><span class="line">        success:<span class="function"><span class="keyword">function</span>(<span class="params">json</span>) </span>&#123;</span><br><span class="line">            result = json;</span><br><span class="line">            </span><br><span class="line">            expect(result).toEqual(&#123;</span><br><span class="line">                <span class="string">"data"</span>: <span class="string">"header:justin"</span></span><br><span class="line">            &#125;)</span><br><span class="line">            </span><br><span class="line">            <span class="comment">// 校验完成，通知jasmine框架</span></span><br><span class="line">            done();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<p>测试发现报错了<br><img src="http://omh46px9n.bkt.clouddn.com/18-6-6/26794827.jpg" alt><br>意思我们的Access-Control-Allow-Headers响应头没有包含这个自定义的请求头，所以我们在CrossFilter加上<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">resp.addHeader(<span class="string">"Access-Control-Allow-Headers"</span>, <span class="string">"Content-Type,X-My-Header"</span>);</span><br></pre></td></tr></table></figure></p>
+<p>再次请求，成功。</p>
+<p>与<code>Access-Control-Allow-Origin</code>一样，我们也可以对<code>Access-Control-Allow-Headers</code>进行动态设置。<br>我们观察customHeader的预检命令的请求头中有<code>Access-Control-Request-Headers:x-my-header</code>。<br><img src="http://omh46px9n.bkt.clouddn.com/18-6-6/87362826.jpg" alt><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">String headers = req.getHeader(<span class="string">"Access-Control-Request-Headers"</span>);</span><br><span class="line"><span class="keyword">if</span> (!StringUtils.isEmpty(headers)) &#123;</span><br><span class="line">    resp.addHeader(<span class="string">"Access-Control-Allow-Headers"</span>, headers);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="预检命令"><a href="#预检命令" class="headerlink" title="预检命令"></a>预检命令</h3><p>我们在crossdomain-server增加一个postJson方法：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@PostMapping</span>(<span class="string">"/postJson"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> ResultBean <span class="title">postJson</span><span class="params">(@RequestBody User user)</span> </span>&#123;</span><br><span class="line">    System.out.println(<span class="string">"TestController.postJson()"</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> ResultBean(<span class="string">"hello,"</span> + user.getName());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在crossdomain-client增加一个测试用例：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">it(<span class="string">"postJson请求"</span>,<span class="function"><span class="keyword">function</span>(<span class="params">done</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> result;</span><br><span class="line">    </span><br><span class="line">    $.ajax(&#123;</span><br><span class="line">        type:<span class="string">"post"</span>,</span><br><span class="line">        url:base+<span class="string">"/postJson"</span>,</span><br><span class="line">        contentType:<span class="string">"application/json;charset=utf-8"</span>,</span><br><span class="line">        data:<span class="built_in">JSON</span>.stringify(&#123;<span class="attr">name</span>:<span class="string">"justin"</span>&#125;),</span><br><span class="line">        success:<span class="function"><span class="keyword">function</span>(<span class="params">json</span>) </span>&#123;</span><br><span class="line">            result = json;</span><br><span class="line">            </span><br><span class="line">            expect(result).toEqual(&#123;</span><br><span class="line">                <span class="string">"data"</span>: <span class="string">"hello,justin"</span></span><br><span class="line">            &#125;)</span><br><span class="line">            </span><br><span class="line">            <span class="comment">// 校验完成，通知jasmine框架</span></span><br><span class="line">            done();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<p>浏览器访问发现postJson失败了，如图：<br><img src="http://omh46px9n.bkt.clouddn.com/18-6-2/3811400.jpg" alt><br>而且，我要请求的是一个post请求的/postJson请求，但实际浏览器是发出了一个OPTIONS请求，这个就是预检命令。</p>
+<p>看下浏览器的控制台：<br><img src="http://omh46px9n.bkt.clouddn.com/18-6-2/10201040.jpg" alt><br>意思是我们的响应头<code>Access-Control-Allow-Headers</code>中没有找到请求头<code>Content-Type</code>。</p>
+<p>所以，我们修改一下代码，增加Content-Type。<br>我们在crossdomain-server的CrossFilter中增加：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">resp.addHeader(<span class="string">"Access-Control-Allow-Headers"</span>, <span class="string">"Content-Type"</span>);</span><br></pre></td></tr></table></figure></p>
+<p>这次请求成功了<br><img src="http://omh46px9n.bkt.clouddn.com/18-6-2/59491218.jpg" alt><br>可以看到postJson实际发送了2个请求，第一个是OPTIONS，它返回200后，浏览器再次发送了我们要请求的。</p>
+<blockquote>
+<p>简单请求：<br>请求方法为GET，POST，HEAD。<br>且请求header中无自定义请求头，且Content-type为下面几种：text/plain,multipart/form-data,application/x-www-form-urlencoded.</p>
+</blockquote>
+<blockquote>
+<p>非简单请求：<br>put,delete方法的Ajax请求<br>发送json格式的Ajax请求<br>带自定义请求头的Ajax请求<br>比如一个post的json请求，实际浏览器先发出一个OPTIONS预检命令，然后才发送的POST请求。可以在Filter中增加请求头Access-Control-Max-Age:3600(数字秒）来缓存预检命令的结果，这样在指定的时间内浏览器不会再次发送预检命令。</p>
+</blockquote>
+<h3 id="3-服务器代理"><a href="#3-服务器代理" class="headerlink" title="3.服务器代理"></a>3.服务器代理</h3><h4 id="使用nginx解决跨域"><a href="#使用nginx解决跨域" class="headerlink" title="使用nginx解决跨域"></a>使用nginx解决跨域</h4><p>我们使用nginx帮我们对请求做了转发，将b.com的请求转发到<a href="http://localhost:8080，同时设置了相关的响应头。">http://localhost:8080，同时设置了相关的响应头。</a></p>
+<p>1.修改本机hosts文件，将b.com映射到127.0.0.1；<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1 b.com</span><br></pre></td></tr></table></figure></p>
+<p>2.在nginx.conf文件最后（最后一个}上面）增加：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">include vhost/*.conf;</span><br></pre></td></tr></table></figure></p>
+<p>3.在nginx.conf同级目录增加vhost目录，并在下面创建b.com.conf文件。<br>b.com.conf文件内容如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">server&#123;</span><br><span class="line">    # 监听80端口</span><br><span class="line">    listen 80;</span><br><span class="line">    # 监控的域名</span><br><span class="line">    server_name b.com;</span><br><span class="line">    # 拦截所有请求</span><br><span class="line">    location /&#123;</span><br><span class="line">        # 将请求转发给http://localhost:8080/</span><br><span class="line">        proxy_pass http://localhost:8080/;</span><br><span class="line">        </span><br><span class="line">        # 允许访问所有的方法    </span><br><span class="line">        add_header Access-Control-Allow-Methods *;</span><br><span class="line">        # 设置预检命令的有效期</span><br><span class="line">        add_header Access-Control-Max-Age 3600;</span><br><span class="line">        # 允许凭据</span><br><span class="line">        add_header Access-Control-Allow-Credentials true;</span><br><span class="line">        # 使用$http_orgin获取请求头orgin的值</span><br><span class="line">        add_header Access-Control-Allow-Origin $http_origin;</span><br><span class="line">        # 使用$http_access_control_request_headers获取请求头Access-Control-Request-Headers的值</span><br><span class="line">        add_header Access-Control-Allow-Headers $http_access_control_request_headers;</span><br><span class="line"></span><br><span class="line">        # 如果是预检命令，直接返回200OK</span><br><span class="line">        if ($request_method = OPTIONS)&#123;</span><br><span class="line">            return 200;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>4.crossdomain-server修改<br>注释掉CrossFilter的使用代码。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//  @Bean</span></span><br><span class="line"><span class="comment">//  public FilterRegistrationBean crossFilter() &#123;</span></span><br><span class="line"><span class="comment">//      FilterRegistrationBean bean = new FilterRegistrationBean();</span></span><br><span class="line"><span class="comment">//      bean.addUrlPatterns("/*");</span></span><br><span class="line"><span class="comment">//      bean.setFilter(new CrossFilter());</span></span><br><span class="line"><span class="comment">//      return bean;</span></span><br><span class="line"><span class="comment">//  &#125;</span></span><br></pre></td></tr></table></figure></p>
+<p>5.crossdomain-client修改<br>将<a href="http://localhost:8080改成http://b.com">http://localhost:8080改成http://b.com</a><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> base = <span class="string">"http://b.com/test"</span>;</span><br><span class="line"><span class="string">`</span></span><br></pre></td></tr></table></figure></p>
+<p>6.测试<br>cmd切换到ningx所在目录，使用nginx -t先测试一下配置是否正确，没问题执行start nginx启动nginx服务。  </p>
+<p>所有请求都访问ok。<br><img src="http://omh46px9n.bkt.clouddn.com/18-6-6/88472040.jpg" alt></p>
+<h3 id="4-Spring框架解决方案"><a href="#4-Spring框架解决方案" class="headerlink" title="4.Spring框架解决方案"></a>4.Spring框架解决方案</h3><p>在Controller上增加@CrossOrigin注解即可。</p>
+<h3 id="5-调用方解决跨域——隐藏跨域"><a href="#5-调用方解决跨域——隐藏跨域" class="headerlink" title="5.调用方解决跨域——隐藏跨域"></a>5.调用方解决跨域——隐藏跨域</h3><p>这里仍然借助nginx来实现。原理就是在调用方的页面请求使用相对路径，让浏览器认为跨域的请求（crossdomain-server）和调用发（crossdomain-client）是在同一个域（crossdomain-client的域）。而在nginx中，将跨域的请求转发给实际的被调用方（crossdomain-server）。</p>
+<p>a.修改hosts，增加本机IP到a.com的映射；<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1 a.com</span><br></pre></td></tr></table></figure></p>
+<p>b.在nginx的conf目录新建vhost目录，并在该目录下新建文件a.com.conf，文件内容如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">server&#123;</span><br><span class="line">    # 监听80端口</span><br><span class="line">    listen 80;</span><br><span class="line">    # 监控a.com</span><br><span class="line">    server_name a.com;</span><br><span class="line"></span><br><span class="line">    # 将所有请求转发到http://localhost:8081/</span><br><span class="line">    location /&#123;</span><br><span class="line">        proxy_pass http://localhost:8081/;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    # 将/crossdomain-server请求转发到http://localhost:8080/</span><br><span class="line">    location /crossdomain-server&#123;</span><br><span class="line">        proxy_pass http://localhost:8080/;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>c.nginx.conf修改<br>在文件最后（大括号上面）增加下面的配置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">include vhost/*.conf;</span><br></pre></td></tr></table></figure></p>
+<p>将vhost下面的所有.conf结尾的文件都加载进来。</p>
+<p>d.crossdomain-server修改<br>去掉TestController上的@CrossOrigin注解。</p>
+<p>e.crossdomain-client修改<br>将<code>var base = &quot;http://localhost:8080/test&quot;;</code>修改为<code>var base = &quot;/crossdomain-server/test&quot;;</code>。</p>
+<p>测试：浏览器输入<a href="a.com">a.com</a>，回车<br><img src="http://omh46px9n.bkt.clouddn.com/18-6-7/64215854.jpg" alt><br>所有请求全部成功。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>Ajax跨域的解决方法有很多，使用时要根据实际的情况选择合适的解决方法。</p>
+<p>可以参考慕课网的课程<a href="https://www.imooc.com/video/16571">https://www.imooc.com/video/16571</a>讲的很详细。</p>
+<p>代码：<a href="https://gitee.com/qincd/crossdomain-demo">https://gitee.com/qincd/crossdomain-demo</a></p>
+
+        </div>
+        <div class="post-tool">
+            <a class="btn-thumbs-up" href="javascript:void(0);" data-cid="52" title="95">
+                <i class="fa fa-thumbs-up" aria-hidden="true"></i> 打赏
+            </a>
+        </div>
+        
+        <div class="post-tags">标签：
+            
+            <a href="/tags/java/">java</a>
+            
+        </div>
+        
+    </article>
+    
+    <p style="text-align: center">本文代表个人观点，内容仅供参考。若有不恰当之处，望不吝赐教！</p>
+    
+    
+
+    
+    
+        <div id="gitment-container"></div>
+        <link rel="stylesheet" href="//imsun.github.io/gitment/style/default.css">
+        <script src="//imsun.github.io/gitment/dist/gitment.browser.js"></script>
+        <script type="text/javascript">
+            var gitment = new Gitment({
+                /*lable长度不能超过50个字符，这里使用页面的生成时间*/
+                id: 'Sat Jun 02 2018 15:30:49 GMT+0800'/*document.location.href*/,
+                owner: 'luckystar88',
+                repo: 'comments',
+                oauth: {
+                    client_id: 'd49ebe4f95abcd6163f4',
+                    client_secret: 'edd2748d6271072a6970d5cec8751f388dac8116',
+                }
+            });
+            gitment.render('gitment-container');
+        </script>
+        
+            <script>
+                document.getElementById("gitment-display-button").style.display = "none";
+                document.getElementById("gitment-container").style.display = "block";
+            </script>
+        
+    
+
+
+</div>
+<script src="/js/busuanzi.pure.mini.js"></script>
+
+
+        </div><!-- end #main-->
+    </div><!-- end #body -->
+    <footer class="footer">
+    <div class="footer-inner" style="text-align: center">
+        <p>
+            <a href="/about" title="关于">关于</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <!-- 自定义链接 -->
+            <a href="/help" title="帮助">帮助</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <a href="/links" title="友链">友链</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <a href="/sitemap.xml" title="地图">地图</a>
+        </p>
+        <p>
+            本站已建立&nbsp<a href="/timeline" id="siteBuildingTime"></a>&nbsp天，<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="licence">采用知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议创作</a><br>
+            ©2017-<span id="cpYear"></span> 基于&nbsp<a href="http://hexo.io" target="_blank" rel="nofollow">Hexo</a>
+            ，主题采用&nbsp&nbsp<a href="https://github.com/tangkunyin/hexo-theme-jsimple" target="_blank" rel="bookmark">JSimple</a>
+            ，作者&nbsp<a href="https://tommy88.top" target="_blank" rel="friend">Donny</a>
+            ，Hosted by <a href="https://pages.github.com/" target="_blank" rel="nofollow">GitHub Pages</a>
+        </p>
+    </div>
+</footer>
+<script src="/js/SimpleCore.js"></script>
+
+</div>
+<!-- search pop -->
+<div class="popup search-popup local-search-popup">
+    <div class="local-search-header clearfix">
+        <span class="search-icon">
+            <i class="fa fa-search"></i>
+        </span>
+        <span class="popup-btn-close">
+            <i class="fa fa-times-circle"></i>
+        </span>
+        <div class="local-search-input-wrapper">
+            <input id="local-search-input" spellcheck="false" type="text" autocomplete="off" placeholder="请输入查询关键词">
+        </div>
+    </div>
+    <div id="local-search-result"></div>
+</div>
+<div class="fixed-btn">
+    <a class="btn-gotop" href="javascript:"> <i class="fa fa-angle-up"></i></a>
+</div>
+<script>
+    $(function () {
+        var jsi_config = {
+            buildingTime: '01/20/2016',
+            current: $('.post-tags').length > 0 ? 'post' : 'archive',
+            snsQRCode: '/images/sns-qrcode.png',
+            donateImg: '/images/donate-qr.png',
+            localSearch: { dbPath: '' },
+            readMode: 'day'
+        };
+        
+            jsi_config.localSearch = {
+                dbPath: '/search.xml',
+                trigger: 'auto',
+                topN: '1',
+                unescape: 'false'
+            }
+        
+        SimpleCore.init(jsi_config);
+        
+    });
+</script>
+</body>
+</html>

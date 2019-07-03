@@ -1,0 +1,322 @@
+<!DOCTYPE HTML>
+<html class="no-js" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!--[if lte IE 9]>
+<meta http-equiv="refresh" content="0;url=https://tommy88.top/warn.html">
+<![endif]-->
+<meta charset="utf-8">
+<meta http-equiv="X-DNS-Prefetch-Control" content="on">
+<link rel="dns-prefetch" href="https://tommy88.top">
+<link rel="dns-prefetch" href="//www.google-analytics.com">
+<link rel="prefetch" href="https://tommy88.top">
+<link rel="prefetch" href="//www.google-analytics.com">
+
+
+    <link rel="dns-prefetch" href="//imsun.github.io">
+    <link rel="prefetch" href="//imsun.github.io">
+
+<link rel="prerender" href="https://tommy88.top">
+
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+<meta http-equiv="mobile-agent" content="format=html5; url=https://tommy88.top">
+<meta name="author" content="Donny">
+<link rel="stylesheet" href="/css/JSimple.css">
+
+<link rel="shortcut icon" href="/images/favicon.png">
+
+
+<title>jdk8之stream - Donny的技术博客</title>
+
+<meta name="keywords" content="java,前端,数据库,web,spring,redis,spring boot,spring cloud,mq">
+
+<meta name="description " content="记录工作，感悟生活">
+
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                processEscapes: true
+            }
+        });
+    </script>
+
+
+    
+
+    
+    
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="//www.googletagmanager.com/gtag/js?id=UA-105613999-1"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'UA-105613999-1');
+        </script>
+    
+    <!-- put your likes here. -->
+
+
+</head>
+<body>
+<div id="nav">
+    <nav class="nav-menu">
+        <a class="site-name current" href="/" title="Home">Home</a>
+        <a class="site-index current" href="/"><i class="fa fa-home"></i><span>首页</span></a>
+        <a href="/archives" title="归档"><i class="fa fa-archives"></i><span>归档</span></a>
+        <a href="/tags" title="标签"><i class="fa fa-tags"></i><span>标签</span></a>
+        <!-- custom single page of menus -->
+        
+        
+        <a href="/help" title="帮助">
+            <i class="fa fa-question-circle"></i>
+            <span>帮助</span>
+        </a>
+        
+    </nav>
+</div>
+
+<div class="nav-user">
+    <a class="btn-search" href="#"><i class="fa fa-search"></i></a>
+    <a class="btn-read-mode" href="#"><i class="fa fa-sun-o"></i></a>
+    <a class="btn-sns-qr" href="javascript:"><i class="fa fa-telegram"></i></a>
+</div>
+
+<div id="wrapper" class="clearfix">
+    <div id="body">
+        <div class="main" id="main">
+            <div id="cover">
+    <div class="cover-img"></div>
+    <div class="cover-info">
+        
+        <h1 class="cover-siteName">Donny的技术博客</h1>
+        <h3 class="cover-siteTitle">用代码征服世界</h3>
+        <p class="cover-siteDesc">这是一个简单的技术博客</p>
+        <div class="cover-sns">
+            
+    &nbsp;&nbsp;<div class="btn btn-github">
+        <a href="https://github.com/luckystar88" target="_blank" title="github" ref="friend">
+            <i class="fa fa-github"></i>
+        </a>
+    </div>
+
+
+        </div>
+    </div>
+</div>
+
+            <div class="page-title">
+    <ul>
+        <li><a href="/">最近</a></li>
+        
+            
+                <li class="active">
+                    <a href="/categories/tech" data-name="技术">技术</a>
+                </li>
+            
+                <li class>
+                    <a href="/categories/life" data-name="人文">人文</a>
+                </li>
+            
+                <li class>
+                    <a href="/categories/others" data-name="其他">其他</a>
+                </li>
+            
+        
+        <li class="page-search">
+    <form id="search" class="search-form">
+        <input type="text" readonly="readonly" id="local-search-input-tip" placeholder="读物检索~">
+        <button type="button" disabled="disabled" class="search-form-submit"><i class="fa fa-search"></i></button>
+    </form>
+</li>
+
+    </ul>
+</div>
+<div class="main-inner">
+    <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+        <div class="post-header">
+            <div class="post-author clearfix">
+                <a class="avatar fleft" href="https://tommy88.top" target="_blank">
+                    <img width="48" src="/images/favicon.png" alt="avatar">
+                </a>
+                <p><span class="label">作者</span>
+                    <a href="https://tommy88.top" target="_blank">Donny</a>
+                    <span title="最后编辑于&nbsp;2018-09-08">2018-09-08</span>
+                </p>
+                <p>记录工作，感悟生活</p>
+            </div>
+            <h2 class="post-title">JDK8之Stream</h2>
+            <div class="post-meta">
+                本文共计11319个字 |
+                您是第&nbsp;<span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>位看到它们的小伙伴
+            </div>
+        </div>
+        <div class="post-content markdown-body">
+            <p>本文介绍java 8 Stream API提供的诸多操作，利用这些操作可以让你快速的完成复制的数据查询，如筛选、切片、映射、查找、匹配和规约。包括一些特殊流的用法：数值流、文件流、数组流，无限流。</p>
+<h2 id="筛选和切片"><a href="#筛选和切片" class="headerlink" title="筛选和切片"></a>筛选和切片</h2><h3 id="用谓词筛选"><a href="#用谓词筛选" class="headerlink" title="用谓词筛选"></a>用谓词筛选</h3><p>Stream接口提供了filter方法，该方法接收一个谓词作为参数，并返回一个包含所有符合谓词的元素的流。</p>
+<p>比如，筛选出所有的素菜：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Dish&gt; dishes = menu.stream().filter(Dish::isVegetarian).collect(toList());</span><br></pre></td></tr></table></figure></p>
+<a id="more"></a>
+<h3 id="元素去重"><a href="#元素去重" class="headerlink" title="元素去重"></a>元素去重</h3><p>Stream还支持distinct方法，它会返回不重复的元素的流（根据元素的hashCode和equals方法）。<br>例如，筛选出下面列表中的所有不重复的偶数：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Integer&gt; numbers = Arrays.asList(<span class="number">1</span>,<span class="number">2</span>,<span class="number">5</span>,<span class="number">2</span>,<span class="number">6</span>,<span class="number">3</span>,<span class="number">3</span>,<span class="number">2</span>,<span class="number">4</span>);</span><br><span class="line">numbers.stream()</span><br><span class="line">    .filter(i -&gt; i % <span class="number">2</span> == <span class="number">0</span>)</span><br><span class="line">    .distinct() <span class="comment">// 根据元素的hashcode和equals方法过滤重复元素</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="截断流"><a href="#截断流" class="headerlink" title="截断流"></a>截断流</h3><p>Stream还支持limit方法，返回一个不超过给定长度的流。所需的长度作为参数传递给limit。如果流是有序的，则最多会返回前n个元素。<br>比如，筛选出热量超过300卡路里的头三道菜：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Dish&gt; highCaloriesTop3 = menu.stream() <span class="comment">// 由菜单得到一个流</span></span><br><span class="line">    .filter(dish -&gt;  dish.getCalories() &gt; <span class="number">300</span>) <span class="comment">// 接收Lambda，从流中排除某些元素</span></span><br><span class="line">    .limit(<span class="number">3</span>) <span class="comment">// 截断流，使元素不超过指定数量</span></span><br><span class="line">    .collect(Collectors.toList()); <span class="comment">// 将流转换为其他形式</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="跳过元素"><a href="#跳过元素" class="headerlink" title="跳过元素"></a>跳过元素</h3><p>Stream还支持skip方法，返回一个扔掉了前n个元素的流。如果流中元素不足n个，则返回空流。<br>比如，找出超过300卡路里的菜，但忽略前2道。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Dish&gt; highCalories = menu.stream()</span><br><span class="line">    .filter(dish -&gt; dish.getCalories() &gt; <span class="number">300</span>)</span><br><span class="line">    .skip(<span class="number">2</span>)</span><br><span class="line">    .collect(Collectors.toList());</span><br></pre></td></tr></table></figure></p>
+<h2 id="映射"><a href="#映射" class="headerlink" title="映射"></a>映射</h2><h3 id="对流中的每个元素应用函数"><a href="#对流中的每个元素应用函数" class="headerlink" title="对流中的每个元素应用函数"></a>对流中的每个元素应用函数</h3><p>Stream支持map方法，接收一个函数作为参数，会对流中的每个元素应用该函数，并映射为一个新的元素。<br>比如，获取每道菜的名称：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; dishNames = menu.stream().map(Dish::getName).collect(toList());</span><br></pre></td></tr></table></figure></p>
+<h2 id="流的扁平化"><a href="#流的扁平化" class="headerlink" title="流的扁平化"></a>流的扁平化</h2><p>流支持flatMap方法，可以将流中的每个值都转换为一个流，然后把所有的流连接起来形成一个流。</p>
+<p>例1：<br>给定如下单词列表[‘Hello’,’World’]，如何得到不重复的字符？<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; strings = Arrays.asList(<span class="string">"Hello"</span>, <span class="string">"World"</span>);</span><br><span class="line"><span class="comment">// Arrays::stream将一个数组转换为一个流</span></span><br><span class="line">List&lt;String&gt; words = strings.stream()</span><br><span class="line">    .map(s -&gt; s.split(<span class="string">""</span>)) <span class="comment">// 得到字符数组</span></span><br><span class="line">    .flatMap(Arrays::stream) <span class="comment">// 将字符数组中的每个元素都换成另外一个流，然后把所有的流连接起来形成一个新的流</span></span><br><span class="line">    .distinct()</span><br><span class="line">    .collect(Collectors.toList());</span><br></pre></td></tr></table></figure></p>
+<p>上面如果只是使用map方法，只能得到2个字符数组，而使用flatMap就可以将数组中的每个元素映射为一个流，然后把所有的流合起来形成一个新的流。</p>
+<p>例2：<br>给定2个数字列表，[1,2,3],[4,5]，如何返回所有的数对？[(1,4),(1,5),(2,4),(2,5),(3,4),(3,5)]<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Integer&gt; numList1 = Arrays.asList(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>);</span><br><span class="line">List&lt;Integer&gt; numList2 = Arrays.asList(<span class="number">4</span>, <span class="number">5</span>);</span><br><span class="line">List&lt;<span class="keyword">int</span>[]&gt; nums = numList1.stream()</span><br><span class="line">    .flatMap(i -&gt; numList2.stream().map(j -&gt; <span class="keyword">new</span> <span class="keyword">int</span>[]&#123;i, j&#125;))</span><br><span class="line">    .collect(Collectors.toList());</span><br></pre></td></tr></table></figure></p>
+<h2 id="查找和匹配"><a href="#查找和匹配" class="headerlink" title="查找和匹配"></a>查找和匹配</h2><h3 id="查找谓词是否至少匹配一个元素"><a href="#查找谓词是否至少匹配一个元素" class="headerlink" title="查找谓词是否至少匹配一个元素"></a>查找谓词是否至少匹配一个元素</h3><p>使用anyMatch()方法。<br>比如，菜单中是否有素菜？<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">boolean</span> isExistVegetarian = menu.stream().anyMatch(d -&gt; d.isVegetarian());</span><br></pre></td></tr></table></figure></p>
+<h3 id="检查谓词是否匹配所有元素"><a href="#检查谓词是否匹配所有元素" class="headerlink" title="检查谓词是否匹配所有元素"></a>检查谓词是否匹配所有元素</h3><p>使用allMatch()方法。</p>
+<p>比如，是否所有的菜卡路由都小于1000？<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">boolean</span> allLess1000 = menu.stream().allMatch(d -&gt; d.getCalories() &lt; <span class="number">1000</span>);</span><br></pre></td></tr></table></figure></p>
+<h3 id="检查谓词是否券都不匹配所有元素"><a href="#检查谓词是否券都不匹配所有元素" class="headerlink" title="检查谓词是否券都不匹配所有元素"></a>检查谓词是否券都不匹配所有元素</h3><p>使用noneMatch，与allMatch对应。</p>
+<p>比如，是否是否所欲的菜卡路由都是小于1000？<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">boolean</span> allLess1000 = menu.stream().noneMatch(d -&gt; d.getCalories() &gt;= <span class="number">1000</span>);</span><br></pre></td></tr></table></figure></p>
+<h3 id="查找元素"><a href="#查找元素" class="headerlink" title="查找元素"></a>查找元素</h3><p>findAny()方法返回当前流中的任意元素，可以和其他流操作结合使用。</p>
+<p>比如，找一道素菜（随便哪一道）：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Optional&lt;Dish&gt; dish = menu.stream().filter(Dish::isVegetarian).findAny();</span><br></pre></td></tr></table></figure></p>
+<p>注意：findAny()返回的是一个Optional<t>。它是一个容器类，代表一个值存在或不存在。用来解决null值问题。</t></p>
+<p>常用方法如下：</p>
+<ul>
+<li>isPresent<br> 包含值的时候返回true，否则返回false；</li>
+<li>ifPresent(Consumer<t> block)<br> 在存在值时执行给定的代码块。</t></li>
+<li>get<br> 在存在值时返回值，否则抛出一个NoSuchElement异常</li>
+<li>orElse(T other)<br> 在存在值时返回值，否则返回一个默认值。</li>
+</ul>
+<p>比如，打印一道素菜的名称：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">menu.stream().filter(Dish::isVegetarian).findAny().ifPresent(d -&gt; System.out.println(d.getName()));</span><br><span class="line">```    </span><br><span class="line"></span><br><span class="line">## 规约</span><br><span class="line">### 元素求和</span><br><span class="line">使用<span class="keyword">for</span>-each求和</span><br><span class="line">```java</span><br><span class="line">List&lt;Integer&gt; numbers = Arrays.asList(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">9</span>);</span><br><span class="line"><span class="keyword">int</span> sum = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> x:numbers) &#123;</span><br><span class="line">    sum += x;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>使用reduce()方法<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> sum = numbers.stream().reduct(<span class="number">0</span>,(a,b) -&gt; a+b);</span><br></pre></td></tr></table></figure></p>
+<p>第1个参数：初始值<br>第2个参数：一个BinaryOperator<t> ，将2个元素结合起来产生一个新值。</t></p>
+<p>求和过程：<br>首先，0作为Lambda的第1个参数(a)，从流中获取到1作为第2个参数，0+1=1，它成为了新的累积值。<br>然后，在用累积值和下一个元素调用Lambda，产生新的累积值3。</p>
+<p><strong>综合示例</strong><br>有如下交易和交易员，计算下面8个问题。<br>交易员<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Trader</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> String name;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> String city;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Trader</span><span class="params">(String name, String city)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">        <span class="keyword">this</span>.city = city;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getCity</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> city;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"Trader&#123;"</span> +</span><br><span class="line">                <span class="string">"name='"</span> + name + <span class="string">'\''</span> +</span><br><span class="line">                <span class="string">", city='"</span> + city + <span class="string">'\''</span> +</span><br><span class="line">                <span class="string">'&#125;'</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>交易<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Transaction</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> Trader trader;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> year;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> value;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Transaction</span><span class="params">(Trader trader, <span class="keyword">int</span> year,<span class="keyword">int</span> value)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.value = value;</span><br><span class="line">        <span class="keyword">this</span>.year = year;</span><br><span class="line">        <span class="keyword">this</span>.trader = trader;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Trader <span class="title">getTrader</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> trader;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getYear</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> year;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getValue</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> value;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"Transaction&#123;"</span> +</span><br><span class="line">                <span class="string">"trader="</span> + trader +</span><br><span class="line">                <span class="string">", year="</span> + year +</span><br><span class="line">                <span class="string">", value="</span> + value +</span><br><span class="line">                <span class="string">'&#125;'</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">Trader raoul = <span class="keyword">new</span> Trader(<span class="string">"Raoul"</span>,<span class="string">"Cambridge"</span>);</span><br><span class="line">Trader mario = <span class="keyword">new</span> Trader(<span class="string">"Mario"</span>,<span class="string">"Milan"</span>);</span><br><span class="line">Trader alan = <span class="keyword">new</span> Trader(<span class="string">"Alan"</span>,<span class="string">"Cambridge"</span>);</span><br><span class="line">Trader brian = <span class="keyword">new</span> Trader(<span class="string">"Brian"</span>,<span class="string">"Cambridge"</span>);</span><br><span class="line"></span><br><span class="line">List&lt;Transaction&gt; transactions = Arrays.asList(</span><br><span class="line">    <span class="keyword">new</span> Transaction(brian,<span class="number">2011</span>,<span class="number">300</span>),</span><br><span class="line">    <span class="keyword">new</span> Transaction(raoul,<span class="number">2012</span>,<span class="number">1000</span>),</span><br><span class="line">    <span class="keyword">new</span> Transaction(raoul,<span class="number">2011</span>,<span class="number">400</span>),</span><br><span class="line">    <span class="keyword">new</span> Transaction(mario,<span class="number">2012</span>,<span class="number">710</span>),</span><br><span class="line">    <span class="keyword">new</span> Transaction(mario,<span class="number">2011</span>,<span class="number">700</span>),</span><br><span class="line">    <span class="keyword">new</span> Transaction(alan,<span class="number">2012</span>,<span class="number">950</span>)</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 找出2011年发生的所有交易，并按交易额排序（从低到高）</span></span><br><span class="line">transactions.stream().filter(t -&gt; t.getYear() == <span class="number">2011</span>).sorted(Comparator.comparing(Transaction::getValue)).forEach(System.out::println);</span><br><span class="line">System.out.println(<span class="string">"1.======================="</span>);</span><br><span class="line"><span class="comment">// 交易员都在哪些不同的城市工作过</span></span><br><span class="line">transactions.stream().map(t -&gt; t.getTrader().getCity()).distinct().forEach(System.out::println);</span><br><span class="line">System.out.println(<span class="string">"2.======================="</span>);</span><br><span class="line"><span class="comment">// 查找所有来自剑桥的交易员，并按姓名排序</span></span><br><span class="line">transactions.stream().filter(t -&gt; <span class="string">"Cambridge"</span>.equals(t.getTrader().getCity())).map(t -&gt; t.getTrader().getName()).distinct().sorted().forEach(System.out::println);</span><br><span class="line"><span class="comment">// 或者</span></span><br><span class="line">transactions.stream().map(t -&gt; t.getTrader()).filter(t -&gt; t.getCity().equals(<span class="string">"Cambridge"</span>)).distinct().sorted(Comparator.comparing(Trader::getName)).forEach(System.out::println);</span><br><span class="line">System.out.println(<span class="string">"3.======================="</span>);</span><br><span class="line"><span class="comment">// 返回所有交易员的姓名字符串，按字母顺序排序</span></span><br><span class="line">transactions.stream().map(t -&gt; t.getTrader().getName()).distinct().sorted().forEach(System.out::println);</span><br><span class="line">System.out.println(<span class="string">"4.======================="</span>);</span><br><span class="line"><span class="comment">// 有没有交易员是在米兰工作的</span></span><br><span class="line">transactions.stream().filter(t -&gt; <span class="string">"Milan"</span>.equals(t.getTrader().getCity())).findAny().ifPresent(System.out::println);</span><br><span class="line">System.out.println(<span class="string">"5.======================="</span>);</span><br><span class="line"><span class="comment">// 打印生活在剑桥的交易员的所有交易额</span></span><br><span class="line">transactions.stream().filter(t -&gt; <span class="string">"Cambridge"</span>.equals(t.getTrader().getCity())).map(t -&gt; t.getValue()).reduce(Integer::sum).ifPresent(System.out::println);</span><br><span class="line"><span class="comment">//或 mapToInt转化为int流，然后用IntStream的sum求和</span></span><br><span class="line">transactions.stream().filter(t -&gt; <span class="string">"Cambridge"</span>.equals(t.getTrader().getCity())).mapToInt(Transaction::getValue).sum();</span><br><span class="line">System.out.println(<span class="string">"6.======================="</span>);</span><br><span class="line"><span class="comment">// 所有交易额中，最高的交易额是多少</span></span><br><span class="line">transactions.stream().map(t -&gt; t.getValue()).reduce(Integer::max).ifPresent(System.out::println);</span><br><span class="line">System.out.println(<span class="string">"7.======================="</span>);</span><br><span class="line"><span class="comment">// 找到交易额最少的交易</span></span><br><span class="line">transactions.stream().filter(t -&gt; t.getValue() == transactions.stream().map(a -&gt; a.getValue()).reduce(Integer::min).get()).forEach(System.out::println);</span><br><span class="line"><span class="comment">// 或</span></span><br><span class="line">transactions.stream().reduce((t1,t2) -&gt; t1.getValue() &lt; t2.getValue() ? t1 : t2).ifPresent(System.out::println);</span><br><span class="line"><span class="comment">// 或</span></span><br><span class="line">transactions.stream().min(Comparator.comparing(Transaction::getValue)).ifPresent(System.out::println);</span><br></pre></td></tr></table></figure>
+<h2 id="数值流"><a href="#数值流" class="headerlink" title="数值流"></a>数值流</h2><h3 id="原始类型流特化"><a href="#原始类型流特化" class="headerlink" title="原始类型流特化"></a>原始类型流特化</h3><p>在java 8中，引入了3个原始类型特化流接口：IntStream,DoubleStream和LongStream，分别将流中的元素特化为int,double和long，从而避免暗含的装箱（int-&gt;Integer）成本。<br>每个接口都带有常用数值规约的方法，比如对数值就和的sum，找到最大元素的max。<br>还有在必要时将它们转换为流对象的方法。</p>
+<p><strong>映射到数值流</strong><br>将流转换为特化版本的常用方法是mapToInt，mapToDouble和mapToLong。这些方法和前面说的流工作方式一样，只是返回的是一个特化流，而不是Stream<t>。<br>例如，使用mapToInt对菜单中所有菜肴的卡路里求和。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> sum = menu.stream()</span><br><span class="line">    .mapToInt(Dish::getCalories) <span class="comment">// 转换为IntStream&lt;T&gt;</span></span><br><span class="line">    .sum(); <span class="comment">// 使用IntStream&lt;T&gt;提供的sum方法求和。</span></span><br></pre></td></tr></table></figure></t></p>
+<p><strong>转换到对象流</strong><br>有了数值流，你还可以将数值流转换回对象流。将原始流转换为对象流，可以使用boxed方法。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">IntStream is = menu.stream().mapToInt(Dish::getCalories);</span><br><span class="line">Stream&lt;Integer&gt; s = is.boxed();</span><br></pre></td></tr></table></figure></p>
+<p><strong>OptionalInt</strong><br>IntStream/DoubleStream/LongStream对max、min等计算返回的是OptionalInt/OptionalDouble/OptionalLong。之前说过Optional的用法，这些OptionalXXX用法是一样的。<br>比如，求最大值：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// OptionalInt</span></span><br><span class="line">OptionalInt max = transactions.stream().mapToInt(Transaction::getValue).max();</span><br><span class="line">max.ifPresent(System.out::println);</span><br></pre></td></tr></table></figure></p>
+<h3 id="数值范围"><a href="#数值范围" class="headerlink" title="数值范围"></a>数值范围</h3><p>在java 8中，IntStream和LongStream提供了range()和rangeClosed()用于生成一定范围内的数字。range不包括结束值，rangeClosed包括结束值。<br>比如，求1到100有多少个偶数？<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">IntStream.rangeClosed(<span class="number">1</span>,<span class="number">100</span>).filter(i -&gt; i % <span class="number">2</span> == <span class="number">0</span>).count();</span><br></pre></td></tr></table></figure></p>
+<p><strong>数值流应用：勾股数</strong><br>勾股数满足：a<em>a+b</em>b=c*c，a,b,c均为正数。比如(3,4,5)即为一组有效的勾股数。<br>下面使用IntStream来计算100内的勾股数。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">IntStream.rangeClosed(<span class="number">1</span>,<span class="number">100</span>)</span><br><span class="line">    .boxed()</span><br><span class="line">    .flatMap(a -&gt; IntStream.rangeClosed(a,<span class="number">100</span>) <span class="comment">// 从a开始，避免出现重复的数据，比如[3,4,5]和[4,3,5]</span></span><br><span class="line">                           .filter(b -&gt; Math.sqrt(a*a+b*b) % <span class="number">1</span> == <span class="number">0</span>) <span class="comment">// a的平方+b的平方开平方根是整数</span></span><br><span class="line">                           .mapToObj(b -&gt; <span class="keyword">new</span> <span class="keyword">int</span>[]&#123;a,b,(<span class="keyword">int</span>)Math.sqrt(a*a+b*b)&#125;)) <span class="comment">// 返回符合条件的int数组</span></span><br><span class="line">    .forEach(i -&gt; System.out.println(i[<span class="number">0</span>] + <span class="string">","</span> + i[<span class="number">1</span>] + <span class="string">","</span> + i[<span class="number">2</span>]));</span><br><span class="line"></span><br><span class="line"><span class="comment">// 上面的方案导致计算了2次平方根，方案2先生成a*a+b*b开平方后的结果，然后再过滤掉不符合要求的数</span></span><br><span class="line">System.out.println(<span class="string">"========方案2==========="</span>);</span><br><span class="line">IntStream.rangeClosed(<span class="number">1</span>,<span class="number">100</span>)</span><br><span class="line">    .boxed()</span><br><span class="line">    .flatMap(a -&gt; IntStream.rangeClosed(a,<span class="number">100</span>)</span><br><span class="line">        .mapToObj(b -&gt; <span class="keyword">new</span> <span class="keyword">double</span>[] &#123;a,b,Math.sqrt(a*a+b*b)&#125;))</span><br><span class="line">    .filter(a -&gt; a[<span class="number">2</span>] % <span class="number">1</span> == <span class="number">0</span>)</span><br><span class="line">    .forEach(a -&gt; System.out.println(a[<span class="number">0</span>] + <span class="string">","</span> + a[<span class="number">1</span>] + <span class="string">","</span> + a[<span class="number">2</span>]));</span><br></pre></td></tr></table></figure></p>
+<h2 id="构建流"><a href="#构建流" class="headerlink" title="构建流"></a>构建流</h2><h3 id="由值创建流"><a href="#由值创建流" class="headerlink" title="由值创建流"></a>由值创建流</h3><p>可以使用静态方法Stream.of，来创建一个流，它可以接收任意数量的参数。<br>比如，创建一个字符串流。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Stream&lt;String&gt; s = Stream.of(<span class="string">"Java 8"</span> ,<span class="string">"Lambda"</span>,<span class="string">"In"</span>,<span class="string">"Action"</span>);</span><br></pre></td></tr></table></figure></p>
+<h3 id="由数组创建流"><a href="#由数组创建流" class="headerlink" title="由数组创建流"></a>由数组创建流</h3><p>可以使用静态方法Arrays.stream来从数组创建一个流，它接收一个数组作为参数。<br>比如：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span>[] numbers = &#123;<span class="number">1</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">6</span>,<span class="number">3</span>,<span class="number">9</span>&#125;;</span><br><span class="line"><span class="keyword">int</span> sum = Arrays.stream(numbers).sum(); <span class="comment">// 对数组元素求和</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="由文件创建流"><a href="#由文件创建流" class="headerlink" title="由文件创建流"></a>由文件创建流</h3><p>java中用于处理文件等I/O操作的NIO API已更新，以便使用Stream API。java.nio.file.Files中很多静态方法都会返回一个流。<br>比如一个很有用的方法Files.lines，它返回一个由指定文件中各行构成的字符串流。<br>比如：计算文件中有多少个不重复的单词。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 由文件生成流</span></span><br><span class="line">String path = TraderDemo.class.getClassLoader().getResource(<span class="string">""</span>).getPath() + <span class="string">"data.txt"</span>;</span><br><span class="line"><span class="comment">// 统计文件中不重复的单词数量</span></span><br><span class="line"><span class="keyword">try</span> (Stream&lt;String&gt; lines = Files.lines(Paths.get(path.substring(<span class="number">1</span>)), Charset.forName(<span class="string">"utf-8"</span>)))&#123;</span><br><span class="line">    <span class="keyword">long</span> count = lines.flatMap(line -&gt; Arrays.stream(line.split(<span class="string">" "</span>))).distinct().count();</span><br><span class="line">    System.out.println(<span class="string">"distinct words count:"</span> + count);</span><br><span class="line">&#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="由函数生成流：创建无限流"><a href="#由函数生成流：创建无限流" class="headerlink" title="由函数生成流：创建无限流"></a>由函数生成流：创建无限流</h3><p>Stream API提供了2个静态方法从函数生成流：iterate和generate，这2个操作可以创建无限流。一般来说，应该使用limit(n)来加以限制，否则会无穷无尽的计算下去。</p>
+<p><strong>iterate</strong><br>比如：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 从0开始，生成10个数，每个数是前面的数加2</span></span><br><span class="line">Stream.iterate(<span class="number">0</span>,n -&gt; n+<span class="number">2</span>).limit(<span class="number">10</span>).forEach(System.out::println); <span class="comment">// 0,2,4,6,8...</span></span><br></pre></td></tr></table></figure></p>
+<p>iterate方法接收一个初始值（在这里是0），还有一个依次应用在每个产生的新值上的Lambda。</p>
+<p>利用iterate实现斐波那契数列<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 斐波那契数列（0,1,1,2,3,5,8,13,21,34,55...)除最开始的2个数字0和1外，后续的每个数字是前2个数字之和。</span></span><br><span class="line"><span class="comment">// 生成前20个元素(0,1),(1,1),(1,2),(2,3),(3,5),(5,8)...</span></span><br><span class="line">Stream.iterate(<span class="keyword">new</span> <span class="keyword">int</span>[]&#123;<span class="number">0</span>,<span class="number">1</span>&#125;,a -&gt; <span class="keyword">new</span> <span class="keyword">int</span>[]&#123;a[<span class="number">1</span>],a[<span class="number">0</span>] + a[<span class="number">1</span>]&#125;).limit(<span class="number">20</span>).forEach(a -&gt; System.out.println(<span class="string">"("</span> + a[<span class="number">0</span>] + <span class="string">","</span> + a[<span class="number">1</span>] + <span class="string">")"</span>));</span><br><span class="line"><span class="comment">// 只打印数字</span></span><br><span class="line">Stream.iterate(<span class="keyword">new</span> <span class="keyword">int</span>[]&#123;<span class="number">0</span>,<span class="number">1</span>&#125;,a-&gt;<span class="keyword">new</span> <span class="keyword">int</span>[]&#123;a[<span class="number">1</span>],a[<span class="number">0</span>]+a[<span class="number">1</span>]&#125;).limit(<span class="number">20</span>).map(a -&gt; a[<span class="number">0</span>]).forEach(System.out::println);</span><br></pre></td></tr></table></figure></p>
+<p><strong>generate</strong><br>与iterate类似，可以生成无限流。但它不是依次对每个新生成的值应用Lambda.</p>
+<p>例如，创建5个随机的0到1的数<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Stream.generate(Math::random).limit(<span class="number">5</span>).forEach(System.out::println);</span><br></pre></td></tr></table></figure></p>
+<p>如果用generate来实现斐波那契数列，则要这么写<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 使用generate上下行斐波那契数列，不推荐，只是演示</span></span><br><span class="line">IntSupplier fib = <span class="keyword">new</span> IntSupplier() &#123; <span class="comment">// 使用匿名类保存状态（前一项和当前项）</span></span><br><span class="line">    <span class="keyword">int</span> prev = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> curr = <span class="number">1</span>;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getAsInt</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> oldPrev = prev;</span><br><span class="line">        <span class="keyword">int</span> nextVal = prev + curr;</span><br><span class="line">        prev = curr;</span><br><span class="line">        curr = nextVal;</span><br><span class="line">        <span class="keyword">return</span> oldPrev;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line">IntStream.generate(fib).limit(<span class="number">10</span>).forEach(System.out::println);</span><br></pre></td></tr></table></figure></p>
+
+        </div>
+        <div class="post-tool">
+            <a class="btn-thumbs-up" href="javascript:void(0);" data-cid="52" title="95">
+                <i class="fa fa-thumbs-up" aria-hidden="true"></i> 打赏
+            </a>
+        </div>
+        
+        <div class="post-tags">标签：
+            
+            <a href="/tags/java/">java</a>
+            
+        </div>
+        
+    </article>
+    
+    <p style="text-align: center">本文代表个人观点，内容仅供参考。若有不恰当之处，望不吝赐教！</p>
+    
+    
+
+    
+    
+        <div id="gitment-container"></div>
+        <link rel="stylesheet" href="//imsun.github.io/gitment/style/default.css">
+        <script src="//imsun.github.io/gitment/dist/gitment.browser.js"></script>
+        <script type="text/javascript">
+            var gitment = new Gitment({
+                /*lable长度不能超过50个字符，这里使用页面的生成时间*/
+                id: 'Sat Sep 08 2018 10:01:07 GMT+0800'/*document.location.href*/,
+                owner: 'luckystar88',
+                repo: 'comments',
+                oauth: {
+                    client_id: 'd49ebe4f95abcd6163f4',
+                    client_secret: 'edd2748d6271072a6970d5cec8751f388dac8116',
+                }
+            });
+            gitment.render('gitment-container');
+        </script>
+        
+            <script>
+                document.getElementById("gitment-display-button").style.display = "none";
+                document.getElementById("gitment-container").style.display = "block";
+            </script>
+        
+    
+
+
+</div>
+<script src="/js/busuanzi.pure.mini.js"></script>
+
+
+        </div><!-- end #main-->
+    </div><!-- end #body -->
+    <footer class="footer">
+    <div class="footer-inner" style="text-align: center">
+        <p>
+            <a href="/about" title="关于">关于</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <!-- 自定义链接 -->
+            <a href="/help" title="帮助">帮助</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <a href="/links" title="友链">友链</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <a href="/sitemap.xml" title="地图">地图</a>
+        </p>
+        <p>
+            本站已建立&nbsp<a href="/timeline" id="siteBuildingTime"></a>&nbsp天，<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="licence">采用知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议创作</a><br>
+            ©2017-<span id="cpYear"></span> 基于&nbsp<a href="http://hexo.io" target="_blank" rel="nofollow">Hexo</a>
+            ，主题采用&nbsp&nbsp<a href="https://github.com/tangkunyin/hexo-theme-jsimple" target="_blank" rel="bookmark">JSimple</a>
+            ，作者&nbsp<a href="https://tommy88.top" target="_blank" rel="friend">Donny</a>
+            ，Hosted by <a href="https://pages.github.com/" target="_blank" rel="nofollow">GitHub Pages</a>
+        </p>
+    </div>
+</footer>
+<script src="/js/SimpleCore.js"></script>
+
+</div>
+<!-- search pop -->
+<div class="popup search-popup local-search-popup">
+    <div class="local-search-header clearfix">
+        <span class="search-icon">
+            <i class="fa fa-search"></i>
+        </span>
+        <span class="popup-btn-close">
+            <i class="fa fa-times-circle"></i>
+        </span>
+        <div class="local-search-input-wrapper">
+            <input id="local-search-input" spellcheck="false" type="text" autocomplete="off" placeholder="请输入查询关键词">
+        </div>
+    </div>
+    <div id="local-search-result"></div>
+</div>
+<div class="fixed-btn">
+    <a class="btn-gotop" href="javascript:"> <i class="fa fa-angle-up"></i></a>
+</div>
+<script>
+    $(function () {
+        var jsi_config = {
+            buildingTime: '01/20/2016',
+            current: $('.post-tags').length > 0 ? 'post' : 'archive',
+            snsQRCode: '/images/sns-qrcode.png',
+            donateImg: '/images/donate-qr.png',
+            localSearch: { dbPath: '' },
+            readMode: 'day'
+        };
+        
+            jsi_config.localSearch = {
+                dbPath: '/search.xml',
+                trigger: 'auto',
+                topN: '1',
+                unescape: 'false'
+            }
+        
+        SimpleCore.init(jsi_config);
+        
+    });
+</script>
+</body>
+</html>

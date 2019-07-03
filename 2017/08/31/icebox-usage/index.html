@@ -1,0 +1,341 @@
+<!DOCTYPE HTML>
+<html class="no-js" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!--[if lte IE 9]>
+<meta http-equiv="refresh" content="0;url=https://tommy88.top/warn.html">
+<![endif]-->
+<meta charset="utf-8">
+<meta http-equiv="X-DNS-Prefetch-Control" content="on">
+<link rel="dns-prefetch" href="https://tommy88.top">
+<link rel="dns-prefetch" href="//www.google-analytics.com">
+<link rel="prefetch" href="https://tommy88.top">
+<link rel="prefetch" href="//www.google-analytics.com">
+
+
+    <link rel="dns-prefetch" href="//imsun.github.io">
+    <link rel="prefetch" href="//imsun.github.io">
+
+<link rel="prerender" href="https://tommy88.top">
+
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+<meta http-equiv="mobile-agent" content="format=html5; url=https://tommy88.top">
+<meta name="author" content="Donny">
+<link rel="stylesheet" href="/css/JSimple.css">
+
+<link rel="shortcut icon" href="/images/favicon.png">
+
+
+<title>icebox使用示例 - Donny的技术博客</title>
+
+<meta name="keywords" content="java,前端,数据库,web,spring,redis,spring boot,spring cloud,mq">
+
+<meta name="description " content="记录工作，感悟生活">
+
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                processEscapes: true
+            }
+        });
+    </script>
+
+
+    
+
+    
+    
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="//www.googletagmanager.com/gtag/js?id=UA-105613999-1"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'UA-105613999-1');
+        </script>
+    
+    <!-- put your likes here. -->
+
+
+</head>
+<body>
+<div id="nav">
+    <nav class="nav-menu">
+        <a class="site-name current" href="/" title="Home">Home</a>
+        <a class="site-index current" href="/"><i class="fa fa-home"></i><span>首页</span></a>
+        <a href="/archives" title="归档"><i class="fa fa-archives"></i><span>归档</span></a>
+        <a href="/tags" title="标签"><i class="fa fa-tags"></i><span>标签</span></a>
+        <!-- custom single page of menus -->
+        
+        
+        <a href="/help" title="帮助">
+            <i class="fa fa-question-circle"></i>
+            <span>帮助</span>
+        </a>
+        
+    </nav>
+</div>
+
+<div class="nav-user">
+    <a class="btn-search" href="#"><i class="fa fa-search"></i></a>
+    <a class="btn-read-mode" href="#"><i class="fa fa-sun-o"></i></a>
+    <a class="btn-sns-qr" href="javascript:"><i class="fa fa-telegram"></i></a>
+</div>
+
+<div id="wrapper" class="clearfix">
+    <div id="body">
+        <div class="main" id="main">
+            <div id="cover">
+    <div class="cover-img"></div>
+    <div class="cover-info">
+        
+        <h1 class="cover-siteName">Donny的技术博客</h1>
+        <h3 class="cover-siteTitle">用代码征服世界</h3>
+        <p class="cover-siteDesc">这是一个简单的技术博客</p>
+        <div class="cover-sns">
+            
+    &nbsp;&nbsp;<div class="btn btn-github">
+        <a href="https://github.com/luckystar88" target="_blank" title="github" ref="friend">
+            <i class="fa fa-github"></i>
+        </a>
+    </div>
+
+
+        </div>
+    </div>
+</div>
+
+            <div class="page-title">
+    <ul>
+        <li><a href="/">最近</a></li>
+        
+            
+                <li class="active">
+                    <a href="/categories/tech" data-name="技术">技术</a>
+                </li>
+            
+                <li class>
+                    <a href="/categories/life" data-name="人文">人文</a>
+                </li>
+            
+                <li class>
+                    <a href="/categories/others" data-name="其他">其他</a>
+                </li>
+            
+        
+        <li class="page-search">
+    <form id="search" class="search-form">
+        <input type="text" readonly="readonly" id="local-search-input-tip" placeholder="读物检索~">
+        <button type="button" disabled="disabled" class="search-form-submit"><i class="fa fa-search"></i></button>
+    </form>
+</li>
+
+    </ul>
+</div>
+<div class="main-inner">
+    <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+        <div class="post-header">
+            <div class="post-author clearfix">
+                <a class="avatar fleft" href="https://tommy88.top" target="_blank">
+                    <img width="48" src="/images/favicon.png" alt="avatar">
+                </a>
+                <p><span class="label">作者</span>
+                    <a href="https://tommy88.top" target="_blank">Donny</a>
+                    <span title="最后编辑于&nbsp;2017-08-31">2017-08-31</span>
+                </p>
+                <p>记录工作，感悟生活</p>
+            </div>
+            <h2 class="post-title">ICEBOX使用示例</h2>
+            <div class="post-meta">
+                本文共计9201个字 |
+                您是第&nbsp;<span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>位看到它们的小伙伴
+            </div>
+        </div>
+        <div class="post-content markdown-body">
+            <h2 id="系统安装ice3-4-1，并配置环境变量；"><a href="#系统安装ice3-4-1，并配置环境变量；" class="headerlink" title="系统安装ice3.4.1，并配置环境变量；"></a>系统安装ice3.4.1，并配置环境变量；</h2><p><img src="http://omh46px9n.bkt.clouddn.com/17-8-31/76200106.jpg" alt></p>
+<h2 id="定义slice文件"><a href="#定义slice文件" class="headerlink" title="定义slice文件"></a>定义slice文件</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[[ <span class="string">"java:package:com.hhly.tel.ice"</span>]]</span><br><span class="line"><span class="keyword">module</span> book &#123;</span><br><span class="line">   <span class="class"><span class="keyword">interface</span> <span class="title">OnlineBook</span> </span>&#123;</span><br><span class="line">       <span class="function"><span class="keyword">void</span> <span class="title">bookTick</span><span class="params">(string name,<span class="keyword">double</span> price,string content)</span></span>;</span><br><span class="line">   &#125;;</span><br><span class="line">   </span><br><span class="line">   <span class="class"><span class="keyword">interface</span> <span class="title">SMSService</span> </span>&#123;</span><br><span class="line">       <span class="function"><span class="keyword">void</span> <span class="title">sendSMS</span><span class="params">(string name,<span class="keyword">double</span> price,string content)</span></span>;</span><br><span class="line">   &#125;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>这表示有2个接口，一个OnlineBook，一个SMSService，都位于com.hhly.tel.ice.book下面。<br><a id="more"></a></p>
+<h2 id="生成JAVA类"><a href="#生成JAVA类" class="headerlink" title="生成JAVA类"></a>生成JAVA类</h2><p>使用slice2java xx.ice生成<br><img src="http://omh46px9n.bkt.clouddn.com/17-8-31/55495195.jpg" alt></p>
+<p>然后将生成的类复制到工程中<br><img src="http://omh46px9n.bkt.clouddn.com/17-8-31/91603917.jpg" alt></p>
+<p>上图中圈红的都是ice生成的类。</p>
+<h2 id="实现我们自己的逻辑"><a href="#实现我们自己的逻辑" class="headerlink" title="实现我们自己的逻辑"></a>实现我们自己的逻辑</h2><p>如上图的service下面，是OnlineBook和SMSService的实现，代码如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.hhly.tel.ice.book.service;</span><br><span class="line"><span class="keyword">import</span> Ice.Communicator;</span><br><span class="line"><span class="keyword">import</span> Ice.Current;</span><br><span class="line"><span class="keyword">import</span> Ice.ObjectAdapter;</span><br><span class="line"><span class="keyword">import</span> IceBox.Service;</span><br><span class="line"><span class="keyword">import</span> com.hhly.tel.ice.book._OnlineBookDisp;</span><br><span class="line"><span class="keyword">import</span> org.apache.log4j.Logger;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* <span class="doctag">@Author</span> j.tommy</span></span><br><span class="line"><span class="comment">* <span class="doctag">@Date</span> 2016/6/19 0019 上午 4:08</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ICEBookService</span> <span class="keyword">extends</span> <span class="title">_OnlineBookDisp</span> <span class="keyword">implements</span> <span class="title">Service</span></span>&#123;</span><br><span class="line"> <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> Logger log = Logger.getLogger(ICEBookService.class);</span><br><span class="line"> <span class="keyword">private</span> ObjectAdapter _adapter;</span><br><span class="line"> <span class="meta">@Override</span></span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">bookTick</span><span class="params">(String name, <span class="keyword">double</span> price, String content, Current __current)</span> </span>&#123;</span><br><span class="line">     log.info(<span class="string">"Call bookTick()...params-&gt;[name="</span> + name + <span class="string">",price="</span> + price + <span class="string">",content="</span> + content + <span class="string">"]."</span>);</span><br><span class="line"> &#125;</span><br><span class="line"> <span class="meta">@Override</span></span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">start</span><span class="params">(String name, Communicator communicator, String[] strings)</span> </span>&#123;</span><br><span class="line">     <span class="comment">// 创建objectAdapter,这里和service同名</span></span><br><span class="line">     _adapter = communicator.createObjectAdapter(name);</span><br><span class="line">     <span class="comment">// 传Serant并激活</span></span><br><span class="line">     Ice.Object object = <span class="keyword">this</span>;</span><br><span class="line">     _adapter.add(object,communicator.stringToIdentity(name));</span><br><span class="line">     _adapter.activate();</span><br><span class="line">     log.info(name + <span class="string">" started."</span>);</span><br><span class="line"> &#125;</span><br><span class="line"> <span class="meta">@Override</span></span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">stop</span><span class="params">()</span> </span>&#123;</span><br><span class="line">     log.info(<span class="keyword">this</span>._adapter.getName() + <span class="string">" stoped."</span>);</span><br><span class="line">     _adapter.destroy();</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.hhly.tel.ice.book.service;</span><br><span class="line"><span class="keyword">import</span> Ice.Communicator;</span><br><span class="line"><span class="keyword">import</span> Ice.Current;</span><br><span class="line"><span class="keyword">import</span> Ice.ObjectAdapter;</span><br><span class="line"><span class="keyword">import</span> IceBox.Service;</span><br><span class="line"><span class="keyword">import</span> com.hhly.tel.ice.book._SMSServiceDisp;</span><br><span class="line"><span class="keyword">import</span> org.apache.log4j.Logger;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* <span class="doctag">@Author</span> j.tommy</span></span><br><span class="line"><span class="comment">* <span class="doctag">@Date</span> 2016/6/19 0019 上午 4:08</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ICESMSService</span> <span class="keyword">extends</span> <span class="title">_SMSServiceDisp</span> <span class="keyword">implements</span> <span class="title">Service</span></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> Logger log = Logger.getLogger(ICESMSService.class);</span><br><span class="line">    <span class="keyword">private</span> ObjectAdapter _adapter;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">start</span><span class="params">(String name, Communicator communicator, String[] strings)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 创建objectAdapter,这里和service同名</span></span><br><span class="line">        _adapter = communicator.createObjectAdapter(name);</span><br><span class="line">        <span class="comment">// 传Serant并激活</span></span><br><span class="line">        Ice.Object object = <span class="keyword">this</span>;</span><br><span class="line">        _adapter.add(object,communicator.stringToIdentity(name));</span><br><span class="line">        _adapter.activate();</span><br><span class="line">        log.info(name + <span class="string">" started."</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">stop</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        log.info(<span class="keyword">this</span>._adapter.getName() + <span class="string">" stoped."</span>);</span><br><span class="line">        _adapter.destroy();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sendSMS</span><span class="params">(String name, <span class="keyword">double</span> price, String content, Current __current)</span> </span>&#123;</span><br><span class="line">        log.info(<span class="string">"Call sendSMS()...params-&gt;[name="</span> + name + <span class="string">",price="</span> + price + <span class="string">",content="</span> + content + <span class="string">"]."</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>icebox的配置文件：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">#server properties</span><br><span class="line"># icebox实例的名字</span><br><span class="line">IceBox.InstanceName=MyAppIceBox 1</span><br><span class="line"># =1表示所有的服务使用Icebox中的配置</span><br><span class="line">IceBox.InheritProperties=1</span><br><span class="line"># =1会在icebox启动完毕后打印MyAppIceBox 1 ready</span><br><span class="line">IceBox.PrintServicesReady=MyAppIceBox 1</span><br><span class="line">#IceBox的管理组件，使之能够被远程访问，默认关闭，下面将其绑定到本地9999端口</span><br><span class="line">IceBox.ServiceManager.Endpoints=tcp -p 8989 -h localhost</span><br><span class="line">#performance properties</span><br><span class="line">Ice.ThreadPool.Server.Size=4</span><br><span class="line">Ice.ThreadPool.Server.SizeMax=100</span><br><span class="line">Ice.ThreadPool.Server.SizeWarn=10</span><br><span class="line">Ice.ThreadPool.Client.Size=4</span><br><span class="line">Ice.ThreadPool.Client.SizeMax=100</span><br><span class="line">Ice.ThreadPool.Client.SizeWarn=40</span><br><span class="line">#for system stronger</span><br><span class="line">Ice.ACM.Client=300</span><br><span class="line">Ice.ACM.Server=300</span><br><span class="line">#log and trace</span><br><span class="line">#表明日志存放在日志文件中，否则会打印到控制台。</span><br><span class="line">#Ice.LogFile=iceserv.log</span><br><span class="line">Ice.PrintStackTraces=1</span><br><span class="line">Ice.Trace.Retry=2</span><br><span class="line">Ice.Trace.Network=2</span><br><span class="line">Ice.Trace.ThreadPool=1</span><br><span class="line">Ice.Trace.Locator=2</span><br><span class="line">Ice.Warn.Connections=1</span><br><span class="line">Ice.Warn.Dispatch=1</span><br><span class="line">Ice.Warn.Endpoints=1</span><br><span class="line">#service defined begin</span><br><span class="line">IceBox.Service.OnlineBook=com.hhly.tel.ice.book.service.ICEBookService prop1=1 prop2=2 prop3=3</span><br><span class="line">IceBox.Service.SMSService=com.hhly.tel.ice.book.service.ICESMSService</span><br><span class="line">OnlineBook.Endpoints=tcp -p 9000 -h localhost</span><br><span class="line">SMSService.Endpoints=tcp -p 9001 -h localhost</span><br><span class="line">#service defined end</span><br><span class="line">#server load order</span><br><span class="line">IceBox.LoadOrder=OnlineBook,SMSService</span><br><span class="line">#service share communicator</span><br><span class="line">IceBox.UseSharedCommunicator.OnlineBook=1</span><br><span class="line">IceBox.UseSharedCommunicator.SMSService=1</span><br></pre></td></tr></table></figure></p>
+<p>IceBox.Service.name=entry_point [–key=value] [args]<br>各个参数的定义：<br>name定义了service的名字，如上面定了2个Service，一个OnlineBook,一个SMSService.<br>entry_point是service的完整类名<br>[–key=value]将会被作为property属性，用于构造该服务的communicator，用来更加精确的控制每个Ice服务的性能调优，这里也可以使用–Ice.Config=xxx.cfg的方式从具体的配置文件加载参数。<br>IceBox.InheritProperties=1，让所有的ice服务都使用IceBox的配置属性。<br>[args]作为参数传入start()方法的args参数，作为服务端启动初始化参数。</p>
+<p>Ice.MessageSizeMax:做大消息包的字节数<br>Ice.Trace.Network=1，开启网络事件相关的日志追踪<br>Ice.Trace.ThreadPool=1，开启线程池事件的日志追踪<br>Ice.Trace.Locator=1，开启Locator对象的日志追踪</p>
+<p>IceBox.UseShardedCommunicator.serviceName=1，实现服务本地调用的优化。如上面的OnlineBook和SMSService，都部署在同一个IceBox中，定义他们使用同一个Communicator对象，实现本地调用的优化。</p>
+<p>IceBox.LoadOrder=serv1,serv2,serv3，指定服务的加载顺序，如上面的OnlineBook和SMSService。</p>
+<h2 id="启动服务，并启动"><a href="#启动服务，并启动" class="headerlink" title="启动服务，并启动"></a>启动服务，并启动</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.hhly.tel.ice.book.client;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Author</span> j.tommy</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Date</span> 2016/6/19 0019 上午 4:33</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Server</span> </span>&#123;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">      IceBox.Server server = <span class="keyword">new</span> IceBox.Server();</span><br><span class="line">      server.main(<span class="keyword">new</span> String[]&#123;<span class="string">"--Ice.Config=icebox.properties"</span>&#125;);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="编写客户端并启动"><a href="#编写客户端并启动" class="headerlink" title="编写客户端并启动"></a>编写客户端并启动</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.hhly.tel.ice.book.client;</span><br><span class="line"><span class="keyword">import</span> com.hhly.tel.ice.book.*;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* <span class="doctag">@Author</span> j.tommy</span></span><br><span class="line"><span class="comment">* <span class="doctag">@Date</span> 2016/6/19 0019 上午 4:27</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Client</span> </span>&#123;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">       <span class="comment">// 调用OnlineBook接口</span></span><br><span class="line">        bookTick(args);</span><br><span class="line">        <span class="comment">// 调用SMSService接口</span></span><br><span class="line">        sendSMS(args);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">bookTick</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> status = <span class="number">0</span>;</span><br><span class="line">        Ice.Communicator ic = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            ic = Ice.Util.initialize(args);</span><br><span class="line">            Ice.ObjectPrx base = ic.stringToProxy(<span class="string">"OnlineBook:default -p 9000"</span>);</span><br><span class="line">            OnlineBookPrx onlineBookPrx = OnlineBookPrxHelper.checkedCast(base);</span><br><span class="line">            <span class="keyword">if</span> (onlineBookPrx == <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> Error(<span class="string">"Invalid proxy"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            onlineBookPrx.bookTick(<span class="string">"ICE权威指南"</span>,<span class="number">59</span>,<span class="string">"这是一本介绍ICE的书籍。"</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Error error) &#123;</span><br><span class="line">            error.printStackTrace();</span><br><span class="line">            status = <span class="number">1</span>;</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (ic != <span class="keyword">null</span>) &#123;</span><br><span class="line">                ic.destroy();</span><br><span class="line">            &#125;</span><br><span class="line"><span class="comment">//            System.exit(status);</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">sendSMS</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> status = <span class="number">0</span>;</span><br><span class="line">        Ice.Communicator ic = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            ic = Ice.Util.initialize(args);</span><br><span class="line">            Ice.ObjectPrx base = ic.stringToProxy(<span class="string">"SMSService:default -p 9001"</span>);</span><br><span class="line">            SMSServicePrx smsServicePrx = SMSServicePrxHelper.checkedCast(base);</span><br><span class="line">            <span class="keyword">if</span> (smsServicePrx == <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> Error(<span class="string">"Invalid proxy"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            smsServicePrx.sendSMS(<span class="string">"ICE权威指南"</span>,<span class="number">59</span>,<span class="string">"这是一本介绍ICE的书籍。"</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Error error) &#123;</span><br><span class="line">            error.printStackTrace();</span><br><span class="line">            status = <span class="number">1</span>;</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (ic != <span class="keyword">null</span>) &#123;</span><br><span class="line">                ic.destroy();</span><br><span class="line">            &#125;</span><br><span class="line">            System.exit(status);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="ICE-Service之间的调用"><a href="#ICE-Service之间的调用" class="headerlink" title="ICE Service之间的调用"></a>ICE Service之间的调用</h2><p>ICESMSService的实现方法修改如下：</p>
+<pre><code class="java"><span class="meta">@Override</span>
+<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sendSMS</span><span class="params">(String name, <span class="keyword">double</span> price, String content, Current __current)</span> </span>{
+    <span class="keyword">if</span> (name.startsWith(<span class="string">"book"</span>)) {
+        Ice.ObjectPrx base = _adapter.getCommunicator().stringToProxy(<span class="string">"OnlineBook"</span>);
+        OnlineBookPrx onlineBookPrx = OnlineBookPrxHelper.checkedCast(base);
+        <span class="keyword">if</span> (<span class="keyword">null</span> != onlineBookPrx) {
+            onlineBookPrx.bookTick(name,price,content);
+            log.info(<span class="string">"通过短信购买图书！...params-&gt;[name="</span> + name + <span class="string">",price="</span> + price + <span class="string">",content="</span> + content + <span class="string">"]."</span>);
+        }
+         <span class="keyword">else</span> {
+             <span class="keyword">throw</span> <span class="keyword">new</span> Error(<span class="string">"Can't find OnlinkBook Service."</span>);
+         }
+     }
+     <span class="keyword">else</span> {
+         log.info(<span class="string">"发送短信成功...params-&gt;[name="</span> + name + <span class="string">",price="</span> + price + <span class="string">",content="</span> + content + <span class="string">"]."</span>);
+     }
+ }
+</code></pre>
+<p>上面的代码表明：如果name以book开头，则内部调用OnlineBookService购买图书。否则就是发送短信。</p>
+<p>试验：<br>客户端代码：</p>
+<pre><code class="java"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">sendSMS</span><span class="params">(String name,<span class="keyword">double</span> price,String content,String[] args)</span> </span>{
+    <span class="keyword">int</span> status = <span class="number">0</span>;
+    Ice.Communicator ic = <span class="keyword">null</span>;
+    <span class="keyword">try</span> {
+        ic = Ice.Util.initialize(args);
+        Ice.ObjectPrx base = ic.stringToProxy(<span class="string">"SMSService:default -p 9001"</span>);
+        SMSServicePrx smsServicePrx = SMSServicePrxHelper.checkedCast(base);
+        <span class="keyword">if</span> (smsServicePrx == <span class="keyword">null</span>) {
+            <span class="keyword">throw</span> <span class="keyword">new</span> Error(<span class="string">"Invalid proxy"</span>);
+         }
+         smsServicePrx.sendSMS(name,price,content);
+     } <span class="keyword">catch</span> (Error error) {
+         error.printStackTrace();
+         status = <span class="number">1</span>;
+     } <span class="keyword">finally</span> {
+         <span class="keyword">if</span> (ic != <span class="keyword">null</span>) {
+             ic.destroy();
+         }
+<span class="comment">//            System.exit(status);</span>
+     }
+ }
+<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>{
+    <span class="comment">// 调用OnlineBook接口</span>
+    bookTick(args);
+    System.out.println(<span class="string">"bookTick(args) Finished"</span>);
+    <span class="comment">// 调用SMSService接口</span>
+    sendSMS(<span class="string">"book ICE权威指南"</span>,<span class="number">59</span>,<span class="string">"这是一本介绍ICE的书籍。"</span>,args);
+    System.out.println(<span class="string">"sendSMS() Finished"</span>);
+    <span class="comment">// 在SMSService中调用OnlineBookService，演示ICE服务之间的调用</span>
+    sendSMS(<span class="string">"发送短信"</span>,<span class="number">59</span>,<span class="string">"这是一本介绍ICE的书籍。"</span>,args);
+     System.out.println(<span class="string">"Send Message Finished."</span>);
+ }
+</code></pre>
+
+        </div>
+        <div class="post-tool">
+            <a class="btn-thumbs-up" href="javascript:void(0);" data-cid="52" title="95">
+                <i class="fa fa-thumbs-up" aria-hidden="true"></i> 打赏
+            </a>
+        </div>
+        
+        <div class="post-tags">标签：
+            
+            <a href="/tags/ice/">ice</a>
+            
+        </div>
+        
+    </article>
+    
+    <p style="text-align: center">本文代表个人观点，内容仅供参考。若有不恰当之处，望不吝赐教！</p>
+    
+    
+
+    
+    
+        <div id="gitment-container"></div>
+        <link rel="stylesheet" href="//imsun.github.io/gitment/style/default.css">
+        <script src="//imsun.github.io/gitment/dist/gitment.browser.js"></script>
+        <script type="text/javascript">
+            var gitment = new Gitment({
+                /*lable长度不能超过50个字符，这里使用页面的生成时间*/
+                id: 'Thu Aug 31 2017 16:18:36 GMT+0800'/*document.location.href*/,
+                owner: 'luckystar88',
+                repo: 'comments',
+                oauth: {
+                    client_id: 'd49ebe4f95abcd6163f4',
+                    client_secret: 'edd2748d6271072a6970d5cec8751f388dac8116',
+                }
+            });
+            gitment.render('gitment-container');
+        </script>
+        
+            <script>
+                document.getElementById("gitment-display-button").style.display = "none";
+                document.getElementById("gitment-container").style.display = "block";
+            </script>
+        
+    
+
+
+</div>
+<script src="/js/busuanzi.pure.mini.js"></script>
+
+
+        </div><!-- end #main-->
+    </div><!-- end #body -->
+    <footer class="footer">
+    <div class="footer-inner" style="text-align: center">
+        <p>
+            <a href="/about" title="关于">关于</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <!-- 自定义链接 -->
+            <a href="/help" title="帮助">帮助</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <a href="/links" title="友链">友链</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <a href="/sitemap.xml" title="地图">地图</a>
+        </p>
+        <p>
+            本站已建立&nbsp<a href="/timeline" id="siteBuildingTime"></a>&nbsp天，<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="licence">采用知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议创作</a><br>
+            ©2017-<span id="cpYear"></span> 基于&nbsp<a href="http://hexo.io" target="_blank" rel="nofollow">Hexo</a>
+            ，主题采用&nbsp&nbsp<a href="https://github.com/tangkunyin/hexo-theme-jsimple" target="_blank" rel="bookmark">JSimple</a>
+            ，作者&nbsp<a href="https://tommy88.top" target="_blank" rel="friend">Donny</a>
+            ，Hosted by <a href="https://pages.github.com/" target="_blank" rel="nofollow">GitHub Pages</a>
+        </p>
+    </div>
+</footer>
+<script src="/js/SimpleCore.js"></script>
+
+</div>
+<!-- search pop -->
+<div class="popup search-popup local-search-popup">
+    <div class="local-search-header clearfix">
+        <span class="search-icon">
+            <i class="fa fa-search"></i>
+        </span>
+        <span class="popup-btn-close">
+            <i class="fa fa-times-circle"></i>
+        </span>
+        <div class="local-search-input-wrapper">
+            <input id="local-search-input" spellcheck="false" type="text" autocomplete="off" placeholder="请输入查询关键词">
+        </div>
+    </div>
+    <div id="local-search-result"></div>
+</div>
+<div class="fixed-btn">
+    <a class="btn-gotop" href="javascript:"> <i class="fa fa-angle-up"></i></a>
+</div>
+<script>
+    $(function () {
+        var jsi_config = {
+            buildingTime: '01/20/2016',
+            current: $('.post-tags').length > 0 ? 'post' : 'archive',
+            snsQRCode: '/images/sns-qrcode.png',
+            donateImg: '/images/donate-qr.png',
+            localSearch: { dbPath: '' },
+            readMode: 'day'
+        };
+        
+            jsi_config.localSearch = {
+                dbPath: '/search.xml',
+                trigger: 'auto',
+                topN: '1',
+                unescape: 'false'
+            }
+        
+        SimpleCore.init(jsi_config);
+        
+    });
+</script>
+</body>
+</html>

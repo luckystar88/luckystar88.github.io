@@ -1,0 +1,300 @@
+<!DOCTYPE HTML>
+<html class="no-js" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!--[if lte IE 9]>
+<meta http-equiv="refresh" content="0;url=https://tommy88.top/warn.html">
+<![endif]-->
+<meta charset="utf-8">
+<meta http-equiv="X-DNS-Prefetch-Control" content="on">
+<link rel="dns-prefetch" href="https://tommy88.top">
+<link rel="dns-prefetch" href="//www.google-analytics.com">
+<link rel="prefetch" href="https://tommy88.top">
+<link rel="prefetch" href="//www.google-analytics.com">
+
+
+    <link rel="dns-prefetch" href="//imsun.github.io">
+    <link rel="prefetch" href="//imsun.github.io">
+
+<link rel="prerender" href="https://tommy88.top">
+
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+<meta http-equiv="mobile-agent" content="format=html5; url=https://tommy88.top">
+<meta name="author" content="Donny">
+<link rel="stylesheet" href="/css/JSimple.css">
+
+<link rel="shortcut icon" href="/images/favicon.png">
+
+
+<title>activemq之配置多kahadb持久性适配器 - Donny的技术博客</title>
+
+<meta name="keywords" content="jms, activemq, mKahaDB, KahaDB, 消息存储">
+
+<meta name="description " content="从ActiveMQ5.6开始，可以跨多个kahdb持久性适配器分发目标存储。当您的目的地具有不同的性能概要文件或不同的持久性需求时，您可以将它们分布在多个KahaDB消息存储中。">
+
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                processEscapes: true
+            }
+        });
+    </script>
+
+
+    
+
+    
+    
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="//www.googletagmanager.com/gtag/js?id=UA-105613999-1"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'UA-105613999-1');
+        </script>
+    
+    <!-- put your likes here. -->
+
+
+</head>
+<body>
+<div id="nav">
+    <nav class="nav-menu">
+        <a class="site-name current" href="/" title="Home">Home</a>
+        <a class="site-index current" href="/"><i class="fa fa-home"></i><span>首页</span></a>
+        <a href="/archives" title="归档"><i class="fa fa-archives"></i><span>归档</span></a>
+        <a href="/tags" title="标签"><i class="fa fa-tags"></i><span>标签</span></a>
+        <!-- custom single page of menus -->
+        
+        
+        <a href="/help" title="帮助">
+            <i class="fa fa-question-circle"></i>
+            <span>帮助</span>
+        </a>
+        
+    </nav>
+</div>
+
+<div class="nav-user">
+    <a class="btn-search" href="#"><i class="fa fa-search"></i></a>
+    <a class="btn-read-mode" href="#"><i class="fa fa-sun-o"></i></a>
+    <a class="btn-sns-qr" href="javascript:"><i class="fa fa-telegram"></i></a>
+</div>
+
+<div id="wrapper" class="clearfix">
+    <div id="body">
+        <div class="main" id="main">
+            <div id="cover">
+    <div class="cover-img"></div>
+    <div class="cover-info">
+        
+        <h1 class="cover-siteName">Donny的技术博客</h1>
+        <h3 class="cover-siteTitle">用代码征服世界</h3>
+        <p class="cover-siteDesc">这是一个简单的技术博客</p>
+        <div class="cover-sns">
+            
+    &nbsp;&nbsp;<div class="btn btn-github">
+        <a href="https://github.com/luckystar88" target="_blank" title="github" ref="friend">
+            <i class="fa fa-github"></i>
+        </a>
+    </div>
+
+
+        </div>
+    </div>
+</div>
+
+            <div class="page-title">
+    <ul>
+        <li><a href="/">最近</a></li>
+        
+            
+                <li class="active">
+                    <a href="/categories/tech" data-name="技术">技术</a>
+                </li>
+            
+                <li class>
+                    <a href="/categories/life" data-name="人文">人文</a>
+                </li>
+            
+                <li class>
+                    <a href="/categories/others" data-name="其他">其他</a>
+                </li>
+            
+        
+        <li class="page-search">
+    <form id="search" class="search-form">
+        <input type="text" readonly="readonly" id="local-search-input-tip" placeholder="读物检索~">
+        <button type="button" disabled="disabled" class="search-form-submit"><i class="fa fa-search"></i></button>
+    </form>
+</li>
+
+    </ul>
+</div>
+<div class="main-inner">
+    <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+        <div class="post-header">
+            <div class="post-author clearfix">
+                <a class="avatar fleft" href="https://tommy88.top" target="_blank">
+                    <img width="48" src="/images/favicon.png" alt="avatar">
+                </a>
+                <p><span class="label">作者</span>
+                    <a href="https://tommy88.top" target="_blank">Donny</a>
+                    <span title="最后编辑于&nbsp;2019-03-26">2019-03-26</span>
+                </p>
+                <p>记录工作，感悟生活</p>
+            </div>
+            <h2 class="post-title">ActiveMQ之配置多KahaDB持久性适配器</h2>
+            <div class="post-meta">
+                本文共计3187个字 |
+                您是第&nbsp;<span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>位看到它们的小伙伴
+            </div>
+        </div>
+        <div class="post-content markdown-body">
+            <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>从ActiveMQ5.6开始，可以跨多个kahdb持久性适配器分发目标存储。当您的目的地具有不同的性能概要文件或不同的持久性需求时，您可以将它们分布在多个KahaDB消息存储中。</p>
+<p>当broker管理的所有Destination有相似的性能和可靠性时，默认的KahaDB持久性存储适配器工作良好。当一个Destination有完全不同的性能配置文件时，例如，与其他Destination上的消费者相比，该Destination上的消费者异常缓慢，存储消息的磁盘使用量将会快速增长。当一个或多个Destination不需要 磁盘同步，而其他的Destination需要磁盘同步时，所有的Destination都将受到性能影响。</p>
+<p>多KahaDB持久性适配器允许您跨多个KahaDB消息存储分发broker的Destination。使用多个消息存储允许您使用它更精确地定制消息存储以满足Destination的需要。 使用采用标准通配符语法的过滤器匹配Destination和存储。</p>
+<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><p>多KahaDB持久性适配器配置包含多个KahaDB消息存储配置。使用mKahaDB元素指定多KahaDB持久性适配器配置。 mKahaDB元素具有单个属性directory，用于指定适配器写入其数据存储的位置。 此设置是内嵌的KahaDB消息存储库实例的目录属性的默认值。 各个消息存储库可以覆盖此默认设置。</p>
+<p>mKahaDB元素有一个子元素filteredPersistenceAdapters。filteredPersistenceAdapters元素包含多个filteredKahaDB元素，用于配置持久性适配器使用的KahaDB消息存储。</p>
+<p>每个filteredKahaDB元素配置一个KahaDB消息存储（除了perDestination属性设置为true的情况）。 使用filteredKahaDB元素上的属性指定与消息存储库匹配的Destination：</p>
+<ul>
+<li>queue——指定queue的名称</li>
+<li>topic——指定topic的名称</li>
+</ul>
+<p>可以使用显式目标名称或使用通配符指定目标。如果未指定目标，则消息存储将匹配其他筛选器未匹配的任何Destination。</p>
+<p>在filteredKahaDB元素中配置的KahaDB消息存储使用标准的KahaDB持久性适配器配置进行配置。<br>它由一个包含在persistenceAdapter元素中的kahaDB元素组成。</p>
+<h2 id="通配符语法"><a href="#通配符语法" class="headerlink" title="通配符语法"></a>通配符语法</h2><p>您可以使用通配符指定一组Destination名称。 这对于在联合层次结构中设置目标的情况很有用。</p>
+<ul>
+<li><code>.</code>分离路径名称</li>
+<li><code>*</code> 匹配路径中的任意名称</li>
+<li><code>&gt;</code> 匹配任意以该名称开头的Destination</li>
+</ul>
+<h2 id="配置示例"><a href="#配置示例" class="headerlink" title="配置示例"></a>配置示例</h2><p>从ActiveMQ 5.15开始，filteredKahaDB支持名为usage的StoreUsage属性。 这允许对匹配的队列施加单独的磁盘限制。<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">broker</span> <span class="attr">brokerName</span>=<span class="string">"broker"</span>&gt;</span></span><br><span class="line"> </span><br><span class="line"> <span class="tag">&lt;<span class="name">persistenceAdapter</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">mKahaDB</span> <span class="attr">directory</span>=<span class="string">"$&#123;activemq.base&#125;/data/kahadb"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">filteredPersistenceAdapters</span>&gt;</span></span><br><span class="line">      <span class="comment">&lt;!-- match all queues --&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">filteredKahaDB</span> <span class="attr">queue</span>=<span class="string">"&gt;"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">usage</span>&gt;</span></span><br><span class="line">         <span class="tag">&lt;<span class="name">storeUsage</span> <span class="attr">limit</span>=<span class="string">"1g"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">usage</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">persistenceAdapter</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">kahaDB</span> <span class="attr">journalMaxFileLength</span>=<span class="string">"32mb"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">persistenceAdapter</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">filteredKahaDB</span>&gt;</span></span><br><span class="line">       </span><br><span class="line">      <span class="comment">&lt;!-- match all destinations --&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">filteredKahaDB</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">persistenceAdapter</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">kahaDB</span> <span class="attr">enableJournalDiskSyncs</span>=<span class="string">"false"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">persistenceAdapter</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">filteredKahaDB</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">filteredPersistenceAdapters</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">mKahaDB</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;/<span class="name">persistenceAdapter</span>&gt;</span></span><br><span class="line"> </span><br><span class="line"><span class="tag">&lt;/<span class="name">broker</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>上面的配置表示：所有的queue使用第一个消息存储适配器，其他的目的地（这里就是所有的topic）使用第二个消息存储适配器。</p>
+<h3 id="为每个Destination指定一个持久性适配器"><a href="#为每个Destination指定一个持久性适配器" class="headerlink" title="为每个Destination指定一个持久性适配器"></a>为每个Destination指定一个持久性适配器</h3><p>如果<code>filteredKahaDB</code>元素的<code>perDestination</code>设置为true，且没有指定任何的queue和topic，那么每个Destination将有自己的KahaDB实例。</p>
+<p>比如：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">broker</span> <span class="attr">brokerName</span>=<span class="string">"broker"</span> <span class="attr">...</span> &gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">persistenceAdapter</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">mKahaDB</span> <span class="attr">directory</span>=<span class="string">"$&#123;activemq.base&#125;/data/kahadb"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">filteredPersistenceAdapters</span>&gt;</span></span><br><span class="line">      <span class="comment">&lt;!-- kahaDB per destinations --&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">filteredKahaDB</span> <span class="attr">perDestination</span>=<span class="string">"true"</span> &gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">persistenceAdapter</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">kahaDB</span> <span class="attr">journalMaxFileLength</span>=<span class="string">"32mb"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">persistenceAdapter</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">filteredKahaDB</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">filteredPersistenceAdapters</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">mKahaDB</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;/<span class="name">persistenceAdapter</span>&gt;</span></span><br><span class="line"> ...</span><br><span class="line"><span class="tag">&lt;/<span class="name">broker</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>注意：perDestination属性和queue或topic属性组合尚未经过验证，可能会抛出下面的异常：<br>Reason: java.io.IOException: File ‘/opt/java/apache-activemq-5.9.0/data/mKahaDB/lock’ could not be locked as lock is already held for this jvm</p>
+</blockquote>
+<h2 id="事物"><a href="#事物" class="headerlink" title="事物"></a>事物</h2><p>如果Destination是分布式的，事务可以跨越多个日志。这意味着需要完成两个阶段。这确实会导致记录提交结果的额外磁盘同步的性能损失。</p>
+<p>如果事务中只涉及一个日志，则不使用额外的磁盘同步。 在这种情况下不会产生性能损失。</p>
+<p>参考：<a href="https://access.redhat.com/documentation/en-us/red_hat_jboss_a-mq/6.2/html/configuring_broker_persistence/fusembmultikahadb">USING A MULTI KAHADB PERSISTENCE ADAPTER</a><br>参考：<a href="http://activemq.apache.org/kahadb.html">http://activemq.apache.org/kahadb.html</a></p>
+
+        </div>
+        <div class="post-tool">
+            <a class="btn-thumbs-up" href="javascript:void(0);" data-cid="52" title="95">
+                <i class="fa fa-thumbs-up" aria-hidden="true"></i> 打赏
+            </a>
+        </div>
+        
+        <div class="post-tags">标签：
+            
+            <a href="/tags/activemq/">activemq</a>
+            
+        </div>
+        
+    </article>
+    
+    <p style="text-align: center">本文代表个人观点，内容仅供参考。若有不恰当之处，望不吝赐教！</p>
+    
+    
+
+    
+    
+        <div id="gitment-container"></div>
+        <link rel="stylesheet" href="//imsun.github.io/gitment/style/default.css">
+        <script src="//imsun.github.io/gitment/dist/gitment.browser.js"></script>
+        <script type="text/javascript">
+            var gitment = new Gitment({
+                /*lable长度不能超过50个字符，这里使用页面的生成时间*/
+                id: 'Tue Mar 26 2019 17:22:07 GMT+0800'/*document.location.href*/,
+                owner: 'luckystar88',
+                repo: 'comments',
+                oauth: {
+                    client_id: 'd49ebe4f95abcd6163f4',
+                    client_secret: 'edd2748d6271072a6970d5cec8751f388dac8116',
+                }
+            });
+            gitment.render('gitment-container');
+        </script>
+        
+            <script>
+                document.getElementById("gitment-display-button").style.display = "none";
+                document.getElementById("gitment-container").style.display = "block";
+            </script>
+        
+    
+
+
+</div>
+<script src="/js/busuanzi.pure.mini.js"></script>
+
+
+        </div><!-- end #main-->
+    </div><!-- end #body -->
+    <footer class="footer">
+    <div class="footer-inner" style="text-align: center">
+        <p>
+            <a href="/about" title="关于">关于</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <!-- 自定义链接 -->
+            <a href="/help" title="帮助">帮助</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <a href="/links" title="友链">友链</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <a href="/sitemap.xml" title="地图">地图</a>
+        </p>
+        <p>
+            本站已建立&nbsp<a href="/timeline" id="siteBuildingTime"></a>&nbsp天，<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="licence">采用知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议创作</a><br>
+            ©2017-<span id="cpYear"></span> 基于&nbsp<a href="http://hexo.io" target="_blank" rel="nofollow">Hexo</a>
+            ，主题采用&nbsp&nbsp<a href="https://github.com/tangkunyin/hexo-theme-jsimple" target="_blank" rel="bookmark">JSimple</a>
+            ，作者&nbsp<a href="https://tommy88.top" target="_blank" rel="friend">Donny</a>
+            ，Hosted by <a href="https://pages.github.com/" target="_blank" rel="nofollow">GitHub Pages</a>
+        </p>
+    </div>
+</footer>
+<script src="/js/SimpleCore.js"></script>
+
+</div>
+<!-- search pop -->
+<div class="popup search-popup local-search-popup">
+    <div class="local-search-header clearfix">
+        <span class="search-icon">
+            <i class="fa fa-search"></i>
+        </span>
+        <span class="popup-btn-close">
+            <i class="fa fa-times-circle"></i>
+        </span>
+        <div class="local-search-input-wrapper">
+            <input id="local-search-input" spellcheck="false" type="text" autocomplete="off" placeholder="请输入查询关键词">
+        </div>
+    </div>
+    <div id="local-search-result"></div>
+</div>
+<div class="fixed-btn">
+    <a class="btn-gotop" href="javascript:"> <i class="fa fa-angle-up"></i></a>
+</div>
+<script>
+    $(function () {
+        var jsi_config = {
+            buildingTime: '01/20/2016',
+            current: $('.post-tags').length > 0 ? 'post' : 'archive',
+            snsQRCode: '/images/sns-qrcode.png',
+            donateImg: '/images/donate-qr.png',
+            localSearch: { dbPath: '' },
+            readMode: 'day'
+        };
+        
+            jsi_config.localSearch = {
+                dbPath: '/search.xml',
+                trigger: 'auto',
+                topN: '1',
+                unescape: 'false'
+            }
+        
+        SimpleCore.init(jsi_config);
+        
+    });
+</script>
+</body>
+</html>

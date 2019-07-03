@@ -1,0 +1,314 @@
+<!DOCTYPE HTML>
+<html class="no-js" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!--[if lte IE 9]>
+<meta http-equiv="refresh" content="0;url=https://tommy88.top/warn.html">
+<![endif]-->
+<meta charset="utf-8">
+<meta http-equiv="X-DNS-Prefetch-Control" content="on">
+<link rel="dns-prefetch" href="https://tommy88.top">
+<link rel="dns-prefetch" href="//www.google-analytics.com">
+<link rel="prefetch" href="https://tommy88.top">
+<link rel="prefetch" href="//www.google-analytics.com">
+
+
+    <link rel="dns-prefetch" href="//imsun.github.io">
+    <link rel="prefetch" href="//imsun.github.io">
+
+<link rel="prerender" href="https://tommy88.top">
+
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+<meta http-equiv="mobile-agent" content="format=html5; url=https://tommy88.top">
+<meta name="author" content="Donny">
+<link rel="stylesheet" href="/css/JSimple.css">
+
+<link rel="shortcut icon" href="/images/favicon.png">
+
+
+<title>java 8的completablefuture - Donny的技术博客</title>
+
+<meta name="keywords" content="java,前端,数据库,web,spring,redis,spring boot,spring cloud,mq">
+
+<meta name="description " content="记录工作，感悟生活">
+
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                processEscapes: true
+            }
+        });
+    </script>
+
+
+    
+
+    
+    
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="//www.googletagmanager.com/gtag/js?id=UA-105613999-1"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'UA-105613999-1');
+        </script>
+    
+    <!-- put your likes here. -->
+
+
+</head>
+<body>
+<div id="nav">
+    <nav class="nav-menu">
+        <a class="site-name current" href="/" title="Home">Home</a>
+        <a class="site-index current" href="/"><i class="fa fa-home"></i><span>首页</span></a>
+        <a href="/archives" title="归档"><i class="fa fa-archives"></i><span>归档</span></a>
+        <a href="/tags" title="标签"><i class="fa fa-tags"></i><span>标签</span></a>
+        <!-- custom single page of menus -->
+        
+        
+        <a href="/help" title="帮助">
+            <i class="fa fa-question-circle"></i>
+            <span>帮助</span>
+        </a>
+        
+    </nav>
+</div>
+
+<div class="nav-user">
+    <a class="btn-search" href="#"><i class="fa fa-search"></i></a>
+    <a class="btn-read-mode" href="#"><i class="fa fa-sun-o"></i></a>
+    <a class="btn-sns-qr" href="javascript:"><i class="fa fa-telegram"></i></a>
+</div>
+
+<div id="wrapper" class="clearfix">
+    <div id="body">
+        <div class="main" id="main">
+            <div id="cover">
+    <div class="cover-img"></div>
+    <div class="cover-info">
+        
+        <h1 class="cover-siteName">Donny的技术博客</h1>
+        <h3 class="cover-siteTitle">用代码征服世界</h3>
+        <p class="cover-siteDesc">这是一个简单的技术博客</p>
+        <div class="cover-sns">
+            
+    &nbsp;&nbsp;<div class="btn btn-github">
+        <a href="https://github.com/luckystar88" target="_blank" title="github" ref="friend">
+            <i class="fa fa-github"></i>
+        </a>
+    </div>
+
+
+        </div>
+    </div>
+</div>
+
+            <div class="page-title">
+    <ul>
+        <li><a href="/">最近</a></li>
+        
+            
+                <li class="active">
+                    <a href="/categories/tech" data-name="技术">技术</a>
+                </li>
+            
+                <li class>
+                    <a href="/categories/life" data-name="人文">人文</a>
+                </li>
+            
+                <li class>
+                    <a href="/categories/others" data-name="其他">其他</a>
+                </li>
+            
+        
+        <li class="page-search">
+    <form id="search" class="search-form">
+        <input type="text" readonly="readonly" id="local-search-input-tip" placeholder="读物检索~">
+        <button type="button" disabled="disabled" class="search-form-submit"><i class="fa fa-search"></i></button>
+    </form>
+</li>
+
+    </ul>
+</div>
+<div class="main-inner">
+    <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+        <div class="post-header">
+            <div class="post-author clearfix">
+                <a class="avatar fleft" href="https://tommy88.top" target="_blank">
+                    <img width="48" src="/images/favicon.png" alt="avatar">
+                </a>
+                <p><span class="label">作者</span>
+                    <a href="https://tommy88.top" target="_blank">Donny</a>
+                    <span title="最后编辑于&nbsp;2018-09-15">2018-09-15</span>
+                </p>
+                <p>记录工作，感悟生活</p>
+            </div>
+            <h2 class="post-title">java 8的CompletableFuture</h2>
+            <div class="post-meta">
+                本文共计9770个字 |
+                您是第&nbsp;<span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>位看到它们的小伙伴
+            </div>
+        </div>
+        <div class="post-content markdown-body">
+            <p>JDK1.5开始提供了Future类，用来描述一个异步计算的结果。可以通过isDone()方法来判断操作是否执行完毕。你也可以调用get方法阻塞调用的线程，等待执行结束。或者使用cancel方法取消任务的执行。<br>比如：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">ExecutorService executor = Executors.newCachedThreadPool();</span><br><span class="line">Future&lt;Double&gt; doubleFuture = executor.submit(<span class="keyword">new</span> Callable&lt;Double&gt;() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Double <span class="title">call</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        <span class="comment">// 一个耗时的操作</span></span><br><span class="line">        <span class="keyword">return</span> doSomethingLongComputation();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// do something else.</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    Double result = doubleFuture.get(<span class="number">1</span>, TimeUnit.SECONDS);</span><br><span class="line">    System.out.println(<span class="string">"result-&gt;"</span> + result);</span><br><span class="line">&#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125; <span class="keyword">catch</span> (ExecutionException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125; <span class="keyword">catch</span> (TimeoutException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<a id="more"></a>
+<p>可以看到，我们向线程池提交一个任务，线程池立即返回了一个Future。然后我们可以继续做自己的事情，不必等待任务执行完毕。在自己的事情做完后，调用Future的get方法等待任务执行完毕，并返回结果。调用get()即为等待任务执行完毕，不论多久；而它的带超时时间的重载方法则在指定的时间之内等待执行结果，避免无限期等待下去。实际使用，建议使用带超时时间的get方法。</p>
+<p>不过Future接口有它的局限性。比如：</p>
+<ul>
+<li>将两个异步结束的结果合并为一个——这2个异步计算相互独立，同时第二个又依赖第一个的结果。</li>
+<li>等待Future集合的所有任务执行完毕。</li>
+<li>仅等待Future结合中最快结束的任务完成。（比如访问了2个提供相同服务的服务器）</li>
+<li>通过编程方式完成一个Future任务的执行——以手工设定异步执行结果。</li>
+<li>响应Future的完成事件——在Future的任务执行完毕时会受到通知，然后使用Future计算的结果进行下一步操作。</li>
+</ul>
+<p>java 8提供的CompltableFuture继承Future，在Future的基础上实现了如上描述的功能。</p>
+<h2 id="以异步的方式执行任务"><a href="#以异步的方式执行任务" class="headerlink" title="以异步的方式执行任务"></a>以异步的方式执行任务</h2><p>借助CompletableFuture的supplyAsync方法实现异步执行。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Shop&gt; shops = ...;</span><br><span class="line">String productName = ...;</span><br><span class="line"><span class="comment">// 使用supplyAsync以异步的方式计算商品价格</span></span><br><span class="line">List&lt;CompletableFuture&lt;String&gt;&gt; futures = shops.stream()</span><br><span class="line">    .map(shop -&gt; CompletableFuture.supplyAsync(() -&gt; String.format(<span class="string">"%s price is %.2f"</span>, shop.getName(), shop.getPrice(productname))))</span><br><span class="line">    .collect(Collectors.toList());</span><br><span class="line"><span class="comment">// 调用join方法等待任务都执行完毕</span></span><br><span class="line">List&lt;String&gt; results = futures.stream().map(f -&gt; f.join()).collect(Collectors.toList());</span><br></pre></td></tr></table></figure></p>
+<p>上面异步方法和Stream的parallelStream都是默认使用的是通用线程池，线程数为处理器个数。你可以通过<code>Runtime.getRuntime().availableProcessors();</code>得到。比如我的电脑是4核，那么就是使用的是4个线程的线程池。如果商家过多会导致执行效率较低。</p>
+<p>幸好，supplyAsync还有还有一个带Executor参数的版本，可以指定执行器。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 指定创建的线程数最多100个，如果商家数目不多余100个，就创建商家数目的线程。</span></span><br><span class="line">ExecutorService executor = Executors.newFixedThreadPool(Math.min(shops.size(), <span class="number">100</span>), (r) -&gt; &#123;</span><br><span class="line">    Thread thread = <span class="keyword">new</span> Thread(r);</span><br><span class="line">    thread.setDaemon(<span class="keyword">true</span>); <span class="comment">// 使用守护线程，这种方式不会阻止程序的关闭</span></span><br><span class="line">    <span class="keyword">return</span> thread;</span><br><span class="line">&#125;);</span><br><span class="line">List&lt;CompletableFuture&lt;String&gt;&gt; futures = shops.stream()</span><br><span class="line">    .map(shop -&gt; CompletableFuture.supplyAsync(() -&gt; String.format(<span class="string">"%s price is %.2f"</span>, shop.getName(), shop.getPrice(productname)), executor))</span><br><span class="line">    .collect(Collectors.toList());</span><br><span class="line">List&lt;String&gt; results = futures.stream().map(f -&gt; f.join()).collect(Collectors.toList());</span><br></pre></td></tr></table></figure></p>
+<p><strong>线程池大小的估算</strong><br>《java并发编程实战》中，指出线程池大小与处理器的利用率之比可以使用下面的公式进行估算：<br><code>N(threads) = N(cpu) * U(cpu) * (1 + W/C)</code><br>其中：</p>
+<ul>
+<li>N(cpu)是处理器的核的数目，可以通过<code>Runtime.getRuntime().availableProcessors()</code>得到。</li>
+<li>U(cpu)是期望的CPU利用率（值介于0和1之间）</li>
+<li>W/C是等待时间与计算时间的比率<br>在本例中，99%的时间都在等待商店的响应，所以估算出的W/C比率为100.这意味着你期望的CPU利用率是100%。你需要创建一个有400个线程的线程池。但是，在实际操作中，如果你创建的线程数比商店的数目更多，反而是一种浪费，因为线程池中有些线程根本没有用到。所以，基于这种考虑将线程池的数目与你要查询的商店的数目设定为一个值，这个每个商店都对应一个服务线程。不过，为了避免商店数目过多导致服务器超负荷而崩溃，你需要设置一个上限，比如这里的100个线程。</li>
+</ul>
+<h2 id="将2个异步执行的结果合并为一个"><a href="#将2个异步执行的结果合并为一个" class="headerlink" title="将2个异步执行的结果合并为一个"></a>将2个异步执行的结果合并为一个</h2><p>我们假定商店提供了查询商品价格的服务getPrice，它会返回商品的价格和折扣代码，另外还提供了查询扣后价的方法。<br>另外提供了Quote类用于将getPrice返回的结果进行封装。</p>
+<p>商家提供的getPrice方法如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">getPrice1</span><span class="params">(String product)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">double</span> price = caculatePrice(product);</span><br><span class="line"></span><br><span class="line">    Discount.Code code = Discount.Code.values()[random.nextInt(Discount.Code.values().length)];</span><br><span class="line">    <span class="comment">// 返回结果包括商品名称、商品价格和折扣代码，是一个字符串，它们用冒号隔开；</span></span><br><span class="line">    <span class="keyword">return</span> String.format(<span class="string">"%s:%.2f:%s"</span>,name,price,code);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>Quote类的主要方法如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Quote <span class="title">parse</span><span class="params">(String s)</span> </span>&#123;</span><br><span class="line">    String[] split = s.split(<span class="string">":"</span>);</span><br><span class="line">    String shopName = split[<span class="number">0</span>];</span><br><span class="line">    Double price = Double.parseDouble(split[<span class="number">1</span>]);</span><br><span class="line">    Discount.Code code = Discount.Code.valueOf(split[<span class="number">2</span>]);</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> Quote(shopName,price,code);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>折扣类代码大致如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Discount</span> </span>&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 折扣代码和折扣率</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">enum</span> Code &#123;</span><br><span class="line">        NONE(<span class="number">0</span>),SILVER(<span class="number">5</span>),GOLD(<span class="number">10</span>),PLATINUM(<span class="number">15</span>),DIAMOND(<span class="number">20</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> percentage;</span><br><span class="line"></span><br><span class="line">        Code(<span class="keyword">int</span> percentage) &#123;</span><br><span class="line">            <span class="keyword">this</span>.percentage = percentage;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 申请折扣</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> quote</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">applyDiscount</span><span class="params">(Quote quote)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> String.format(<span class="string">"%s price is %.2f"</span>,quote.getShopName(),Discount.apply(quote.getPrice(),quote.getCode()));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">double</span> <span class="title">apply</span><span class="params">(Double price,Code code)</span> </span>&#123;</span><br><span class="line">        delay();</span><br><span class="line">        <span class="keyword">return</span> price * (<span class="number">100</span> - code.percentage)/<span class="number">100</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">delay</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">long</span> time = <span class="number">500</span> + <span class="keyword">new</span> Random().nextInt(<span class="number">2000</span>);</span><br><span class="line">            Thread.sleep(time);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>我们需要实现的逻辑是：<br>1.查询商品的价格，得到商品名称、价格、折扣代码；<br>2.将1中的结果进行封装，得到Quote；<br>3.利用Discount的applyDiscount方法计算折扣价。<br>可以看到，第1步可以异步执行，而第2步只是简单的封装，不涉及远程服务和I/O操作，所以没必要使用异步。第3步由于需要联系远程Discount服务，根据折扣代码得到折扣率，所以它也以异步的方式执行。<br>我们的代码大致如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">ExecutorService executor = Executors.newFixedThreadPool(Math.min(shops.size(), <span class="number">100</span>), (r) -&gt; &#123;</span><br><span class="line">    Thread thread = <span class="keyword">new</span> Thread(r);</span><br><span class="line">    thread.setDaemon(<span class="keyword">true</span>);</span><br><span class="line">    <span class="keyword">return</span> thread;</span><br><span class="line">&#125;);</span><br><span class="line">List&lt;CompletableFuture&lt;String&gt;&gt; futures = shops.stream()</span><br><span class="line">        .map(shop -&gt; CompletableFuture.supplyAsync(() -&gt; shop.getPrice1(product), executor)) <span class="comment">// 返回Stream&lt;Future&lt;String&gt;&gt;</span></span><br><span class="line">        .map(future -&gt; future.thenApply(Quote::parse)) <span class="comment">// 返回Stream&lt;Future&lt;Quote&gt;&gt;</span></span><br><span class="line">        .map(future -&gt; future.thenCompose(quote -&gt; CompletableFuture.supplyAsync(() -&gt; Discount.applyDiscount(quote), executor)))</span><br><span class="line">        .collect(Collectors.toList());</span><br><span class="line"></span><br><span class="line">List&lt;String&gt; results = futures.stream().map(CompletableFuture::join).collect(Collectors.toList());</span><br></pre></td></tr></table></figure></p>
+<p>thenApply有点类似于JavaScript中的回调函数，它在Future结果计算完成后，将结果作为参数回调这个函数。它不会阻塞线程。<br>所以这里的意思就是在拿到商店的商品名称、价格、折扣代码后，将其封装为一个Quote对象。</p>
+<p>thenCompose用于连接2个CompletableFuture，它会将第一个Future的结果作为参数传递给第2个Future。所以这里将第2个map的结果quote作为参数传递给了第2个Future，用于计算折后价。</p>
+<h2 id="将2个Future合并起来，无论他们是否有依赖"><a href="#将2个Future合并起来，无论他们是否有依赖" class="headerlink" title="将2个Future合并起来，无论他们是否有依赖"></a>将2个Future合并起来，无论他们是否有依赖</h2><p>如果你希望将2个完全不相干的CompletableFuture的结果整合，那么可以使用CompletableFuture的thenCombine方法。</p>
+<p>比如，你可以以异步的方式查询某个商店商品的价格，同时你可以以异步的方式从远程汇率服务查询欧元和美元的汇率，然后将商品的价格乘以当时的汇率，得到以美元计价的商品价格。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Future&lt;Double&gt; future = CompletableFuture.supplyAsync(() -&gt; shop.getPrice(product)) <span class="comment">// 异步查询商品价格</span></span><br><span class="line">    .thenCombine(</span><br><span class="line">            <span class="comment">// 异步计算汇率</span></span><br><span class="line">            CompletableFuture.supplyAsync(() -&gt; exchangeService.getRate(Money.EUR, Money.USD)),</span><br><span class="line">            (price, rate) -&gt; price * rate <span class="comment">//执行的合并操作</span></span><br><span class="line">    );</span><br></pre></td></tr></table></figure></p>
+<h2 id="响应Future的完成事件"><a href="#响应Future的完成事件" class="headerlink" title="响应Future的完成事件"></a>响应Future的完成事件</h2><p>比如，我们要查询100个商店的某件商品的价格，可能某个商店的服务或者网络问题，导致查询耗时很久，如果按照之前的方式等待所有的任务执行完毕，那么给人的体验就不好。比如假定某个商店查询价格耗时100秒，那么用户可能看到页面上在这100秒内都是一片空白。其实，我们可以对CompletableFuture的complete做出响应，使用它的thenAccept方法可以在任务执行完毕收收到通知，方法的参数为Future执行的结果。这样只要有任务执行完毕，就会立即显示出来。<br>比如：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">ExecutorService executor = Executors.newFixedThreadPool(Math.min(shops.size(), <span class="number">100</span>), (r) -&gt; &#123;</span><br><span class="line">    Thread thread = <span class="keyword">new</span> Thread(r);</span><br><span class="line">    thread.setDaemon(<span class="keyword">true</span>);</span><br><span class="line">    <span class="keyword">return</span> thread;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">long</span> start = System.nanoTime();</span><br><span class="line">CompletableFuture[] futures = shops.stream()</span><br><span class="line">        .map(shop -&gt; CompletableFuture.supplyAsync(() -&gt; shop.getPrice1(product),executor))</span><br><span class="line">        .map(future -&gt; future.thenApply(Quote::parse))</span><br><span class="line">        .map(future -&gt; future.thenCompose(quote -&gt; CompletableFuture.supplyAsync(() -&gt; Discount.applyDiscount(quote),executor)))</span><br><span class="line">        .map(future -&gt; future.thenAccept(s -&gt; &#123; <span class="comment">// 这里一旦Future执行完毕，立即会调用该方法</span></span><br><span class="line">            System.out.println(s + <span class="string">" (done in "</span> + (System.nanoTime() - start ) / <span class="number">1_000_000</span> + <span class="string">"msecs.)"</span>);</span><br><span class="line">        &#125;))</span><br><span class="line">        .toArray(length -&gt; <span class="keyword">new</span> CompletableFuture[length]);</span><br><span class="line"></span><br><span class="line">CompletableFuture.allOf(futures).join();</span><br><span class="line">System.out.println(<span class="string">"All shops have now responded in "</span> + (System.nanoTime() - start ) / <span class="number">1_000_000</span> + <span class="string">"msecs."</span>);</span><br></pre></td></tr></table></figure></p>
+<p>结果如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">JustByIt price is 135.63 (done in 1636msecs.)</span><br><span class="line">BestPrice price is 72.03 (done in 2009msecs.)</span><br><span class="line">BuyItAll price is 126.38 (done in 2442msecs.)</span><br><span class="line">LetsSaveBig price is 139.40 (done in 3069msecs.)</span><br><span class="line">MyFavoriteShop price is 115.09 (done in 3167msecs.)</span><br><span class="line">All shops have now responded in 3168msecs.</span><br><span class="line">Done in 3263 msecs</span><br></pre></td></tr></table></figure></p>
+<p>注意：这里用到了CompletableFuture的allOf方法，这里在所有任务执行完毕后，输出了一句话，表示任务完成。</p>
+<h2 id="仅等待Future结合中最快结束的任务完成"><a href="#仅等待Future结合中最快结束的任务完成" class="headerlink" title="仅等待Future结合中最快结束的任务完成"></a>仅等待Future结合中最快结束的任务完成</h2><p>上面的例子使用了allOf方法，表示等待一组Future执行完毕。如果只是希望某个任务执行完毕即结束，那么可以使用anyOf方法。</p>
+<h2 id="通过编程方式完成一个Future任务的执行"><a href="#通过编程方式完成一个Future任务的执行" class="headerlink" title="通过编程方式完成一个Future任务的执行"></a>通过编程方式完成一个Future任务的执行</h2><p>假定在调用一个方法时，希望以异步的方式执行，我们在方法中使用一个线程来处理计算，然后立即返回了一个Future。那么我们可以计算完毕后，使用CompletableFuture的complete方法设置任务执行结果。</p>
+<p>示例代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 异步方法</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> Future&lt;Double&gt; <span class="title">getPriceAsync</span><span class="params">(String product)</span> </span>&#123;</span><br><span class="line">    CompletableFuture&lt;Double&gt; future = <span class="keyword">new</span> CompletableFuture&lt;&gt;();</span><br><span class="line">    <span class="keyword">new</span> Thread()&#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">double</span> price = caculatePrice(product);</span><br><span class="line">            future.complete(price);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;.start();</span><br><span class="line">    <span class="keyword">return</span> future;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="CompletableFuture与异常处理"><a href="#CompletableFuture与异常处理" class="headerlink" title="CompletableFuture与异常处理"></a>CompletableFuture与异常处理</h2><p>在上面的代码中，如果执行caculatePrice方法出现异常，会导致调用CompletableFuture的get方法永远等待下去。异常被限制在计算商品价格的线程范围，最后会杀死该线程，所以调用Future的get会一直等待。</p>
+<p>当然，你可以使用带超时参数的get的重载方法来避免无限期等待，最终抛出一个TimeoutException，但这样你并不知道执行任务的线程到底出现了什么问题。</p>
+<p>为了解决这个问题，你可以使用CompletableFuture的completeExceptionally将异常抛出。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Future&lt;Double&gt; <span class="title">getPriceAsync</span><span class="params">(String product)</span> </span>&#123;</span><br><span class="line">    CompletableFuture&lt;Double&gt; future = <span class="keyword">new</span> CompletableFuture&lt;&gt;();</span><br><span class="line">    <span class="keyword">new</span> Thread()&#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">double</span> price = caculatePrice(product);</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                <span class="comment">// 这里对0做除法并不会抛出异常，在不在线程中使用会抛出异常</span></span><br><span class="line">                <span class="comment">//System.out.println(price / 0);</span></span><br><span class="line">                <span class="comment">// 数组越界会抛出异常</span></span><br><span class="line">                <span class="keyword">int</span>[] arr = &#123;&#125;;</span><br><span class="line">                System.out.println(arr[<span class="number">1</span>]);</span><br><span class="line">                future.complete(price);</span><br><span class="line">            &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">                future.completeExceptionally(e);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;.start();</span><br><span class="line">    <span class="keyword">return</span> future;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>比如，上面我们认为模拟了一个数组下标越界的异常。调用future的get方法的客户端会立即得到一个异常，get方法就不会无限期等待了。另外，调用get方法时，始终建议使用带超时参数的重载方法，避免无限等待。</p>
+<p>另外，注意：CompletableFuture的所有异步方法都使用了同样的错误管理机制，你不用再花大力气去处理异常了。</p>
+<p>参考《java8实战》</p>
+
+        </div>
+        <div class="post-tool">
+            <a class="btn-thumbs-up" href="javascript:void(0);" data-cid="52" title="95">
+                <i class="fa fa-thumbs-up" aria-hidden="true"></i> 打赏
+            </a>
+        </div>
+        
+        <div class="post-tags">标签：
+            
+            <a href="/tags/java/">java</a>
+            
+        </div>
+        
+    </article>
+    
+    <p style="text-align: center">本文代表个人观点，内容仅供参考。若有不恰当之处，望不吝赐教！</p>
+    
+    
+
+    
+    
+        <div id="gitment-container"></div>
+        <link rel="stylesheet" href="//imsun.github.io/gitment/style/default.css">
+        <script src="//imsun.github.io/gitment/dist/gitment.browser.js"></script>
+        <script type="text/javascript">
+            var gitment = new Gitment({
+                /*lable长度不能超过50个字符，这里使用页面的生成时间*/
+                id: 'Sat Sep 15 2018 15:20:07 GMT+0800'/*document.location.href*/,
+                owner: 'luckystar88',
+                repo: 'comments',
+                oauth: {
+                    client_id: 'd49ebe4f95abcd6163f4',
+                    client_secret: 'edd2748d6271072a6970d5cec8751f388dac8116',
+                }
+            });
+            gitment.render('gitment-container');
+        </script>
+        
+            <script>
+                document.getElementById("gitment-display-button").style.display = "none";
+                document.getElementById("gitment-container").style.display = "block";
+            </script>
+        
+    
+
+
+</div>
+<script src="/js/busuanzi.pure.mini.js"></script>
+
+
+        </div><!-- end #main-->
+    </div><!-- end #body -->
+    <footer class="footer">
+    <div class="footer-inner" style="text-align: center">
+        <p>
+            <a href="/about" title="关于">关于</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <!-- 自定义链接 -->
+            <a href="/help" title="帮助">帮助</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <a href="/links" title="友链">友链</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <a href="/sitemap.xml" title="地图">地图</a>
+        </p>
+        <p>
+            本站已建立&nbsp<a href="/timeline" id="siteBuildingTime"></a>&nbsp天，<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="licence">采用知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议创作</a><br>
+            ©2017-<span id="cpYear"></span> 基于&nbsp<a href="http://hexo.io" target="_blank" rel="nofollow">Hexo</a>
+            ，主题采用&nbsp&nbsp<a href="https://github.com/tangkunyin/hexo-theme-jsimple" target="_blank" rel="bookmark">JSimple</a>
+            ，作者&nbsp<a href="https://tommy88.top" target="_blank" rel="friend">Donny</a>
+            ，Hosted by <a href="https://pages.github.com/" target="_blank" rel="nofollow">GitHub Pages</a>
+        </p>
+    </div>
+</footer>
+<script src="/js/SimpleCore.js"></script>
+
+</div>
+<!-- search pop -->
+<div class="popup search-popup local-search-popup">
+    <div class="local-search-header clearfix">
+        <span class="search-icon">
+            <i class="fa fa-search"></i>
+        </span>
+        <span class="popup-btn-close">
+            <i class="fa fa-times-circle"></i>
+        </span>
+        <div class="local-search-input-wrapper">
+            <input id="local-search-input" spellcheck="false" type="text" autocomplete="off" placeholder="请输入查询关键词">
+        </div>
+    </div>
+    <div id="local-search-result"></div>
+</div>
+<div class="fixed-btn">
+    <a class="btn-gotop" href="javascript:"> <i class="fa fa-angle-up"></i></a>
+</div>
+<script>
+    $(function () {
+        var jsi_config = {
+            buildingTime: '01/20/2016',
+            current: $('.post-tags').length > 0 ? 'post' : 'archive',
+            snsQRCode: '/images/sns-qrcode.png',
+            donateImg: '/images/donate-qr.png',
+            localSearch: { dbPath: '' },
+            readMode: 'day'
+        };
+        
+            jsi_config.localSearch = {
+                dbPath: '/search.xml',
+                trigger: 'auto',
+                topN: '1',
+                unescape: 'false'
+            }
+        
+        SimpleCore.init(jsi_config);
+        
+    });
+</script>
+</body>
+</html>

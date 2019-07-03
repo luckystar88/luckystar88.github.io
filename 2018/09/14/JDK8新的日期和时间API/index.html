@@ -1,0 +1,502 @@
+<!DOCTYPE HTML>
+<html class="no-js" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!--[if lte IE 9]>
+<meta http-equiv="refresh" content="0;url=https://tommy88.top/warn.html">
+<![endif]-->
+<meta charset="utf-8">
+<meta http-equiv="X-DNS-Prefetch-Control" content="on">
+<link rel="dns-prefetch" href="https://tommy88.top">
+<link rel="dns-prefetch" href="//www.google-analytics.com">
+<link rel="prefetch" href="https://tommy88.top">
+<link rel="prefetch" href="//www.google-analytics.com">
+
+
+    <link rel="dns-prefetch" href="//imsun.github.io">
+    <link rel="prefetch" href="//imsun.github.io">
+
+<link rel="prerender" href="https://tommy88.top">
+
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+<meta http-equiv="mobile-agent" content="format=html5; url=https://tommy88.top">
+<meta name="author" content="Donny">
+<link rel="stylesheet" href="/css/JSimple.css">
+
+<link rel="shortcut icon" href="/images/favicon.png">
+
+
+<title>java 8 新的日期和时间api - Donny的技术博客</title>
+
+<meta name="keywords" content="java,前端,数据库,web,spring,redis,spring boot,spring cloud,mq">
+
+<meta name="description " content="记录工作，感悟生活">
+
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                processEscapes: true
+            }
+        });
+    </script>
+
+
+    
+
+    
+    
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="//www.googletagmanager.com/gtag/js?id=UA-105613999-1"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'UA-105613999-1');
+        </script>
+    
+    <!-- put your likes here. -->
+
+
+</head>
+<body>
+<div id="nav">
+    <nav class="nav-menu">
+        <a class="site-name current" href="/" title="Home">Home</a>
+        <a class="site-index current" href="/"><i class="fa fa-home"></i><span>首页</span></a>
+        <a href="/archives" title="归档"><i class="fa fa-archives"></i><span>归档</span></a>
+        <a href="/tags" title="标签"><i class="fa fa-tags"></i><span>标签</span></a>
+        <!-- custom single page of menus -->
+        
+        
+        <a href="/help" title="帮助">
+            <i class="fa fa-question-circle"></i>
+            <span>帮助</span>
+        </a>
+        
+    </nav>
+</div>
+
+<div class="nav-user">
+    <a class="btn-search" href="#"><i class="fa fa-search"></i></a>
+    <a class="btn-read-mode" href="#"><i class="fa fa-sun-o"></i></a>
+    <a class="btn-sns-qr" href="javascript:"><i class="fa fa-telegram"></i></a>
+</div>
+
+<div id="wrapper" class="clearfix">
+    <div id="body">
+        <div class="main" id="main">
+            <div id="cover">
+    <div class="cover-img"></div>
+    <div class="cover-info">
+        
+        <h1 class="cover-siteName">Donny的技术博客</h1>
+        <h3 class="cover-siteTitle">用代码征服世界</h3>
+        <p class="cover-siteDesc">这是一个简单的技术博客</p>
+        <div class="cover-sns">
+            
+    &nbsp;&nbsp;<div class="btn btn-github">
+        <a href="https://github.com/luckystar88" target="_blank" title="github" ref="friend">
+            <i class="fa fa-github"></i>
+        </a>
+    </div>
+
+
+        </div>
+    </div>
+</div>
+
+            <div class="page-title">
+    <ul>
+        <li><a href="/">最近</a></li>
+        
+            
+                <li class="active">
+                    <a href="/categories/tech" data-name="技术">技术</a>
+                </li>
+            
+                <li class>
+                    <a href="/categories/life" data-name="人文">人文</a>
+                </li>
+            
+                <li class>
+                    <a href="/categories/others" data-name="其他">其他</a>
+                </li>
+            
+        
+        <li class="page-search">
+    <form id="search" class="search-form">
+        <input type="text" readonly="readonly" id="local-search-input-tip" placeholder="读物检索~">
+        <button type="button" disabled="disabled" class="search-form-submit"><i class="fa fa-search"></i></button>
+    </form>
+</li>
+
+    </ul>
+</div>
+<div class="main-inner">
+    <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+        <div class="post-header">
+            <div class="post-author clearfix">
+                <a class="avatar fleft" href="https://tommy88.top" target="_blank">
+                    <img width="48" src="/images/favicon.png" alt="avatar">
+                </a>
+                <p><span class="label">作者</span>
+                    <a href="https://tommy88.top" target="_blank">Donny</a>
+                    <span title="最后编辑于&nbsp;2018-09-14">2018-09-14</span>
+                </p>
+                <p>记录工作，感悟生活</p>
+            </div>
+            <h2 class="post-title">java 8 新的日期和时间API</h2>
+            <div class="post-meta">
+                本文共计7489个字 |
+                您是第&nbsp;<span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>位看到它们的小伙伴
+            </div>
+        </div>
+        <div class="post-content markdown-body">
+            <h2 id="LocalDate、LocalTime、Instant、Duration和Period"><a href="#LocalDate、LocalTime、Instant、Duration和Period" class="headerlink" title="LocalDate、LocalTime、Instant、Duration和Period"></a>LocalDate、LocalTime、Instant、Duration和Period</h2><h3 id="使用LocalDate和LocalTime"><a href="#使用LocalDate和LocalTime" class="headerlink" title="使用LocalDate和LocalTime"></a>使用LocalDate和LocalTime</h3><p>LocalDate是一个不可变对象，提供了简单的日期，不包含时间，也没有附带任何时区相关的信息。你可以通过静态方法of创建一个LocalDate实例。LocalDate提供了很多实用的方法来读取常用的值，比如年份、月份、星期几等。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">LocalDate date = LocalDate.of(<span class="number">2014</span>,<span class="number">3</span>,<span class="number">18</span>);</span><br><span class="line"><span class="keyword">int</span> year = date.getYear(); <span class="comment">// 2014</span></span><br><span class="line">Month month = date.getMonth(); <span class="comment">// MARCH</span></span><br><span class="line"><span class="keyword">int</span> day = month.dayOfMonth(); <span class="comment">// 18</span></span><br><span class="line">DayOfWeek dow = date.getDayOfWeek(); <span class="comment">// TUESDAY</span></span><br><span class="line"><span class="keyword">int</span> len = date.lengthOfMonth(); <span class="comment">// 31(days in March)</span></span><br><span class="line"><span class="keyword">boolean</span> leap = date.isLeapYear(); <span class="comment">// false</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 也可以通过工厂方法从系统时钟获取当前日期</span></span><br><span class="line">LocalDate today = LocalDate.now();</span><br></pre></td></tr></table></figure></p>
+<a id="more"></a>
+<p>你还可以传递一个TemporalField参数拿到同样的信息。TemporalField是一个接口，定义了如何访问tempoal对象某个字段的值。ChronoFIeld枚举实现了这个接口，所以你可以用get方法得到枚举元素的值。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> year = date.get(ChronoField.YEAR);</span><br><span class="line"><span class="keyword">int</span> month = date.get(ChronoField.MONTH_OF_YEAR);</span><br><span class="line"><span class="keyword">int</span> day = date.get(ChronoField.DAY_OF_MONTH);</span><br></pre></td></tr></table></figure></p>
+<p>可以使用LocalTime来表示时间，可以使用of重载的两个工厂方法创建它的实例。第一个重载函数接收小时和分钟，第2个重载函数同时还接受秒。同LocalDate一样，LocalTime也提供了一些getter方法来访问这些变量的值。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">LocalTime time = LocalTime.of(<span class="number">16</span>,<span class="number">55</span>,<span class="number">32</span>);</span><br><span class="line"><span class="keyword">int</span> hour = time.getHour();</span><br><span class="line"><span class="keyword">int</span> minute = time.getMinute();</span><br><span class="line"><span class="keyword">int</span> second = time.getSecond();</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> _hour = time.get(ChronoField.HOUR_OF_DAY);</span><br><span class="line"></span><br><span class="line">LocalTime _time = LocalTime.now();</span><br></pre></td></tr></table></figure></p>
+<h3 id="合并日期和时间"><a href="#合并日期和时间" class="headerlink" title="合并日期和时间"></a>合并日期和时间</h3><p>这个符合类名叫LocalDateTime，它同时表示了日期和时间，但不带时区信息。你可以直接创建，也可以通过合并日期和时间对象构造。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">LocalDateTime dt1 = LocalDateTime.of(<span class="number">2018</span>,<span class="number">9</span>,<span class="number">15</span>,<span class="number">16</span>,<span class="number">50</span>,<span class="number">30</span>); <span class="comment">// 直接创建</span></span><br><span class="line">LocalDateTime dt2 = LocalDateTime.of(date,time); <span class="comment">// 复合LocalDate和LocalTime</span></span><br><span class="line">LocalDateTime dt3 = date.atTime(<span class="number">13</span>,<span class="number">59</span>,<span class="number">39</span>); <span class="comment">// 通过日期指定时间</span></span><br><span class="line">LocalDateTime dt4 = time.atDate(date); <span class="comment">// 通过时间指定日期</span></span><br><span class="line">LocalDateTime dt5 = date.atTime(time);</span><br><span class="line"></span><br><span class="line">LocalDate date = dt1.toLocalDate(); <span class="comment">// 得到LocalDate</span></span><br><span class="line">LocalTime time = dt1.toLocalTime(); <span class="comment">// 得到LocalTime</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="机器的日期和时间格式"><a href="#机器的日期和时间格式" class="headerlink" title="机器的日期和时间格式"></a>机器的日期和时间格式</h3><p>java.time.Instant是给机器使用的，包含秒和纳秒构成的数字，它是以Unix元年时间（UTC时区1970年1月1日午夜时分）开始所经历的秒数进行计算。你可以向静态方法ofEpochSecond传递一个代表秒数的值创建一个实例。它还有一个增强版本的方法，它接收第二个以纳秒为单位的参数，对传入的描述进行调整。重载的版本会调整纳秒参数，确保保存的纳秒分片在0到999 999 999之间。<br>下面的这些调用会返回几乎相同的Instant对象。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Instant.ofEpochSecond(<span class="number">3</span>);</span><br><span class="line">Instant.ofEpochSecond(<span class="number">3</span>,<span class="number">0</span>);</span><br><span class="line">Instant.ofEpochSecond(<span class="number">2</span>,<span class="number">1_000_000_000</span>); <span class="comment">// 2秒之后再加上100万纳秒（1秒）</span></span><br><span class="line">Instant.ofEpochSecond(<span class="number">4</span>,-<span class="number">1_000_000_000</span>); <span class="comment">// 4秒之前的100万纳秒（1秒）</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="日期-时间间隔"><a href="#日期-时间间隔" class="headerlink" title="日期/时间间隔"></a>日期/时间间隔</h3><p>表示2个日期/时间的间隔，可以使用Duration或Period。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">LocalTime time1 = LocalTime.of(<span class="number">15</span>,<span class="number">23</span>);</span><br><span class="line">LocalTime time2 = LocalTime.of(<span class="number">5</span>,<span class="number">29</span>);</span><br><span class="line">Duration d1 = Duration.between(time1,time2);</span><br><span class="line"></span><br><span class="line">LocalDate date1 = LocalDate.now();</span><br><span class="line">LocalDate date2 = LocalDate.of(<span class="number">2019</span>,<span class="number">1</span>,<span class="number">1</span>);</span><br><span class="line">Duration d2 = Duration.between(date1,date2);</span><br><span class="line"></span><br><span class="line">LocalDateTime dateTime1 = LocalDateTime.of(date1,time1);</span><br><span class="line">LocalDateTime dateTime2 = LocalDateTime.of(date2,time2);</span><br><span class="line">Duration d3 = Duration.between(dateTime1,dateTime2);</span><br><span class="line"></span><br><span class="line">Instant instant1 = Instant.ofEpochSecond(<span class="number">3</span>);</span><br><span class="line">Instant instant2 = Instant.ofEpochSecond(<span class="number">5</span>,<span class="number">2_000_000_000</span>);</span><br><span class="line">Duration d4 = Duration.between(instant1,instant2);</span><br><span class="line"></span><br><span class="line">Duration threeMiniutes = Duration.ofMinutes(<span class="number">3</span>);</span><br><span class="line">Duration _threeMinutes = Duration.of(<span class="number">3</span>, ChronoUnit.MINUTES);</span><br><span class="line"></span><br><span class="line">Period tenDyas = Period.ofDays(<span class="number">10</span>);</span><br><span class="line">Period threeWeeks = Period.ofWeeks(<span class="number">3</span>);</span><br><span class="line">Period twoYearsSixMonthsOneDay = Period.of(<span class="number">2</span>,<span class="number">6</span>,<span class="number">1</span>);</span><br></pre></td></tr></table></figure></p>
+<p><strong>日期-时间内中表示时间间隔的通用方法</strong></p>
+<table>
+<thead>
+<tr>
+<th>方法名</th>
+<th style="text-align:left">是否静态方法</th>
+<th style="text-align:left">方法描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>between</td>
+<td style="text-align:left">是</td>
+<td style="text-align:left">创建两个时间点之间的interval</td>
+</tr>
+<tr>
+<td>from</td>
+<td style="text-align:left">是</td>
+<td style="text-align:left">由一个临时节点创建interval</td>
+</tr>
+<tr>
+<td>of</td>
+<td style="text-align:left">是</td>
+<td style="text-align:left">由它的组成部分创建interval</td>
+</tr>
+<tr>
+<td>parse</td>
+<td style="text-align:left">是</td>
+<td style="text-align:left">由字符串创建interval</td>
+</tr>
+<tr>
+<td>addTo</td>
+<td style="text-align:left">否</td>
+<td style="text-align:left">创建该interval的副本，并将其叠加到某个指定的temporal对象</td>
+</tr>
+<tr>
+<td>get</td>
+<td style="text-align:left">否</td>
+<td style="text-align:left">读取该interval的状态</td>
+</tr>
+<tr>
+<td>isNegative</td>
+<td style="text-align:left">否</td>
+<td style="text-align:left">检查该interval是否是负值，不包含0</td>
+</tr>
+<tr>
+<td>iszero</td>
+<td style="text-align:left">否</td>
+<td style="text-align:left">检查该interval的时长是否为0</td>
+</tr>
+<tr>
+<td>minus</td>
+<td style="text-align:left">否</td>
+<td style="text-align:left">通过减去一定的时间创建该interval的副本</td>
+</tr>
+<tr>
+<td>multipliedBy</td>
+<td style="text-align:left">否</td>
+<td style="text-align:left">将interval的值乘以某个标量创建该interval的副本</td>
+</tr>
+<tr>
+<td>negated</td>
+<td style="text-align:left">否</td>
+<td style="text-align:left">以忽略某个时长的方式创建该interval的副本</td>
+</tr>
+<tr>
+<td>plus</td>
+<td style="text-align:left">否</td>
+<td style="text-align:left">以增加某个指定时长的方式创建该interval的副本</td>
+</tr>
+<tr>
+<td>subtrctFrom</td>
+<td style="text-align:left">否</td>
+<td style="text-align:left">从指定的temporal对象中减去该interval</td>
+</tr>
+</tbody>
+</table>
+<p>上面介绍的这些日期-时间对象都是不可变的，是为了更好的支持函数式编程，确保线程安全，保持领域模式一致性。</p>
+<h2 id="操作、解析和格式化日期"><a href="#操作、解析和格式化日期" class="headerlink" title="操作、解析和格式化日期"></a>操作、解析和格式化日期</h2><p>如果已经有了一个LocalDate对象，如果想要修改日期，可以使用它的withAttribute和with方法，会创建一个副本，并按照需要修改的属性。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">LocalDate _date1 = LocalDate.of(<span class="number">2019</span>,<span class="number">5</span>,<span class="number">15</span>);</span><br><span class="line">LocalDate _date2 = _date1.withYear(<span class="number">2018</span>); <span class="comment">// 2018-05-15</span></span><br><span class="line"><span class="comment">// 使用withAttribute方法</span></span><br><span class="line">LocalDate _date3 = _date1.withDayOfMonth(<span class="number">20</span>); <span class="comment">// 2019-05-20</span></span><br><span class="line"><span class="comment">// 使用with方法</span></span><br><span class="line">LocalDate _date4 = _date1.with(ChronoField.MONTH_OF_YEAR,<span class="number">2</span>); <span class="comment">// 2019-02-15</span></span><br></pre></td></tr></table></figure></p>
+<p>上面是比较直接的修改方式，也可以以相对方式修改日期，比如：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">LocalDate _date5 = _date1.plusYears(<span class="number">1</span>); <span class="comment">// 2020-05-15</span></span><br><span class="line">LocalDate _date6 = _date1.minusWeeks(<span class="number">1</span>); <span class="comment">// 2019-05-08</span></span><br></pre></td></tr></table></figure></p>
+<p><strong>表示时间点的日期-时间类的通用方法</strong></p>
+<table>
+<thead>
+<tr>
+<th>方法名</th>
+<th style="text-align:left">是否静态方法</th>
+<th style="text-align:left">方法描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>from</td>
+<td style="text-align:left">是</td>
+<td style="text-align:left">根据传入的Temporal对象创建实例</td>
+</tr>
+<tr>
+<td>now</td>
+<td style="text-align:left">是</td>
+<td style="text-align:left">根据系统时钟创建Temporal实例</td>
+</tr>
+<tr>
+<td>of</td>
+<td style="text-align:left">是</td>
+<td style="text-align:left">由Temporal对象的某个部分创建该对象的实例</td>
+</tr>
+<tr>
+<td>parse</td>
+<td style="text-align:left">是</td>
+<td style="text-align:left">由字符串创建Temporal对象的实例</td>
+</tr>
+<tr>
+<td>atOffset</td>
+<td style="text-align:left">否</td>
+<td style="text-align:left">将Temporal对象和某个时区偏移相结合</td>
+</tr>
+<tr>
+<td>atZone</td>
+<td style="text-align:left">否</td>
+<td style="text-align:left">将Temporal对象和某个时区相结合</td>
+</tr>
+<tr>
+<td>format</td>
+<td style="text-align:left">否</td>
+<td style="text-align:left">使用某个指定的格式器将Temporal对象转换为字符串</td>
+</tr>
+<tr>
+<td>get</td>
+<td style="text-align:left">否</td>
+<td style="text-align:left">读取Temporal对象某一部分的值</td>
+</tr>
+<tr>
+<td>minus</td>
+<td style="text-align:left">否</td>
+<td style="text-align:left">通过将当前Temporal对象减去一定的时长创建副本</td>
+</tr>
+<tr>
+<td>plus</td>
+<td style="text-align:left">否</td>
+<td style="text-align:left">通过将当前Temporal对象增加一定的时长创建副本</td>
+</tr>
+<tr>
+<td>with</td>
+<td style="text-align:left">否</td>
+<td style="text-align:left">以该Temporal对象为模板，将某些状态进行修改创建该对象的副本。</td>
+</tr>
+</tbody>
+</table>
+<p><strong>使用TemporalAdjuster</strong><br>前面的日期操作都是相对比较直接的，你还可使用TemporalAdjuster来进行一些更复杂的操作。<br>比如：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">LocalDate _date7 = _date1.with(nextOrSame(DayOfWeek.SUNDAY)); <span class="comment">// 2019-05-19</span></span><br></pre></td></tr></table></figure></p>
+<p><strong>TemporalAdjuster的工厂方法</strong></p>
+<table>
+<thead>
+<tr>
+<th>方法名</th>
+<th style="text-align:left">方法描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>dayOfWeekInMonth</td>
+<td style="text-align:left">创建一个新的日期，它的值为同一个月中每一周的第几天</td>
+</tr>
+<tr>
+<td>firstDayOfMonth</td>
+<td style="text-align:left">创建一个新的日期，它的值为当月的第一天</td>
+</tr>
+<tr>
+<td>firstDayOfNextMonth</td>
+<td style="text-align:left">创建一个新的日期，它的值为下个月的第一天</td>
+</tr>
+<tr>
+<td>firstDayOfNextYear</td>
+<td style="text-align:left">创建一个新的日期，它的值为明年的第一天</td>
+</tr>
+<tr>
+<td>firstDayOfYear</td>
+<td style="text-align:left">创建一个新的日期，它的值为当年的第一天</td>
+</tr>
+<tr>
+<td>firstInMonth</td>
+<td style="text-align:left">创建一个新的日期，它的值为同一个月中，第一个符合星期几要求的值</td>
+</tr>
+<tr>
+<td>lastDayOfMonth</td>
+<td style="text-align:left">创建一个新的日期，它的值为当月的最后一天</td>
+</tr>
+<tr>
+<td>lastDayOfNextMonth</td>
+<td style="text-align:left">创建一个新的日期，它的值为下个月的最后一天</td>
+</tr>
+<tr>
+<td>lastDayOfNextYear</td>
+<td style="text-align:left">创建一个新的日期，它的值为明年的最后一天</td>
+</tr>
+<tr>
+<td>lastDayOfYear</td>
+<td style="text-align:left">创建一个新的日期，它的值为当年的今年的最后一天</td>
+</tr>
+<tr>
+<td>lastInMonth</td>
+<td style="text-align:left">创建一个新的日期，它的值为同一个月中，最后一个符合星期几要求的值</td>
+</tr>
+<tr>
+<td>next/previous</td>
+<td style="text-align:left">创建一个新的日期，并将其值设定为日期调整后/前，第一个符合指定星期几要求的日期</td>
+</tr>
+<tr>
+<td>nextOrSame/preivousOrSave</td>
+<td style="text-align:left">创建一个新的日期，并将其值设定为日期调整后/前，第一个符合指定星期几要求的日期。如果该日期已经符合要求，直接返回该对象</td>
+</tr>
+</tbody>
+</table>
+<p>如果上面的方法还不能满足你的要求，实现自己的TemporalAdjuster也很简单。实现TemporalAdjuster的adjustInto接口即可。<br>下面实现一个自定义的TemporalAdjuster，能够计算明天的日期，并过滤掉周六周日。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">NextWorkingDayAdjuster</span> <span class="keyword">implements</span> <span class="title">TemporalAdjuster</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Temporal <span class="title">adjustInto</span><span class="params">(Temporal temporal)</span> </span>&#123;</span><br><span class="line">        DayOfWeek dayOfWeek = DayOfWeek.of(temporal.get(ChronoField.DAY_OF_WEEK));</span><br><span class="line">        <span class="keyword">int</span> dayToAdd = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (dayOfWeek == DayOfWeek.FRIDAY) &#123;</span><br><span class="line">            dayToAdd = <span class="number">3</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (dayOfWeek == DayOfWeek.SATURDAY) &#123;</span><br><span class="line">            dayToAdd = <span class="number">2</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> temporal.plus(dayToAdd, ChronoUnit.DAYS);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">NextWorkingDayAdjuster adjuster = <span class="keyword">new</span> NextWorkingDayAdjuster();</span><br><span class="line">LocalDate _date8 = _date1.with(adjuster);</span><br></pre></td></tr></table></figure></p>
+<h3 id="日期解析和格式化"><a href="#日期解析和格式化" class="headerlink" title="日期解析和格式化"></a>日期解析和格式化</h3><p>java8日期格式化的类在java.time.format包中，其中最重要的类是DateTimeFormatter。DateTimeFormatter提供了大量的预定义格式的DateTimeFormatter。<br>比如：<br>格式化：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">String s1 = _date1.format(DateTimeFormatter.BASIC_ISO_DATE);</span><br><span class="line">String s2 = _date1.format(DateTimeFormatter.ISO_LOCAL_DATE);</span><br></pre></td></tr></table></figure></p>
+<p>解析：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">LocalDate dd1 = LocalDate.parse(<span class="string">"20190112"</span>,DateTimeFormatter.BASIC_ISO_DATE);</span><br></pre></td></tr></table></figure></p>
+<p>这些DateTimeFormmater的实例都是线程安全的，所以你能够以单例的形式创建Formatter实例，并在多个线程之间共享。</p>
+<p>你还可以通过DateTimeFormatter的ofPattern方法创建。比如：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DateTimeFormatter formatter = DateTimeFormatter.ofPattern(<span class="string">"dd/MM/yyyy"</span>);</span><br></pre></td></tr></table></figure></p>
+<p>另外，你还可以通过DateTimeFormatterBuilder来创建。<br>比如<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">BASIC_ISO_DATE = <span class="keyword">new</span> DateTimeFormatterBuilder()</span><br><span class="line">    .parseCaseInsensitive()</span><br><span class="line">    .appendValue(YEAR, <span class="number">4</span>)</span><br><span class="line">    .appendValue(MONTH_OF_YEAR, <span class="number">2</span>)</span><br><span class="line">    .appendValue(DAY_OF_MONTH, <span class="number">2</span>)</span><br><span class="line">    .optionalStart()</span><br><span class="line">    .appendOffset(<span class="string">"+HHMMss"</span>, <span class="string">"Z"</span>)</span><br><span class="line">    .toFormatter(ResolverStyle.STRICT, IsoChronology.INSTANCE);</span><br></pre></td></tr></table></figure></p>
+<h2 id="处理不同的时区"><a href="#处理不同的时区" class="headerlink" title="处理不同的时区"></a>处理不同的时区</h2><p>新的java.time.ZoneId是对老的java.util.TimeZone的替代，大大简化了时区处理的操作。<br>你可以按照ZoneId.of(地区ID标识)来得到指定时区。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ZoneId romeZone = ZoneId.of(<span class="string">"Europe/Rome"</span>);</span><br></pre></td></tr></table></figure></p>
+<p>或者通过toZoneId()来将老的时区对象转换为ZoneId。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ZoneId zoneId = TimeZone.getDefault().toZoneId();</span><br></pre></td></tr></table></figure></p>
+<p>有了ZoneId，你可以将它和LocalDate、LocalDateTime或Instant整合起来，构造为一个ZoneDateTime实例，它代表了相对于指定时区的时间点。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ZonedDateTime zonedDateTime = date.atStartOfDay(zoneId);</span><br><span class="line">zonedDateTime = dateTime1.atZone(romeZone);</span><br><span class="line">zonedDateTime = instant.atZone(romeZone);</span><br></pre></td></tr></table></figure></p>
+<p>ZoneOffset是ZoneId的一个子类，表示的是当前时间与伦敦格林尼治子午线时间的差异。比如纽约落后于伦敦5小时，可以使用下面的方式表示:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ZoneOffset zoneOffset = ZoneOffset.of(<span class="string">"-05:00"</span>); <span class="comment">// 美国东部时间偏移量</span></span><br><span class="line">LocalDateTime localDateTime = LocalDateTime.of(<span class="number">2018</span>,<span class="number">9</span>,<span class="number">19</span>,<span class="number">15</span>,<span class="number">30</span>,<span class="number">29</span>);</span><br><span class="line">OffsetDateTime offsetDateTime = OffsetDateTime.of(localDateTime,zoneOffset);</span><br></pre></td></tr></table></figure></p>
+<p>-05:00的偏差实际上对应的是美国东部标准时间。注意：这种方式定义的ZoneOffset没有考虑夏令时的影响，所以大多数情况下，不推荐使用。</p>
+<p>参考《java8实战》</p>
+
+        </div>
+        <div class="post-tool">
+            <a class="btn-thumbs-up" href="javascript:void(0);" data-cid="52" title="95">
+                <i class="fa fa-thumbs-up" aria-hidden="true"></i> 打赏
+            </a>
+        </div>
+        
+        <div class="post-tags">标签：
+            
+            <a href="/tags/java/">java</a>
+            
+        </div>
+        
+    </article>
+    
+    <p style="text-align: center">本文代表个人观点，内容仅供参考。若有不恰当之处，望不吝赐教！</p>
+    
+    
+
+    
+    
+        <div id="gitment-container"></div>
+        <link rel="stylesheet" href="//imsun.github.io/gitment/style/default.css">
+        <script src="//imsun.github.io/gitment/dist/gitment.browser.js"></script>
+        <script type="text/javascript">
+            var gitment = new Gitment({
+                /*lable长度不能超过50个字符，这里使用页面的生成时间*/
+                id: 'Fri Sep 14 2018 16:20:07 GMT+0800'/*document.location.href*/,
+                owner: 'luckystar88',
+                repo: 'comments',
+                oauth: {
+                    client_id: 'd49ebe4f95abcd6163f4',
+                    client_secret: 'edd2748d6271072a6970d5cec8751f388dac8116',
+                }
+            });
+            gitment.render('gitment-container');
+        </script>
+        
+            <script>
+                document.getElementById("gitment-display-button").style.display = "none";
+                document.getElementById("gitment-container").style.display = "block";
+            </script>
+        
+    
+
+
+</div>
+<script src="/js/busuanzi.pure.mini.js"></script>
+
+
+        </div><!-- end #main-->
+    </div><!-- end #body -->
+    <footer class="footer">
+    <div class="footer-inner" style="text-align: center">
+        <p>
+            <a href="/about" title="关于">关于</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <!-- 自定义链接 -->
+            <a href="/help" title="帮助">帮助</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <a href="/links" title="友链">友链</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <a href="/sitemap.xml" title="地图">地图</a>
+        </p>
+        <p>
+            本站已建立&nbsp<a href="/timeline" id="siteBuildingTime"></a>&nbsp天，<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="licence">采用知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议创作</a><br>
+            ©2017-<span id="cpYear"></span> 基于&nbsp<a href="http://hexo.io" target="_blank" rel="nofollow">Hexo</a>
+            ，主题采用&nbsp&nbsp<a href="https://github.com/tangkunyin/hexo-theme-jsimple" target="_blank" rel="bookmark">JSimple</a>
+            ，作者&nbsp<a href="https://tommy88.top" target="_blank" rel="friend">Donny</a>
+            ，Hosted by <a href="https://pages.github.com/" target="_blank" rel="nofollow">GitHub Pages</a>
+        </p>
+    </div>
+</footer>
+<script src="/js/SimpleCore.js"></script>
+
+</div>
+<!-- search pop -->
+<div class="popup search-popup local-search-popup">
+    <div class="local-search-header clearfix">
+        <span class="search-icon">
+            <i class="fa fa-search"></i>
+        </span>
+        <span class="popup-btn-close">
+            <i class="fa fa-times-circle"></i>
+        </span>
+        <div class="local-search-input-wrapper">
+            <input id="local-search-input" spellcheck="false" type="text" autocomplete="off" placeholder="请输入查询关键词">
+        </div>
+    </div>
+    <div id="local-search-result"></div>
+</div>
+<div class="fixed-btn">
+    <a class="btn-gotop" href="javascript:"> <i class="fa fa-angle-up"></i></a>
+</div>
+<script>
+    $(function () {
+        var jsi_config = {
+            buildingTime: '01/20/2016',
+            current: $('.post-tags').length > 0 ? 'post' : 'archive',
+            snsQRCode: '/images/sns-qrcode.png',
+            donateImg: '/images/donate-qr.png',
+            localSearch: { dbPath: '' },
+            readMode: 'day'
+        };
+        
+            jsi_config.localSearch = {
+                dbPath: '/search.xml',
+                trigger: 'auto',
+                topN: '1',
+                unescape: 'false'
+            }
+        
+        SimpleCore.init(jsi_config);
+        
+    });
+</script>
+</body>
+</html>

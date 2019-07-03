@@ -1,0 +1,327 @@
+<!DOCTYPE HTML>
+<html class="no-js" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!--[if lte IE 9]>
+<meta http-equiv="refresh" content="0;url=https://tommy88.top/warn.html">
+<![endif]-->
+<meta charset="utf-8">
+<meta http-equiv="X-DNS-Prefetch-Control" content="on">
+<link rel="dns-prefetch" href="https://tommy88.top">
+<link rel="dns-prefetch" href="//www.google-analytics.com">
+<link rel="prefetch" href="https://tommy88.top">
+<link rel="prefetch" href="//www.google-analytics.com">
+
+
+    <link rel="dns-prefetch" href="//imsun.github.io">
+    <link rel="prefetch" href="//imsun.github.io">
+
+<link rel="prerender" href="https://tommy88.top">
+
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+<meta http-equiv="mobile-agent" content="format=html5; url=https://tommy88.top">
+<meta name="author" content="Donny">
+<link rel="stylesheet" href="/css/JSimple.css">
+
+<link rel="shortcut icon" href="/images/favicon.png">
+
+
+<title>springcloud系列31——spring cloud config配置属性刷新之自动刷新 - Donny的技术博客</title>
+
+<meta name="keywords" content="java,前端,数据库,web,spring,redis,spring boot,spring cloud,mq">
+
+<meta name="description " content="记录工作，感悟生活">
+
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                processEscapes: true
+            }
+        });
+    </script>
+
+
+    
+
+    
+    
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="//www.googletagmanager.com/gtag/js?id=UA-105613999-1"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'UA-105613999-1');
+        </script>
+    
+    <!-- put your likes here. -->
+
+
+</head>
+<body>
+<div id="nav">
+    <nav class="nav-menu">
+        <a class="site-name current" href="/" title="Home">Home</a>
+        <a class="site-index current" href="/"><i class="fa fa-home"></i><span>首页</span></a>
+        <a href="/archives" title="归档"><i class="fa fa-archives"></i><span>归档</span></a>
+        <a href="/tags" title="标签"><i class="fa fa-tags"></i><span>标签</span></a>
+        <!-- custom single page of menus -->
+        
+        
+        <a href="/help" title="帮助">
+            <i class="fa fa-question-circle"></i>
+            <span>帮助</span>
+        </a>
+        
+    </nav>
+</div>
+
+<div class="nav-user">
+    <a class="btn-search" href="#"><i class="fa fa-search"></i></a>
+    <a class="btn-read-mode" href="#"><i class="fa fa-sun-o"></i></a>
+    <a class="btn-sns-qr" href="javascript:"><i class="fa fa-telegram"></i></a>
+</div>
+
+<div id="wrapper" class="clearfix">
+    <div id="body">
+        <div class="main" id="main">
+            <div id="cover">
+    <div class="cover-img"></div>
+    <div class="cover-info">
+        
+        <h1 class="cover-siteName">Donny的技术博客</h1>
+        <h3 class="cover-siteTitle">用代码征服世界</h3>
+        <p class="cover-siteDesc">这是一个简单的技术博客</p>
+        <div class="cover-sns">
+            
+    &nbsp;&nbsp;<div class="btn btn-github">
+        <a href="https://github.com/luckystar88" target="_blank" title="github" ref="friend">
+            <i class="fa fa-github"></i>
+        </a>
+    </div>
+
+
+        </div>
+    </div>
+</div>
+
+            <div class="page-title">
+    <ul>
+        <li><a href="/">最近</a></li>
+        
+            
+                <li class="active">
+                    <a href="/categories/tech" data-name="技术">技术</a>
+                </li>
+            
+                <li class>
+                    <a href="/categories/life" data-name="人文">人文</a>
+                </li>
+            
+                <li class>
+                    <a href="/categories/others" data-name="其他">其他</a>
+                </li>
+            
+        
+        <li class="page-search">
+    <form id="search" class="search-form">
+        <input type="text" readonly="readonly" id="local-search-input-tip" placeholder="读物检索~">
+        <button type="button" disabled="disabled" class="search-form-submit"><i class="fa fa-search"></i></button>
+    </form>
+</li>
+
+    </ul>
+</div>
+<div class="main-inner">
+    <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+        <div class="post-header">
+            <div class="post-author clearfix">
+                <a class="avatar fleft" href="https://tommy88.top" target="_blank">
+                    <img width="48" src="/images/favicon.png" alt="avatar">
+                </a>
+                <p><span class="label">作者</span>
+                    <a href="https://tommy88.top" target="_blank">Donny</a>
+                    <span title="最后编辑于&nbsp;2018-07-20">2018-07-20</span>
+                </p>
+                <p>记录工作，感悟生活</p>
+            </div>
+            <h2 class="post-title">springcloud系列31——Spring Cloud Config配置属性刷新之自动刷新</h2>
+            <div class="post-meta">
+                本文共计2395个字 |
+                您是第&nbsp;<span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>位看到它们的小伙伴
+            </div>
+        </div>
+        <div class="post-content markdown-body">
+            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在前面一节中，我们通过执行/refresh端点来手动刷新配置，但是如果微服务的数量太多，一个一个刷新就很麻烦也很慢。本节介绍使用Spring Cloud Bus实现批量刷新和自动刷新。</p>
+<h2 id="使用Spring-Cloud-Bus实现配置批量刷新"><a href="#使用Spring-Cloud-Bus实现配置批量刷新" class="headerlink" title="使用Spring Cloud Bus实现配置批量刷新"></a>使用Spring Cloud Bus实现配置批量刷新</h2><p>Spring Cloud Bus依赖rabbitmq或kafka，这里我们使用rabbitmq。</p>
+<h3 id="1-rabbitmq的安装与使用"><a href="#1-rabbitmq的安装与使用" class="headerlink" title="1.rabbitmq的安装与使用"></a>1.rabbitmq的安装与使用</h3><p>进入rabbitmq的下载页面下载安装包（这里使用windows），下载地址为：<a href="http://www.rabbitmq.com/download.html">http://www.rabbitmq.com/download.html</a></p>
+<p>在下载页面的右侧有各个系统的安装方法。</p>
+<p>windows的地址为：<a href="http://www.rabbitmq.com/install-windows.html">http://www.rabbitmq.com/install-windows.html</a></p>
+<p>rabbitmq依赖Erlang，所以在安装rabbitmq之前需要安装Erlang。</p>
+<p>在<a href="http://www.rabbitmq.com/which-erlang.html">http://www.rabbitmq.com/which-erlang.html</a>这个页面给出了每个rabbitmq应该安装的Erlang版本。</p>
+<p><img src="http://omh46px9n.bkt.clouddn.com/18-7-20/22377701.jpg" alt></p>
+<p>我们下载的是3.7.7的版本，推荐的Erlang版本是21.0.x 。</p>
+<p>erlang的下载地址为：<a href="http://erlang.org/download/">http://erlang.org/download/</a></p>
+<p>csdn下载地址：<a href="https://download.csdn.net/download/qq_24118265/10186110">https://download.csdn.net/download/qq_24118265/10186110</a></p>
+<p>下载完毕后，就依次安装Erlang和rabbitmq即可。</p>
+<p>安装完毕后，可以看到rabbitmq已经作为服务启动了。</p>
+<p><img src="http://omh46px9n.bkt.clouddn.com/18-7-20/53246659.jpg" alt></p>
+<h3 id="2-开启RabbitMQ网页端控制台"><a href="#2-开启RabbitMQ网页端控制台" class="headerlink" title="2.开启RabbitMQ网页端控制台"></a>2.开启RabbitMQ网页端控制台</h3><p>1.设置ERLANG_HOME环境变量；</p>
+<p>2.到$rabbitmq_home/sbin$执行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rabbitmq-plugins.bat enable rabbitmq_management</span><br></pre></td></tr></table></figure>
+<p>如图：</p>
+<p><img src="http://omh46px9n.bkt.clouddn.com/18-7-20/74070347.jpg" alt></p>
+<p>3.重新开启rabbitmq服务。</p>
+<p>4.浏览器访问<a href="http://localhost:15672">http://localhost:15672</a>，用户名和密码默认都是guest。</p>
+<h3 id="3-Cloud-Config-Client修改"><a href="#3-Cloud-Config-Client修改" class="headerlink" title="3.Cloud Config Client修改"></a>3.Cloud Config Client修改</h3><ol>
+<li><p>增加spring-cloud-starter-bus-amqp依赖；</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-bus-amqp<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<ol start="2">
+<li><p>增加rabbitmq配置</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line"><span class="attr">  rabbitmq:</span></span><br><span class="line"><span class="attr">      host:</span> <span class="string">localhost</span></span><br><span class="line"><span class="attr">      port:</span> <span class="number">5672</span></span><br><span class="line"><span class="attr">      username:</span> <span class="string">guest</span></span><br><span class="line"><span class="attr">      password:</span> <span class="string">guest</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>   如此就大功告成了！</p>
+<p>下面进行测试。</p>
+<p>启动Config Server和2个Cloud Client（为了测试批量刷新配置）。<br>在Cloud Client启动时，控制台可以看到有一个端点/bus/refresh，我们用它可以批量刷新配置。<br>我们将git仓库配置文件的一个配置项做修改：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">my.custom.message=Hello,This is new value!!!</span><br></pre></td></tr></table></figure>
+<p>我们使用curl执行刷新命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -X POST http://localhost:8080/bus/refresh</span><br></pre></td></tr></table></figure>
+<p>然后访问Cloud Config Client，看看是否配置更新。</p>
+<p><img src="http://omh46px9n.bkt.clouddn.com/18-7-20/68794393.jpg" alt></p>
+<p><img src="http://omh46px9n.bkt.clouddn.com/18-7-20/92832154.jpg" alt></p>
+<p>可以看到，2个Cloud Config Client应用配置都已经刷新！</p>
+<p>观察2个Cloud Config Client，可以看到如下日志：</p>
+<p><img src="http://omh46px9n.bkt.clouddn.com/18-7-20/41972206.jpg" alt></p>
+<p>至此就实现了批量配置刷新。</p>
+<p>我们到RabbitMQ的控制台的Exchanges，可以看到springCloudBus。</p>
+<p><img src="http://omh46px9n.bkt.clouddn.com/18-7-20/82901088.jpg" alt></p>
+<h2 id="刷新某个Cloud-Config-Client"><a href="#刷新某个Cloud-Config-Client" class="headerlink" title="刷新某个Cloud Config Client"></a>刷新某个Cloud Config Client</h2><p>如果要刷新某个Cloud Config Client的配置，可以使用<code>/bus/refresh?destination=customers:9000</code>。其中，customers:这里是ApplicationContext ID，9000是服务的端口。</p>
+<p>但是，如果在BUS上已经有了这个ID，则会刷新这个ID的配置，其他的会被忽略。即如果在不同的机器上部署了同样的Cloud Config Client应用，ID一样，端口一样，IP不一样，则只会有一个服务配置属性会被刷新。</p>
+<p>解决办法就是制定spring.application.index，不过这样就很麻烦了，每个同类的微服务（ID相同）都需要指定不同的index。不过可以指定spring.application.index=${random.long}来使用随机生成的数字作为index。不过，很明显似乎是一个设计缺陷，为什么不增加一个host参数？</p>
+<h2 id="刷新某个Cloud-Config-Client服务的所有实例"><a href="#刷新某个Cloud-Config-Client服务的所有实例" class="headerlink" title="刷新某个Cloud Config Client服务的所有实例"></a>刷新某个Cloud Config Client服务的所有实例</h2><p>这个比较简单了，使用<code>/bus/refresh?destination=customers:**</code>即可，customers指应用的id。</p>
+<p>参考Spring Cloud Bus章节：<a href="http://cloud.spring.io/spring-cloud-static/Edgware.SR3/single/spring-cloud.html#_spring_cloud_bus">http://cloud.spring.io/spring-cloud-static/Edgware.SR3/single/spring-cloud.html#_spring_cloud_bus</a></p>
+<h2 id="配置自动刷新"><a href="#配置自动刷新" class="headerlink" title="配置自动刷新"></a>配置自动刷新</h2><p>这个要借助于Git管理软件提供的WebHooks钩子，可以指定一个地址，在提交到Git仓库时自动触发请求这个地址。</p>
+<p>比如gitee.com</p>
+<p><img src="http://omh46px9n.bkt.clouddn.com/18-7-20/42508989.jpg" alt></p>
+<p>上面的URL就指定为刷新地址，如<a href="http://localhost:8080/bus/refresh">http://localhost:8080/bus/refresh</a>，密码随意了。</p>
+
+        </div>
+        <div class="post-tool">
+            <a class="btn-thumbs-up" href="javascript:void(0);" data-cid="52" title="95">
+                <i class="fa fa-thumbs-up" aria-hidden="true"></i> 打赏
+            </a>
+        </div>
+        
+        <div class="post-tags">标签：
+            
+            <a href="/tags/springcloud/">springcloud</a>
+            
+        </div>
+        
+    </article>
+    
+    <p style="text-align: center">本文代表个人观点，内容仅供参考。若有不恰当之处，望不吝赐教！</p>
+    
+    
+
+    
+    
+        <div id="gitment-container"></div>
+        <link rel="stylesheet" href="//imsun.github.io/gitment/style/default.css">
+        <script src="//imsun.github.io/gitment/dist/gitment.browser.js"></script>
+        <script type="text/javascript">
+            var gitment = new Gitment({
+                /*lable长度不能超过50个字符，这里使用页面的生成时间*/
+                id: 'Fri Jul 20 2018 15:19:25 GMT+0800'/*document.location.href*/,
+                owner: 'luckystar88',
+                repo: 'comments',
+                oauth: {
+                    client_id: 'd49ebe4f95abcd6163f4',
+                    client_secret: 'edd2748d6271072a6970d5cec8751f388dac8116',
+                }
+            });
+            gitment.render('gitment-container');
+        </script>
+        
+            <script>
+                document.getElementById("gitment-display-button").style.display = "none";
+                document.getElementById("gitment-container").style.display = "block";
+            </script>
+        
+    
+
+
+</div>
+<script src="/js/busuanzi.pure.mini.js"></script>
+
+
+        </div><!-- end #main-->
+    </div><!-- end #body -->
+    <footer class="footer">
+    <div class="footer-inner" style="text-align: center">
+        <p>
+            <a href="/about" title="关于">关于</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <!-- 自定义链接 -->
+            <a href="/help" title="帮助">帮助</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <a href="/links" title="友链">友链</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <a href="/sitemap.xml" title="地图">地图</a>
+        </p>
+        <p>
+            本站已建立&nbsp<a href="/timeline" id="siteBuildingTime"></a>&nbsp天，<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="licence">采用知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议创作</a><br>
+            ©2017-<span id="cpYear"></span> 基于&nbsp<a href="http://hexo.io" target="_blank" rel="nofollow">Hexo</a>
+            ，主题采用&nbsp&nbsp<a href="https://github.com/tangkunyin/hexo-theme-jsimple" target="_blank" rel="bookmark">JSimple</a>
+            ，作者&nbsp<a href="https://tommy88.top" target="_blank" rel="friend">Donny</a>
+            ，Hosted by <a href="https://pages.github.com/" target="_blank" rel="nofollow">GitHub Pages</a>
+        </p>
+    </div>
+</footer>
+<script src="/js/SimpleCore.js"></script>
+
+</div>
+<!-- search pop -->
+<div class="popup search-popup local-search-popup">
+    <div class="local-search-header clearfix">
+        <span class="search-icon">
+            <i class="fa fa-search"></i>
+        </span>
+        <span class="popup-btn-close">
+            <i class="fa fa-times-circle"></i>
+        </span>
+        <div class="local-search-input-wrapper">
+            <input id="local-search-input" spellcheck="false" type="text" autocomplete="off" placeholder="请输入查询关键词">
+        </div>
+    </div>
+    <div id="local-search-result"></div>
+</div>
+<div class="fixed-btn">
+    <a class="btn-gotop" href="javascript:"> <i class="fa fa-angle-up"></i></a>
+</div>
+<script>
+    $(function () {
+        var jsi_config = {
+            buildingTime: '01/20/2016',
+            current: $('.post-tags').length > 0 ? 'post' : 'archive',
+            snsQRCode: '/images/sns-qrcode.png',
+            donateImg: '/images/donate-qr.png',
+            localSearch: { dbPath: '' },
+            readMode: 'day'
+        };
+        
+            jsi_config.localSearch = {
+                dbPath: '/search.xml',
+                trigger: 'auto',
+                topN: '1',
+                unescape: 'false'
+            }
+        
+        SimpleCore.init(jsi_config);
+        
+    });
+</script>
+</body>
+</html>

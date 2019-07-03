@@ -1,0 +1,280 @@
+<!DOCTYPE HTML>
+<html class="no-js" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!--[if lte IE 9]>
+<meta http-equiv="refresh" content="0;url=https://tommy88.top/warn.html">
+<![endif]-->
+<meta charset="utf-8">
+<meta http-equiv="X-DNS-Prefetch-Control" content="on">
+<link rel="dns-prefetch" href="https://tommy88.top">
+<link rel="dns-prefetch" href="//www.google-analytics.com">
+<link rel="prefetch" href="https://tommy88.top">
+<link rel="prefetch" href="//www.google-analytics.com">
+
+
+    <link rel="dns-prefetch" href="//imsun.github.io">
+    <link rel="prefetch" href="//imsun.github.io">
+
+<link rel="prerender" href="https://tommy88.top">
+
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+<meta http-equiv="mobile-agent" content="format=html5; url=https://tommy88.top">
+<meta name="author" content="Donny">
+<link rel="stylesheet" href="/css/JSimple.css">
+
+<link rel="shortcut icon" href="/images/favicon.png">
+
+
+<title>cas自定义登录页面 - Donny的技术博客</title>
+
+<meta name="keywords" content="java,前端,数据库,web,spring,redis,spring boot,spring cloud,mq">
+
+<meta name="description " content="记录工作，感悟生活">
+
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                processEscapes: true
+            }
+        });
+    </script>
+
+
+    
+
+    
+    
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="//www.googletagmanager.com/gtag/js?id=UA-105613999-1"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'UA-105613999-1');
+        </script>
+    
+    <!-- put your likes here. -->
+
+
+</head>
+<body>
+<div id="nav">
+    <nav class="nav-menu">
+        <a class="site-name current" href="/" title="Home">Home</a>
+        <a class="site-index current" href="/"><i class="fa fa-home"></i><span>首页</span></a>
+        <a href="/archives" title="归档"><i class="fa fa-archives"></i><span>归档</span></a>
+        <a href="/tags" title="标签"><i class="fa fa-tags"></i><span>标签</span></a>
+        <!-- custom single page of menus -->
+        
+        
+        <a href="/help" title="帮助">
+            <i class="fa fa-question-circle"></i>
+            <span>帮助</span>
+        </a>
+        
+    </nav>
+</div>
+
+<div class="nav-user">
+    <a class="btn-search" href="#"><i class="fa fa-search"></i></a>
+    <a class="btn-read-mode" href="#"><i class="fa fa-sun-o"></i></a>
+    <a class="btn-sns-qr" href="javascript:"><i class="fa fa-telegram"></i></a>
+</div>
+
+<div id="wrapper" class="clearfix">
+    <div id="body">
+        <div class="main" id="main">
+            <div id="cover">
+    <div class="cover-img"></div>
+    <div class="cover-info">
+        
+        <h1 class="cover-siteName">Donny的技术博客</h1>
+        <h3 class="cover-siteTitle">用代码征服世界</h3>
+        <p class="cover-siteDesc">这是一个简单的技术博客</p>
+        <div class="cover-sns">
+            
+    &nbsp;&nbsp;<div class="btn btn-github">
+        <a href="https://github.com/luckystar88" target="_blank" title="github" ref="friend">
+            <i class="fa fa-github"></i>
+        </a>
+    </div>
+
+
+        </div>
+    </div>
+</div>
+
+            <div class="page-title">
+    <ul>
+        <li><a href="/">最近</a></li>
+        
+        
+        
+        <li class="page-search">
+    <form id="search" class="search-form">
+        <input type="text" readonly="readonly" id="local-search-input-tip" placeholder="读物检索~">
+        <button type="button" disabled="disabled" class="search-form-submit"><i class="fa fa-search"></i></button>
+    </form>
+</li>
+
+    </ul>
+</div>
+<div class="main-inner">
+    <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+        <div class="post-header">
+            <div class="post-author clearfix">
+                <a class="avatar fleft" href="https://tommy88.top" target="_blank">
+                    <img width="48" src="/images/favicon.png" alt="avatar">
+                </a>
+                <p><span class="label">作者</span>
+                    <a href="https://tommy88.top" target="_blank">Donny</a>
+                    <span title="最后编辑于&nbsp;2017-08-30">2017-08-30</span>
+                </p>
+                <p>记录工作，感悟生活</p>
+            </div>
+            <h2 class="post-title">CAS自定义登录页面</h2>
+            <div class="post-meta">
+                本文共计2360个字 |
+                您是第&nbsp;<span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>位看到它们的小伙伴
+            </div>
+        </div>
+        <div class="post-content markdown-body">
+            <p>参考：<a href="http://www.imooc.com/article/3720">http://www.imooc.com/article/3720</a><br>不过参考链接中介绍的并不详细，这里具体说明一下。</p>
+<p>/css/下复制cas.css，并重命名为nebula.css.<br>文件内容不变，将<code>#container</code>改成如下：<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-id">#container</span> &#123;  <span class="attribute">position</span>: fixed;</span><br><span class="line">  <span class="attribute">top</span>: <span class="number">50%</span>;</span><br><span class="line">  <span class="attribute">left</span>: <span class="number">50%</span>;</span><br><span class="line">  <span class="attribute">width</span>:<span class="number">50%</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">50%</span>;</span><br><span class="line">  <span class="attribute">-webkit-transform</span>: <span class="built_in">translateX</span>(-50%) <span class="built_in">translateY</span>(-50%);</span><br><span class="line">  <span class="attribute">-moz-transform</span>: <span class="built_in">translateX</span>(-50%) <span class="built_in">translateY</span>(-50%);</span><br><span class="line">  <span class="attribute">-ms-transform</span>: <span class="built_in">translateX</span>(-50%) <span class="built_in">translateY</span>(-50%);</span><br><span class="line">  <span class="attribute">transform</span>: <span class="built_in">translateX</span>(-50%) <span class="built_in">translateY</span>(-50%); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>因为后面会把页眉和页脚的一些东西，包括右侧的banner删除，所以这里的CSS是让内容居中显示。<br><a id="more"></a></p>
+<p><code>/WEB-INF/classes</code>下复制<code>cas_views.properties</code>，并重命名为<code>nebula_views.properties</code>.<br>并增加下面的内容（默认是空的）：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">nebulaLoginView.(class)=org.springframework.web.servlet.view.JstlView</span><br><span class="line">nebulaLoginView.url=/WEB-INF/view/jsp/nebula/ui/casLoginView.jsp</span><br><span class="line">nebulaIndexView.(class)=org.springframework.web.servlet.view.JstlView</span><br><span class="line">nebulaIndexView.url=/WEB-INF/view/jsp/nebula/ui/casIndexView.jsp</span><br></pre></td></tr></table></figure></p>
+<p><code>/WEB-INF/classes</code>下复制<code>cas-theme-default.properties</code>，并重命名为<code>nebula-theme.properties</code>.<br>并修改js和css的路径：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">standard.custom.css.file=/css/nebula.css</span><br><span class="line">cas.javascript.file=/js/cas.js</span><br></pre></td></tr></table></figure></p>
+<p><code>/WEB-INF/view/jsp</code>下新增文件夹nebula/ui，将<code>/WEB-INF/view/jsp/default/ui</code>下的<code>casLoginView.jsp</code>，<code>casGenericSuccessView.jsp</code>，<code>includes</code>复制到<code>/nebula/ui</code>，并重命名为<code>nebulaLoginView.jsp</code>和<code>nebulaIndexView.jsp</code>.  </p>
+<p>将<code>/WEB-INF/view/jsp/nebula/ui/nebulaLoginView.jsp</code>中无关的东西都删除，只保留登录的form相关，这个可以慢慢删除调试。<code>nebulaIndexView</code>是登录成功后显示的页面,内容如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;%@ page contentType=&quot;text/html;charset=UTF-8&quot; isELIgnored=&quot;false&quot; %&gt;</span><br><span class="line">&lt;div&gt;你好，你在CAS Server已登录成功！&lt;a href=&quot;logout&quot;&gt;退出&lt;/a&gt;&lt;/div&gt;</span><br></pre></td></tr></table></figure></p>
+<p><code>/WEB-INF/webflow/login</code>下复制<code>login-webflow.xml</code>，并重命名为<code>nebula-login-webflow.xml</code>。<br>将<code>viewLoginForm</code>中的<code>casLoginView</code>修改为<code>nebulaLoginView</code>.<br>将<code>viewGenericLoginSuccess</code>中的view改为<code>nebulaIndexView</code>.<br><code>/WEB-INF/webflow/login</code>下复制<code>logout-webflow.xml</code>，并重命名为<code>nebula-logout-webflow.xml</code>。</p>
+<p>修改<code>/WEB-INF/cas.properties</code>，将<code>cas.themeResolver.defaultThemeName</code>改成<code>nebula-theme</code>.</p>
+<p><code>/WEB-INF/cas-servlet.xml</code>文件修改：</p>
+<ol>
+<li>viewResolver中<code>cas_views</code>改成<code>nebula_views</code>.</li>
+<li>internalViewResolver中defaultViewsPathPrefix改成<code>/WEB-INF/view/jsp/nebula/ui/</code>.</li>
+<li>loginFlowRegistry中，将value改成：<code>/login/nebula-login-webflow.xml</code>.</li>
+<li>logoutFlowRegistry中，将value改成：<code>/logout/nebula-logout-webflow.xml</code>.</li>
+</ol>
+<p>最后的效果：<br>登录的界面：<br><img src="http://omh46px9n.bkt.clouddn.com/17-5-18/43145484-file_1495081069165_1b8b.png" alt></p>
+<p>登录成功的界面：<br><img src="http://omh46px9n.bkt.clouddn.com/17-5-18/5600562-file_1495081103378_e8fa.png" alt></p>
+<h2 id="问题："><a href="#问题：" class="headerlink" title="问题："></a>问题：</h2><p>1、  CAS做了国际化，不过默认是英文的，如果想使用中文显示，可以<code>/WEB-INF/classes</code>下<code>messages.properties</code>重命名为<code>messages_en.properties</code>。同时，将<code>messages_zh_CN.properties</code>重命名为<code>messages.properties</code>.  </p>
+<p>2、  页面显示乱码的问题。<br>在JSP页面中增加：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;%@ page contentType=&quot;text/html;charset=UTF-8&quot; isELIgnored=&quot;false&quot; %&gt;</span><br></pre></td></tr></table></figure></p>
+
+        </div>
+        <div class="post-tool">
+            <a class="btn-thumbs-up" href="javascript:void(0);" data-cid="52" title="95">
+                <i class="fa fa-thumbs-up" aria-hidden="true"></i> 打赏
+            </a>
+        </div>
+        
+        <div class="post-tags">标签：
+            
+            <a href="/tags/单点登录/">单点登录</a>
+            
+        </div>
+        
+    </article>
+    
+    <p style="text-align: center">本文代表个人观点，内容仅供参考。若有不恰当之处，望不吝赐教！</p>
+    
+    
+
+    
+    
+        <div id="gitment-container"></div>
+        <link rel="stylesheet" href="//imsun.github.io/gitment/style/default.css">
+        <script src="//imsun.github.io/gitment/dist/gitment.browser.js"></script>
+        <script type="text/javascript">
+            var gitment = new Gitment({
+                /*lable长度不能超过50个字符，这里使用页面的生成时间*/
+                id: 'Wed Aug 30 2017 14:29:09 GMT+0800'/*document.location.href*/,
+                owner: 'luckystar88',
+                repo: 'comments',
+                oauth: {
+                    client_id: 'd49ebe4f95abcd6163f4',
+                    client_secret: 'edd2748d6271072a6970d5cec8751f388dac8116',
+                }
+            });
+            gitment.render('gitment-container');
+        </script>
+        
+            <script>
+                document.getElementById("gitment-display-button").style.display = "none";
+                document.getElementById("gitment-container").style.display = "block";
+            </script>
+        
+    
+
+
+</div>
+<script src="/js/busuanzi.pure.mini.js"></script>
+
+
+        </div><!-- end #main-->
+    </div><!-- end #body -->
+    <footer class="footer">
+    <div class="footer-inner" style="text-align: center">
+        <p>
+            <a href="/about" title="关于">关于</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <!-- 自定义链接 -->
+            <a href="/help" title="帮助">帮助</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <a href="/links" title="友链">友链</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <a href="/sitemap.xml" title="地图">地图</a>
+        </p>
+        <p>
+            本站已建立&nbsp<a href="/timeline" id="siteBuildingTime"></a>&nbsp天，<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="licence">采用知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议创作</a><br>
+            ©2017-<span id="cpYear"></span> 基于&nbsp<a href="http://hexo.io" target="_blank" rel="nofollow">Hexo</a>
+            ，主题采用&nbsp&nbsp<a href="https://github.com/tangkunyin/hexo-theme-jsimple" target="_blank" rel="bookmark">JSimple</a>
+            ，作者&nbsp<a href="https://tommy88.top" target="_blank" rel="friend">Donny</a>
+            ，Hosted by <a href="https://pages.github.com/" target="_blank" rel="nofollow">GitHub Pages</a>
+        </p>
+    </div>
+</footer>
+<script src="/js/SimpleCore.js"></script>
+
+</div>
+<!-- search pop -->
+<div class="popup search-popup local-search-popup">
+    <div class="local-search-header clearfix">
+        <span class="search-icon">
+            <i class="fa fa-search"></i>
+        </span>
+        <span class="popup-btn-close">
+            <i class="fa fa-times-circle"></i>
+        </span>
+        <div class="local-search-input-wrapper">
+            <input id="local-search-input" spellcheck="false" type="text" autocomplete="off" placeholder="请输入查询关键词">
+        </div>
+    </div>
+    <div id="local-search-result"></div>
+</div>
+<div class="fixed-btn">
+    <a class="btn-gotop" href="javascript:"> <i class="fa fa-angle-up"></i></a>
+</div>
+<script>
+    $(function () {
+        var jsi_config = {
+            buildingTime: '01/20/2016',
+            current: $('.post-tags').length > 0 ? 'post' : 'archive',
+            snsQRCode: '/images/sns-qrcode.png',
+            donateImg: '/images/donate-qr.png',
+            localSearch: { dbPath: '' },
+            readMode: 'day'
+        };
+        
+            jsi_config.localSearch = {
+                dbPath: '/search.xml',
+                trigger: 'auto',
+                topN: '1',
+                unescape: 'false'
+            }
+        
+        SimpleCore.init(jsi_config);
+        
+    });
+</script>
+</body>
+</html>

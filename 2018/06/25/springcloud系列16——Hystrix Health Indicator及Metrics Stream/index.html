@@ -1,0 +1,315 @@
+<!DOCTYPE HTML>
+<html class="no-js" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!--[if lte IE 9]>
+<meta http-equiv="refresh" content="0;url=https://tommy88.top/warn.html">
+<![endif]-->
+<meta charset="utf-8">
+<meta http-equiv="X-DNS-Prefetch-Control" content="on">
+<link rel="dns-prefetch" href="https://tommy88.top">
+<link rel="dns-prefetch" href="//www.google-analytics.com">
+<link rel="prefetch" href="https://tommy88.top">
+<link rel="prefetch" href="//www.google-analytics.com">
+
+
+    <link rel="dns-prefetch" href="//imsun.github.io">
+    <link rel="prefetch" href="//imsun.github.io">
+
+<link rel="prerender" href="https://tommy88.top">
+
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+<meta http-equiv="mobile-agent" content="format=html5; url=https://tommy88.top">
+<meta name="author" content="Donny">
+<link rel="stylesheet" href="/css/JSimple.css">
+
+<link rel="shortcut icon" href="/images/favicon.png">
+
+
+<title>springcloud系列16——hystrix health indicator及metrics stream - Donny的技术博客</title>
+
+<meta name="keywords" content="java,前端,数据库,web,spring,redis,spring boot,spring cloud,mq">
+
+<meta name="description " content="记录工作，感悟生活">
+
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                processEscapes: true
+            }
+        });
+    </script>
+
+
+    
+
+    
+    
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="//www.googletagmanager.com/gtag/js?id=UA-105613999-1"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'UA-105613999-1');
+        </script>
+    
+    <!-- put your likes here. -->
+
+
+</head>
+<body>
+<div id="nav">
+    <nav class="nav-menu">
+        <a class="site-name current" href="/" title="Home">Home</a>
+        <a class="site-index current" href="/"><i class="fa fa-home"></i><span>首页</span></a>
+        <a href="/archives" title="归档"><i class="fa fa-archives"></i><span>归档</span></a>
+        <a href="/tags" title="标签"><i class="fa fa-tags"></i><span>标签</span></a>
+        <!-- custom single page of menus -->
+        
+        
+        <a href="/help" title="帮助">
+            <i class="fa fa-question-circle"></i>
+            <span>帮助</span>
+        </a>
+        
+    </nav>
+</div>
+
+<div class="nav-user">
+    <a class="btn-search" href="#"><i class="fa fa-search"></i></a>
+    <a class="btn-read-mode" href="#"><i class="fa fa-sun-o"></i></a>
+    <a class="btn-sns-qr" href="javascript:"><i class="fa fa-telegram"></i></a>
+</div>
+
+<div id="wrapper" class="clearfix">
+    <div id="body">
+        <div class="main" id="main">
+            <div id="cover">
+    <div class="cover-img"></div>
+    <div class="cover-info">
+        
+        <h1 class="cover-siteName">Donny的技术博客</h1>
+        <h3 class="cover-siteTitle">用代码征服世界</h3>
+        <p class="cover-siteDesc">这是一个简单的技术博客</p>
+        <div class="cover-sns">
+            
+    &nbsp;&nbsp;<div class="btn btn-github">
+        <a href="https://github.com/luckystar88" target="_blank" title="github" ref="friend">
+            <i class="fa fa-github"></i>
+        </a>
+    </div>
+
+
+        </div>
+    </div>
+</div>
+
+            <div class="page-title">
+    <ul>
+        <li><a href="/">最近</a></li>
+        
+            
+                <li class="active">
+                    <a href="/categories/tech" data-name="技术">技术</a>
+                </li>
+            
+                <li class>
+                    <a href="/categories/life" data-name="人文">人文</a>
+                </li>
+            
+                <li class>
+                    <a href="/categories/others" data-name="其他">其他</a>
+                </li>
+            
+        
+        <li class="page-search">
+    <form id="search" class="search-form">
+        <input type="text" readonly="readonly" id="local-search-input-tip" placeholder="读物检索~">
+        <button type="button" disabled="disabled" class="search-form-submit"><i class="fa fa-search"></i></button>
+    </form>
+</li>
+
+    </ul>
+</div>
+<div class="main-inner">
+    <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+        <div class="post-header">
+            <div class="post-author clearfix">
+                <a class="avatar fleft" href="https://tommy88.top" target="_blank">
+                    <img width="48" src="/images/favicon.png" alt="avatar">
+                </a>
+                <p><span class="label">作者</span>
+                    <a href="https://tommy88.top" target="_blank">Donny</a>
+                    <span title="最后编辑于&nbsp;2018-06-25">2018-06-25</span>
+                </p>
+                <p>记录工作，感悟生活</p>
+            </div>
+            <h2 class="post-title">springcloud系列16——Hystrix Health Indicator及Metrics Stream</h2>
+            <div class="post-meta">
+                本文共计4000个字 |
+                您是第&nbsp;<span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>位看到它们的小伙伴
+            </div>
+        </div>
+        <div class="post-content markdown-body">
+            <h2 id="传播安全上下文或使用Spring-Scopes"><a href="#传播安全上下文或使用Spring-Scopes" class="headerlink" title="传播安全上下文或使用Spring Scopes"></a>传播安全上下文或使用Spring Scopes</h2><p>参考springcloud官方文档：<a href="http://cloud.spring.io/spring-cloud-static/Edgware.SR3/single/spring-cloud.html#_propagating_the_security_context_or_using_spring_scopes">http://cloud.spring.io/spring-cloud-static/Edgware.SR3/single/spring-cloud.html#_propagating_the_security_context_or_using_spring_scopes</a>。</p>
+<p>springcloud原文：</p>
+<blockquote>
+<p>If you want some thread local context to propagate into a @HystrixCommand the default declaration will not work because it executes the command in a thread pool (in case of timeouts). You can switch Hystrix to use the same thread as the caller using some configuration, or directly in the annotation, by asking it to use a different “Isolation Strategy”. </p>
+</blockquote>
+<p>翻译：</p>
+<blockquote>
+<p>如果你想要一些线程本地上下文传播到@HystrixCommand，默认声明将不起作用，因为它在线程池中执行命令（在超时的情况下）。 您可以使用某种配置将Hystrix切换为与调用方使用相同的线程，或者直接在注释中请求它使用不同的“隔离策略”。<br><a id="more"></a><br>比如：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@HystrixCommand</span>(fallbackMethod = <span class="string">"stubMyService"</span>,</span><br><span class="line">    commandProperties = &#123;</span><br><span class="line">      <span class="meta">@HystrixProperty</span>(name=<span class="string">"execution.isolation.strategy"</span>, value=<span class="string">"SEMAPHORE"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">)</span><br><span class="line">...</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<p>springcloud原文：</p>
+<blockquote>
+<p>The same thing applies if you are using @SessionScope or @RequestScope. You will know when you need to do this because of a runtime exception that says it can’t find the scoped context.  </p>
+</blockquote>
+<blockquote>
+<p>You also have the option to set the hystrix.shareSecurityContext property to true. Doing so will auto configure an Hystrix concurrency strategy plugin hook who will transfer the SecurityContext from your main thread to the one used by the Hystrix command. Hystrix does not allow multiple hystrix concurrency strategy to be registered so an extension mechanism is available by declaring your own HystrixConcurrencyStrategy as a Spring bean. Spring Cloud will lookup for your implementation within the Spring context and wrap it inside its own plugin.</p>
+</blockquote>
+<p>翻译：</p>
+<blockquote>
+<p>如果使用@SessionScope或@RequestScope，则同样适用。 你需要知道，只有在产生一个运行时异常，并且它告诉你无法找到范围内的上下文时，你才应该这样做。</p>
+</blockquote>
+<blockquote>
+<p>您也可以选择将hystrix.shareSecurityContext属性设置为true。 这样做会自动配置一个Hystrix并发策略插件钩子，他可以将SecurityContext从主线程传输到Hystrix命令使用的钩子。 Hystrix不允许注册多个hystrix并发策略，因此通过将自己的HystrixConcurrencyStrategy声明为Spring bean，可以使用扩展机制。 Spring Cloud将在Spring上下文中查找您的实现，并将其包装在自己的插件中。</p>
+</blockquote>
+<h2 id="健康指标"><a href="#健康指标" class="headerlink" title="健康指标"></a>健康指标</h2><p>spring-boot的actuator提供了/health端点来查看Hystrix状态。使用也很简单，在pom.xml增加依赖即可：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-actuator<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>因为在公网环境，有些敏感数据不适合直接查看。所以，默认情况下，访问类似<a href="http://localhost:8081/metrics">http://localhost:8081/metrics</a>会看到下面的错误：<br><img src="https://images2015.cnblogs.com/blog/27612/201704/27612-20170415132808330-923470429.png" alt></p>
+<p>所以，建议对这些查看敏感数据的使用跟应用不同的端口。<br>示例如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">management:</span><br><span class="line">  security:</span><br><span class="line">    enabled: false # 关闭安全检查</span><br><span class="line">  port: 1101 # 管理端口</span><br><span class="line">  context-path: /admin # 管理上线文路径</span><br></pre></td></tr></table></figure></p>
+<p>如果在公网环境，建议在防火墙上做下限制，仅允许8081进来，1101用于内网访问即可，这样相对比较安全，也不用繁琐的输入密码。</p>
+<p>在应用启动时的控制台日志，我们可以看到，spring-boot-acturator提供了非常多的指标。<br><img src="http://omh46px9n.bkt.clouddn.com/18-6-25/44126544.jpg" alt></p>
+<p>springboot-acturator的相关内容参考：<a href="http://www.cnblogs.com/yjmyzz/p/spring-boot-actuator-tutorial.html">http://www.cnblogs.com/yjmyzz/p/spring-boot-actuator-tutorial.html</a>。</p>
+<p>配置了springboot-actuator后，我们可以通过/health来查看Hystrix的健康状态。<br><img src="http://omh46px9n.bkt.clouddn.com/18-6-25/3818400.jpg" alt></p>
+<p>这个表示hystrix的断路器未打开。</p>
+<p>我们将user服务关闭，然后疯狂刷新/user/1多次（20次）以上，再次访问/admin/health。</p>
+<p>会看到：<br><img src="http://omh46px9n.bkt.clouddn.com/18-6-25/87582324.jpg" alt><br>可以看到，hystrix的状态是CIRCUIT_OPEN，标识断路器打开了。</p>
+<h2 id="Hystrix监控"><a href="#Hystrix监控" class="headerlink" title="Hystrix监控"></a>Hystrix监控</h2><p>/health端点只能看到断路器的整体状态，但对细节展示不详细。从上面我们会看到一个/hystrix.stream的端点，访问该端点可以看到详细的数据。页面会一直持续刷新，可以看到最新数据。<br><img src="http://omh46px9n.bkt.clouddn.com/18-6-25/6115834.jpg" alt></p>
+<h2 id="Hystrix-Dashboard"><a href="#Hystrix-Dashboard" class="headerlink" title="Hystrix Dashboard"></a>Hystrix Dashboard</h2><p>通过/hystrix.stream可以实时看到最新的监控数据，但密密麻麻的文字，看起来不太方便。spring cloud提供了一个hystrix-dashboard的功能，可以以图形化界面展示这些数据。</p>
+<p>使用步骤如下：<br>a.添加spring-cloud-starter-hystrix-dashboard的依赖<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-hystrix-dashboard<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>b.在启动类上增加<code>@EnableHystrixDashboard</code>注解<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="meta">@EnableCircuitBreaker</span></span><br><span class="line"><span class="meta">@EnableHystrixDashboard</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MovieHystrixApp</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="meta">@LoadBalanced</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> RestTemplate <span class="title">restTemplate</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> RestTemplate();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">( String[] args )</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        SpringApplication.run(MovieHystrixApp.class,args);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>c.重新启动movie-hystrix模块<br>d.浏览器输入movie-hystrix应用端口/hystrix，可以看到下面的页面<br><img src="http://omh46px9n.bkt.clouddn.com/18-6-25/92464637.jpg" alt></p>
+<p>输入下面的信息：<br><img src="http://omh46px9n.bkt.clouddn.com/18-6-25/44749494.jpg" alt><br>其实就是制定/hystrix.stream的地址，刷新的间隔。</p>
+<p>然后就可以看到下面的界面：<br><img src="http://omh46px9n.bkt.clouddn.com/18-6-25/49130183.jpg" alt><br>可以看到，此时断路器开关是关闭的。</p>
+<p>我们停止user模块的服务，并且狂刷页面一会儿。<br><img src="http://omh46px9n.bkt.clouddn.com/18-6-25/68194655.jpg" alt><br>可以看到，此时断路器打开了。</p>
+<p>这显然比纯文字友好多了。还有一个问题，如果有多个hystrix.stream地址同时监控，或者把多个地址的数据汇总起来，该怎么弄？github上有一个turbine ,就是专门为解决这个问题的，大家可以自行研究下。</p>
+<p>参考：<a href="https://www.cnblogs.com/yjmyzz/p/spring-cloud-hystrix-tutorial.html">https://www.cnblogs.com/yjmyzz/p/spring-cloud-hystrix-tutorial.html</a>。</p>
+
+        </div>
+        <div class="post-tool">
+            <a class="btn-thumbs-up" href="javascript:void(0);" data-cid="52" title="95">
+                <i class="fa fa-thumbs-up" aria-hidden="true"></i> 打赏
+            </a>
+        </div>
+        
+        <div class="post-tags">标签：
+            
+            <a href="/tags/springcloud/">springcloud</a>
+            
+        </div>
+        
+    </article>
+    
+    <p style="text-align: center">本文代表个人观点，内容仅供参考。若有不恰当之处，望不吝赐教！</p>
+    
+    
+
+    
+    
+        <div id="gitment-container"></div>
+        <link rel="stylesheet" href="//imsun.github.io/gitment/style/default.css">
+        <script src="//imsun.github.io/gitment/dist/gitment.browser.js"></script>
+        <script type="text/javascript">
+            var gitment = new Gitment({
+                /*lable长度不能超过50个字符，这里使用页面的生成时间*/
+                id: 'Mon Jun 25 2018 11:09:28 GMT+0800'/*document.location.href*/,
+                owner: 'luckystar88',
+                repo: 'comments',
+                oauth: {
+                    client_id: 'd49ebe4f95abcd6163f4',
+                    client_secret: 'edd2748d6271072a6970d5cec8751f388dac8116',
+                }
+            });
+            gitment.render('gitment-container');
+        </script>
+        
+            <script>
+                document.getElementById("gitment-display-button").style.display = "none";
+                document.getElementById("gitment-container").style.display = "block";
+            </script>
+        
+    
+
+
+</div>
+<script src="/js/busuanzi.pure.mini.js"></script>
+
+
+        </div><!-- end #main-->
+    </div><!-- end #body -->
+    <footer class="footer">
+    <div class="footer-inner" style="text-align: center">
+        <p>
+            <a href="/about" title="关于">关于</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <!-- 自定义链接 -->
+            <a href="/help" title="帮助">帮助</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <a href="/links" title="友链">友链</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <a href="/sitemap.xml" title="地图">地图</a>
+        </p>
+        <p>
+            本站已建立&nbsp<a href="/timeline" id="siteBuildingTime"></a>&nbsp天，<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="licence">采用知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议创作</a><br>
+            ©2017-<span id="cpYear"></span> 基于&nbsp<a href="http://hexo.io" target="_blank" rel="nofollow">Hexo</a>
+            ，主题采用&nbsp&nbsp<a href="https://github.com/tangkunyin/hexo-theme-jsimple" target="_blank" rel="bookmark">JSimple</a>
+            ，作者&nbsp<a href="https://tommy88.top" target="_blank" rel="friend">Donny</a>
+            ，Hosted by <a href="https://pages.github.com/" target="_blank" rel="nofollow">GitHub Pages</a>
+        </p>
+    </div>
+</footer>
+<script src="/js/SimpleCore.js"></script>
+
+</div>
+<!-- search pop -->
+<div class="popup search-popup local-search-popup">
+    <div class="local-search-header clearfix">
+        <span class="search-icon">
+            <i class="fa fa-search"></i>
+        </span>
+        <span class="popup-btn-close">
+            <i class="fa fa-times-circle"></i>
+        </span>
+        <div class="local-search-input-wrapper">
+            <input id="local-search-input" spellcheck="false" type="text" autocomplete="off" placeholder="请输入查询关键词">
+        </div>
+    </div>
+    <div id="local-search-result"></div>
+</div>
+<div class="fixed-btn">
+    <a class="btn-gotop" href="javascript:"> <i class="fa fa-angle-up"></i></a>
+</div>
+<script>
+    $(function () {
+        var jsi_config = {
+            buildingTime: '01/20/2016',
+            current: $('.post-tags').length > 0 ? 'post' : 'archive',
+            snsQRCode: '/images/sns-qrcode.png',
+            donateImg: '/images/donate-qr.png',
+            localSearch: { dbPath: '' },
+            readMode: 'day'
+        };
+        
+            jsi_config.localSearch = {
+                dbPath: '/search.xml',
+                trigger: 'auto',
+                topN: '1',
+                unescape: 'false'
+            }
+        
+        SimpleCore.init(jsi_config);
+        
+    });
+</script>
+</body>
+</html>

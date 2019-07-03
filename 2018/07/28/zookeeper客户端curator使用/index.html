@@ -1,0 +1,298 @@
+<!DOCTYPE HTML>
+<html class="no-js" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!--[if lte IE 9]>
+<meta http-equiv="refresh" content="0;url=https://tommy88.top/warn.html">
+<![endif]-->
+<meta charset="utf-8">
+<meta http-equiv="X-DNS-Prefetch-Control" content="on">
+<link rel="dns-prefetch" href="https://tommy88.top">
+<link rel="dns-prefetch" href="//www.google-analytics.com">
+<link rel="prefetch" href="https://tommy88.top">
+<link rel="prefetch" href="//www.google-analytics.com">
+
+
+    <link rel="dns-prefetch" href="//imsun.github.io">
+    <link rel="prefetch" href="//imsun.github.io">
+
+<link rel="prerender" href="https://tommy88.top">
+
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+<meta http-equiv="mobile-agent" content="format=html5; url=https://tommy88.top">
+<meta name="author" content="Donny">
+<link rel="stylesheet" href="/css/JSimple.css">
+
+<link rel="shortcut icon" href="/images/favicon.png">
+
+
+<title>zookeeper客户端curator使用 - Donny的技术博客</title>
+
+<meta name="keywords" content="java,前端,数据库,web,spring,redis,spring boot,spring cloud,mq">
+
+<meta name="description " content="记录工作，感悟生活">
+
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                processEscapes: true
+            }
+        });
+    </script>
+
+
+    
+
+    
+    
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="//www.googletagmanager.com/gtag/js?id=UA-105613999-1"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'UA-105613999-1');
+        </script>
+    
+    <!-- put your likes here. -->
+
+
+</head>
+<body>
+<div id="nav">
+    <nav class="nav-menu">
+        <a class="site-name current" href="/" title="Home">Home</a>
+        <a class="site-index current" href="/"><i class="fa fa-home"></i><span>首页</span></a>
+        <a href="/archives" title="归档"><i class="fa fa-archives"></i><span>归档</span></a>
+        <a href="/tags" title="标签"><i class="fa fa-tags"></i><span>标签</span></a>
+        <!-- custom single page of menus -->
+        
+        
+        <a href="/help" title="帮助">
+            <i class="fa fa-question-circle"></i>
+            <span>帮助</span>
+        </a>
+        
+    </nav>
+</div>
+
+<div class="nav-user">
+    <a class="btn-search" href="#"><i class="fa fa-search"></i></a>
+    <a class="btn-read-mode" href="#"><i class="fa fa-sun-o"></i></a>
+    <a class="btn-sns-qr" href="javascript:"><i class="fa fa-telegram"></i></a>
+</div>
+
+<div id="wrapper" class="clearfix">
+    <div id="body">
+        <div class="main" id="main">
+            <div id="cover">
+    <div class="cover-img"></div>
+    <div class="cover-info">
+        
+        <h1 class="cover-siteName">Donny的技术博客</h1>
+        <h3 class="cover-siteTitle">用代码征服世界</h3>
+        <p class="cover-siteDesc">这是一个简单的技术博客</p>
+        <div class="cover-sns">
+            
+    &nbsp;&nbsp;<div class="btn btn-github">
+        <a href="https://github.com/luckystar88" target="_blank" title="github" ref="friend">
+            <i class="fa fa-github"></i>
+        </a>
+    </div>
+
+
+        </div>
+    </div>
+</div>
+
+            <div class="page-title">
+    <ul>
+        <li><a href="/">最近</a></li>
+        
+            
+                <li class="active">
+                    <a href="/categories/tech" data-name="技术">技术</a>
+                </li>
+            
+                <li class>
+                    <a href="/categories/life" data-name="人文">人文</a>
+                </li>
+            
+                <li class>
+                    <a href="/categories/others" data-name="其他">其他</a>
+                </li>
+            
+        
+        <li class="page-search">
+    <form id="search" class="search-form">
+        <input type="text" readonly="readonly" id="local-search-input-tip" placeholder="读物检索~">
+        <button type="button" disabled="disabled" class="search-form-submit"><i class="fa fa-search"></i></button>
+    </form>
+</li>
+
+    </ul>
+</div>
+<div class="main-inner">
+    <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+        <div class="post-header">
+            <div class="post-author clearfix">
+                <a class="avatar fleft" href="https://tommy88.top" target="_blank">
+                    <img width="48" src="/images/favicon.png" alt="avatar">
+                </a>
+                <p><span class="label">作者</span>
+                    <a href="https://tommy88.top" target="_blank">Donny</a>
+                    <span title="最后编辑于&nbsp;2018-07-28">2018-07-28</span>
+                </p>
+                <p>记录工作，感悟生活</p>
+            </div>
+            <h2 class="post-title">zookeeper客户端curator使用</h2>
+            <div class="post-meta">
+                本文共计10401个字 |
+                您是第&nbsp;<span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>位看到它们的小伙伴
+            </div>
+        </div>
+        <div class="post-content markdown-body">
+            <h2 id="curator简介"><a href="#curator简介" class="headerlink" title="curator简介"></a>curator简介</h2><p>curator是Netflix开源的一个zookeeper客户端，在原生API接口上进行了包装，解决了很多ZooKeeper客户端非常底层的细节开发。同时内部实现了诸如Session超时重连，Watcher反复注册、分布式计数器、分布式锁等功能，实现了Fluent风格的API接口，是使用最广泛的zookeeper客户端之一。Curator使用的链式编程风格。如果只需要zookeeper连接管理和重试功能可以只引入curator-framework。</p>
+<p>官网地址：<a href="http://curator.apache.org/">http://curator.apache.org/</a></p>
+<p>curator包含下面几个模块，对于大多数人来说引入<code>curator-recipes</code>即可。<br><img src="http://omh46px9n.bkt.clouddn.com/18-7-28/33085806.jpg" alt></p>
+<p><strong>兼容性</strong><br>Apache Curator旨在与ZooKeeper 3.5+一起使用。 但是，它也与ZooKeeper 3.4.x兼容。<br>详情：<a href="http://curator.apache.org/zk-compatibility.html">http://curator.apache.org/zk-compatibility.html</a></p>
+<h2 id="curator基本使用"><a href="#curator基本使用" class="headerlink" title="curator基本使用"></a>curator基本使用</h2><h3 id="curator依赖"><a href="#curator依赖" class="headerlink" title="curator依赖"></a>curator依赖</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.curator<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>curator-recipes<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.9.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>我这里版本比较低，官网版本已经到3.5+了。</p>
+<h3 id="创建连接"><a href="#创建连接" class="headerlink" title="创建连接"></a>创建连接</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 重试策略，重试间隔时间为1秒，重试次数为10次。curator管理了zookeeper的连接，在操作zookeeper的过程中出现连接问题会自动重试。</span></span><br><span class="line">RetryPolicy retryPolicy = <span class="keyword">new</span> ExponentialBackoffRetry(<span class="number">1000</span>,<span class="number">10</span>);</span><br><span class="line"><span class="comment">// 通过工厂创建连接</span></span><br><span class="line">CuratorFramework cf = CuratorFrameworkFactory.builder()</span><br><span class="line">        .connectString(ZOOKEEPER_ADDRESS) <span class="comment">// zookeeper地址</span></span><br><span class="line">        .retryPolicy(retryPolicy) <span class="comment">// 重试策略</span></span><br><span class="line">        .connectionTimeoutMs(<span class="number">15000</span>) <span class="comment">// 连接超时时间，默认15秒</span></span><br><span class="line">        .sessionTimeoutMs(<span class="number">5000</span>) <span class="comment">// 会话超时时间ms，默认60秒</span></span><br><span class="line">        .build();</span><br><span class="line"><span class="comment">// 打开连接</span></span><br><span class="line">cf.start();</span><br><span class="line"></span><br><span class="line">System.out.println(<span class="string">"state:"</span> + cf.getState());</span><br></pre></td></tr></table></figure>
+<p>也可以这样创建：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CuratorFramework cf = CuratorFrameworkFactory.newClient(ZOOKEEPER_ADDRESS,<span class="number">5000</span>,<span class="number">15000</span>,retryPolicy);</span><br></pre></td></tr></table></figure></p>
+<h3 id="创建节点"><a href="#创建节点" class="headerlink" title="创建节点"></a>创建节点</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cf.create()</span><br><span class="line">    .creatingParentsIfNeeded() <span class="comment">// 自动创建父节点</span></span><br><span class="line">    .withMode(CreateMode.PERSISTENT) <span class="comment">// 模式：持久/临时/有序/无序</span></span><br><span class="line">    .forPath(<span class="string">"/lock/ms10000"</span>,<span class="string">"10000"</span>.getBytes()); <span class="comment">// 指定路径和数据</span></span><br></pre></td></tr></table></figure>
+<h3 id="检查节点是否存在"><a href="#检查节点是否存在" class="headerlink" title="检查节点是否存在"></a>检查节点是否存在</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Stat stat = cf.checkExists().forPath(<span class="string">"/lock/ms10000"</span>);</span><br></pre></td></tr></table></figure>
+<h3 id="获取节点数据"><a href="#获取节点数据" class="headerlink" title="获取节点数据"></a>获取节点数据</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">String nodeData = <span class="keyword">new</span> String(cf.getData().forPath(<span class="string">"/lock/ms10000"</span>));</span><br></pre></td></tr></table></figure>
+<h3 id="修改节点数据"><a href="#修改节点数据" class="headerlink" title="修改节点数据"></a>修改节点数据</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cf.setData().forPath(<span class="string">"/lock/ms10000"</span>,<span class="string">"ms-10001"</span>.getBytes());</span><br></pre></td></tr></table></figure>
+<h3 id="获取子节点"><a href="#获取子节点" class="headerlink" title="获取子节点"></a>获取子节点</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; nodes = cf.getChildren().forPath(<span class="string">"/lock"</span>);</span><br><span class="line">System.out.println(<span class="string">"/lock的子节点为："</span>);</span><br><span class="line"><span class="keyword">for</span> (String node : nodes) &#123;</span><br><span class="line">    System.out.println(node);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="删除子节点"><a href="#删除子节点" class="headerlink" title="删除子节点"></a>删除子节点</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cf.delete()</span><br><span class="line">    .guaranteed()<span class="comment">//保障机制，若未删除成功，只要会话有效会在后台一直尝试删除</span></span><br><span class="line">    .deletingChildrenIfNeeded()<span class="comment">//若当前节点包含子节点</span></span><br><span class="line">    .forPath(<span class="string">"/lock"</span>);</span><br></pre></td></tr></table></figure>
+<h3 id="异步绑定回调方法"><a href="#异步绑定回调方法" class="headerlink" title="异步绑定回调方法"></a>异步绑定回调方法</h3><p>比如创建节点时绑定一个回调函数，该回调函数可以输出服务器的状态码和事件类型。还可以加入一个线程池进行优化操作。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">ExecutorService pool = Executors.newCachedThreadPool();</span><br><span class="line">cf.create().creatingParentsIfNeeded().withMode(CreateMode.PERSISTENT)</span><br><span class="line">.inBackground(<span class="keyword">new</span> BackgroundCallback() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">processResult</span><span class="params">(CuratorFramework cf, CuratorEvent ce)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"code:"</span> + ce.getResultCode());</span><br><span class="line">        System.out.println(<span class="string">"type:"</span> + ce.getType());</span><br><span class="line">        System.out.println(<span class="string">"线程为:"</span> + Thread.currentThread().getName());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;, pool)</span><br><span class="line">.forPath(<span class="string">"/super/c3"</span>,<span class="string">"c3内容"</span>.getBytes());</span><br></pre></td></tr></table></figure></p>
+<h3 id="节点监听"><a href="#节点监听" class="headerlink" title="节点监听"></a>节点监听</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">RetryPolicy retry = <span class="keyword">new</span> ExponentialBackoffRetry(<span class="number">1000</span>, <span class="number">3</span>);</span><br><span class="line">CuratorFramework client = CuratorFrameworkFactory.newClient(<span class="string">"127.0.0.1:2181"</span>, <span class="number">5000</span>, <span class="number">5000</span>, retry);</span><br><span class="line">client.start();</span><br><span class="line"></span><br><span class="line"><span class="keyword">final</span> NodeCache cache = <span class="keyword">new</span> NodeCache(client,<span class="string">"/node_1"</span>);</span><br><span class="line">cache.start();</span><br><span class="line"></span><br><span class="line">cache.getListenable().addListener(<span class="keyword">new</span> NodeCacheListener() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">nodeChanged</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        <span class="keyword">byte</span>[] res = cache.getCurrentData().getData();</span><br><span class="line">        System.out.println(<span class="string">"data: "</span> + <span class="keyword">new</span> String(res));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h3 id="子节点监听"><a href="#子节点监听" class="headerlink" title="子节点监听"></a>子节点监听</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> PathChildrenCache cache = <span class="keyword">new</span> PathChildrenCache(client,<span class="string">"/node_1"</span>,<span class="keyword">true</span>);</span><br><span class="line">cache.start();</span><br><span class="line"></span><br><span class="line">cache.getListenable().addListener(<span class="keyword">new</span> PathChildrenCacheListener() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">childEvent</span><span class="params">(CuratorFramework curator, PathChildrenCacheEvent event)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        <span class="keyword">switch</span> (event.getType()) &#123;</span><br><span class="line">        <span class="keyword">case</span> CHILD_ADDED:</span><br><span class="line">            System.out.println(<span class="string">"add:"</span> + event.getData());</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> CHILD_UPDATED:</span><br><span class="line">            System.out.println(<span class="string">"update:"</span> + event.getData());</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> CHILD_REMOVED:</span><br><span class="line">            System.out.println(<span class="string">"remove:"</span> + event.getData());</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">default</span>:</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h3 id="ACL权限"><a href="#ACL权限" class="headerlink" title="ACL权限"></a>ACL权限</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">RetryPolicy retry = <span class="keyword">new</span> ExponentialBackoffRetry(<span class="number">1000</span>, <span class="number">3</span>);</span><br><span class="line">CuratorFramework client = CuratorFrameworkFactory.newClient(<span class="string">"127.0.0.1:2181"</span>, <span class="number">5000</span>, <span class="number">5000</span>, retry);</span><br><span class="line">client.start();</span><br><span class="line"></span><br><span class="line"><span class="comment">//ACL有IP授权和用户名密码访问的模式</span></span><br><span class="line">ACL aclRoot = <span class="keyword">new</span> ACL(Perms.ALL,<span class="keyword">new</span> Id(<span class="string">"digest"</span>,DigestAuthenticationProvider.generateDigest(<span class="string">"root:root"</span>)));</span><br><span class="line">List&lt;ACL&gt; aclList = <span class="keyword">new</span> ArrayList&lt;ACL&gt;();</span><br><span class="line">aclList.add(aclRoot);</span><br><span class="line"></span><br><span class="line">String path = client.create().creatingParentsIfNeeded().withMode(CreateMode.EPHEMERAL)</span><br><span class="line">        .withACL(aclList)</span><br><span class="line">        .forPath(<span class="string">"/node_3/node_ACL"</span>,<span class="string">"2"</span>.getBytes());</span><br><span class="line">System.out.println(path);</span><br><span class="line"></span><br><span class="line">CuratorFramework client1 =  CuratorFrameworkFactory.builder().connectString(<span class="string">"192.168.0.3:2181"</span>)</span><br><span class="line">        .sessionTimeoutMs(<span class="number">5000</span>)<span class="comment">//会话超时时间</span></span><br><span class="line">        .connectionTimeoutMs(<span class="number">5000</span>)<span class="comment">//连接超时时间</span></span><br><span class="line">        .authorization(<span class="string">"digest"</span>,<span class="string">"root:root"</span>.getBytes())<span class="comment">//权限访问</span></span><br><span class="line">        .retryPolicy(retry)</span><br><span class="line">        .build();</span><br><span class="line"></span><br><span class="line">client1.start();</span><br><span class="line"></span><br><span class="line">String re = <span class="keyword">new</span> String(client1.getData().forPath(<span class="string">"/node_3/node_ACL"</span>));</span><br><span class="line">System.out.println(re);</span><br></pre></td></tr></table></figure>
+<h3 id="分布式锁"><a href="#分布式锁" class="headerlink" title="分布式锁"></a>分布式锁</h3><p>在<a href="http://curator.apache.org/getting-started.html">http://curator.apache.org/getting-started.html</a>有说明，核心代码就2行。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">InterProcessMutex lock = <span class="keyword">new</span> InterProcessMutex(client, lockPath);</span><br><span class="line"><span class="keyword">if</span> ( lock.acquire(maxWait, waitUnit) ) <span class="comment">// 尝试在规定的时间内获取锁</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">try</span> </span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// do some work inside of the critical section here</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">finally</span></span><br><span class="line">    &#123;</span><br><span class="line">        lock.release(); <span class="comment">// 释放锁</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这里来一个例子。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CuratorTest</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">static</span> String ZOOKEEPER_ADDRESS = <span class="string">"127.0.0.1:2181"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        <span class="comment">// 重试策略，重试间隔时间为1秒，重试次数为10次。curator管理了zookeeper的连接，在操作zookeeper的过程中出现连接问题会自动重试。</span></span><br><span class="line">        RetryPolicy retryPolicy = <span class="keyword">new</span> ExponentialBackoffRetry(<span class="number">1000</span>,<span class="number">10</span>);</span><br><span class="line">        <span class="comment">// 通过工厂创建连接</span></span><br><span class="line">        CuratorFramework cf = CuratorFrameworkFactory.builder()</span><br><span class="line">                .connectString(ZOOKEEPER_ADDRESS)</span><br><span class="line">                .connectionTimeoutMs(<span class="number">15000</span>)</span><br><span class="line">                .retryPolicy(retryPolicy)</span><br><span class="line">                .sessionTimeoutMs(<span class="number">5000</span>)</span><br><span class="line">                .build();</span><br><span class="line">        <span class="comment">// 或者这样创建连接</span></span><br><span class="line">        <span class="comment">// CuratorFramework cf = CuratorFrameworkFactory.newClient(ZOOKEEPER_ADDRESS,5000,15000,retryPolicy);</span></span><br><span class="line">        <span class="comment">// 打开连接</span></span><br><span class="line">        cf.start();</span><br><span class="line">        System.out.println(<span class="string">"=======================state:"</span> + cf.getState());</span><br><span class="line"></span><br><span class="line">        String orderNo = <span class="string">"10001"</span>;</span><br><span class="line">        <span class="comment">// 模拟数据库操作</span></span><br><span class="line">        DB db = <span class="keyword">new</span> DB();</span><br><span class="line">        ExecutorService executorService = Executors.newFixedThreadPool(<span class="number">5</span>);</span><br><span class="line">        <span class="comment">// 这里有3个线程同时执行同一个订单号的操作</span></span><br><span class="line">        executorService.submit(<span class="keyword">new</span> DistributedWorkerThread(cf,db,orderNo));</span><br><span class="line">        executorService.submit(<span class="keyword">new</span> DistributedWorkerThread(cf,db,orderNo));</span><br><span class="line">        executorService.submit(<span class="keyword">new</span> DistributedWorkerThread(cf,db,orderNo));</span><br><span class="line">        executorService.shutdown();</span><br><span class="line"></span><br><span class="line">        Thread.sleep(<span class="number">15000</span>);</span><br><span class="line">        cf.close();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">DB</span> </span>&#123;</span><br><span class="line">        <span class="keyword">private</span> List&lt;String&gt; orders = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(String order)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">if</span> (!exist(order)) &#123;</span><br><span class="line">                <span class="keyword">this</span>.orders.add(order);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">exist</span><span class="params">(String order)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">this</span>.orders.contains(order);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">DistributedWorkerThread</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</span><br><span class="line">        <span class="keyword">private</span> CuratorFramework cf;</span><br><span class="line">        <span class="keyword">private</span> String orderNo;</span><br><span class="line">        <span class="keyword">private</span> DB db;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">DistributedWorkerThread</span><span class="params">(CuratorFramework cf,DB db,String orderNo)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">this</span>.cf = cf;</span><br><span class="line">            <span class="keyword">this</span>.db = db;</span><br><span class="line">            <span class="keyword">this</span>.orderNo = orderNo;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            String lockNode = <span class="string">"/lock/ms"</span>+orderNo;</span><br><span class="line">            InterProcessMutex lock = <span class="keyword">new</span> InterProcessMutex(cf,lockNode);</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                <span class="keyword">if</span> (lock.acquire(<span class="number">10</span>, TimeUnit.SECONDS)) &#123; <span class="comment">// 这里也可以不指定时间，就是一直等直到获取到锁。</span></span><br><span class="line">                    <span class="keyword">try</span> &#123;</span><br><span class="line">                        <span class="keyword">if</span> (db.exist(orderNo)) &#123;</span><br><span class="line">                            System.out.println(Thread.currentThread().getName() + <span class="string">"订单已存在！"</span>);</span><br><span class="line">                            <span class="keyword">return</span>;</span><br><span class="line">                        &#125;</span><br><span class="line">                        System.out.println(Thread.currentThread().getName() + <span class="string">"在这里执行你的业务代码..orderNo:"</span> + orderNo);</span><br><span class="line">                        <span class="keyword">this</span>.db.add(orderNo);</span><br><span class="line">                        Thread.sleep(<span class="number">1500L</span>);</span><br><span class="line">                    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">                        e.printStackTrace();</span><br><span class="line">                    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">                        lock.release();</span><br><span class="line">                        System.out.println(Thread.currentThread().getName() + <span class="string">"执行完毕！"</span>);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">else</span> &#123;</span><br><span class="line">                    System.out.println(Thread.currentThread().getName() + <span class="string">"未获取到锁.."</span>);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>我们看下日志：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">pool-3-thread-3在这里执行你的业务代码..orderNo:10001</span><br><span class="line">pool-3-thread-3执行完毕！</span><br><span class="line">pool-3-thread-1订单已存在！</span><br><span class="line">pool-3-thread-1执行完毕！</span><br><span class="line">pool-3-thread-2订单已存在！</span><br><span class="line">pool-3-thread-2执行完毕！</span><br></pre></td></tr></table></figure></p>
+<p>Curator分布式锁的分析：<a href="https://blog.csdn.net/qiangcuo6087/article/details/79067136">https://blog.csdn.net/qiangcuo6087/article/details/79067136</a></p>
+<h3 id="Leader选举"><a href="#Leader选举" class="headerlink" title="Leader选举"></a>Leader选举</h3><p><a href="http://curator.apache.org/getting-started.html">http://curator.apache.org/getting-started.html</a>示例<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">LeaderSelectorListener listener = <span class="keyword">new</span> LeaderSelectorListenerAdapter()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">takeLeadership</span><span class="params">(CuratorFramework client)</span> <span class="keyword">throws</span> Exception</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="comment">// this callback will get called when you are the leader</span></span><br><span class="line">        <span class="comment">// do whatever leader work you need to and only exit</span></span><br><span class="line">        <span class="comment">// this method when you want to relinquish leadership</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">LeaderSelector selector = <span class="keyword">new</span> LeaderSelector(client, path, listener);</span><br><span class="line">selector.autoRequeue();  <span class="comment">// not required, but this is behavior that you will probably expect</span></span><br><span class="line">selector.start();</span><br></pre></td></tr></table></figure></p>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>1.java.io.IOException: Xid out of order. Got Xid 3 with err -101 expected Xid 2 for a packet with details<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">java.io.IOException: Xid out of order. Got Xid 3 with err -101 expected Xid 2 for a packet with details: clientPath:null serverPath:null finished:false header:: 2,15  replyHeader:: 0,0,-4  request:: &apos;/lock/ms10000,#3130303030,v&#123;s&#123;31,s&#123;&apos;world,&apos;anyone&#125;&#125;&#125;,0  response::  </span><br><span class="line">    at org.apache.zookeeper.ClientCnxn$SendThread.readResponse(ClientCnxn.java:892)</span><br><span class="line">    at org.apache.zookeeper.ClientCnxnSocketNIO.doIO(ClientCnxnSocketNIO.java:101)</span><br><span class="line">    at org.apache.zookeeper.ClientCnxnSocketNIO.doTransport(ClientCnxnSocketNIO.java:363)</span><br><span class="line">    at org.apache.zookeeper.ClientCnxn$SendThread.run(ClientCnxn.java:1214)</span><br></pre></td></tr></table></figure></p>
+<p>参考：<a href="https://blog.csdn.net/xiaojiahao_kevin/article/details/51203083">https://blog.csdn.net/xiaojiahao_kevin/article/details/51203083</a></p>
+<p>参考：<a href="https://blog.csdn.net/qq_15370821/article/details/73692288">https://blog.csdn.net/qq_15370821/article/details/73692288</a>,&lt;&gt;</p>
+
+        </div>
+        <div class="post-tool">
+            <a class="btn-thumbs-up" href="javascript:void(0);" data-cid="52" title="95">
+                <i class="fa fa-thumbs-up" aria-hidden="true"></i> 打赏
+            </a>
+        </div>
+        
+        <div class="post-tags">标签：
+            
+            <a href="/tags/zookeeper/">zookeeper</a>
+            
+        </div>
+        
+    </article>
+    
+    <p style="text-align: center">本文代表个人观点，内容仅供参考。若有不恰当之处，望不吝赐教！</p>
+    
+    
+
+    
+    
+        <div id="gitment-container"></div>
+        <link rel="stylesheet" href="//imsun.github.io/gitment/style/default.css">
+        <script src="//imsun.github.io/gitment/dist/gitment.browser.js"></script>
+        <script type="text/javascript">
+            var gitment = new Gitment({
+                /*lable长度不能超过50个字符，这里使用页面的生成时间*/
+                id: 'Sat Jul 28 2018 16:08:47 GMT+0800'/*document.location.href*/,
+                owner: 'luckystar88',
+                repo: 'comments',
+                oauth: {
+                    client_id: 'd49ebe4f95abcd6163f4',
+                    client_secret: 'edd2748d6271072a6970d5cec8751f388dac8116',
+                }
+            });
+            gitment.render('gitment-container');
+        </script>
+        
+            <script>
+                document.getElementById("gitment-display-button").style.display = "none";
+                document.getElementById("gitment-container").style.display = "block";
+            </script>
+        
+    
+
+
+</div>
+<script src="/js/busuanzi.pure.mini.js"></script>
+
+
+        </div><!-- end #main-->
+    </div><!-- end #body -->
+    <footer class="footer">
+    <div class="footer-inner" style="text-align: center">
+        <p>
+            <a href="/about" title="关于">关于</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <!-- 自定义链接 -->
+            <a href="/help" title="帮助">帮助</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <a href="/links" title="友链">友链</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <a href="/sitemap.xml" title="地图">地图</a>
+        </p>
+        <p>
+            本站已建立&nbsp<a href="/timeline" id="siteBuildingTime"></a>&nbsp天，<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="licence">采用知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议创作</a><br>
+            ©2017-<span id="cpYear"></span> 基于&nbsp<a href="http://hexo.io" target="_blank" rel="nofollow">Hexo</a>
+            ，主题采用&nbsp&nbsp<a href="https://github.com/tangkunyin/hexo-theme-jsimple" target="_blank" rel="bookmark">JSimple</a>
+            ，作者&nbsp<a href="https://tommy88.top" target="_blank" rel="friend">Donny</a>
+            ，Hosted by <a href="https://pages.github.com/" target="_blank" rel="nofollow">GitHub Pages</a>
+        </p>
+    </div>
+</footer>
+<script src="/js/SimpleCore.js"></script>
+
+</div>
+<!-- search pop -->
+<div class="popup search-popup local-search-popup">
+    <div class="local-search-header clearfix">
+        <span class="search-icon">
+            <i class="fa fa-search"></i>
+        </span>
+        <span class="popup-btn-close">
+            <i class="fa fa-times-circle"></i>
+        </span>
+        <div class="local-search-input-wrapper">
+            <input id="local-search-input" spellcheck="false" type="text" autocomplete="off" placeholder="请输入查询关键词">
+        </div>
+    </div>
+    <div id="local-search-result"></div>
+</div>
+<div class="fixed-btn">
+    <a class="btn-gotop" href="javascript:"> <i class="fa fa-angle-up"></i></a>
+</div>
+<script>
+    $(function () {
+        var jsi_config = {
+            buildingTime: '01/20/2016',
+            current: $('.post-tags').length > 0 ? 'post' : 'archive',
+            snsQRCode: '/images/sns-qrcode.png',
+            donateImg: '/images/donate-qr.png',
+            localSearch: { dbPath: '' },
+            readMode: 'day'
+        };
+        
+            jsi_config.localSearch = {
+                dbPath: '/search.xml',
+                trigger: 'auto',
+                topN: '1',
+                unescape: 'false'
+            }
+        
+        SimpleCore.init(jsi_config);
+        
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,293 @@
+<!DOCTYPE HTML>
+<html class="no-js" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!--[if lte IE 9]>
+<meta http-equiv="refresh" content="0;url=https://tommy88.top/warn.html">
+<![endif]-->
+<meta charset="utf-8">
+<meta http-equiv="X-DNS-Prefetch-Control" content="on">
+<link rel="dns-prefetch" href="https://tommy88.top">
+<link rel="dns-prefetch" href="//www.google-analytics.com">
+<link rel="prefetch" href="https://tommy88.top">
+<link rel="prefetch" href="//www.google-analytics.com">
+
+
+    <link rel="dns-prefetch" href="//imsun.github.io">
+    <link rel="prefetch" href="//imsun.github.io">
+
+<link rel="prerender" href="https://tommy88.top">
+
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+<meta http-equiv="mobile-agent" content="format=html5; url=https://tommy88.top">
+<meta name="author" content="Donny">
+<link rel="stylesheet" href="/css/JSimple.css">
+
+<link rel="shortcut icon" href="/images/favicon.png">
+
+
+<title>使用netty解决tcp粘包-拆包问题 - Donny的技术博客</title>
+
+<meta name="keywords" content="java,前端,数据库,web,spring,redis,spring boot,spring cloud,mq">
+
+<meta name="description " content="记录工作，感悟生活">
+
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                processEscapes: true
+            }
+        });
+    </script>
+
+
+    
+
+    
+    
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="//www.googletagmanager.com/gtag/js?id=UA-105613999-1"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'UA-105613999-1');
+        </script>
+    
+    <!-- put your likes here. -->
+
+
+</head>
+<body>
+<div id="nav">
+    <nav class="nav-menu">
+        <a class="site-name current" href="/" title="Home">Home</a>
+        <a class="site-index current" href="/"><i class="fa fa-home"></i><span>首页</span></a>
+        <a href="/archives" title="归档"><i class="fa fa-archives"></i><span>归档</span></a>
+        <a href="/tags" title="标签"><i class="fa fa-tags"></i><span>标签</span></a>
+        <!-- custom single page of menus -->
+        
+        
+        <a href="/help" title="帮助">
+            <i class="fa fa-question-circle"></i>
+            <span>帮助</span>
+        </a>
+        
+    </nav>
+</div>
+
+<div class="nav-user">
+    <a class="btn-search" href="#"><i class="fa fa-search"></i></a>
+    <a class="btn-read-mode" href="#"><i class="fa fa-sun-o"></i></a>
+    <a class="btn-sns-qr" href="javascript:"><i class="fa fa-telegram"></i></a>
+</div>
+
+<div id="wrapper" class="clearfix">
+    <div id="body">
+        <div class="main" id="main">
+            <div id="cover">
+    <div class="cover-img"></div>
+    <div class="cover-info">
+        
+        <h1 class="cover-siteName">Donny的技术博客</h1>
+        <h3 class="cover-siteTitle">用代码征服世界</h3>
+        <p class="cover-siteDesc">这是一个简单的技术博客</p>
+        <div class="cover-sns">
+            
+    &nbsp;&nbsp;<div class="btn btn-github">
+        <a href="https://github.com/luckystar88" target="_blank" title="github" ref="friend">
+            <i class="fa fa-github"></i>
+        </a>
+    </div>
+
+
+        </div>
+    </div>
+</div>
+
+            <div class="page-title">
+    <ul>
+        <li><a href="/">最近</a></li>
+        
+            
+                <li class="active">
+                    <a href="/categories/tech" data-name="技术">技术</a>
+                </li>
+            
+                <li class>
+                    <a href="/categories/life" data-name="人文">人文</a>
+                </li>
+            
+                <li class>
+                    <a href="/categories/others" data-name="其他">其他</a>
+                </li>
+            
+        
+        <li class="page-search">
+    <form id="search" class="search-form">
+        <input type="text" readonly="readonly" id="local-search-input-tip" placeholder="读物检索~">
+        <button type="button" disabled="disabled" class="search-form-submit"><i class="fa fa-search"></i></button>
+    </form>
+</li>
+
+    </ul>
+</div>
+<div class="main-inner">
+    <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+        <div class="post-header">
+            <div class="post-author clearfix">
+                <a class="avatar fleft" href="https://tommy88.top" target="_blank">
+                    <img width="48" src="/images/favicon.png" alt="avatar">
+                </a>
+                <p><span class="label">作者</span>
+                    <a href="https://tommy88.top" target="_blank">Donny</a>
+                    <span title="最后编辑于&nbsp;2017-11-17">2017-11-17</span>
+                </p>
+                <p>记录工作，感悟生活</p>
+            </div>
+            <h2 class="post-title">使用Netty解决TCP粘包-拆包问题</h2>
+            <div class="post-meta">
+                本文共计5617个字 |
+                您是第&nbsp;<span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>位看到它们的小伙伴
+            </div>
+        </div>
+        <div class="post-content markdown-body">
+            <h2 id="TCP粘包和拆包"><a href="#TCP粘包和拆包" class="headerlink" title="TCP粘包和拆包"></a>TCP粘包和拆包</h2><p>TCP底层并不知道上层业务数据的具体含义，它会根据缓冲区的实际情况进行包的拆分，所以在业务上认为，一个完整的包可能会被TCP拆分成多个包进行发送，也有可能将多个小的数据包封装成一个大的数据包发送，这就是所谓的TCP粘包/拆包问题。</p>
+<h2 id="TCP粘包-拆包的原因"><a href="#TCP粘包-拆包的原因" class="headerlink" title="TCP粘包/拆包的原因"></a>TCP粘包/拆包的原因</h2><p>1.应用程序写入的字节大小大于套接字发送缓冲区大小；<br>2.进行MSS大小的TCP分段；<br>3.以太网帧的payload大于MTU进行IP分片。</p>
+<h2 id="解决策略"><a href="#解决策略" class="headerlink" title="解决策略"></a>解决策略</h2><p>由于底层的TCP协议无法理解上层业务数据，所以在底层是无法保证数据包不被拆分和重组的。只能通过上层的业务协议栈设计来解决，根据业务的主流 协议的解决方案，归纳为如下：<br>（1）消息定长，例如每个报文的大小定位200字节，如果不够，空位补空格；<br>（2）包结尾增加回车换行符进行分割，例如FTP协议；<br>（3）将消息分为消息头和消息体，消息头中包含标识消息的总长度（或者消息体长度）的字段，通常涉及思路是消息头的第一个字段使用int32来表示消息的总长度；<br>（4）更复杂的应用层协议。<br><a id="more"></a></p>
+<h2 id="未考虑TCP粘包导致的功能异常案例"><a href="#未考虑TCP粘包导致的功能异常案例" class="headerlink" title="未考虑TCP粘包导致的功能异常案例"></a>未考虑TCP粘包导致的功能异常案例</h2><p>服务端代码片段：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TimeServerHandler</span> <span class="keyword">extends</span> <span class="title">ChannelHandlerAdapter</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> counter = <span class="number">0</span>;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">exceptionCaught</span><span class="params">(ChannelHandlerContext ctx, Throwable cause)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        ctx.close();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">channelRead</span><span class="params">(ChannelHandlerContext ctx, Object msg)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        <span class="comment">// ByteBuf类似于JDK中的ByteBuffer，但提供更强大跟灵活的功能</span></span><br><span class="line">        ByteBuf buf = (ByteBuf) msg;</span><br><span class="line">        <span class="keyword">byte</span>[] req = <span class="keyword">new</span> <span class="keyword">byte</span>[buf.readableBytes()]; <span class="comment">// 根据缓冲区可读字节数构建字节数组</span></span><br><span class="line">        buf.readBytes(req); <span class="comment">// 将缓冲区的直接数组复制到req</span></span><br><span class="line">        String body = <span class="keyword">new</span> String(req, <span class="string">"UTF-8"</span>);</span><br><span class="line">        System.out.println(<span class="string">"接收到客户端请求："</span> + body + <span class="string">",counter:"</span> + ++counter);</span><br><span class="line">        <span class="comment">// 如果接受到的消息时Server Time，则异步将服务端当前时间发送给客户端。</span></span><br><span class="line">        <span class="keyword">if</span> (<span class="string">"Server Time"</span>.equalsIgnoreCase(body)) &#123;</span><br><span class="line">            ByteBuf resp = Unpooled.copiedBuffer((<span class="keyword">new</span> Date()).toString().getBytes());</span><br><span class="line">            <span class="comment">// 这里write方法只是将数据写入缓冲区，并没有真正发送</span></span><br><span class="line">            ctx.write(resp);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">channelReadComplete</span><span class="params">(ChannelHandlerContext ctx)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        <span class="comment">// 将缓冲区的数据写入SocketChannel</span></span><br><span class="line">        ctx.flush();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这里增加了counter来统计接收到报文的数量。</p>
+<p>客户端代码片段：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TimeClientHandler</span> <span class="keyword">extends</span> <span class="title">ChannelHandlerAdapter</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> ByteBuf msgSendBuf;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> counter = <span class="number">0</span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">TimeClientHandler</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">exceptionCaught</span><span class="params">(ChannelHandlerContext ctx, Throwable cause)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        ctx.close();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">channelActive</span><span class="params">(ChannelHandlerContext ctx)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        <span class="comment">// 链路建立成功后，将Server Time请求发送给服务端</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">100</span>;i++) &#123; <span class="comment">// 这里循环发送100次请求</span></span><br><span class="line">            <span class="comment">// 待发送数据</span></span><br><span class="line">            String req = <span class="string">"Server Time"</span>;</span><br><span class="line">            msgSendBuf = Unpooled.copiedBuffer(req.getBytes());</span><br><span class="line">            ctx.writeAndFlush(msgSendBuf);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">channelRead</span><span class="params">(ChannelHandlerContext ctx, Object msg)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        <span class="comment">// 接收服务端响应</span></span><br><span class="line">        ByteBuf buf = (ByteBuf) msg;</span><br><span class="line">        <span class="keyword">byte</span>[] resp = <span class="keyword">new</span> <span class="keyword">byte</span>[buf.readableBytes()];</span><br><span class="line">        buf.readBytes(resp);</span><br><span class="line">        String response = <span class="keyword">new</span> String(resp, <span class="string">"UTF-8"</span>);</span><br><span class="line">        System.out.println(<span class="string">"接收到服务端响应："</span> + response + <span class="string">",counter:"</span> + ++counter);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>客户端在连接上服务端后，循环发送100条报文。在Handler类中增加了counter来统计接收到的服务器响应的次数。</p>
+<p>运行结果如下：<br>服务端<br><img src="http://omh46px9n.bkt.clouddn.com/17-11-17/68864170.jpg" alt></p>
+<p>客户端：<br><img src="http://omh46px9n.bkt.clouddn.com/17-11-17/57646709.jpg" alt><br>可以看到服务端只接收到2次，客户端并没有接收到服务端的响应。<br>服务端只接收到2次的原因是发生了TCP粘包，第1次接收的报文长度是1024。<br>客户端没有接收到服务器响应是因为由于发送了粘包，导致不符合服务端响应的条件。</p>
+<h2 id="使用LineBasedFrameDecoder和StringDecoder解决粘包"><a href="#使用LineBasedFrameDecoder和StringDecoder解决粘包" class="headerlink" title="使用LineBasedFrameDecoder和StringDecoder解决粘包"></a>使用LineBasedFrameDecoder和StringDecoder解决粘包</h2><p>服务端：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">initChannel</span><span class="params">(SocketChannel socketChannel)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    socketChannel.pipeline().addLast(<span class="keyword">new</span> LineBasedFrameDecoder(<span class="number">1024</span>));</span><br><span class="line">    socketChannel.pipeline().addLast(<span class="keyword">new</span> StringDecoder());</span><br><span class="line">    socketChannel.pipeline().addLast(<span class="keyword">new</span> TimeServerHandler());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>增加了LineBasedFrameDecoder和StringDecoder解码器。</p>
+<p>TimeServerHandler的channelRead方法修改：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">channelRead</span><span class="params">(ChannelHandlerContext ctx, Object msg)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    String body = (String) msg;</span><br><span class="line">    System.out.println(<span class="string">"接收到客户端请求："</span> + body + <span class="string">",counter:"</span> + ++counter);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 如果接受到的消息时Server Time，则异步将服务端当前时间发送给客户端。</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="string">"Server Time"</span>.equalsIgnoreCase(body)) &#123;</span><br><span class="line">        <span class="keyword">byte</span>[] data = ((<span class="keyword">new</span> Date()).toString() + System.getProperty(<span class="string">"line.separator"</span>)).getBytes();</span><br><span class="line">        ByteBuf resp = Unpooled.copiedBuffer(data);</span><br><span class="line">        <span class="comment">// 这里write方法只是将数据写入缓冲区，并没有真正发送</span></span><br><span class="line">        ctx.write(resp);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>1.直接将msg转换为String；<br>2.响应的消息最后增加了换行符。</p>
+<p>客户端：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">b.group(group)</span><br><span class="line">    .channel(NioSocketChannel.class) <span class="comment">// 设置线程的Channel</span></span><br><span class="line">    .option(ChannelOption.TCP_NODELAY, <span class="keyword">true</span>) <span class="comment">// 设置NIOSocketChannel的参数</span></span><br><span class="line">    .handler(<span class="keyword">new</span> ChannelInitializer&lt;SocketChannel&gt;() &#123; <span class="comment">// 绑定I/O事件处理类</span></span><br><span class="line">        <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">initChannel</span><span class="params">(SocketChannel socketChannel)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">            socketChannel.pipeline().addLast(<span class="keyword">new</span> LineBasedFrameDecoder(<span class="number">1024</span>));</span><br><span class="line">            socketChannel.pipeline().addLast(<span class="keyword">new</span> StringDecoder());</span><br><span class="line">            socketChannel.pipeline().addLast(<span class="keyword">new</span> TimeClientHandler());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure></p>
+<p>增加了LineBasedFrameDecoder和StringDecoder解码器。</p>
+<p>TimeClientHandler的channelActive和channelRead方法修改：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">channelActive</span><span class="params">(ChannelHandlerContext ctx)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    <span class="comment">// 链路建立成功后，将Server Time请求发送给服务端</span></span><br><span class="line">    String req = <span class="string">"Server Time"</span> + System.getProperty(<span class="string">"line.separator"</span>);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">100</span>;i++) &#123; <span class="comment">// 这里循环发送100次请求</span></span><br><span class="line">        <span class="comment">// 待发送数据</span></span><br><span class="line">        msgSendBuf = Unpooled.copiedBuffer(req.getBytes());</span><br><span class="line">        ctx.writeAndFlush(msgSendBuf);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">channelRead</span><span class="params">(ChannelHandlerContext ctx, Object msg)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    <span class="comment">// 接收服务端响应</span></span><br><span class="line">    String response = (String) msg;</span><br><span class="line">    System.out.println(<span class="string">"接收到服务端响应："</span> + response + <span class="string">",counter:"</span> + ++counter);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>1.发送的报文最后增加换行符；<br>2.接收的消息msg直接转为String。</p>
+<p>运行结果：<br>服务端<br><img src="http://omh46px9n.bkt.clouddn.com/17-11-17/72973720.jpg" alt><br>客户端<br><img src="http://omh46px9n.bkt.clouddn.com/17-11-17/8257291.jpg" alt></p>
+<h2 id="LineBasedFrameDecoder和StringDecoder的原理分析"><a href="#LineBasedFrameDecoder和StringDecoder的原理分析" class="headerlink" title="LineBasedFrameDecoder和StringDecoder的原理分析"></a>LineBasedFrameDecoder和StringDecoder的原理分析</h2><p>LineBasedFrameDecoder的工作原理是依次遍历ByteBuf中的可读直接，看是否有\r\n或\n，如果有，就以此位置为结束为止，从可读索引到结束位置区间的字节就组成了一行。<br>它是以换行符为标志的解码器。支持携带结束符或不携带结束符两种解码方式，同时支持配置单行的最大长度。如果在连续读取到最大长度后仍然没有发现换行符，就会抛出异常，同时忽略之前读到的异常码流。</p>
+<p>StringDecoder的功能非常简单，就是将接受到的对象转换层字符串，然后继续调用后面的Handler。<br>LineBasedFrameDecoder和StringDecoder组合起来就是支持换行的文本解码器，被设计用来支持TCP粘包和拆包。</p>
+<p>参考《Netty权威指南》</p>
+
+        </div>
+        <div class="post-tool">
+            <a class="btn-thumbs-up" href="javascript:void(0);" data-cid="52" title="95">
+                <i class="fa fa-thumbs-up" aria-hidden="true"></i> 打赏
+            </a>
+        </div>
+        
+        <div class="post-tags">标签：
+            
+            <a href="/tags/Netty/">Netty</a>
+            
+        </div>
+        
+    </article>
+    
+    <p style="text-align: center">本文代表个人观点，内容仅供参考。若有不恰当之处，望不吝赐教！</p>
+    
+    
+
+    
+    
+        <div id="gitment-container"></div>
+        <link rel="stylesheet" href="//imsun.github.io/gitment/style/default.css">
+        <script src="//imsun.github.io/gitment/dist/gitment.browser.js"></script>
+        <script type="text/javascript">
+            var gitment = new Gitment({
+                /*lable长度不能超过50个字符，这里使用页面的生成时间*/
+                id: 'Fri Nov 17 2017 14:52:38 GMT+0800'/*document.location.href*/,
+                owner: 'luckystar88',
+                repo: 'comments',
+                oauth: {
+                    client_id: 'd49ebe4f95abcd6163f4',
+                    client_secret: 'edd2748d6271072a6970d5cec8751f388dac8116',
+                }
+            });
+            gitment.render('gitment-container');
+        </script>
+        
+            <script>
+                document.getElementById("gitment-display-button").style.display = "none";
+                document.getElementById("gitment-container").style.display = "block";
+            </script>
+        
+    
+
+
+</div>
+<script src="/js/busuanzi.pure.mini.js"></script>
+
+
+        </div><!-- end #main-->
+    </div><!-- end #body -->
+    <footer class="footer">
+    <div class="footer-inner" style="text-align: center">
+        <p>
+            <a href="/about" title="关于">关于</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <!-- 自定义链接 -->
+            <a href="/help" title="帮助">帮助</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <a href="/links" title="友链">友链</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <a href="/sitemap.xml" title="地图">地图</a>
+        </p>
+        <p>
+            本站已建立&nbsp<a href="/timeline" id="siteBuildingTime"></a>&nbsp天，<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="licence">采用知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议创作</a><br>
+            ©2017-<span id="cpYear"></span> 基于&nbsp<a href="http://hexo.io" target="_blank" rel="nofollow">Hexo</a>
+            ，主题采用&nbsp&nbsp<a href="https://github.com/tangkunyin/hexo-theme-jsimple" target="_blank" rel="bookmark">JSimple</a>
+            ，作者&nbsp<a href="https://tommy88.top" target="_blank" rel="friend">Donny</a>
+            ，Hosted by <a href="https://pages.github.com/" target="_blank" rel="nofollow">GitHub Pages</a>
+        </p>
+    </div>
+</footer>
+<script src="/js/SimpleCore.js"></script>
+
+</div>
+<!-- search pop -->
+<div class="popup search-popup local-search-popup">
+    <div class="local-search-header clearfix">
+        <span class="search-icon">
+            <i class="fa fa-search"></i>
+        </span>
+        <span class="popup-btn-close">
+            <i class="fa fa-times-circle"></i>
+        </span>
+        <div class="local-search-input-wrapper">
+            <input id="local-search-input" spellcheck="false" type="text" autocomplete="off" placeholder="请输入查询关键词">
+        </div>
+    </div>
+    <div id="local-search-result"></div>
+</div>
+<div class="fixed-btn">
+    <a class="btn-gotop" href="javascript:"> <i class="fa fa-angle-up"></i></a>
+</div>
+<script>
+    $(function () {
+        var jsi_config = {
+            buildingTime: '01/20/2016',
+            current: $('.post-tags').length > 0 ? 'post' : 'archive',
+            snsQRCode: '/images/sns-qrcode.png',
+            donateImg: '/images/donate-qr.png',
+            localSearch: { dbPath: '' },
+            readMode: 'day'
+        };
+        
+            jsi_config.localSearch = {
+                dbPath: '/search.xml',
+                trigger: 'auto',
+                topN: '1',
+                unescape: 'false'
+            }
+        
+        SimpleCore.init(jsi_config);
+        
+    });
+</script>
+</body>
+</html>

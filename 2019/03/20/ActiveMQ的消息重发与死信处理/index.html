@@ -1,0 +1,299 @@
+<!DOCTYPE HTML>
+<html class="no-js" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!--[if lte IE 9]>
+<meta http-equiv="refresh" content="0;url=https://tommy88.top/warn.html">
+<![endif]-->
+<meta charset="utf-8">
+<meta http-equiv="X-DNS-Prefetch-Control" content="on">
+<link rel="dns-prefetch" href="https://tommy88.top">
+<link rel="dns-prefetch" href="//www.google-analytics.com">
+<link rel="prefetch" href="https://tommy88.top">
+<link rel="prefetch" href="//www.google-analytics.com">
+
+
+    <link rel="dns-prefetch" href="//imsun.github.io">
+    <link rel="prefetch" href="//imsun.github.io">
+
+<link rel="prerender" href="https://tommy88.top">
+
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+<meta http-equiv="mobile-agent" content="format=html5; url=https://tommy88.top">
+<meta name="author" content="Donny">
+<link rel="stylesheet" href="/css/JSimple.css">
+
+<link rel="shortcut icon" href="/images/favicon.png">
+
+
+<title>activemq的消息重发与死信处理 - Donny的技术博客</title>
+
+<meta name="keywords" content="jms, activemq, 消息重发, 死信, DLQ">
+
+<meta name="description " content="介绍ActiveMQ的消息重发与死信处理策略。">
+
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                processEscapes: true
+            }
+        });
+    </script>
+
+
+    
+
+    
+    
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="//www.googletagmanager.com/gtag/js?id=UA-105613999-1"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'UA-105613999-1');
+        </script>
+    
+    <!-- put your likes here. -->
+
+
+</head>
+<body>
+<div id="nav">
+    <nav class="nav-menu">
+        <a class="site-name current" href="/" title="Home">Home</a>
+        <a class="site-index current" href="/"><i class="fa fa-home"></i><span>首页</span></a>
+        <a href="/archives" title="归档"><i class="fa fa-archives"></i><span>归档</span></a>
+        <a href="/tags" title="标签"><i class="fa fa-tags"></i><span>标签</span></a>
+        <!-- custom single page of menus -->
+        
+        
+        <a href="/help" title="帮助">
+            <i class="fa fa-question-circle"></i>
+            <span>帮助</span>
+        </a>
+        
+    </nav>
+</div>
+
+<div class="nav-user">
+    <a class="btn-search" href="#"><i class="fa fa-search"></i></a>
+    <a class="btn-read-mode" href="#"><i class="fa fa-sun-o"></i></a>
+    <a class="btn-sns-qr" href="javascript:"><i class="fa fa-telegram"></i></a>
+</div>
+
+<div id="wrapper" class="clearfix">
+    <div id="body">
+        <div class="main" id="main">
+            <div id="cover">
+    <div class="cover-img"></div>
+    <div class="cover-info">
+        
+        <h1 class="cover-siteName">Donny的技术博客</h1>
+        <h3 class="cover-siteTitle">用代码征服世界</h3>
+        <p class="cover-siteDesc">这是一个简单的技术博客</p>
+        <div class="cover-sns">
+            
+    &nbsp;&nbsp;<div class="btn btn-github">
+        <a href="https://github.com/luckystar88" target="_blank" title="github" ref="friend">
+            <i class="fa fa-github"></i>
+        </a>
+    </div>
+
+
+        </div>
+    </div>
+</div>
+
+            <div class="page-title">
+    <ul>
+        <li><a href="/">最近</a></li>
+        
+            
+                <li class="active">
+                    <a href="/categories/tech" data-name="技术">技术</a>
+                </li>
+            
+                <li class>
+                    <a href="/categories/life" data-name="人文">人文</a>
+                </li>
+            
+                <li class>
+                    <a href="/categories/others" data-name="其他">其他</a>
+                </li>
+            
+        
+        <li class="page-search">
+    <form id="search" class="search-form">
+        <input type="text" readonly="readonly" id="local-search-input-tip" placeholder="读物检索~">
+        <button type="button" disabled="disabled" class="search-form-submit"><i class="fa fa-search"></i></button>
+    </form>
+</li>
+
+    </ul>
+</div>
+<div class="main-inner">
+    <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+        <div class="post-header">
+            <div class="post-author clearfix">
+                <a class="avatar fleft" href="https://tommy88.top" target="_blank">
+                    <img width="48" src="/images/favicon.png" alt="avatar">
+                </a>
+                <p><span class="label">作者</span>
+                    <a href="https://tommy88.top" target="_blank">Donny</a>
+                    <span title="最后编辑于&nbsp;2019-03-20">2019-03-20</span>
+                </p>
+                <p>记录工作，感悟生活</p>
+            </div>
+            <h2 class="post-title">ActiveMQ的消息重发与死信处理</h2>
+            <div class="post-meta">
+                本文共计6401个字 |
+                您是第&nbsp;<span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>位看到它们的小伙伴
+            </div>
+        </div>
+        <div class="post-content markdown-body">
+            <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>在发生以下情形时，消息会给重发给客户端：</p>
+<ol>
+<li>使用了一个事务性的会话且调用了rollback()方法。</li>
+<li>在调用commit()方法前一个事务性的会话被关闭了。</li>
+<li>一个会话使用<strong>CLIENT_ACKNOWLEDGE</strong>的ACK模式，且调用了Session.recover()方法。</li>
+<li>一个客户端连接超时（可能正被执行的代码执行的时间超过配置的超时时间）。</li>
+</ol>
+<p>客户端可以通过<code>ActiveMQConnection.getRedeliveryPolicy()</code> 或 <code>ActiveMQConnectionFactory.getRedeliveryPolicyMap()</code>来覆盖策略设置。</p>
+<p>方法：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">RedeliveryPolicy policy = connection.getRedeliveryPolicy();</span><br><span class="line">policy.setInitialRedeliveryDelay(<span class="number">500</span>);</span><br><span class="line">policy.setBackOffMultiplier(<span class="number">2</span>);</span><br><span class="line">policy.setUseExponentialBackOff(<span class="keyword">true</span>);</span><br><span class="line">policy.setMaximumRedeliveries(<span class="number">2</span>);</span><br></pre></td></tr></table></figure></p>
+<p>当一个消息被redelivered超过maximumRedeliveries(缺省为6次，具体设置请参考后面的链接)次数时，会给broker发送一个”Poison ack”，这个消息被认为是a poison pill，这时broker会将这个消息发送到DLQ，以便后续处理。 </p>
+<p>缺省的死信队列是ActiveMQ.DLQ，所有不能投递的消息都会被发送到这个队列，这将会导致难以管理。你可以在activemq.xml这个配置文件的<code>destinationPolicy</code>配置<code>individualDeadLetterStrategy</code> ，它可以让给为一个给定的queue或topic指定特定的死信队列前缀。如果你希望所有的queue都拥有自己的死信队列，你可以使用通配符。</p>
+<p>示例：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">broker</span>&gt;</span></span><br><span class="line">   </span><br><span class="line">  <span class="tag">&lt;<span class="name">destinationPolicy</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">policyMap</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">policyEntries</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- 使用&gt;通配符为所有的queue设置下面的策略 你也可以指定具体的队列名--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">policyEntry</span> <span class="attr">queue</span>=<span class="string">"&gt;"</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">deadLetterStrategy</span>&gt;</span></span><br><span class="line">            <span class="comment">&lt;!--</span></span><br><span class="line"><span class="comment">              queuePrefix:指定死信队列的前缀为DLQ.</span></span><br><span class="line"><span class="comment">              useQueueForQueueMessages=true，表示使用队列来保存死信</span></span><br><span class="line"><span class="comment">            --&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">individualDeadLetterStrategy</span> <span class="attr">queuePrefix</span>=<span class="string">"DLQ."</span> <span class="attr">useQueueForQueueMessages</span>=<span class="string">"true"</span>/&gt;</span></span><br><span class="line">          <span class="tag">&lt;/<span class="name">deadLetterStrategy</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">policyEntry</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">policyEntries</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">policyMap</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">destinationPolicy</span>&gt;</span></span><br><span class="line">   </span><br><span class="line"><span class="tag">&lt;/<span class="name">broker</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="自动丢弃过期消息"><a href="#自动丢弃过期消息" class="headerlink" title="自动丢弃过期消息"></a>自动丢弃过期消息</h2><p>如果你只想丢弃过期的消息，不想发送到死信队列，你可以在一个死信队列策略中配置<code>processExpired=false</code>。<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">broker</span>&gt;</span></span><br><span class="line">   </span><br><span class="line">  <span class="tag">&lt;<span class="name">destinationPolicy</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">policyMap</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">policyEntries</span>&gt;</span></span><br><span class="line">       <span class="comment">&lt;!-- 使用&gt;通配符来使所有的队列使用下面的策略 --&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">policyEntry</span> <span class="attr">queue</span>=<span class="string">"&gt;"</span>&gt;</span></span><br><span class="line">         <span class="comment">&lt;!--</span></span><br><span class="line"><span class="comment">           Tell the dead letter strategy not to process expired messages</span></span><br><span class="line"><span class="comment">           so that they will just be discarded instead of being sent to</span></span><br><span class="line"><span class="comment">           the DLQ</span></span><br><span class="line"><span class="comment">         --&gt;</span></span><br><span class="line">         <span class="tag">&lt;<span class="name">deadLetterStrategy</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">sharedDeadLetterStrategy</span> <span class="attr">processExpired</span>=<span class="string">"false"</span> /&gt;</span></span><br><span class="line">         <span class="tag">&lt;/<span class="name">deadLetterStrategy</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;/<span class="name">policyEntry</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;/<span class="name">policyEntries</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">policyMap</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">destinationPolicy</span>&gt;</span></span><br><span class="line">   </span><br><span class="line"><span class="tag">&lt;/<span class="name">broker</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="非持久消息保存到死信队列"><a href="#非持久消息保存到死信队列" class="headerlink" title="非持久消息保存到死信队列"></a>非持久消息保存到死信队列</h2><p>默认情况下，ActiveMQ不会将不能投递的非持久消息放到死信队列。如果你希望将非持久消息存储到死信队列，你可以在死信队列的策略中设置<code>processNonPersistent=&quot;true&quot;</code>。<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">broker</span>&gt;</span></span><br><span class="line">   </span><br><span class="line">  <span class="tag">&lt;<span class="name">destinationPolicy</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">policyMap</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">policyEntries</span>&gt;</span></span><br><span class="line">       <span class="comment">&lt;!-- Set the following policy on all queues using the '&gt;' wildcard --&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">policyEntry</span> <span class="attr">queue</span>=<span class="string">"&gt;"</span>&gt;</span></span><br><span class="line">         <span class="comment">&lt;!--</span></span><br><span class="line"><span class="comment">           Tell the dead letter strategy to also place non-persisted messages</span></span><br><span class="line"><span class="comment">           onto the dead-letter queue if they can't be delivered.</span></span><br><span class="line"><span class="comment">         --&gt;</span></span><br><span class="line">         <span class="tag">&lt;<span class="name">deadLetterStrategy</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">sharedDeadLetterStrategy</span> <span class="attr">processNonPersistent</span>=<span class="string">"true"</span> /&gt;</span></span><br><span class="line">         <span class="tag">&lt;/<span class="name">deadLetterStrategy</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;/<span class="name">policyEntry</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;/<span class="name">policyEntries</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">policyMap</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">destinationPolicy</span>&gt;</span></span><br><span class="line">   </span><br><span class="line"><span class="tag">&lt;/<span class="name">broker</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="设置死信队列中消息的过期时间"><a href="#设置死信队列中消息的过期时间" class="headerlink" title="设置死信队列中消息的过期时间"></a>设置死信队列中消息的过期时间</h2><p>默认情况下，ActiveMQ永远不会使发送到DLQ的消息失效。 但是，在ActiveMQ 5.12中，deadLetterStrategy支持到期属性，其值以毫秒为单位。<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">broker</span>&gt;</span></span><br><span class="line">   </span><br><span class="line">  <span class="tag">&lt;<span class="name">destinationPolicy</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">policyMap</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">policyEntries</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">policyEntry</span> <span class="attr">queue</span>=<span class="string">"QueueWhereItIsOkToExpireDLQEntries"</span>&gt;</span></span><br><span class="line">         <span class="tag">&lt;<span class="name">deadLetterStrategy</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">....</span> <span class="attr">expiration</span>=<span class="string">"300000"</span>/&gt;</span></span><br><span class="line">         <span class="tag">&lt;/<span class="name">deadLetterStrategy</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;/<span class="name">policyEntry</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;/<span class="name">policyEntries</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">policyMap</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">destinationPolicy</span>&gt;</span></span><br><span class="line">   </span><br><span class="line"><span class="tag">&lt;/<span class="name">broker</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="DLQ丢弃插件"><a href="#DLQ丢弃插件" class="headerlink" title="DLQ丢弃插件"></a>DLQ丢弃插件</h2><p>从ActiveMQ5.9开始，一个Destination的<code>policyEntry</code>支持丢弃的deadLetterStrategy。<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">deadLetterStrategy</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">discarding</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">deadLetterStrategy</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>这个与丢弃插件的功能相同，但这个是基于每个Destination的。丢弃插件支持正则表达式匹配，这在某些情况下很有用。</p>
+<p>此插件允许全部或基于Java SE的正则表达式匹配的queue和topic，丢弃发送到DLQ中的消息。这在使用ConstantPendingMessageLimit策略或其他逐出规则，但不想有一个其他的消费者来清理DLQ时很有用。</p>
+<p>下面是一个丢弃所有内容的一个基本配置：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">beans</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">broker</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">plugins</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">discardingDLQBrokerPlugin</span> <span class="attr">dropAll</span>=<span class="string">"true"</span> <span class="attr">dropTemporaryTopics</span>=<span class="string">"true"</span>            <span class="attr">dropTemporaryQueues</span>=<span class="string">"true"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">plugins</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">broker</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>下面是一个稍微复杂点的例子：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">beans</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">broker</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">plugins</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">discardingDLQBrokerPlugin</span> <span class="attr">dropOnly</span>=<span class="string">"MY.EXAMPLE.TOPIC.29 MY.EXAMPLE.QUEUE.87"</span> <span class="attr">reportInterval</span>=<span class="string">"1000"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">plugins</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">broker</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>这个例子中，只针对指定的queue和topic有效。各个destination用空格隔开。<br>reportInterval属性用于表示我们输出丢弃的消息的频率 - 使用0来禁用。</p>
+<p>下面是一个使用正则表达式的例子：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">beans</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">broker</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">plugins</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">discardingDLQBrokerPlugin</span> <span class="attr">dropOnly</span>=<span class="string">"MY.EXAMPLE.TOPIC.[0-9]&#123;3&#125; MY.EXAMPLE.QUEUE.[0-9]&#123;3&#125;"</span> <span class="attr">reportInterval</span>=<span class="string">"3000"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">plugins</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">broker</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>这里匹配的是以000~999结尾的目的地。</p>
+<h2 id="Broker消息重发插件"><a href="#Broker消息重发插件" class="headerlink" title="Broker消息重发插件"></a>Broker消息重发插件</h2><p>默认情况下，在消息重新投递次数达到配置的最大投递次数（或默认的6次），broker会将消息放入DLQ。我们可以使用broker消息重发插件来改变这一行为。即在一定延迟后，将消息重新投递给原始Destination，如果达到最大重试次数，则放入DLQ。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">broker</span> <span class="attr">schedulerSupport</span>=<span class="string">"true"</span>&gt;</span></span><br><span class="line">         </span><br><span class="line">        <span class="tag">&lt;<span class="name">plugins</span>&gt;</span></span><br><span class="line">            <span class="comment">&lt;!-- 重发策略，对于超过重发次数的消息将会被添加到DLQ --&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">redeliveryPlugin</span> <span class="attr">fallbackToDeadLetter</span>=<span class="string">"true"</span></span></span><br><span class="line"><span class="tag">                              <span class="attr">sendToDlqIfMaxRetriesExceeded</span>=<span class="string">"true"</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">redeliveryPolicyMap</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">redeliveryPolicyMap</span>&gt;</span></span><br><span class="line">                        <span class="tag">&lt;<span class="name">redeliveryPolicyEntries</span>&gt;</span></span><br><span class="line">                            <span class="comment">&lt;!--</span></span><br><span class="line"><span class="comment">                                重发机制，默认重发6，重发延迟基于backOff模式</span></span><br><span class="line"><span class="comment">                            --&gt;</span></span><br><span class="line">                            <span class="tag">&lt;<span class="name">redeliveryPolicy</span> <span class="attr">queue</span>=<span class="string">"SpecialQueue"</span></span></span><br><span class="line"><span class="tag">                                              <span class="attr">maximumRedeliveries</span>=<span class="string">"4"</span></span></span><br><span class="line"><span class="tag">                                              <span class="attr">redeliveryDelay</span>=<span class="string">"10000"</span>/&gt;</span></span><br><span class="line">                        <span class="tag">&lt;/<span class="name">redeliveryPolicyEntries</span>&gt;</span></span><br><span class="line">                         </span><br><span class="line">                        <span class="tag">&lt;<span class="name">defaultEntry</span>&gt;</span></span><br><span class="line">                            <span class="comment">&lt;!-- 其他Destination的默认处理策略 --&gt;</span></span><br><span class="line">                            <span class="tag">&lt;<span class="name">redeliveryPolicy</span> <span class="attr">maximumRedeliveries</span>=<span class="string">"4"</span></span></span><br><span class="line"><span class="tag">                                              <span class="attr">initialRedeliveryDelay</span>=<span class="string">"5000"</span></span></span><br><span class="line"><span class="tag">                                              <span class="attr">redeliveryDelay</span>=<span class="string">"10000"</span>/&gt;</span></span><br><span class="line">                        <span class="tag">&lt;/<span class="name">defaultEntry</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;/<span class="name">redeliveryPolicyMap</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;/<span class="name">redeliveryPolicyMap</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">redeliveryPlugin</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">plugins</span>&gt;</span></span><br><span class="line">         </span><br><span class="line"><span class="tag">&lt;/<span class="name">broker</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>sendToDlqIfMaxRetriesExceeded：如果为true，则在达到最大重试次数后，会发送到DLQ，否则会删除该消息。</p>
+<p>参考：<a href="http://activemq.apache.org/message-redelivery-and-dlq-handling.html">http://activemq.apache.org/message-redelivery-and-dlq-handling.html</a></p>
+
+        </div>
+        <div class="post-tool">
+            <a class="btn-thumbs-up" href="javascript:void(0);" data-cid="52" title="95">
+                <i class="fa fa-thumbs-up" aria-hidden="true"></i> 打赏
+            </a>
+        </div>
+        
+        <div class="post-tags">标签：
+            
+            <a href="/tags/activemq/">activemq</a>
+            
+        </div>
+        
+    </article>
+    
+    <p style="text-align: center">本文代表个人观点，内容仅供参考。若有不恰当之处，望不吝赐教！</p>
+    
+    
+
+    
+    
+        <div id="gitment-container"></div>
+        <link rel="stylesheet" href="//imsun.github.io/gitment/style/default.css">
+        <script src="//imsun.github.io/gitment/dist/gitment.browser.js"></script>
+        <script type="text/javascript">
+            var gitment = new Gitment({
+                /*lable长度不能超过50个字符，这里使用页面的生成时间*/
+                id: 'Wed Mar 20 2019 17:17:07 GMT+0800'/*document.location.href*/,
+                owner: 'luckystar88',
+                repo: 'comments',
+                oauth: {
+                    client_id: 'd49ebe4f95abcd6163f4',
+                    client_secret: 'edd2748d6271072a6970d5cec8751f388dac8116',
+                }
+            });
+            gitment.render('gitment-container');
+        </script>
+        
+            <script>
+                document.getElementById("gitment-display-button").style.display = "none";
+                document.getElementById("gitment-container").style.display = "block";
+            </script>
+        
+    
+
+
+</div>
+<script src="/js/busuanzi.pure.mini.js"></script>
+
+
+        </div><!-- end #main-->
+    </div><!-- end #body -->
+    <footer class="footer">
+    <div class="footer-inner" style="text-align: center">
+        <p>
+            <a href="/about" title="关于">关于</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <!-- 自定义链接 -->
+            <a href="/help" title="帮助">帮助</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <a href="/links" title="友链">友链</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <a href="/sitemap.xml" title="地图">地图</a>
+        </p>
+        <p>
+            本站已建立&nbsp<a href="/timeline" id="siteBuildingTime"></a>&nbsp天，<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="licence">采用知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议创作</a><br>
+            ©2017-<span id="cpYear"></span> 基于&nbsp<a href="http://hexo.io" target="_blank" rel="nofollow">Hexo</a>
+            ，主题采用&nbsp&nbsp<a href="https://github.com/tangkunyin/hexo-theme-jsimple" target="_blank" rel="bookmark">JSimple</a>
+            ，作者&nbsp<a href="https://tommy88.top" target="_blank" rel="friend">Donny</a>
+            ，Hosted by <a href="https://pages.github.com/" target="_blank" rel="nofollow">GitHub Pages</a>
+        </p>
+    </div>
+</footer>
+<script src="/js/SimpleCore.js"></script>
+
+</div>
+<!-- search pop -->
+<div class="popup search-popup local-search-popup">
+    <div class="local-search-header clearfix">
+        <span class="search-icon">
+            <i class="fa fa-search"></i>
+        </span>
+        <span class="popup-btn-close">
+            <i class="fa fa-times-circle"></i>
+        </span>
+        <div class="local-search-input-wrapper">
+            <input id="local-search-input" spellcheck="false" type="text" autocomplete="off" placeholder="请输入查询关键词">
+        </div>
+    </div>
+    <div id="local-search-result"></div>
+</div>
+<div class="fixed-btn">
+    <a class="btn-gotop" href="javascript:"> <i class="fa fa-angle-up"></i></a>
+</div>
+<script>
+    $(function () {
+        var jsi_config = {
+            buildingTime: '01/20/2016',
+            current: $('.post-tags').length > 0 ? 'post' : 'archive',
+            snsQRCode: '/images/sns-qrcode.png',
+            donateImg: '/images/donate-qr.png',
+            localSearch: { dbPath: '' },
+            readMode: 'day'
+        };
+        
+            jsi_config.localSearch = {
+                dbPath: '/search.xml',
+                trigger: 'auto',
+                topN: '1',
+                unescape: 'false'
+            }
+        
+        SimpleCore.init(jsi_config);
+        
+    });
+</script>
+</body>
+</html>

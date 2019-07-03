@@ -1,0 +1,295 @@
+<!DOCTYPE HTML>
+<html class="no-js" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!--[if lte IE 9]>
+<meta http-equiv="refresh" content="0;url=https://tommy88.top/warn.html">
+<![endif]-->
+<meta charset="utf-8">
+<meta http-equiv="X-DNS-Prefetch-Control" content="on">
+<link rel="dns-prefetch" href="https://tommy88.top">
+<link rel="dns-prefetch" href="//www.google-analytics.com">
+<link rel="prefetch" href="https://tommy88.top">
+<link rel="prefetch" href="//www.google-analytics.com">
+
+
+    <link rel="dns-prefetch" href="//imsun.github.io">
+    <link rel="prefetch" href="//imsun.github.io">
+
+<link rel="prerender" href="https://tommy88.top">
+
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+<meta http-equiv="mobile-agent" content="format=html5; url=https://tommy88.top">
+<meta name="author" content="Donny">
+<link rel="stylesheet" href="/css/JSimple.css">
+
+<link rel="shortcut icon" href="/images/favicon.png">
+
+
+<title>netty使用protobuf编解码 - Donny的技术博客</title>
+
+<meta name="keywords" content="java,前端,数据库,web,spring,redis,spring boot,spring cloud,mq">
+
+<meta name="description " content="记录工作，感悟生活">
+
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                processEscapes: true
+            }
+        });
+    </script>
+
+
+    
+
+    
+    
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="//www.googletagmanager.com/gtag/js?id=UA-105613999-1"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'UA-105613999-1');
+        </script>
+    
+    <!-- put your likes here. -->
+
+
+</head>
+<body>
+<div id="nav">
+    <nav class="nav-menu">
+        <a class="site-name current" href="/" title="Home">Home</a>
+        <a class="site-index current" href="/"><i class="fa fa-home"></i><span>首页</span></a>
+        <a href="/archives" title="归档"><i class="fa fa-archives"></i><span>归档</span></a>
+        <a href="/tags" title="标签"><i class="fa fa-tags"></i><span>标签</span></a>
+        <!-- custom single page of menus -->
+        
+        
+        <a href="/help" title="帮助">
+            <i class="fa fa-question-circle"></i>
+            <span>帮助</span>
+        </a>
+        
+    </nav>
+</div>
+
+<div class="nav-user">
+    <a class="btn-search" href="#"><i class="fa fa-search"></i></a>
+    <a class="btn-read-mode" href="#"><i class="fa fa-sun-o"></i></a>
+    <a class="btn-sns-qr" href="javascript:"><i class="fa fa-telegram"></i></a>
+</div>
+
+<div id="wrapper" class="clearfix">
+    <div id="body">
+        <div class="main" id="main">
+            <div id="cover">
+    <div class="cover-img"></div>
+    <div class="cover-info">
+        
+        <h1 class="cover-siteName">Donny的技术博客</h1>
+        <h3 class="cover-siteTitle">用代码征服世界</h3>
+        <p class="cover-siteDesc">这是一个简单的技术博客</p>
+        <div class="cover-sns">
+            
+    &nbsp;&nbsp;<div class="btn btn-github">
+        <a href="https://github.com/luckystar88" target="_blank" title="github" ref="friend">
+            <i class="fa fa-github"></i>
+        </a>
+    </div>
+
+
+        </div>
+    </div>
+</div>
+
+            <div class="page-title">
+    <ul>
+        <li><a href="/">最近</a></li>
+        
+            
+                <li class="active">
+                    <a href="/categories/tech" data-name="技术">技术</a>
+                </li>
+            
+                <li class>
+                    <a href="/categories/life" data-name="人文">人文</a>
+                </li>
+            
+                <li class>
+                    <a href="/categories/others" data-name="其他">其他</a>
+                </li>
+            
+        
+        <li class="page-search">
+    <form id="search" class="search-form">
+        <input type="text" readonly="readonly" id="local-search-input-tip" placeholder="读物检索~">
+        <button type="button" disabled="disabled" class="search-form-submit"><i class="fa fa-search"></i></button>
+    </form>
+</li>
+
+    </ul>
+</div>
+<div class="main-inner">
+    <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+        <div class="post-header">
+            <div class="post-author clearfix">
+                <a class="avatar fleft" href="https://tommy88.top" target="_blank">
+                    <img width="48" src="/images/favicon.png" alt="avatar">
+                </a>
+                <p><span class="label">作者</span>
+                    <a href="https://tommy88.top" target="_blank">Donny</a>
+                    <span title="最后编辑于&nbsp;2017-12-10">2017-12-10</span>
+                </p>
+                <p>记录工作，感悟生活</p>
+            </div>
+            <h2 class="post-title">Netty使用Protobuf编解码</h2>
+            <div class="post-meta">
+                本文共计9193个字 |
+                您是第&nbsp;<span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>位看到它们的小伙伴
+            </div>
+        </div>
+        <div class="post-content markdown-body">
+            <p>Protobuf是一个灵活、高效、结构化的数据序列化框架，相比于XML等传统的序列化工具，它更小、更快、更简单。Protobuf支持数据结构化一次可以到处使用，甚至跨语言使用，通过代码生成工具可以自动生成不同语言版本的源代码，甚至可以在使用不同版本的数据结构进程间进行数据传递，实现数据结构的前向兼容。</p>
+<p>下面结合一个例子看看在Netty如何使用Protobuf对POJO对象进行编解码。</p>
+<h2 id="1-Protobuf环境搭建"><a href="#1-Protobuf环境搭建" class="headerlink" title="1.Protobuf环境搭建"></a>1.Protobuf环境搭建</h2><p>从<a href="https://developers.google.com/protocol-buffers/docs/downloads下载Protobuf，本例中是3.0.0版本。">https://developers.google.com/protocol-buffers/docs/downloads下载Protobuf，本例中是3.0.0版本。</a></p>
+<p>下载后对压缩包进行解压，在/bin目录可以看到protoc.exe。protoc.exe根据.proto文件生成代码。下面根据图书订购程序定义SubcribeReq.proto和SubcribeResp.proto文件。<br>SubcribeReq.proto文件内容：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">syntax = &quot;proto3&quot;;</span><br><span class="line">package netty;</span><br><span class="line">option java_package = &quot;com.tommy.netty.protobuf&quot;;</span><br><span class="line">option java_outer_classname = &quot;SubcribeReqProto&quot;;</span><br><span class="line"></span><br><span class="line">message SubcribeReq &#123;</span><br><span class="line">	int32 subReqID = 1;</span><br><span class="line">	string userName = 2;</span><br><span class="line">	string productName = 3;</span><br><span class="line">	repeated string address = 4;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<a id="more"></a>
+<p>SubcribeResp.proto文件内容：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">syntax = &quot;proto3&quot;;</span><br><span class="line">package netty;</span><br><span class="line">option java_package = &quot;com.tommy.netty.protobuf&quot;;</span><br><span class="line">option java_outer_classname = &quot;SubcribeRespProto&quot;;</span><br><span class="line"></span><br><span class="line">message SubcribeResp &#123;</span><br><span class="line">	int32 subReqID = 1;</span><br><span class="line">	int32 respCode = 2;</span><br><span class="line">	string desc = 3;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>通过protoc.exe生成代码。<br>进入到protoc.exe目录，分别执行：<br><code>protoc.exe --java_out=.\src .\netty\SubcribeReq.proto</code>和<code>protoc.exe --java_out=.\src .\netty\SubcribeResp.proto</code><br>在/bin目录的src目录中可以看到生成的文件。（注意：要提前创建好src目录）<br><img src="http://omh46px9n.bkt.clouddn.com/17-12-10/49128754.jpg" alt><br><img src="http://omh46px9n.bkt.clouddn.com/17-12-10/97870455.jpg" alt></p>
+<p>将生成的SubcribeReqProto.java和SubcribeRespProto.java复制到工程中。</p>
+<p>在工程中导入protobuf3.0.0的包：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- https://mvnrepository.com/artifact/com.google.protobuf/protobuf-java --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.google.protobuf<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>protobuf-java<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.0.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="2-Protobuf编解码开发"><a href="#2-Protobuf编解码开发" class="headerlink" title="2.Protobuf编解码开发"></a>2.Protobuf编解码开发</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> j.tommy</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@version</span> 1.0</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2017/12/10</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestSubcribeReqProto</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">byte</span>[] encode(SubcribeReqProto.SubcribeReq subcribeReq) &#123;</span><br><span class="line">        <span class="keyword">return</span> subcribeReq.toByteArray();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> SubcribeReqProto.<span class="function">SubcribeReq <span class="title">decode</span><span class="params">(<span class="keyword">byte</span>[] body)</span> <span class="keyword">throws</span> InvalidProtocolBufferException </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> SubcribeReqProto.SubcribeReq.parseFrom(body);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> SubcribeReqProto.<span class="function">SubcribeReq <span class="title">createSubcribeReq</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        SubcribeReqProto.SubcribeReq.Builder builder = SubcribeReqProto.SubcribeReq.newBuilder();</span><br><span class="line">        builder.setSubReqID(<span class="number">1</span>);</span><br><span class="line">        builder.setUserName(<span class="string">"j.tommy"</span>);</span><br><span class="line">        builder.setProductName(<span class="string">"Netty权威指南"</span>);</span><br><span class="line">        List&lt;String&gt; addressList = <span class="keyword">new</span> ArrayList&lt;String&gt;();</span><br><span class="line">        addressList.add(<span class="string">"北京市"</span>);</span><br><span class="line">        addressList.add(<span class="string">"上海市"</span>);</span><br><span class="line">        addressList.add(<span class="string">"西安市"</span>);</span><br><span class="line">        addressList.add(<span class="string">"深圳市"</span>);</span><br><span class="line">        builder.addAllAddress(addressList);</span><br><span class="line">        <span class="keyword">return</span> builder.build();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> InvalidProtocolBufferException </span>&#123;</span><br><span class="line">        SubcribeReqProto.SubcribeReq req = createSubcribeReq();</span><br><span class="line">        System.out.println(<span class="string">"Before encode:"</span> + req);</span><br><span class="line">        SubcribeReqProto.SubcribeReq req2 = decode(encode(req));</span><br><span class="line">        System.out.println(<span class="string">"After decode:"</span> + req2);</span><br><span class="line">        System.out.println(<span class="string">"Assert equals:"</span> + req.equals(req2));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>通过SubcribeReq的.newBuilder()创建Builder，通过Builder设置SubscribeReq的属性，最后通过builder.builder()方法生成对象。</p>
+<p>编码时通过SubscribeReq的toByteArray()即可将SubcribeReq编码为直接数组。<br>解码时通过SubscribeReq的parseForm将二进制数组编码为SubscribeReq对象。</p>
+<p>运行结果：<br><img src="http://omh46px9n.bkt.clouddn.com/17-12-10/82964556.jpg" alt></p>
+<h2 id="3-Netty的Protobuf订购程序开发"><a href="#3-Netty的Protobuf订购程序开发" class="headerlink" title="3.Netty的Protobuf订购程序开发"></a>3.Netty的Protobuf订购程序开发</h2><p>服务端代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> j.tommy</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@version</span> 1.0</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2017/12/10</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SubcribeServer</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        EventLoopGroup bossGroup = <span class="keyword">new</span> NioEventLoopGroup();</span><br><span class="line">        EventLoopGroup workerGroup = <span class="keyword">new</span> NioEventLoopGroup();</span><br><span class="line">        ServerBootstrap s = <span class="keyword">new</span> ServerBootstrap();</span><br><span class="line">        s.group(bossGroup,workerGroup)</span><br><span class="line">                .channel(NioServerSocketChannel.class)</span><br><span class="line">                .handler(<span class="keyword">new</span> LoggingHandler(LogLevel.INFO))</span><br><span class="line">                .option(ChannelOption.SO_BACKLOG, <span class="number">100</span>)</span><br><span class="line">                .childHandler(<span class="keyword">new</span> ChannelInitializer&lt;SocketChannel&gt;() &#123;</span><br><span class="line">                    <span class="meta">@Override</span></span><br><span class="line">                    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">initChannel</span><span class="params">(SocketChannel sc)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">                        sc.pipeline().addLast(<span class="keyword">new</span> ProtobufVarint32FrameDecoder());</span><br><span class="line">                        sc.pipeline().addLast(<span class="keyword">new</span> ProtobufDecoder(SubcribeReqProto.SubcribeReq.getDefaultInstance()));</span><br><span class="line">                        sc.pipeline().addLast(<span class="keyword">new</span> ProtobufVarint32LengthFieldPrepender());</span><br><span class="line">                        sc.pipeline().addLast(<span class="keyword">new</span> ProtobufEncoder());</span><br><span class="line">                        sc.pipeline().addLast(<span class="keyword">new</span> SubcribeServerHandler());</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;);</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            ChannelFuture cf = s.bind(<span class="number">9989</span>).sync();</span><br><span class="line">            cf.channel().closeFuture().sync();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            bossGroup.shutdownGracefully();</span><br><span class="line">            workerGroup.shutdownGracefully();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SubcribeServerHandler</span> <span class="keyword">extends</span> <span class="title">ChannelHandlerAdapter</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">exceptionCaught</span><span class="params">(ChannelHandlerContext ctx, Throwable cause)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        ctx.close();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">private</span> SubcribeRespProto.<span class="function">SubcribeResp <span class="title">createSubcribeResp</span><span class="params">(<span class="keyword">int</span> subReqID)</span> </span>&#123;</span><br><span class="line">        SubcribeRespProto.SubcribeResp.Builder builder = SubcribeRespProto.SubcribeResp.newBuilder();</span><br><span class="line">        builder.setSubReqID(subReqID);</span><br><span class="line">        builder.setRespCode(<span class="number">0</span>);</span><br><span class="line">        builder.setDesc(<span class="string">"Order success."</span>);</span><br><span class="line">        <span class="keyword">return</span> builder.build();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">channelRead</span><span class="params">(ChannelHandlerContext ctx, Object msg)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        SubcribeReqProto.SubcribeReq req = (SubcribeReqProto.SubcribeReq) msg;</span><br><span class="line">        System.out.println(<span class="string">"接收到客户端请求："</span> + req.getSubReqID() + <span class="string">",userName:"</span> + req.getUserName() + <span class="string">",productName:"</span> + req.getProductName());</span><br><span class="line">        SubcribeRespProto.SubcribeResp resp = createSubcribeResp(req.getSubReqID());</span><br><span class="line">        ctx.writeAndFlush(resp);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>客户端代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> j.tommy</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@version</span> 1.0</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2017/12/10</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SubcribleClient</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        EventLoopGroup group = <span class="keyword">new</span> NioEventLoopGroup();</span><br><span class="line">        Bootstrap b = <span class="keyword">new</span> Bootstrap();</span><br><span class="line">        b.group(group)</span><br><span class="line">                .channel(NioSocketChannel.class)</span><br><span class="line">                .option(ChannelOption.TCP_NODELAY, <span class="keyword">true</span>)</span><br><span class="line">                .handler(<span class="keyword">new</span> ChannelInitializer&lt;SocketChannel&gt;() &#123;</span><br><span class="line">                    <span class="meta">@Override</span></span><br><span class="line">                    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">initChannel</span><span class="params">(SocketChannel sc)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">                        sc.pipeline().addLast(<span class="keyword">new</span> ProtobufVarint32FrameDecoder());</span><br><span class="line">                        sc.pipeline().addLast(<span class="keyword">new</span> ProtobufDecoder(SubcribeRespProto.SubcribeResp.getDefaultInstance()));</span><br><span class="line">                        sc.pipeline().addLast(<span class="keyword">new</span> ProtobufVarint32LengthFieldPrepender());</span><br><span class="line">                        sc.pipeline().addLast(<span class="keyword">new</span> ProtobufEncoder());</span><br><span class="line">                        sc.pipeline().addLast(<span class="keyword">new</span> SubcribleClientHandler());</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;);</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            ChannelFuture f = b.connect(<span class="string">"127.0.0.1"</span>, <span class="number">9989</span>).sync();</span><br><span class="line">            f.channel().closeFuture().sync();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            group.shutdownGracefully();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SubcribleClientHandler</span> <span class="keyword">extends</span> <span class="title">ChannelHandlerAdapter</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">exceptionCaught</span><span class="params">(ChannelHandlerContext ctx, Throwable cause)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        cause.printStackTrace();</span><br><span class="line">        ctx.close();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">channelActive</span><span class="params">(ChannelHandlerContext ctx)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        SubcribeReqProto.SubcribeReq req = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">10</span>;i++) &#123;</span><br><span class="line">            req = createSubcribeReq(i);</span><br><span class="line">            ctx.write(req);</span><br><span class="line">        &#125;</span><br><span class="line">        ctx.flush();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">private</span> SubcribeReqProto.<span class="function">SubcribeReq <span class="title">createSubcribeReq</span><span class="params">(<span class="keyword">int</span> subSeqID)</span> </span>&#123;</span><br><span class="line">        SubcribeReqProto.SubcribeReq.Builder builder = SubcribeReqProto.SubcribeReq.newBuilder();</span><br><span class="line">        builder.setSubReqID(subSeqID);</span><br><span class="line">        builder.setUserName(<span class="string">"j.tommy"</span>);</span><br><span class="line">        builder.setProductName(<span class="string">"netty权威指南"</span>);</span><br><span class="line">        List&lt;String&gt; addressList = <span class="keyword">new</span> ArrayList&lt;String&gt;();</span><br><span class="line">        addressList.add(<span class="string">"北京市"</span>);</span><br><span class="line">        addressList.add(<span class="string">"西安市"</span>);</span><br><span class="line">        addressList.add(<span class="string">"深圳市"</span>);</span><br><span class="line">        <span class="keyword">return</span> builder.build();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">channelRead</span><span class="params">(ChannelHandlerContext ctx, Object msg)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        SubcribeRespProto.SubcribeResp resp = (SubcribeRespProto.SubcribeResp) msg;</span><br><span class="line">        System.out.println(<span class="string">"接收到服务端响应："</span> + resp.getSubReqID() + <span class="string">",responseCode:"</span> + resp.getRespCode() + <span class="string">",desc:"</span> + resp.getDesc());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>ProtobufVarint32FrameDecoder，它主要用来处理半包；</p>
+<p>ProtobufDecoder解压器，它的参数是com.google.protobuf.MessageLite，实际上是告诉ProtobufDecoder需要解码的目标类是什么，否则仅仅从字节数组是无法知道要解码的目标类型信息的。</p>
+<p>服务端中ProtobufEncoder用于对响应的SubcribeResp进行编码。</p>
+<p>运行结果：<br>服务端：<br><img src="http://omh46px9n.bkt.clouddn.com/17-12-10/42748982.jpg" alt><br>客户端：<br><img src="http://omh46px9n.bkt.clouddn.com/17-12-10/56553006.jpg" alt></p>
+<h2 id="4-Protobuf的使用注意事项"><a href="#4-Protobuf的使用注意事项" class="headerlink" title="4.Protobuf的使用注意事项"></a>4.Protobuf的使用注意事项</h2><p>ProtobufDecoder仅仅负责解码，它不支持读半包。因此在ProtobufDecoder的前面，一定要有能够处理半包消息的解码器。<br>有3种方式可以选择：<br>1.使用Netty提供的ProtobufVarint32FrameDecoder，它可以处理半包消息；<br>2.继承Netty提供的通用半包解码器LengthFieldBasedFrameDecoder;<br>3.继承ByteToMessageDecoder类，自己处理半包消息。</p>
+<p>如果只使用ProtobufDecoder解码器，而忽略对半包消息的处理，程序没法正常工作。</p>
+
+        </div>
+        <div class="post-tool">
+            <a class="btn-thumbs-up" href="javascript:void(0);" data-cid="52" title="95">
+                <i class="fa fa-thumbs-up" aria-hidden="true"></i> 打赏
+            </a>
+        </div>
+        
+        <div class="post-tags">标签：
+            
+            <a href="/tags/Netty/">Netty</a>
+            
+            <a href="/tags/Protobuf/">Protobuf</a>
+            
+        </div>
+        
+    </article>
+    
+    <p style="text-align: center">本文代表个人观点，内容仅供参考。若有不恰当之处，望不吝赐教！</p>
+    
+    
+
+    
+    
+        <div id="gitment-container"></div>
+        <link rel="stylesheet" href="//imsun.github.io/gitment/style/default.css">
+        <script src="//imsun.github.io/gitment/dist/gitment.browser.js"></script>
+        <script type="text/javascript">
+            var gitment = new Gitment({
+                /*lable长度不能超过50个字符，这里使用页面的生成时间*/
+                id: 'Sun Dec 10 2017 16:30:58 GMT+0800'/*document.location.href*/,
+                owner: 'luckystar88',
+                repo: 'comments',
+                oauth: {
+                    client_id: 'd49ebe4f95abcd6163f4',
+                    client_secret: 'edd2748d6271072a6970d5cec8751f388dac8116',
+                }
+            });
+            gitment.render('gitment-container');
+        </script>
+        
+            <script>
+                document.getElementById("gitment-display-button").style.display = "none";
+                document.getElementById("gitment-container").style.display = "block";
+            </script>
+        
+    
+
+
+</div>
+<script src="/js/busuanzi.pure.mini.js"></script>
+
+
+        </div><!-- end #main-->
+    </div><!-- end #body -->
+    <footer class="footer">
+    <div class="footer-inner" style="text-align: center">
+        <p>
+            <a href="/about" title="关于">关于</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <!-- 自定义链接 -->
+            <a href="/help" title="帮助">帮助</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <a href="/links" title="友链">友链</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <a href="/sitemap.xml" title="地图">地图</a>
+        </p>
+        <p>
+            本站已建立&nbsp<a href="/timeline" id="siteBuildingTime"></a>&nbsp天，<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="licence">采用知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议创作</a><br>
+            ©2017-<span id="cpYear"></span> 基于&nbsp<a href="http://hexo.io" target="_blank" rel="nofollow">Hexo</a>
+            ，主题采用&nbsp&nbsp<a href="https://github.com/tangkunyin/hexo-theme-jsimple" target="_blank" rel="bookmark">JSimple</a>
+            ，作者&nbsp<a href="https://tommy88.top" target="_blank" rel="friend">Donny</a>
+            ，Hosted by <a href="https://pages.github.com/" target="_blank" rel="nofollow">GitHub Pages</a>
+        </p>
+    </div>
+</footer>
+<script src="/js/SimpleCore.js"></script>
+
+</div>
+<!-- search pop -->
+<div class="popup search-popup local-search-popup">
+    <div class="local-search-header clearfix">
+        <span class="search-icon">
+            <i class="fa fa-search"></i>
+        </span>
+        <span class="popup-btn-close">
+            <i class="fa fa-times-circle"></i>
+        </span>
+        <div class="local-search-input-wrapper">
+            <input id="local-search-input" spellcheck="false" type="text" autocomplete="off" placeholder="请输入查询关键词">
+        </div>
+    </div>
+    <div id="local-search-result"></div>
+</div>
+<div class="fixed-btn">
+    <a class="btn-gotop" href="javascript:"> <i class="fa fa-angle-up"></i></a>
+</div>
+<script>
+    $(function () {
+        var jsi_config = {
+            buildingTime: '01/20/2016',
+            current: $('.post-tags').length > 0 ? 'post' : 'archive',
+            snsQRCode: '/images/sns-qrcode.png',
+            donateImg: '/images/donate-qr.png',
+            localSearch: { dbPath: '' },
+            readMode: 'day'
+        };
+        
+            jsi_config.localSearch = {
+                dbPath: '/search.xml',
+                trigger: 'auto',
+                topN: '1',
+                unescape: 'false'
+            }
+        
+        SimpleCore.init(jsi_config);
+        
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,309 @@
+<!DOCTYPE HTML>
+<html class="no-js" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!--[if lte IE 9]>
+<meta http-equiv="refresh" content="0;url=https://tommy88.top/warn.html">
+<![endif]-->
+<meta charset="utf-8">
+<meta http-equiv="X-DNS-Prefetch-Control" content="on">
+<link rel="dns-prefetch" href="https://tommy88.top">
+<link rel="dns-prefetch" href="//www.google-analytics.com">
+<link rel="prefetch" href="https://tommy88.top">
+<link rel="prefetch" href="//www.google-analytics.com">
+
+
+    <link rel="dns-prefetch" href="//imsun.github.io">
+    <link rel="prefetch" href="//imsun.github.io">
+
+<link rel="prerender" href="https://tommy88.top">
+
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+<meta http-equiv="mobile-agent" content="format=html5; url=https://tommy88.top">
+<meta name="author" content="Donny">
+<link rel="stylesheet" href="/css/JSimple.css">
+
+<link rel="shortcut icon" href="/images/favicon.png">
+
+
+<title>springcloud系列20——turbine聚合各个节点的hystrix.stream - Donny的技术博客</title>
+
+<meta name="keywords" content="java,前端,数据库,web,spring,redis,spring boot,spring cloud,mq">
+
+<meta name="description " content="记录工作，感悟生活">
+
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                processEscapes: true
+            }
+        });
+    </script>
+
+
+    
+
+    
+    
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="//www.googletagmanager.com/gtag/js?id=UA-105613999-1"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'UA-105613999-1');
+        </script>
+    
+    <!-- put your likes here. -->
+
+
+</head>
+<body>
+<div id="nav">
+    <nav class="nav-menu">
+        <a class="site-name current" href="/" title="Home">Home</a>
+        <a class="site-index current" href="/"><i class="fa fa-home"></i><span>首页</span></a>
+        <a href="/archives" title="归档"><i class="fa fa-archives"></i><span>归档</span></a>
+        <a href="/tags" title="标签"><i class="fa fa-tags"></i><span>标签</span></a>
+        <!-- custom single page of menus -->
+        
+        
+        <a href="/help" title="帮助">
+            <i class="fa fa-question-circle"></i>
+            <span>帮助</span>
+        </a>
+        
+    </nav>
+</div>
+
+<div class="nav-user">
+    <a class="btn-search" href="#"><i class="fa fa-search"></i></a>
+    <a class="btn-read-mode" href="#"><i class="fa fa-sun-o"></i></a>
+    <a class="btn-sns-qr" href="javascript:"><i class="fa fa-telegram"></i></a>
+</div>
+
+<div id="wrapper" class="clearfix">
+    <div id="body">
+        <div class="main" id="main">
+            <div id="cover">
+    <div class="cover-img"></div>
+    <div class="cover-info">
+        
+        <h1 class="cover-siteName">Donny的技术博客</h1>
+        <h3 class="cover-siteTitle">用代码征服世界</h3>
+        <p class="cover-siteDesc">这是一个简单的技术博客</p>
+        <div class="cover-sns">
+            
+    &nbsp;&nbsp;<div class="btn btn-github">
+        <a href="https://github.com/luckystar88" target="_blank" title="github" ref="friend">
+            <i class="fa fa-github"></i>
+        </a>
+    </div>
+
+
+        </div>
+    </div>
+</div>
+
+            <div class="page-title">
+    <ul>
+        <li><a href="/">最近</a></li>
+        
+            
+                <li class="active">
+                    <a href="/categories/tech" data-name="技术">技术</a>
+                </li>
+            
+                <li class>
+                    <a href="/categories/life" data-name="人文">人文</a>
+                </li>
+            
+                <li class>
+                    <a href="/categories/others" data-name="其他">其他</a>
+                </li>
+            
+        
+        <li class="page-search">
+    <form id="search" class="search-form">
+        <input type="text" readonly="readonly" id="local-search-input-tip" placeholder="读物检索~">
+        <button type="button" disabled="disabled" class="search-form-submit"><i class="fa fa-search"></i></button>
+    </form>
+</li>
+
+    </ul>
+</div>
+<div class="main-inner">
+    <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+        <div class="post-header">
+            <div class="post-author clearfix">
+                <a class="avatar fleft" href="https://tommy88.top" target="_blank">
+                    <img width="48" src="/images/favicon.png" alt="avatar">
+                </a>
+                <p><span class="label">作者</span>
+                    <a href="https://tommy88.top" target="_blank">Donny</a>
+                    <span title="最后编辑于&nbsp;2018-07-03">2018-07-03</span>
+                </p>
+                <p>记录工作，感悟生活</p>
+            </div>
+            <h2 class="post-title">springcloud系列20——Turbine聚合各个节点的hystrix.stream</h2>
+            <div class="post-meta">
+                本文共计5590个字 |
+                您是第&nbsp;<span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>位看到它们的小伙伴
+            </div>
+        </div>
+        <div class="post-content markdown-body">
+            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>我们在之前讲过，在单个的Hystrix的应用中，我们使用/hystrix.stream可以查看监控数据，如果想以图表的形式更直观的查看监控数据，再结合dashboard就可以了。</p>
+<p>但是，如何同时监控多个应用或集群呢？<br>我们需要使用springcloud提供的Turbine，它是将各个应用的/hystrix.stream进行聚合的组件。我们在dashboard中输入/turbine.stream即可查看所有监控应用的健康情况。</p>
+<p>turbine的官方文档：<a href="http://cloud.spring.io/spring-cloud-static/Edgware.SR3/multi/multi__hystrix_timeouts_and_ribbon_clients.html#_turbine">http://cloud.spring.io/spring-cloud-static/Edgware.SR3/multi/multi__hystrix_timeouts_and_ribbon_clients.html#_turbine</a><br><a id="more"></a></p>
+<h2 id="Turbine的使用"><a href="#Turbine的使用" class="headerlink" title="Turbine的使用"></a>Turbine的使用</h2><p>这里新建模块microservice-springcloud-turbine。单纯的使用turbine是很简单的。</p>
+<p>1.引入turbine和Eureka的依赖<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-eureka<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-netflix-turbine<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>2.配置turbine<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">turbine:</span><br><span class="line">  aggregator:</span><br><span class="line">    # 指定聚合哪些集群，多个使用&quot;,&quot;分割，默认为default。</span><br><span class="line">    cluster-config: default</span><br><span class="line">  # 配置监控的服务id，多个服务以逗号分隔    </span><br><span class="line">  app-config: microservice-springcloud-movie-feign-with-hystrix,microservice-springcloud-movie-feign-without-hystrix</span><br><span class="line">  clusterNameExpression: new String(&quot;default&quot;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">eureka:</span><br><span class="line">  client:</span><br><span class="line">    serviceUrl:</span><br><span class="line">      defaultZone: http://localhost:8761/eureka</span><br><span class="line">  instance:</span><br><span class="line">    prefer-ip-address: true</span><br><span class="line">    instanceId: $&#123;spring.application.name&#125;:$&#123;vcap.application.instance_id:$&#123;spring.application.instance_id:$&#123;random.value&#125;&#125;&#125;</span><br></pre></td></tr></table></figure></p>
+<p>turbine配置参数：  </p>
+<blockquote>
+<p>1.turbine.app-config=ribbon-consumer指定了要监控的应用名字为ribbon-consumer<br>2.turbine.cluster-name-expression=”default”,表示集群的名字为default<br>3.turbine.combine-host-port=true表示同一主机上的服务通过host和port的组合来进行区分，默认情况下是使用host来区分，这样会使本地调试有问题</p>
+</blockquote>
+<p>3.在启动类增加@EnableTurbine<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="meta">@EnableTurbine</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TurbineApp</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">( String[] args )</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        SpringApplication.run(TurbineApp.class,args);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>4.Dashboard的使用<br>在《springcloud系列16——Hystrix Health Indicator及Metrics Stream》已经说过了。</p>
+<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><p>a.启动Eureka Server应用；<br>b.启动user服务，因为要监控的应用使用它；<br>c.启动microservice-springcloud-movie-feign-with-hystrix,microservice-springcloud-movie-feign-without-hystrix这2个服务，其中microservice-springcloud-movie-feign-with-hystrix修改配置的端口启动2个服务；<br>d.启动turebine应用；<br>e.启动dashboard应用。</p>
+<p>测试步骤：<br>1.检查microservice-springcloud-movie-feign-with-hystrix,microservice-springcloud-movie-feign-without-hystrix这2个服务的/hystrix.stream是否能够访问；</p>
+<p>2.检查/turbine.stream是否可以访问；</p>
+<p>3.分别访问microservice-springcloud-movie-feign-with-hystrix,microservice-springcloud-movie-feign-without-hystrix这2个服务的/user/1请求（依赖user的服务），然后看/turbine.stream是否输出了类似下面的数据：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">: ping</span><br><span class="line">data: &#123;&quot;reportingHostsLast10Seconds&quot;:3,&quot;name&quot;:&quot;meta&quot;,&quot;type&quot;:&quot;meta&quot;,&quot;timestamp&quot;:1530633245374&#125;</span><br></pre></td></tr></table></figure></p>
+<p>如上，表示10秒内上报的主机数量为3.</p>
+<p>4./访问dashboard应用的/hystrix，输入/turbine.stream的地址。<br>可以看到下面的页面<br><img src="http://omh46px9n.bkt.clouddn.com/18-7-3/81256.jpg" alt>  </p>
+<p>参数说明：<br><img src="http://omh46px9n.bkt.clouddn.com/18-7-3/71023251.jpg" alt></p>
+<p>5.将user服务关闭，频繁刷新某个服务，然后看dashboard<br><img src="http://omh46px9n.bkt.clouddn.com/18-7-4/6258812.jpg" alt><br>可以看到，显示断路器1个打开，2个关闭。因为我们只是访问了1个服务，所以其他没访问的2个服务断路器状态还是关闭的。</p>
+<p>如果我另外一个服务也频繁访问让断路器打开，在dashboard页面就会看到2个处理打开状态。</p>
+<p>不过有个问题，我将某个服务关闭，dashboard仍然显示的3个Hosts，但你看/turbine.stream，其实上报的hosts只有2个。<br><img src="http://omh46px9n.bkt.clouddn.com/18-7-4/52613008.jpg" alt></p>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><h3 id="hystrix-stream-404-问题"><a href="#hystrix-stream-404-问题" class="headerlink" title="hystrix.stream 404 问题"></a>hystrix.stream 404 问题</h3><p>参考：<a href="http://www.voidcc.com/content/spring-boot-hystrix-stream-404">http://www.voidcc.com/content/spring-boot-hystrix-stream-404</a>。</p>
+<p>Feign是对Hystrix支持的，所以不用增加Hystrix的依赖。但是，如果要使用dashboard则需要引入hystrix的依赖。<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 整合hystrix，其实feign中自带了hystrix，引入该依赖主要是为了使用其中的hystrix-metrics-event-stream，用于dashboard --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-hystrix<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>并且在Application类中增加如下代码<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> ServletRegistrationBean <span class="title">getServlet</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    HystrixMetricsStreamServlet streamServlet = <span class="keyword">new</span> HystrixMetricsStreamServlet();</span><br><span class="line">    ServletRegistrationBean registrationBean = <span class="keyword">new</span> ServletRegistrationBean(streamServlet);</span><br><span class="line">    registrationBean.setLoadOnStartup(<span class="number">1</span>);</span><br><span class="line">    registrationBean.addUrlMappings(<span class="string">"/hystrix.stream"</span>);</span><br><span class="line">    registrationBean.setName(<span class="string">"HystrixMetricsStreamServlet"</span>);</span><br><span class="line">    <span class="keyword">return</span> registrationBean;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
+<p>这样启动后通过<a href="http://ip:port/hystrix.stream即可访问。">http://ip:port/hystrix.stream即可访问。</a></p>
+<p>PS：这里springcloud使用的是1.4.2.RELEASE版本。</p>
+<h3 id="Turbine-stream的reportingHostsLast10Seconds为0"><a href="#Turbine-stream的reportingHostsLast10Seconds为0" class="headerlink" title="Turbine.stream的reportingHostsLast10Seconds为0"></a>Turbine.stream的reportingHostsLast10Seconds为0</h3><p>启动Turbine的应用后，可以通过<a href="http://ip:port/turbine.stream来查看Turbine收集监控数据。turbine的作用是聚合各个/hystrix.stream的监控数据，在单个的hystrix.stream都正常后，turbine.stream收集的上报的hosts的数量却一直是0">http://ip:port/turbine.stream来查看Turbine收集监控数据。turbine的作用是聚合各个/hystrix.stream的监控数据，在单个的hystrix.stream都正常后，turbine.stream收集的上报的hosts的数量却一直是0</a>.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">: ping</span><br><span class="line">: ping</span><br><span class="line">data: &#123;&quot;reportingHostsLast10Seconds&quot;:0（这里一直是0）,&quot;name&quot;:&quot;meta&quot;,&quot;type&quot;:&quot;meta&quot;,&quot;timestamp&quot;:1530627942212&#125;</span><br></pre></td></tr></table></figure>
+<p>Turbine需要注册Eureka。<br>所以需要引入Eureka的依赖，并配置eureka.client.url。<br>1.引入依赖<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-eureka<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>2.配置eureka.client.url<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">eureka:</span><br><span class="line">  client:</span><br><span class="line">    serviceUrl:</span><br><span class="line">      defaultZone: http://localhost:8761/eureka</span><br><span class="line">  instance:</span><br><span class="line">    prefer-ip-address: true</span><br><span class="line">    instanceId: $&#123;spring.application.name&#125;:$&#123;vcap.application.instance_id:$&#123;spring.application.instance_id:$&#123;random.value&#125;&#125;&#125;</span><br></pre></td></tr></table></figure></p>
+<p>然后收集数据就正常了。在dashboard输入turbine.stream的地址即可看到监控数据。</p>
+<h3 id="使用RequestLine一直触发的fallback"><a href="#使用RequestLine一直触发的fallback" class="headerlink" title="使用RequestLine一直触发的fallback"></a>使用RequestLine一直触发的fallback</h3><p>microservice-springcloud-movie-feign-without-hystrix服务依赖user服务，user服务已经启动了，但访问microservice-springcloud-movie-feign-without-hystrix的/user/1时仍然返回的fallback的处理结果。</p>
+<p>这是因为我的FeignClient中configuration使用了默认的Contract。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Configuration1</span> </span>&#123;</span><br><span class="line"></span><br><span class="line"><span class="comment">//    @Bean</span></span><br><span class="line"><span class="comment">//    public Contract feignContract() &#123;</span></span><br><span class="line"><span class="comment">//        return new feign.Contract.Default();</span></span><br><span class="line"><span class="comment">//    &#125;</span></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    Logger.<span class="function">Level <span class="title">feignLoggerLevel</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> Logger.Level.FULL;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>注释掉默认的Contract即可。</p>
+<p>集群配置可以参考：<a href="https://blog.csdn.net/luosai19910103/article/details/70820904/">https://blog.csdn.net/luosai19910103/article/details/70820904/</a></p>
+<p>turbine如何聚合设置了context-path的hystrix数据：<br><a href="http://blog.didispace.com/spring-cloud-tips-4/">http://blog.didispace.com/spring-cloud-tips-4/</a></p>
+
+        </div>
+        <div class="post-tool">
+            <a class="btn-thumbs-up" href="javascript:void(0);" data-cid="52" title="95">
+                <i class="fa fa-thumbs-up" aria-hidden="true"></i> 打赏
+            </a>
+        </div>
+        
+        <div class="post-tags">标签：
+            
+            <a href="/tags/springcloud/">springcloud</a>
+            
+        </div>
+        
+    </article>
+    
+    <p style="text-align: center">本文代表个人观点，内容仅供参考。若有不恰当之处，望不吝赐教！</p>
+    
+    
+
+    
+    
+        <div id="gitment-container"></div>
+        <link rel="stylesheet" href="//imsun.github.io/gitment/style/default.css">
+        <script src="//imsun.github.io/gitment/dist/gitment.browser.js"></script>
+        <script type="text/javascript">
+            var gitment = new Gitment({
+                /*lable长度不能超过50个字符，这里使用页面的生成时间*/
+                id: 'Tue Jul 03 2018 15:09:28 GMT+0800'/*document.location.href*/,
+                owner: 'luckystar88',
+                repo: 'comments',
+                oauth: {
+                    client_id: 'd49ebe4f95abcd6163f4',
+                    client_secret: 'edd2748d6271072a6970d5cec8751f388dac8116',
+                }
+            });
+            gitment.render('gitment-container');
+        </script>
+        
+            <script>
+                document.getElementById("gitment-display-button").style.display = "none";
+                document.getElementById("gitment-container").style.display = "block";
+            </script>
+        
+    
+
+
+</div>
+<script src="/js/busuanzi.pure.mini.js"></script>
+
+
+        </div><!-- end #main-->
+    </div><!-- end #body -->
+    <footer class="footer">
+    <div class="footer-inner" style="text-align: center">
+        <p>
+            <a href="/about" title="关于">关于</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <!-- 自定义链接 -->
+            <a href="/help" title="帮助">帮助</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <a href="/links" title="友链">友链</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <a href="/sitemap.xml" title="地图">地图</a>
+        </p>
+        <p>
+            本站已建立&nbsp<a href="/timeline" id="siteBuildingTime"></a>&nbsp天，<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="licence">采用知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议创作</a><br>
+            ©2017-<span id="cpYear"></span> 基于&nbsp<a href="http://hexo.io" target="_blank" rel="nofollow">Hexo</a>
+            ，主题采用&nbsp&nbsp<a href="https://github.com/tangkunyin/hexo-theme-jsimple" target="_blank" rel="bookmark">JSimple</a>
+            ，作者&nbsp<a href="https://tommy88.top" target="_blank" rel="friend">Donny</a>
+            ，Hosted by <a href="https://pages.github.com/" target="_blank" rel="nofollow">GitHub Pages</a>
+        </p>
+    </div>
+</footer>
+<script src="/js/SimpleCore.js"></script>
+
+</div>
+<!-- search pop -->
+<div class="popup search-popup local-search-popup">
+    <div class="local-search-header clearfix">
+        <span class="search-icon">
+            <i class="fa fa-search"></i>
+        </span>
+        <span class="popup-btn-close">
+            <i class="fa fa-times-circle"></i>
+        </span>
+        <div class="local-search-input-wrapper">
+            <input id="local-search-input" spellcheck="false" type="text" autocomplete="off" placeholder="请输入查询关键词">
+        </div>
+    </div>
+    <div id="local-search-result"></div>
+</div>
+<div class="fixed-btn">
+    <a class="btn-gotop" href="javascript:"> <i class="fa fa-angle-up"></i></a>
+</div>
+<script>
+    $(function () {
+        var jsi_config = {
+            buildingTime: '01/20/2016',
+            current: $('.post-tags').length > 0 ? 'post' : 'archive',
+            snsQRCode: '/images/sns-qrcode.png',
+            donateImg: '/images/donate-qr.png',
+            localSearch: { dbPath: '' },
+            readMode: 'day'
+        };
+        
+            jsi_config.localSearch = {
+                dbPath: '/search.xml',
+                trigger: 'auto',
+                topN: '1',
+                unescape: 'false'
+            }
+        
+        SimpleCore.init(jsi_config);
+        
+    });
+</script>
+</body>
+</html>

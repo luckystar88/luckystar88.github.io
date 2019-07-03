@@ -1,0 +1,351 @@
+<!DOCTYPE HTML>
+<html class="no-js" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!--[if lte IE 9]>
+<meta http-equiv="refresh" content="0;url=https://tommy88.top/warn.html">
+<![endif]-->
+<meta charset="utf-8">
+<meta http-equiv="X-DNS-Prefetch-Control" content="on">
+<link rel="dns-prefetch" href="https://tommy88.top">
+<link rel="dns-prefetch" href="//www.google-analytics.com">
+<link rel="prefetch" href="https://tommy88.top">
+<link rel="prefetch" href="//www.google-analytics.com">
+
+
+    <link rel="dns-prefetch" href="//imsun.github.io">
+    <link rel="prefetch" href="//imsun.github.io">
+
+<link rel="prerender" href="https://tommy88.top">
+
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+<meta http-equiv="mobile-agent" content="format=html5; url=https://tommy88.top">
+<meta name="author" content="Donny">
+<link rel="stylesheet" href="/css/JSimple.css">
+
+<link rel="shortcut icon" href="/images/favicon.png">
+
+
+<title>elk搭建手册 - Donny的技术博客</title>
+
+<meta name="keywords" content="java,前端,数据库,web,spring,redis,spring boot,spring cloud,mq">
+
+<meta name="description " content="记录工作，感悟生活">
+
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                processEscapes: true
+            }
+        });
+    </script>
+
+
+    
+
+    
+    
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="//www.googletagmanager.com/gtag/js?id=UA-105613999-1"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'UA-105613999-1');
+        </script>
+    
+    <!-- put your likes here. -->
+
+
+</head>
+<body>
+<div id="nav">
+    <nav class="nav-menu">
+        <a class="site-name current" href="/" title="Home">Home</a>
+        <a class="site-index current" href="/"><i class="fa fa-home"></i><span>首页</span></a>
+        <a href="/archives" title="归档"><i class="fa fa-archives"></i><span>归档</span></a>
+        <a href="/tags" title="标签"><i class="fa fa-tags"></i><span>标签</span></a>
+        <!-- custom single page of menus -->
+        
+        
+        <a href="/help" title="帮助">
+            <i class="fa fa-question-circle"></i>
+            <span>帮助</span>
+        </a>
+        
+    </nav>
+</div>
+
+<div class="nav-user">
+    <a class="btn-search" href="#"><i class="fa fa-search"></i></a>
+    <a class="btn-read-mode" href="#"><i class="fa fa-sun-o"></i></a>
+    <a class="btn-sns-qr" href="javascript:"><i class="fa fa-telegram"></i></a>
+</div>
+
+<div id="wrapper" class="clearfix">
+    <div id="body">
+        <div class="main" id="main">
+            <div id="cover">
+    <div class="cover-img"></div>
+    <div class="cover-info">
+        
+        <h1 class="cover-siteName">Donny的技术博客</h1>
+        <h3 class="cover-siteTitle">用代码征服世界</h3>
+        <p class="cover-siteDesc">这是一个简单的技术博客</p>
+        <div class="cover-sns">
+            
+    &nbsp;&nbsp;<div class="btn btn-github">
+        <a href="https://github.com/luckystar88" target="_blank" title="github" ref="friend">
+            <i class="fa fa-github"></i>
+        </a>
+    </div>
+
+
+        </div>
+    </div>
+</div>
+
+            <div class="page-title">
+    <ul>
+        <li><a href="/">最近</a></li>
+        
+            
+                <li class="active">
+                    <a href="/categories/tech" data-name="技术">技术</a>
+                </li>
+            
+                <li class>
+                    <a href="/categories/life" data-name="人文">人文</a>
+                </li>
+            
+                <li class>
+                    <a href="/categories/others" data-name="其他">其他</a>
+                </li>
+            
+        
+        <li class="page-search">
+    <form id="search" class="search-form">
+        <input type="text" readonly="readonly" id="local-search-input-tip" placeholder="读物检索~">
+        <button type="button" disabled="disabled" class="search-form-submit"><i class="fa fa-search"></i></button>
+    </form>
+</li>
+
+    </ul>
+</div>
+<div class="main-inner">
+    <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+        <div class="post-header">
+            <div class="post-author clearfix">
+                <a class="avatar fleft" href="https://tommy88.top" target="_blank">
+                    <img width="48" src="/images/favicon.png" alt="avatar">
+                </a>
+                <p><span class="label">作者</span>
+                    <a href="https://tommy88.top" target="_blank">Donny</a>
+                    <span title="最后编辑于&nbsp;2017-08-30">2017-08-30</span>
+                </p>
+                <p>记录工作，感悟生活</p>
+            </div>
+            <h2 class="post-title">ELK搭建手册</h2>
+            <div class="post-meta">
+                本文共计8919个字 |
+                您是第&nbsp;<span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>位看到它们的小伙伴
+            </div>
+        </div>
+        <div class="post-content markdown-body">
+            <p>参考:<br><a href="https://my.oschina.net/itblog/blog/547250?p=2&amp;temp=1503478503046#blog-comments-list">https://my.oschina.net/itblog/blog/547250?p=2&amp;temp=1503478503046#blog-comments-list</a></p>
+<p>head插件安装参考：<br><a href="https://wenku.baidu.com/view/1c61ece6162ded630b1c59eef8c75fbfc77d94e5.html">https://wenku.baidu.com/view/1c61ece6162ded630b1c59eef8c75fbfc77d94e5.html</a></p>
+<p>说明：测试机器为192.168.74.125.</p>
+<h2 id="下载软件"><a href="#下载软件" class="headerlink" title="下载软件"></a>下载软件</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">elasticsearch-5.5.0.tar.gz</span><br><span class="line">logstash-5.5.2.tar.gz</span><br><span class="line">kibana-5.5.0-linux-x86_64.tar.gz</span><br></pre></td></tr></table></figure>
+<p>下载地址：<a href="https://www.elastic.co/downloads">https://www.elastic.co/downloads</a><br>下载速度较慢，可以使用香港网络下载。<br>软件下载的位置：/data/soft<br><a id="more"></a></p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><h3 id="1、安装并配置JAVA环境变量"><a href="#1、安装并配置JAVA环境变量" class="headerlink" title="1、安装并配置JAVA环境变量"></a>1、安装并配置JAVA环境变量</h3><h4 id="1、安装JDK"><a href="#1、安装JDK" class="headerlink" title="1、安装JDK"></a>1、安装JDK</h4><p>ES要求JDK版本至少1.8.<br>从oracle网站下载jdk-8u144-linux-x64.tar.gz。<br>下载完毕后，使用tar –zxvf jdk-8u144-linux-x64.tar.gz –C /usr/java，将JDK解压到/usr/java。<br>解压后得到：/usr/java/jdk1.8.0_144</p>
+<h4 id="2、配置环境变量"><a href="#2、配置环境变量" class="headerlink" title="2、配置环境变量"></a>2、配置环境变量</h4><p><code>vi /etc/profile</code>，在文件末尾添加：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">export JAVA_HOME=/usr/java/jdk1.8.0_144</span><br><span class="line">export CLASSPATH=$&#123;JAVA_HOME&#125;/lib/dt.jar:$&#123;JAVA_HOME&#125;/lib/tools.jar</span><br><span class="line">export PATH=$&#123;PATH&#125;:$&#123;JAVA_HOME&#125;/bin</span><br></pre></td></tr></table></figure></p>
+<p>然后:wq保存文件。</p>
+<p>然后执行source /etc/profile使环境变量生效。<br>最后用<code>java –version</code>来验证一下。<br><img src="http://omh46px9n.bkt.clouddn.com/17-8-30/72442033.jpg" alt></p>
+<h3 id="安装ElasticSearch"><a href="#安装ElasticSearch" class="headerlink" title="安装ElasticSearch"></a>安装ElasticSearch</h3><p>在/data/soft目录，执行tar –zxvf elasticsearch-5.5.0.tar.gz解压缩es。<br>    由于es不能使用root用户运行，所以这里创建用户组bd和用户bd，密码为test123456<br>    步骤如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">groupadd bd</span><br><span class="line">useradd bd</span><br><span class="line">passwd bd</span><br></pre></td></tr></table></figure></p>
+<p>然后输入密码test123456<br>然后将/data/soft/elasticsearch-5.5.0的拥有者改为bd。<br>进入/data/soft，执行sudo chown -R bd:bd ./elasticsearch-5.5.0。</p>
+<p>修改es的配置文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">cd $ES_HOME$/config，vi elasticsearch.yml打开配置文件。</span><br><span class="line">cluster.name: es-cluster</span><br><span class="line">path.data: /tmp/es/data</span><br><span class="line">path.logs: /tmp/es/logs</span><br><span class="line"># ----------------------------------- Memory -----------------------------------</span><br><span class="line">#</span><br><span class="line"># Lock the memory on startup:</span><br><span class="line">#</span><br><span class="line">bootstrap.memory_lock: false</span><br><span class="line">bootstrap.system_call_filter: false</span><br><span class="line"></span><br><span class="line">network.host: 0.0.0.0</span><br><span class="line"></span><br><span class="line">http.cors.enabled: true</span><br><span class="line">http.cors.allow-origin: &quot;*&quot;</span><br></pre></td></tr></table></figure></p>
+<p>启动es<br><code>./bin/elasticsearch &amp;</code></p>
+<p>在浏览器打开：<a href="http://192.168.74.125:9200/">http://192.168.74.125:9200/</a><br><img src="http://omh46px9n.bkt.clouddn.com/17-8-30/40386725.jpg" alt><br>如果可以看到上图则es安装成功。</p>
+<h3 id="安装head插件"><a href="#安装head插件" class="headerlink" title="安装head插件"></a>安装head插件</h3><p>Es5.0的head插件安装还是很麻烦的，具体可以参考：<br><a href="https://wenku.baidu.com/view/1c61ece6162ded630b1c59eef8c75fbfc77d94e5.html">https://wenku.baidu.com/view/1c61ece6162ded630b1c59eef8c75fbfc77d94e5.html</a></p>
+<p>a.  安装git<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum –y install git</span><br></pre></td></tr></table></figure></p>
+<p>安装完毕后，就可以下载Head的源代码了。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone git://github.com/mobz/elasticsearch-head.git</span><br></pre></td></tr></table></figure></p>
+<p>注：这里我们仍然下载的/data/soft目录。</p>
+<p>b.  安装node<br>由于head插件本质上还是一个nodejs工程，因此需要安装node，使用npm来安装依赖的包。<br>去官网下载nodejs，<a href="https://nodejs.org/en/download/">https://nodejs.org/en/download/</a><br><img src="http://omh46px9n.bkt.clouddn.com/17-8-30/20009097.jpg" alt></p>
+<p>下载下来的jar包是xz格式的，一般的linux可能不识别，还需要安装xz.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y install xz</span><br></pre></td></tr></table></figure></p>
+<p>然后解压nodejs的安装包:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">xz -d node*.tar.xz </span><br><span class="line">tar -xvf node*.tar  -C /user/node</span><br></pre></td></tr></table></figure></p>
+<p>解压完node的安装文件后，需要配置下环境变量,编辑/etc/profile，添加<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">export NODE_HOME=/usr/node/node-v6.11.2-linux-x64</span><br><span class="line">export PATH=$&#123;PATH&#125;:$&#123;NODE_HOME&#125;/bin</span><br></pre></td></tr></table></figure></p>
+<p>别忘记立即执行以下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source /etc/profile</span><br></pre></td></tr></table></figure></p>
+<p>这个时候可以测试一下node是否生效：<br><img src="http://omh46px9n.bkt.clouddn.com/17-8-30/41604612.jpg" alt></p>
+<p>注意：npm安装插件，经常受网络影响，无法下载<br>受网络影响建议安装cnpm（淘宝团队建立的中国镜像）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install cnpm -g --registry=https://registry.npm.taobao.org</span><br></pre></td></tr></table></figure></p>
+<p>c.  安装grunt<br>grunt是一个很方便的构建工具，可以进行打包压缩、测试、执行等等的工作，5.0里的head插件就是通过grunt启动的。因此需要安装一下grunt。<br>安装grunt-cli<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install –g grunt-cli</span><br></pre></td></tr></table></figure></p>
+<p>安装完毕后，检查一下：</p>
+<p>注意：如果安装报错，到/usr/node/ node-v6.11.2-linux-x64目录执行上述命令。  </p>
+<p>d.  修改head源码<br>修改服务器监听地址：<br>目录：elasticsearch-head/Gruntfile.js<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">connect:</span><br><span class="line"> &#123;     server:</span><br><span class="line">    &#123;     options:</span><br><span class="line">      &#123;     </span><br><span class="line">        port:9100,</span><br><span class="line">        hostname: &apos;*&apos;, </span><br><span class="line">        base: &apos;.&apos;,                                                       </span><br><span class="line">        keepalive:true </span><br><span class="line">      &#125; </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>增加hostname属性，设置为*</p>
+<p>修改连接地址：<br>目录：elasticsearch-head/_site/app.js<br>修改head的连接地址:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">this.base_uri = this.config.base_uri || this.prefs.get(&quot;app-base_uri&quot;) || &quot;http://localhost:9200&quot;;</span><br></pre></td></tr></table></figure></p>
+<p>把localhost修改成你es的服务器地址，如:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">this.base_uri = this.config.base_uri || this.prefs.get(&quot;app-base_uri&quot;) || &quot;http://10.10.10.10:9200&quot;;</span><br></pre></td></tr></table></figure></p>
+<p>e.  运行head插件<br>首先运行es。<br>然后在head目录中，执行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install 下载以来的包</span><br></pre></td></tr></table></figure></p>
+<p>最后，启动nodejs<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grunt server</span><br></pre></td></tr></table></figure></p>
+<p>这个时候访问192.168.74.125:9100就可以访问Head插件了。<br><img src="http://omh46px9n.bkt.clouddn.com/17-8-30/54650006.jpg" alt></p>
+<h3 id="安装logstash"><a href="#安装logstash" class="headerlink" title="安装logstash"></a>安装logstash</h3><p>执行<code>tar –zxvf logstash-5.5.2.tar.gz</code>解压缩logstash。<br>进入config目录，新增log4j_to_es.conf文件。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd /data/soft/logstash-5.5.2/config</span><br></pre></td></tr></table></figure></p>
+<p>文件内容：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"># For detail structure of this file</span><br><span class="line"># Set: https://www.elastic.co/guide/en/logstash/current/configuration-file-structure.html</span><br><span class="line">input &#123;</span><br><span class="line">  # For detail config for log4j as input,</span><br><span class="line">  # See: https://www.elastic.co/guide/en/logstash/current/plugins-inputs-log4j.html</span><br><span class="line">  log4j &#123;</span><br><span class="line">    mode =&gt; &quot;server&quot;</span><br><span class="line">    host =&gt; &quot;0.0.0.0&quot;</span><br><span class="line">    port =&gt; 4567</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">filter &#123;</span><br><span class="line">  #Only matched data are send to output.</span><br><span class="line">&#125;</span><br><span class="line">output &#123;</span><br><span class="line">  # For detail config for elasticsearch as output,</span><br><span class="line">  # See: https://www.elastic.co/guide/en/logstash/current/plugins-outputs-elasticsearch.html</span><br><span class="line">  elasticsearch &#123;</span><br><span class="line">    action =&gt; &quot;index&quot;          #The operation on ES</span><br><span class="line">    hosts  =&gt; &quot;192.168.74.125:9200&quot;   #ElasticSearch host, can be array.</span><br><span class="line">    index  =&gt; &quot;applog&quot;         #The index to write data to.</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这里的配置说明可以参考：<a href="https://my.oschina.net/itblog/blog/547250?p=2&amp;temp=1503478503046#blog-comments-list">https://my.oschina.net/itblog/blog/547250?p=2&amp;temp=1503478503046#blog-comments-list</a></p>
+<p>最后使用<code>./bin/logstash –f ./config/log4j_to_es.conf</code>来启动logstash。</p>
+<p>接下来创建一个示例工程，演示使用将log4j日志输出到logstash。<br>新建一个elk-demo的maven工程，<br><img src="http://omh46px9n.bkt.clouddn.com/17-8-30/51022829.jpg" alt></p>
+<p>Maven依赖：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>log4j<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>log4j<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.2.17<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>Log4j配置如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">log4j.rootLogger=INFO,console</span><br><span class="line"></span><br><span class="line"># for package com.tommy.elk, log would be sent to socket appender.</span><br><span class="line">log4j.logger.com.tommy.elk=DEBUG, socket</span><br><span class="line"></span><br><span class="line"># appender socket</span><br><span class="line">log4j.appender.socket=org.apache.log4j.net.SocketAppender</span><br><span class="line">log4j.appender.socket.Port=4567</span><br><span class="line">log4j.appender.socket.RemoteHost=192.168.74.125</span><br><span class="line">log4j.appender.socket.layout=org.apache.log4j.PatternLayout</span><br><span class="line">log4j.appender.socket.layout.ConversionPattern=%d [%-5p] [%l] %m%n</span><br><span class="line">log4j.appender.socket.ReconnectionDelay=10000</span><br><span class="line"></span><br><span class="line"># appender console</span><br><span class="line">log4j.appender.console=org.apache.log4j.ConsoleAppender</span><br><span class="line">log4j.appender.console.target=System.out</span><br><span class="line">log4j.appender.console.layout=org.apache.log4j.PatternLayout</span><br><span class="line">log4j.appender.console.layout.ConversionPattern=%d [%-5p] [%l] %m%n</span><br></pre></td></tr></table></figure></p>
+<p>可以看到log4j中指定了一个appder为socket，配置了远程的host和端口，这个就是上面在logstash中配置的。</p>
+<p>测试代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Hello world!</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">App</span> </span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Logger LOGGER = Logger.getLogger(App.class);</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">( String[] args )</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">        LOGGER.info( <span class="string">"Hello World!"</span> );</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</span><br><span class="line">            LOGGER.error(<span class="string">"测试消息 ["</span> + i + <span class="string">"]."</span>);</span><br><span class="line">            Thread.sleep(<span class="number">500</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>运行一下App.java，控制台输出了log4j日志。<br><img src="http://omh46px9n.bkt.clouddn.com/17-8-30/87296607.jpg" alt></p>
+<p>我们刷新一下head插件，在索引TAB中可以看到<br><img src="http://omh46px9n.bkt.clouddn.com/17-8-30/25427804.jpg" alt><br>在数据浏览TAB中可以看到日志信息，点击某一个可以看到详情<br><img src="http://omh46px9n.bkt.clouddn.com/17-8-30/28493917.jpg" alt></p>
+<h3 id="安装Kibana"><a href="#安装Kibana" class="headerlink" title="安装Kibana"></a>安装Kibana</h3><p>执行<code>tar –zxvf kibana-5.5.0-linux-x86_64.tar.gz</code>解压缩kibana。<br>然后进入config目录，编辑kibana配置文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd kibana-5.5.0-linux-x86_64</span><br><span class="line">vi ./config/kibana.yml</span><br></pre></td></tr></table></figure></p>
+<p>修改下面几项：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">server.port: 5601</span><br><span class="line">server.host: “192.168.74.125”</span><br><span class="line">elasticsearch.url: http://192.168.74.125:9200</span><br><span class="line">kibana.index: “.kibana”</span><br></pre></td></tr></table></figure></p>
+<p>然后启动kinaba.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./bin/kibana</span><br></pre></td></tr></table></figure></p>
+<p>启动后用浏览器打开<a href="http://192.168.74.125:5601/">http://192.168.74.125:5601/</a><br><img src="http://omh46px9n.bkt.clouddn.com/17-8-30/65402461.jpg" alt></p>
+<p>为了后续使用Kibana，需要配置至少一个Index名字或者Pattern，它用于在分析时确定ES中的Index。这里我输入之前配置的Index名字applog，Kibana会自动加载该Index下doc的field，并自动选择合适的field用于图标中的时间字段：</p>
+<p><img src="http://omh46px9n.bkt.clouddn.com/17-8-30/19469596.jpg" alt><br>点击Create后，可以看到左侧增加了配置的Index名字：<br><img src="http://omh46px9n.bkt.clouddn.com/17-8-30/20176989.jpg" alt><br><img src="http://omh46px9n.bkt.clouddn.com/17-8-30/65489446.jpg" alt><br>可以在上面的输入框中输入内容搜索<br><img src="http://omh46px9n.bkt.clouddn.com/17-8-30/84670838.jpg" alt></p>
+<h2 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h2><ol>
+<li><p>java.lang.RuntimeException: can not run elasticsearch as root<br>使用非root用户执行。<br>创建用户组bd<br>groupadd bd<br>创建用户bd,属组bd<br>useradd bd -g bd<br>给用户bd设置密码<br>passwd bd<br>(密码为test123456)</p>
+</li>
+<li><p>已经在/etc/profile中修改了环境变量，将java环境变量设置为了1.8，使用source /etc/profile后root用户下已生效。<br>但切换到非root用户下，仍然显示的之前的java版本。<br>解决：<a href="http://blog.csdn.net/newtelcom/article/details/49967919">http://blog.csdn.net/newtelcom/article/details/49967919</a></p>
+</li>
+<li><p>启动es时，提示无权限<br>java.nio.file.AccessDeniedException: /data/soft/elasticsearch-5.5.0/config/elasticsearch.yml<br>解决：<br>改变elasticsearch文件夹所有者到当前用户<br>sudo chown -R 非root用户组:非root用户 elasticsearch<br>比如问题1中添加的用户组bd和用户bd.<br>sudo chown -R bd:bd elasticsearch</p>
+</li>
+<li><p>提示数据目录或日志目录无权限<br>java.nio.file.AccessDeniedException: /tmp/es/data/nodes<br>解决：参考3.将/tmp/es目录所有者设置为bd.<br>sudo chown -R bd:bd es</p>
+</li>
+<li><p>seccomp unavailable: requires kernel 3.5+ with CONFIG_SECCOMP and CONFIG_SECCOMP_FILTER compiled in<br>报了一大串错误，其实只是一个警告。<br>解决：使用心得linux版本，就不会出现此类问题了。</p>
+</li>
+<li><p>max file descriptors [4096] for elasticsearch process likely too low, increase to at least [65536]<br>max number of threads [1024] for user [lishang] likely too low, increase to at least [2048]<br>解决：切换到root用户，编辑limits.conf 添加类似如下内容<br>vi /etc/security/limits.conf<br>添加如下内容:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">* soft nofile 65536</span><br><span class="line">* hard nofile 131072</span><br><span class="line">* soft nproc 2048</span><br><span class="line">* hard nproc 4096</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>max number of threads [1024] for user [lish] likely too low, increase to at least [2048]<br>解决：切换到root用户，进入limits.d目录下修改配置文件。<br>vi /etc/security/limits.d/90-nproc.conf<br>修改如下内容：<br><code>* soft nproc 1024</code><br>修改为<br><code>* soft nproc 2048</code></p>
+</li>
+<li><p>max virtual memory areas vm.max_map_count [65530] likely too low, increase to at least [262144]<br>解决：切换到root用户修改配置sysctl.conf<br>vi /etc/sysctl.conf<br>添加下面配置：<br>vm.max_map_count=655360<br>并执行命令：<br>sysctl -p<br>然后，重新启动elasticsearch，即可启动成功。</p>
+</li>
+<li><p>system call filters failed to install; check the logs and fix your configuration or disable system call filters at your own risk<br>问题原因：因为Centos6不支持SecComp，而ES默认bootstrap.system_call_filter为true进行检测，所以导致检测失败，失败后直接导致ES不能启动。<br>详见 ：<a href="https://github.com/elastic/elasticsearch/issues/22899">https://github.com/elastic/elasticsearch/issues/22899</a><br>解决方法：在elasticsearch.yml中配置bootstrap.system_call_filter为false，注意要在Memory下面:<br>bootstrap.memory_lock: false<br>bootstrap.system_call_filter: false</p>
+</li>
+<li><p>安装head插件后，head插件访问es提示跨域问题。<br>解决：<br>在$ES_HOME$/config/elasticsearch.yml中增加下面的配置：<br>//增加新的参数，这样head插件可以访问es<br>http.cors.enabled: true<br>http.cors.allow-origin: “*”</p>
+</li>
+<li><p>logstash5启动方式<br>./bin/logstash -f ./config/log4j_to_es.conf  </p>
+</li>
+<li><p>logstash错误：Cannot assign requested address<br>将配置文件中的host改成：0.0.0.0.<br>参考：<a href="https://stackoverflow.com/questions/30624467/connect-logstash-1-5-0-with-log4j-of-several-servers">https://stackoverflow.com/questions/30624467/connect-logstash-1-5-0-with-log4j-of-several-servers</a></p>
+</li>
+</ol>
+
+        </div>
+        <div class="post-tool">
+            <a class="btn-thumbs-up" href="javascript:void(0);" data-cid="52" title="95">
+                <i class="fa fa-thumbs-up" aria-hidden="true"></i> 打赏
+            </a>
+        </div>
+        
+        <div class="post-tags">标签：
+            
+            <a href="/tags/elk/">elk</a>
+            
+        </div>
+        
+    </article>
+    
+    <p style="text-align: center">本文代表个人观点，内容仅供参考。若有不恰当之处，望不吝赐教！</p>
+    
+    
+
+    
+    
+        <div id="gitment-container"></div>
+        <link rel="stylesheet" href="//imsun.github.io/gitment/style/default.css">
+        <script src="//imsun.github.io/gitment/dist/gitment.browser.js"></script>
+        <script type="text/javascript">
+            var gitment = new Gitment({
+                /*lable长度不能超过50个字符，这里使用页面的生成时间*/
+                id: 'Wed Aug 30 2017 14:55:32 GMT+0800'/*document.location.href*/,
+                owner: 'luckystar88',
+                repo: 'comments',
+                oauth: {
+                    client_id: 'd49ebe4f95abcd6163f4',
+                    client_secret: 'edd2748d6271072a6970d5cec8751f388dac8116',
+                }
+            });
+            gitment.render('gitment-container');
+        </script>
+        
+            <script>
+                document.getElementById("gitment-display-button").style.display = "none";
+                document.getElementById("gitment-container").style.display = "block";
+            </script>
+        
+    
+
+
+</div>
+<script src="/js/busuanzi.pure.mini.js"></script>
+
+
+        </div><!-- end #main-->
+    </div><!-- end #body -->
+    <footer class="footer">
+    <div class="footer-inner" style="text-align: center">
+        <p>
+            <a href="/about" title="关于">关于</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <!-- 自定义链接 -->
+            <a href="/help" title="帮助">帮助</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <a href="/links" title="友链">友链</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <a href="/sitemap.xml" title="地图">地图</a>
+        </p>
+        <p>
+            本站已建立&nbsp<a href="/timeline" id="siteBuildingTime"></a>&nbsp天，<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="licence">采用知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议创作</a><br>
+            ©2017-<span id="cpYear"></span> 基于&nbsp<a href="http://hexo.io" target="_blank" rel="nofollow">Hexo</a>
+            ，主题采用&nbsp&nbsp<a href="https://github.com/tangkunyin/hexo-theme-jsimple" target="_blank" rel="bookmark">JSimple</a>
+            ，作者&nbsp<a href="https://tommy88.top" target="_blank" rel="friend">Donny</a>
+            ，Hosted by <a href="https://pages.github.com/" target="_blank" rel="nofollow">GitHub Pages</a>
+        </p>
+    </div>
+</footer>
+<script src="/js/SimpleCore.js"></script>
+
+</div>
+<!-- search pop -->
+<div class="popup search-popup local-search-popup">
+    <div class="local-search-header clearfix">
+        <span class="search-icon">
+            <i class="fa fa-search"></i>
+        </span>
+        <span class="popup-btn-close">
+            <i class="fa fa-times-circle"></i>
+        </span>
+        <div class="local-search-input-wrapper">
+            <input id="local-search-input" spellcheck="false" type="text" autocomplete="off" placeholder="请输入查询关键词">
+        </div>
+    </div>
+    <div id="local-search-result"></div>
+</div>
+<div class="fixed-btn">
+    <a class="btn-gotop" href="javascript:"> <i class="fa fa-angle-up"></i></a>
+</div>
+<script>
+    $(function () {
+        var jsi_config = {
+            buildingTime: '01/20/2016',
+            current: $('.post-tags').length > 0 ? 'post' : 'archive',
+            snsQRCode: '/images/sns-qrcode.png',
+            donateImg: '/images/donate-qr.png',
+            localSearch: { dbPath: '' },
+            readMode: 'day'
+        };
+        
+            jsi_config.localSearch = {
+                dbPath: '/search.xml',
+                trigger: 'auto',
+                topN: '1',
+                unescape: 'false'
+            }
+        
+        SimpleCore.init(jsi_config);
+        
+    });
+</script>
+</body>
+</html>

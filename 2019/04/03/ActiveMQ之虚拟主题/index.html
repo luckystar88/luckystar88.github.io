@@ -1,0 +1,346 @@
+<!DOCTYPE HTML>
+<html class="no-js" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!--[if lte IE 9]>
+<meta http-equiv="refresh" content="0;url=https://tommy88.top/warn.html">
+<![endif]-->
+<meta charset="utf-8">
+<meta http-equiv="X-DNS-Prefetch-Control" content="on">
+<link rel="dns-prefetch" href="https://tommy88.top">
+<link rel="dns-prefetch" href="//www.google-analytics.com">
+<link rel="prefetch" href="https://tommy88.top">
+<link rel="prefetch" href="//www.google-analytics.com">
+
+
+    <link rel="dns-prefetch" href="//imsun.github.io">
+    <link rel="prefetch" href="//imsun.github.io">
+
+<link rel="prerender" href="https://tommy88.top">
+
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+<meta http-equiv="mobile-agent" content="format=html5; url=https://tommy88.top">
+<meta name="author" content="Donny">
+<link rel="stylesheet" href="/css/JSimple.css">
+
+<link rel="shortcut icon" href="/images/favicon.png">
+
+
+<title>activemq之虚拟主题 - Donny的技术博客</title>
+
+<meta name="keywords" content="jms, activemq, 虚拟主题, VirtualTopic, 组合目的地">
+
+<meta name="description " content="ActiveMQ支持2种虚拟目的地，分别为虚拟主题和组合目的地。这里分别介绍2种虚拟目的地的用法。">
+
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                processEscapes: true
+            }
+        });
+    </script>
+
+
+    
+
+    
+    
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="//www.googletagmanager.com/gtag/js?id=UA-105613999-1"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'UA-105613999-1');
+        </script>
+    
+    <!-- put your likes here. -->
+
+
+</head>
+<body>
+<div id="nav">
+    <nav class="nav-menu">
+        <a class="site-name current" href="/" title="Home">Home</a>
+        <a class="site-index current" href="/"><i class="fa fa-home"></i><span>首页</span></a>
+        <a href="/archives" title="归档"><i class="fa fa-archives"></i><span>归档</span></a>
+        <a href="/tags" title="标签"><i class="fa fa-tags"></i><span>标签</span></a>
+        <!-- custom single page of menus -->
+        
+        
+        <a href="/help" title="帮助">
+            <i class="fa fa-question-circle"></i>
+            <span>帮助</span>
+        </a>
+        
+    </nav>
+</div>
+
+<div class="nav-user">
+    <a class="btn-search" href="#"><i class="fa fa-search"></i></a>
+    <a class="btn-read-mode" href="#"><i class="fa fa-sun-o"></i></a>
+    <a class="btn-sns-qr" href="javascript:"><i class="fa fa-telegram"></i></a>
+</div>
+
+<div id="wrapper" class="clearfix">
+    <div id="body">
+        <div class="main" id="main">
+            <div id="cover">
+    <div class="cover-img"></div>
+    <div class="cover-info">
+        
+        <h1 class="cover-siteName">Donny的技术博客</h1>
+        <h3 class="cover-siteTitle">用代码征服世界</h3>
+        <p class="cover-siteDesc">这是一个简单的技术博客</p>
+        <div class="cover-sns">
+            
+    &nbsp;&nbsp;<div class="btn btn-github">
+        <a href="https://github.com/luckystar88" target="_blank" title="github" ref="friend">
+            <i class="fa fa-github"></i>
+        </a>
+    </div>
+
+
+        </div>
+    </div>
+</div>
+
+            <div class="page-title">
+    <ul>
+        <li><a href="/">最近</a></li>
+        
+            
+                <li class="active">
+                    <a href="/categories/tech" data-name="技术">技术</a>
+                </li>
+            
+                <li class>
+                    <a href="/categories/life" data-name="人文">人文</a>
+                </li>
+            
+                <li class>
+                    <a href="/categories/others" data-name="其他">其他</a>
+                </li>
+            
+        
+        <li class="page-search">
+    <form id="search" class="search-form">
+        <input type="text" readonly="readonly" id="local-search-input-tip" placeholder="读物检索~">
+        <button type="button" disabled="disabled" class="search-form-submit"><i class="fa fa-search"></i></button>
+    </form>
+</li>
+
+    </ul>
+</div>
+<div class="main-inner">
+    <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+        <div class="post-header">
+            <div class="post-author clearfix">
+                <a class="avatar fleft" href="https://tommy88.top" target="_blank">
+                    <img width="48" src="/images/favicon.png" alt="avatar">
+                </a>
+                <p><span class="label">作者</span>
+                    <a href="https://tommy88.top" target="_blank">Donny</a>
+                    <span title="最后编辑于&nbsp;2019-04-03">2019-04-03</span>
+                </p>
+                <p>记录工作，感悟生活</p>
+            </div>
+            <h2 class="post-title">ActiveMQ之虚拟主题</h2>
+            <div class="post-meta">
+                本文共计12196个字 |
+                您是第&nbsp;<span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>位看到它们的小伙伴
+            </div>
+        </div>
+        <div class="post-content markdown-body">
+            <p>虚拟目的地运允许我们创建一个映射到一个或多个实际物理目的地的逻辑目的地，客户端可以使用逻辑目的地来发送和消费消息。</p>
+<p>ActiveMQ支持的虚拟Destinations分为有两种，分别是</p>
+<ol>
+<li>虚拟主题（Virtual Topics）</li>
+<li>组合 Destinations（CompositeDestinations）</li>
+</ol>
+<h2 id="虚拟主题"><a href="#虚拟主题" class="headerlink" title="虚拟主题"></a>虚拟主题</h2><p>发布订阅背后的想法非常棒。允许生产者与消费者分离，这样他们甚至不知道有多少消费者对他们发布的消息感兴趣。JMS规范定义了对持久主题的支持，但是正如我们将描述的，它们有一些限制……</p>
+<h3 id="JMS持久主题的限制"><a href="#JMS持久主题的限制" class="headerlink" title="JMS持久主题的限制"></a>JMS持久主题的限制</h3><ol>
+<li>一个topic虽然可以有多个订阅者，但每个订阅者都是获取全量的消息，没法实现负载均衡。queue可以实现消费者端消息的负载均衡，但是broker不能讲消息发送给多个应用。所以没法实现发布订阅+消费者分组的功能。</li>
+<li>由于只能使用单个的持久订阅在，如果该订阅者出错，应用就无法处理消息了，系统的健壮性不高。</li>
+</ol>
+<p>为了解决上面的2个问题，ActiveMQ实现了虚拟topic的功能。<br>虚拟topic以VirtualTopic.开头，比如VirtualTopic.ORDER。</p>
+<p>虚拟主题背后的想法是生产者以通常的JMS方式发送给主题。消费者可以继续使用JMS规范中的主题语义。但是，如果主题是虚拟的，则使用者可以从物理队列中使用逻辑主题订阅，从而允许许多使用者在许多计算机和线程上运行以对负载进行负载平衡。</p>
+<p>为了解决这两个问题，ActiveMQ中实现了虚拟Topic的功能。使用起来非常简单。<br>对于消息发布者来说，就是一个正常的Topic，名称以VirtualTopic.开头。例如VirtualTopic.TEST。<br>对于消息接收端来说，是个队列，不同应用里使用不同的前缀作为队列的名称，即可表明自己的身份即可实现消费端应用分组。例如Consumer.A.VirtualTopic.TEST，说明它是名称为A的消费端，同理Consumer.B.VirtualTopic.TEST说明是一个名称为B的客户端。可以在同一个应用里使用多个consumer消费此queue，则可以实现上面两个功能。又因为不同应用使用的queue名称不同（前缀不同），所以不同的应用中都可以接收到全部的消息。每个客户端相当于一个持久订阅者，而且这个客户端可以使用多个消费者共同来承担消费任务。</p>
+<h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h3><p><strong>生产者</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Producer</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        String topicName = <span class="string">"VirtualTopic.TEST"</span>;</span><br><span class="line">        List&lt;String&gt; msgList = Lists.newArrayList();</span><br><span class="line">        <span class="keyword">int</span> msgSize = <span class="number">10</span>;</span><br><span class="line">        IntStream.rangeClosed(<span class="number">1</span>,msgSize).forEach(i-&gt; &#123;</span><br><span class="line">            msgList.add(<span class="string">"hello "</span> + i);</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        String[] msgs = <span class="keyword">new</span> String[msgSize];</span><br><span class="line">        msgs = msgList.toArray(msgs);</span><br><span class="line">        MqUtil.sendTopicMsg(topicName,msgs ,<span class="keyword">false</span>,<span class="keyword">true</span>,<span class="number">60000</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>消费者</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Consumer</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        String queueNameA = <span class="string">"Consumer.A.VirtualTopic.TEST"</span>;</span><br><span class="line">        String queueNameB = <span class="string">"Consumer.B.VirtualTopic.TEST"</span>;</span><br><span class="line">        MqUtil.addMessageListener(queueNameA,<span class="keyword">false</span>,msg-&gt;&#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                System.out.println(<span class="string">"Consumer A1 received:"</span> + ((TextMessage)msg).getText());</span><br><span class="line">            &#125; <span class="keyword">catch</span> (JMSException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,<span class="keyword">false</span>);</span><br><span class="line">        MqUtil.addMessageListener(queueNameA,<span class="keyword">false</span>,msg-&gt;&#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                System.out.println(<span class="string">"Consumer A2 received:"</span> + ((TextMessage)msg).getText());</span><br><span class="line">            &#125; <span class="keyword">catch</span> (JMSException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,<span class="keyword">false</span>);</span><br><span class="line"></span><br><span class="line">        MqUtil.addMessageListener(queueNameB,<span class="keyword">false</span>,msg-&gt;&#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                System.out.println(<span class="string">"Consumer B1 received:"</span> + ((TextMessage)msg).getText());</span><br><span class="line">            &#125; <span class="keyword">catch</span> (JMSException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,<span class="keyword">false</span>);</span><br><span class="line">        MqUtil.addMessageListener(queueNameB,<span class="keyword">false</span>,msg-&gt;&#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                System.out.println(<span class="string">"Consumer B2 received:"</span> + ((TextMessage)msg).getText());</span><br><span class="line">            &#125; <span class="keyword">catch</span> (JMSException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,<span class="keyword">false</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>MQ工具类：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">MqUtil</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">static</span> PooledConnectionFactory FACTORY;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        FACTORY = <span class="keyword">new</span> org.apache.activemq.jms.pool.PooledConnectionFactory();</span><br><span class="line">        ConnectionFactory _factory = <span class="keyword">new</span> ActiveMQConnectionFactory(Constant.MQ_USERNAME, Constant.MQ_PASSWORD, Constant</span><br><span class="line">                .uris);</span><br><span class="line">        FACTORY.setConnectionFactory(_factory);</span><br><span class="line">        FACTORY.setMaxConnections(<span class="number">100</span>);</span><br><span class="line">        FACTORY.start();</span><br><span class="line">        Runtime.getRuntime().addShutdownHook(<span class="keyword">new</span> Thread(FACTORY::stop));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">sendMsg</span><span class="params">(String DestinationName, String[] msgs, <span class="keyword">boolean</span> isTopic, <span class="keyword">boolean</span> isTransaction, <span class="keyword">boolean</span></span></span></span><br><span class="line"><span class="function"><span class="params">            isPersistent,</span></span></span><br><span class="line"><span class="function"><span class="params">                               <span class="keyword">long</span></span></span></span><br><span class="line"><span class="function"><span class="params">                                       expiration)</span> </span>&#123;</span><br><span class="line">        Connection connection = <span class="keyword">null</span>;</span><br><span class="line">        Session session = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            connection = isTopic ? FACTORY.createTopicConnection() : FACTORY.createQueueConnection();</span><br><span class="line">            connection.start();</span><br><span class="line">            session = connection.createSession(isTransaction, Session.AUTO_ACKNOWLEDGE);</span><br><span class="line">            Destination destination = isTopic ? session.createTopic(DestinationName) : session.createQueue(DestinationName);</span><br><span class="line">            MessageProducer producer = session.createProducer(destination);</span><br><span class="line">            <span class="keyword">for</span> (String msg : msgs) &#123;</span><br><span class="line">                Message message = session.createTextMessage(msg);</span><br><span class="line">                <span class="keyword">if</span> (expiration &gt; <span class="number">0</span>) &#123;</span><br><span class="line">                    message.setJMSExpiration(expiration);</span><br><span class="line">                &#125;</span><br><span class="line">                message.setJMSDeliveryMode(isPersistent ? DeliveryMode.PERSISTENT : DeliveryMode.NON_PERSISTENT);</span><br><span class="line">                producer.send(message);</span><br><span class="line">                System.out.println(<span class="string">"消息"</span> + msg + <span class="string">"]发送成功."</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (isTransaction) &#123;</span><br><span class="line">                session.commit();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (JMSException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (isTransaction &amp;&amp; session != <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    session.rollback();</span><br><span class="line">                &#125; <span class="keyword">catch</span> (JMSException e1) &#123;</span><br><span class="line">                    e1.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            closeResource(connection, session);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">closeResource</span><span class="params">(Connection connection, Session session)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">null</span> != connection) &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                connection.close();</span><br><span class="line">            &#125; <span class="keyword">catch</span> (JMSException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">null</span> != session) &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                session.close();</span><br><span class="line">            &#125; <span class="keyword">catch</span> (JMSException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">sendQueueMsg</span><span class="params">(String queueName, String msg, <span class="keyword">boolean</span> isTransction, <span class="keyword">boolean</span> isPersistent, <span class="keyword">long</span></span></span></span><br><span class="line"><span class="function"><span class="params">            expiration)</span> </span>&#123;</span><br><span class="line">        sendMsg(queueName, <span class="keyword">new</span> String[]&#123;msg&#125;, <span class="keyword">false</span>, isTransction, isPersistent, expiration);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">sendTopicMsg</span><span class="params">(String topicName, String msg, <span class="keyword">boolean</span> isTransction, <span class="keyword">boolean</span> isPersistent, <span class="keyword">long</span></span></span></span><br><span class="line"><span class="function"><span class="params">            expiration)</span> </span>&#123;</span><br><span class="line">        sendMsg(topicName, <span class="keyword">new</span> String[]&#123;msg&#125;, <span class="keyword">true</span>, isTransction, isPersistent, expiration);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">sendTopicMsg</span><span class="params">(String topicName, String[] msgs, <span class="keyword">boolean</span> isTransction, <span class="keyword">boolean</span> isPersistent, <span class="keyword">long</span></span></span></span><br><span class="line"><span class="function"><span class="params">            expiration)</span> </span>&#123;</span><br><span class="line">        sendMsg(topicName, msgs, <span class="keyword">true</span>, isTransction, isPersistent, expiration);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">addMessageListener</span><span class="params">(String DestinationName, <span class="keyword">boolean</span> isTopic, MessageListener listener, <span class="keyword">boolean</span></span></span></span><br><span class="line"><span class="function"><span class="params">            isTransaction)</span> </span>&#123;</span><br><span class="line">        Connection connection;</span><br><span class="line">        Session session;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            connection = isTopic ? FACTORY.createTopicConnection() : FACTORY.createQueueConnection();</span><br><span class="line">            connection.start();</span><br><span class="line">            session = connection.createSession(isTransaction, Session.AUTO_ACKNOWLEDGE);</span><br><span class="line">            Destination destination = isTopic ? session.createTopic(DestinationName) : session.createQueue(DestinationName);</span><br><span class="line">            MessageConsumer consumer = session.createConsumer(destination);</span><br><span class="line">            consumer.setMessageListener(listener);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (JMSException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>消费者控制台输出：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">Consumer A1 received:hello 1</span><br><span class="line">Consumer B1 received:hello 1</span><br><span class="line">Consumer A2 received:hello 2</span><br><span class="line">Consumer B2 received:hello 2</span><br><span class="line">Consumer A1 received:hello 3</span><br><span class="line">Consumer B1 received:hello 3</span><br><span class="line">Consumer A2 received:hello 4</span><br><span class="line">Consumer B2 received:hello 4</span><br><span class="line">Consumer A1 received:hello 5</span><br><span class="line">Consumer B1 received:hello 5</span><br><span class="line">Consumer A2 received:hello 6</span><br><span class="line">Consumer B2 received:hello 6</span><br><span class="line">Consumer A1 received:hello 7</span><br><span class="line">Consumer B1 received:hello 7</span><br><span class="line">Consumer A2 received:hello 8</span><br><span class="line">Consumer B2 received:hello 8</span><br><span class="line">Consumer A1 received:hello 9</span><br><span class="line">Consumer B1 received:hello 9</span><br><span class="line">Consumer A2 received:hello 10</span><br><span class="line">Consumer B2 received:hello 10</span><br></pre></td></tr></table></figure></p>
+<p>可以看到，A1和A2是一组，共同消费VirtualTopic.TEST的数据，B1和B2是一组，同时A1和A2，B1和B2依次消费。即达到了topic的功能又达到了负载均衡和failover的能力，在一组消费者中任何一个挂掉也不会影响消费。</p>
+<p>需要注意的是：即使Queue消费了消息，VirtualTopic中的消息仍然不会删除，只有真正的topic订阅者消费消息后，VirtualTopic中的消息才会删除。当然，VirtualTopic中的消息删除，不会影响Queue中的消息，因为Queue中的消息是Copy过去的。</p>
+<h3 id="虚拟主题的默认配置"><a href="#虚拟主题的默认配置" class="headerlink" title="虚拟主题的默认配置"></a>虚拟主题的默认配置</h3><p>默认情况下，虚拟主题名称必须是<code>VirtualTopic.&gt;</code>，消费者队列名称必须为<code>Consumer.*.VirtualTopic.&gt;</code>，当日这个你是可以修改的。下面的示例显示如何使所有主题都成为虚拟主题。下面的示例使用名称&gt;表示“匹配所有主题”。您可以使用此通配符在不同层级应用不同的虚拟主题策略。<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">destinationInterceptors</span>&gt;</span> </span><br><span class="line"> <span class="tag">&lt;<span class="name">virtualDestinationInterceptor</span>&gt;</span> </span><br><span class="line"> <span class="tag">&lt;<span class="name">virtualDestinations</span>&gt;</span> </span><br><span class="line"> <span class="tag">&lt;<span class="name">virtualTopic</span> <span class="attr">name</span>=<span class="string">"&gt;"</span> <span class="attr">prefix</span>=<span class="string">"VirtualTopicConsumers.*."</span> <span class="attr">selectorAware</span>=<span class="string">"false"</span>/&gt;</span>    </span><br><span class="line">   <span class="tag">&lt;/<span class="name">virtualDestinations</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;/<span class="name">virtualDestinationInterceptor</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;/<span class="name">destinationInterceptors</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p><strong>配置选项</strong></p>
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>默认值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>selectorAware</td>
+<td>false</td>
+<td>如果consumer端有selector，则只有匹配selector的消息才会分派到对应的queue中去。使用此选项可防止在独占使用者使用选择器时构建不匹配的消息</td>
+</tr>
+<tr>
+<td>local</td>
+<td>false</td>
+<td>when true, don’t fan out messages that were received over a network</td>
+</tr>
+<tr>
+<td>concurrentSend</td>
+<td>false</td>
+<td>如果为true，则消息将并行发送，同时允许日志批量写入以减少磁盘IO。</td>
+</tr>
+<tr>
+<td>transactedSend</td>
+<td>false</td>
+<td>when true, use a transaction for fanout sends such that there is a single disk sync. A local broker transaction will be created if there is no client transaction (5.13)</td>
+</tr>
+<tr>
+<td>dropOnResourceLimit</td>
+<td>false</td>
+<td>如果为true，将忽略发送期间跑出的ResourceAllocationException</td>
+</tr>
+<tr>
+<td>setOriginalDestination</td>
+<td>true</td>
+<td>如果为true，则转发消息上的目标设置为使用者队列，而originalDestination消息属性将跟踪虚拟主题（5.16）</td>
+</tr>
+</tbody>
+</table>
+<h3 id="VirtualSelectorCacheBrokerPlugin"><a href="#VirtualSelectorCacheBrokerPlugin" class="headerlink" title="VirtualSelectorCacheBrokerPlugin"></a>VirtualSelectorCacheBrokerPlugin</h3><p>当selectorAware=true时，只有活动的消费者才被限定为选择器匹配的条件。如果消费者断开并重新连接，他们将错过消息。selectorAware=true的目的是不构建消息。virtualSelectorCacheBrokerPlugin提供了一个缓存，它可以跟踪与某个消费者的目的地相关联的选择器，这样它们就可以应用于该消费者。这样，所选的消息就会累积起来。现有的选择器集可以被持久化，以便在重启时可以恢复。插件以正常的方式应用于plugins部分。<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">plugins</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">virtualSelectorCacheBrokerPlugin</span> <span class="attr">persistFile</span>=<span class="string">"&lt;some path&gt;/selectorcache.data"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">plugins</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="组合目的地"><a href="#组合目的地" class="headerlink" title="组合目的地"></a>组合目的地</h2><p>组合目的地允许在各个目的地上建立一对多的关系; 主要用于组合队列。 例如，当消息发送到队列A时，您可能还希望将其转发到队列B和C以及主题D.然后，组合目的地是从虚拟目的地到其他物理目的地集合的映射。 在这种情况下，映射是在broker端，客户端不知道目的地之间的映射。 这与客户端组合目的地不同，客户端使用URL表示法指定必须将消息发送到的实际物理目标。</p>
+<p>以下示例显示如何在XML配置中设置<compositequeue>元素，以便在将消息发送到MY.QUEUE时，它实际上会转发到物理队列FOO和主题BAR。<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">destinationInterceptors</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">virtualDestinationInterceptor</span>&gt;</span> </span><br><span class="line"> <span class="tag">&lt;<span class="name">virtualDestinations</span>&gt;</span> </span><br><span class="line"> <span class="tag">&lt;<span class="name">compositeQueue</span> <span class="attr">name</span>=<span class="string">"MY.QUEUE"</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">forwardTo</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">queue</span> <span class="attr">physicalName</span>=<span class="string">"FOO"</span> /&gt;</span> </span><br><span class="line"> <span class="tag">&lt;<span class="name">topic</span> <span class="attr">physicalName</span>=<span class="string">"BAR"</span> /&gt;</span></span><br><span class="line"> <span class="tag">&lt;/<span class="name">forwardTo</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;/<span class="name">compositeQueue</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;/<span class="name">virtualDestinations</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;/<span class="name">virtualDestinationInterceptor</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">destinationInterceptors</span>&gt;</span></span><br></pre></td></tr></table></figure></compositequeue></p>
+<p>默认情况下，订阅者不能直接从组合队列或主题消费消息 - 它只是一个逻辑构造。 比如上述配置，订阅者只能消费来自FOO和BAR的消息; 而不是MY.QUEUE。<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">compositeQueue</span> <span class="attr">name</span>=<span class="string">"IncomingOrders"</span> <span class="attr">forwardOnly</span>=<span class="string">"false"</span>&gt;</span> </span><br><span class="line">   <span class="tag">&lt;<span class="name">forwardTo</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">topic</span> <span class="attr">physicalName</span>=<span class="string">"Notifications"</span> /&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">forwardTo</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;/<span class="name">compositeQueue</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>发送到IncomingOrders的消息将全部复制并转发到Notifications，然后再放入物理IncomingOrders队列供订阅者使用。</p>
+<p>如果未定义forwardOnly属性或将其设置为true，则compositeQueue和compositeTopic之间没有逻辑差异 - 它们可以互换使用。 只有当通过使用forwardOnly使组合目的地成为物理目的地时，compositeTopic / compositeQueue的选择才会对行为产生影响。</p>
+<h3 id="使用过滤的目的地"><a href="#使用过滤的目的地" class="headerlink" title="使用过滤的目的地"></a>使用过滤的目的地</h3><p>从Apache ActiveMQ 4.2开始，您现在可以使用选择器来定义虚拟目的地。</p>
+<p>您可能希望创建一个虚拟目的地，该目的地将消息转发到多个目的地，但首先使用选择器来确定消息是否确实必须转到特定目的地。</p>
+<p>以下示例显示如果消息匹配指定的选择器，发送到虚拟目的地MY.QUEUE的消息将转发到FOO和BAR。<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">destinationInterceptors</span>&gt;</span> <span class="tag">&lt;<span class="name">virtualDestinationInterceptor</span>&gt;</span> <span class="tag">&lt;<span class="name">virtualDestinations</span>&gt;</span> </span><br><span class="line">   <span class="tag">&lt;<span class="name">compositeQueue</span> <span class="attr">name</span>=<span class="string">"MY.QUEUE"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">forwardTo</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">filteredDestination</span> <span class="attr">selector</span>=<span class="string">"odd = 'yes'"</span> <span class="attr">queue</span>=<span class="string">"FOO"</span>/&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">filteredDestination</span> <span class="attr">selector</span>=<span class="string">"i = 5"</span> <span class="attr">topic</span>=<span class="string">"BAR"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">forwardTo</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">compositeQueue</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">virtualDestinations</span>&gt;</span> <span class="tag">&lt;/<span class="name">virtualDestinationInterceptor</span>&gt;</span> <span class="tag">&lt;/<span class="name">destinationInterceptors</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="避免broker网络中的重复消息"><a href="#避免broker网络中的重复消息" class="headerlink" title="避免broker网络中的重复消息"></a>避免broker网络中的重复消息</h2><p>当真正的subscriber和Queue都同时存在VirtualTopic中的时候，而且你的broker架构采用了“forward-brige”结构，那么你需要增加如下配置来避免消息的重复转发问题。在forward-brige架构中，任何通道中的消息都会forward到其他network node中(其他broker上)，当然这个虚拟的Queue的消息也不例外。<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">networkConnectors</span>&gt;</span> <span class="tag">&lt;<span class="name">networkConnector</span> <span class="attr">uri</span>=<span class="string">"static://(tcp://localhost:61617)"</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">excludedDestinations</span>&gt;</span> </span><br><span class="line"> <span class="tag">&lt;<span class="name">queue</span> <span class="attr">physicalName</span>=<span class="string">"Consumer.*.VirtualTopic.&gt;"</span>/&gt;</span> </span><br><span class="line"> <span class="tag">&lt;/<span class="name">excludedDestinations</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;/<span class="name">networkConnector</span>&gt;</span> <span class="tag">&lt;/<span class="name">networkConnectors</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>参考：<a href="http://activemq.apache.org/virtual-destinations.html">http://activemq.apache.org/virtual-destinations.html</a><br>参考：<a href="https://shift-alt-ctrl.iteye.com/blog/2065436">https://shift-alt-ctrl.iteye.com/blog/2065436</a><br>参考：<a href="https://blog.csdn.net/zhu_tianwei/article/details/46303419">https://blog.csdn.net/zhu_tianwei/article/details/46303419</a></p>
+
+        </div>
+        <div class="post-tool">
+            <a class="btn-thumbs-up" href="javascript:void(0);" data-cid="52" title="95">
+                <i class="fa fa-thumbs-up" aria-hidden="true"></i> 打赏
+            </a>
+        </div>
+        
+        <div class="post-tags">标签：
+            
+            <a href="/tags/activemq/">activemq</a>
+            
+        </div>
+        
+    </article>
+    
+    <p style="text-align: center">本文代表个人观点，内容仅供参考。若有不恰当之处，望不吝赐教！</p>
+    
+    
+
+    
+    
+        <div id="gitment-container"></div>
+        <link rel="stylesheet" href="//imsun.github.io/gitment/style/default.css">
+        <script src="//imsun.github.io/gitment/dist/gitment.browser.js"></script>
+        <script type="text/javascript">
+            var gitment = new Gitment({
+                /*lable长度不能超过50个字符，这里使用页面的生成时间*/
+                id: 'Wed Apr 03 2019 20:42:07 GMT+0800'/*document.location.href*/,
+                owner: 'luckystar88',
+                repo: 'comments',
+                oauth: {
+                    client_id: 'd49ebe4f95abcd6163f4',
+                    client_secret: 'edd2748d6271072a6970d5cec8751f388dac8116',
+                }
+            });
+            gitment.render('gitment-container');
+        </script>
+        
+            <script>
+                document.getElementById("gitment-display-button").style.display = "none";
+                document.getElementById("gitment-container").style.display = "block";
+            </script>
+        
+    
+
+
+</div>
+<script src="/js/busuanzi.pure.mini.js"></script>
+
+
+        </div><!-- end #main-->
+    </div><!-- end #body -->
+    <footer class="footer">
+    <div class="footer-inner" style="text-align: center">
+        <p>
+            <a href="/about" title="关于">关于</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <!-- 自定义链接 -->
+            <a href="/help" title="帮助">帮助</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <a href="/links" title="友链">友链</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <a href="/sitemap.xml" title="地图">地图</a>
+        </p>
+        <p>
+            本站已建立&nbsp<a href="/timeline" id="siteBuildingTime"></a>&nbsp天，<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="licence">采用知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议创作</a><br>
+            ©2017-<span id="cpYear"></span> 基于&nbsp<a href="http://hexo.io" target="_blank" rel="nofollow">Hexo</a>
+            ，主题采用&nbsp&nbsp<a href="https://github.com/tangkunyin/hexo-theme-jsimple" target="_blank" rel="bookmark">JSimple</a>
+            ，作者&nbsp<a href="https://tommy88.top" target="_blank" rel="friend">Donny</a>
+            ，Hosted by <a href="https://pages.github.com/" target="_blank" rel="nofollow">GitHub Pages</a>
+        </p>
+    </div>
+</footer>
+<script src="/js/SimpleCore.js"></script>
+
+</div>
+<!-- search pop -->
+<div class="popup search-popup local-search-popup">
+    <div class="local-search-header clearfix">
+        <span class="search-icon">
+            <i class="fa fa-search"></i>
+        </span>
+        <span class="popup-btn-close">
+            <i class="fa fa-times-circle"></i>
+        </span>
+        <div class="local-search-input-wrapper">
+            <input id="local-search-input" spellcheck="false" type="text" autocomplete="off" placeholder="请输入查询关键词">
+        </div>
+    </div>
+    <div id="local-search-result"></div>
+</div>
+<div class="fixed-btn">
+    <a class="btn-gotop" href="javascript:"> <i class="fa fa-angle-up"></i></a>
+</div>
+<script>
+    $(function () {
+        var jsi_config = {
+            buildingTime: '01/20/2016',
+            current: $('.post-tags').length > 0 ? 'post' : 'archive',
+            snsQRCode: '/images/sns-qrcode.png',
+            donateImg: '/images/donate-qr.png',
+            localSearch: { dbPath: '' },
+            readMode: 'day'
+        };
+        
+            jsi_config.localSearch = {
+                dbPath: '/search.xml',
+                trigger: 'auto',
+                topN: '1',
+                unescape: 'false'
+            }
+        
+        SimpleCore.init(jsi_config);
+        
+    });
+</script>
+</body>
+</html>

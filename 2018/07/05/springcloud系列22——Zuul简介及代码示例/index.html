@@ -1,0 +1,390 @@
+<!DOCTYPE HTML>
+<html class="no-js" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!--[if lte IE 9]>
+<meta http-equiv="refresh" content="0;url=https://tommy88.top/warn.html">
+<![endif]-->
+<meta charset="utf-8">
+<meta http-equiv="X-DNS-Prefetch-Control" content="on">
+<link rel="dns-prefetch" href="https://tommy88.top">
+<link rel="dns-prefetch" href="//www.google-analytics.com">
+<link rel="prefetch" href="https://tommy88.top">
+<link rel="prefetch" href="//www.google-analytics.com">
+
+
+    <link rel="dns-prefetch" href="//imsun.github.io">
+    <link rel="prefetch" href="//imsun.github.io">
+
+<link rel="prerender" href="https://tommy88.top">
+
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+<meta http-equiv="mobile-agent" content="format=html5; url=https://tommy88.top">
+<meta name="author" content="Donny">
+<link rel="stylesheet" href="/css/JSimple.css">
+
+<link rel="shortcut icon" href="/images/favicon.png">
+
+
+<title>springcloud系列22——zuul简介及代码示例 - Donny的技术博客</title>
+
+<meta name="keywords" content="java,前端,数据库,web,spring,redis,spring boot,spring cloud,mq">
+
+<meta name="description " content="记录工作，感悟生活">
+
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                processEscapes: true
+            }
+        });
+    </script>
+
+
+    
+
+    
+    
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="//www.googletagmanager.com/gtag/js?id=UA-105613999-1"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'UA-105613999-1');
+        </script>
+    
+    <!-- put your likes here. -->
+
+
+</head>
+<body>
+<div id="nav">
+    <nav class="nav-menu">
+        <a class="site-name current" href="/" title="Home">Home</a>
+        <a class="site-index current" href="/"><i class="fa fa-home"></i><span>首页</span></a>
+        <a href="/archives" title="归档"><i class="fa fa-archives"></i><span>归档</span></a>
+        <a href="/tags" title="标签"><i class="fa fa-tags"></i><span>标签</span></a>
+        <!-- custom single page of menus -->
+        
+        
+        <a href="/help" title="帮助">
+            <i class="fa fa-question-circle"></i>
+            <span>帮助</span>
+        </a>
+        
+    </nav>
+</div>
+
+<div class="nav-user">
+    <a class="btn-search" href="#"><i class="fa fa-search"></i></a>
+    <a class="btn-read-mode" href="#"><i class="fa fa-sun-o"></i></a>
+    <a class="btn-sns-qr" href="javascript:"><i class="fa fa-telegram"></i></a>
+</div>
+
+<div id="wrapper" class="clearfix">
+    <div id="body">
+        <div class="main" id="main">
+            <div id="cover">
+    <div class="cover-img"></div>
+    <div class="cover-info">
+        
+        <h1 class="cover-siteName">Donny的技术博客</h1>
+        <h3 class="cover-siteTitle">用代码征服世界</h3>
+        <p class="cover-siteDesc">这是一个简单的技术博客</p>
+        <div class="cover-sns">
+            
+    &nbsp;&nbsp;<div class="btn btn-github">
+        <a href="https://github.com/luckystar88" target="_blank" title="github" ref="friend">
+            <i class="fa fa-github"></i>
+        </a>
+    </div>
+
+
+        </div>
+    </div>
+</div>
+
+            <div class="page-title">
+    <ul>
+        <li><a href="/">最近</a></li>
+        
+            
+                <li class="active">
+                    <a href="/categories/tech" data-name="技术">技术</a>
+                </li>
+            
+                <li class>
+                    <a href="/categories/life" data-name="人文">人文</a>
+                </li>
+            
+                <li class>
+                    <a href="/categories/others" data-name="其他">其他</a>
+                </li>
+            
+        
+        <li class="page-search">
+    <form id="search" class="search-form">
+        <input type="text" readonly="readonly" id="local-search-input-tip" placeholder="读物检索~">
+        <button type="button" disabled="disabled" class="search-form-submit"><i class="fa fa-search"></i></button>
+    </form>
+</li>
+
+    </ul>
+</div>
+<div class="main-inner">
+    <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+        <div class="post-header">
+            <div class="post-author clearfix">
+                <a class="avatar fleft" href="https://tommy88.top" target="_blank">
+                    <img width="48" src="/images/favicon.png" alt="avatar">
+                </a>
+                <p><span class="label">作者</span>
+                    <a href="https://tommy88.top" target="_blank">Donny</a>
+                    <span title="最后编辑于&nbsp;2018-07-05">2018-07-05</span>
+                </p>
+                <p>记录工作，感悟生活</p>
+            </div>
+            <h2 class="post-title">springcloud系列22——Zuul简介及代码示例</h2>
+            <div class="post-meta">
+                本文共计17134个字 |
+                您是第&nbsp;<span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>位看到它们的小伙伴
+            </div>
+        </div>
+        <div class="post-content markdown-body">
+            <h2 id="Zuul简介"><a href="#Zuul简介" class="headerlink" title="Zuul简介"></a>Zuul简介</h2><p>spring cloud官方文档地址：<a href="http://cloud.spring.io/spring-cloud-static/Edgware.SR3/multi/multi__router_and_filter_zuul.html">http://cloud.spring.io/spring-cloud-static/Edgware.SR3/multi/multi__router_and_filter_zuul.html</a></p>
+<p>路由是微服务架构的组成部分。 例如，/可以映射到您的Web应用程序，/ api/users映射到用户服务，/api/shop映射到商店服务。 Zuul是Netflix基于JVM的路由器和服务器端负载均衡器。</p>
+<p>Netflix使用Zuul进行以下操作：<br>认证<br>洞察<br>压力测试<br>金丝雀测试<br>动态路由<br>服务迁移<br>负载脱落<br>安全<br>静态响应处理<br>主动/主动流量管理  </p>
+<p>Zuul的规则引擎允许任何JVM语言编写规则和过滤器，内置支持Java和Groovy。</p>
+<p>配置属性zuul.max.host.connections已被两个新属性zuul.host.maxTotalConnections和zuul.host.maxPerRouteConnections取代，它们分别默认为200和20。</p>
+<p>所有路由的默认Hystrix隔离模式（ExecutionIsolationStrategy）是SEMAPHORE。 如果首选此隔离模式，则可以将zuul.ribbonIsolationStrategy更改为THREAD。<br><a id="more"></a></p>
+<h2 id="代码示例"><a href="#代码示例" class="headerlink" title="代码示例"></a>代码示例</h2><p>这里新建一个模块microservice-gateway-zuul。</p>
+<p>1.引入zuul和eureka client的依赖：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-netflix-zuul<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-eureka<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>spring cloud文档有说，Zuul starter没有包含discovery client，所以我们在上面增加了eureka client的依赖。<br><img src="http://omh46px9n.bkt.clouddn.com/18-7-5/32367881.jpg" alt></p>
+<p>2.在Spring boot的主类上增加注解@EnableZuulProxy<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="meta">@EnableZuulProxy</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ZuulApplication</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">( String[] args )</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        SpringApplication.run(ZuulApplication.class,args);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>3.application.yml配置<br><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line"><span class="attr">  application:</span></span><br><span class="line"><span class="attr">    name:</span> <span class="string">microservice-gateway-zuul</span></span><br><span class="line"></span><br><span class="line"><span class="attr">server:</span></span><br><span class="line"><span class="attr">  port:</span> <span class="number">8808</span></span><br><span class="line"></span><br><span class="line"><span class="attr">eureka:</span></span><br><span class="line"><span class="attr">  client:</span></span><br><span class="line"><span class="attr">    service-url:</span></span><br><span class="line"><span class="attr">      defaultZone:</span> <span class="attr">http://localhost:8761/eureka</span></span><br><span class="line"><span class="attr">  instance:</span></span><br><span class="line"><span class="attr">    prefer-ip-address:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><p>1.启动Eureka server；<br>2.启动user微服务；<br>3.启动zuul模块。</p>
+<p>在user模块，有/sample/1获取用户信息的接口。</p>
+<p>浏览器请求<a href="http://10.41.3.149:8808/microservice-springcloud-user/sample/1">http://10.41.3.149:8808/microservice-springcloud-user/sample/1</a>。<br><img src="http://omh46px9n.bkt.clouddn.com/18-7-5/96711742.jpg" alt></p>
+<p>可以看到，请求成功。<br>我们看Zuul模块的控制台日志，可以看到下面的日志：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Mapped URL path [/microservice-springcloud-user/**] onto handler of type [class org.springframework.cloud.netflix.zuul.web.ZuulController]</span><br></pre></td></tr></table></figure></p>
+<h3 id="自定义请求路径"><a href="#自定义请求路径" class="headerlink" title="自定义请求路径"></a>自定义请求路径</h3><p>通过Eureka server中的serviceID可以请求成功，但名字太长，如何自定义？  </p>
+<p>比如我们想通过/user/sample/1访问，如何做到？</p>
+<p>在application.yml增加下面的配置：<br><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">zuul:</span></span><br><span class="line"><span class="attr">  routes:</span></span><br><span class="line"><span class="attr">    microservice-springcloud-user:</span> <span class="string">/user/**</span></span><br></pre></td></tr></table></figure></p>
+<p><img src="http://omh46px9n.bkt.clouddn.com/18-7-5/42034948.jpg" alt></p>
+<h3 id="Zuul忽略某些服务"><a href="#Zuul忽略某些服务" class="headerlink" title="Zuul忽略某些服务"></a>Zuul忽略某些服务</h3><p>比如有user和movie2个服务，但我只想Zuul代理user服务。<br><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">zuul:</span></span><br><span class="line"><span class="attr">  ignoredServices:</span> <span class="string">'*'</span></span><br><span class="line"><span class="attr">  routes:</span></span><br><span class="line"><span class="attr">    microservice-springcloud-user:</span> <span class="string">/user/**</span></span><br></pre></td></tr></table></figure></p>
+<p>ignoredServices:*忽略所有的服务，然后在routes中指定了user，所以最终就是Zuul代理user服务。</p>
+<p>或者：<br><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">zuul:</span></span><br><span class="line">  <span class="comment"># 多个服务id之间用逗号分隔</span></span><br><span class="line"><span class="attr">  ignoredServices:</span> <span class="string">microservice-springcloud-movie</span></span><br><span class="line"><span class="attr">  routes:</span></span><br><span class="line"><span class="attr">    microservice-springcloud-user:</span> <span class="string">/user/**</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="Zuul指定path和serviceId"><a href="#Zuul指定path和serviceId" class="headerlink" title="Zuul指定path和serviceId"></a>Zuul指定path和serviceId</h3><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">zuul:</span></span><br><span class="line"><span class="attr">  routes:</span></span><br><span class="line">    <span class="comment"># 下面的user1只是一个标识，保证唯一即可</span></span><br><span class="line"><span class="attr">    user1:</span></span><br><span class="line">      <span class="comment"># 映射的路径</span></span><br><span class="line"><span class="attr">      path:</span> <span class="string">/user/**</span></span><br><span class="line">      <span class="comment"># 服务id</span></span><br><span class="line"><span class="attr">      serviceId:</span> <span class="string">microservice-springcloud-user</span></span><br></pre></td></tr></table></figure>
+<p>上面的配置意思是：让Zuul代理microservice-springcloud-user，路径为/user/**，user1可以随便写，只要保证唯一即可。</p>
+<p>然后通过<a href="http://10.41.3.149:8808/user/sample/1">http://10.41.3.149:8808/user/sample/1</a>请求即可。</p>
+<h3 id="Zuul指定path-url"><a href="#Zuul指定path-url" class="headerlink" title="Zuul指定path+url"></a>Zuul指定path+url</h3><p>除了上面说的指定path+serviceId外，还可以使用path+url的配置。<br><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">zuul:</span></span><br><span class="line"><span class="attr">  routes:</span></span><br><span class="line"><span class="attr">    user1:</span></span><br><span class="line"><span class="attr">      path:</span> <span class="string">/user/**</span></span><br><span class="line">      <span class="comment"># url为user服务的url</span></span><br><span class="line"><span class="attr">      url:</span> <span class="attr">http://10.41.3.149:7902</span></span><br></pre></td></tr></table></figure></p>
+<p>然后通过<a href="http://10.41.3.149:8808/user/sample/1">http://10.41.3.149:8808/user/sample/1</a>请求即可。</p>
+<h3 id="Zuul指定可用服务的负载均衡"><a href="#Zuul指定可用服务的负载均衡" class="headerlink" title="Zuul指定可用服务的负载均衡"></a>Zuul指定可用服务的负载均衡</h3><p>在spring cloud的文档中有写，如果使用上面的path+url配置，不会作为HystrixCommand执行，也不会使用Ribbon对多个URL进行负载均衡。 要实现此目的，您可以使用静态服务器列表指定serviceId。<br><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">zuul:</span></span><br><span class="line"><span class="attr">  routes:</span></span><br><span class="line"><span class="attr">    user1:</span></span><br><span class="line"><span class="attr">      path:</span> <span class="string">/user/**</span></span><br><span class="line"><span class="attr">      serviceId:</span> <span class="string">microservice-springcloud-user</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 在Ribbon中禁用eureka</span></span><br><span class="line"><span class="attr">ribbon:</span></span><br><span class="line"><span class="attr">  eureka:</span></span><br><span class="line"><span class="attr">   enabled:</span> <span class="literal">false</span></span><br><span class="line"></span><br><span class="line"><span class="attr">microservice-springcloud-user:</span></span><br><span class="line"><span class="attr">  ribbon:</span></span><br><span class="line"><span class="attr">    listOfServers:</span> <span class="attr">localhost:7901,localhost:7902</span></span><br></pre></td></tr></table></figure></p>
+<p>如上，需要在ribbon中禁用Eureka。然后指定了2个user服务，端口分别为7901，7902。</p>
+<p>仍然是通过<a href="http://localhost:8808/user/sample/1">http://localhost:8808/user/sample/1</a>来访问。访问多次，可以在控制台看到SQL打印，是轮询调用7901和7902的。</p>
+<h3 id="Zuul使用正则表达式指定路由规则"><a href="#Zuul使用正则表达式指定路由规则" class="headerlink" title="Zuul使用正则表达式指定路由规则"></a>Zuul使用正则表达式指定路由规则</h3><p>您可以使用regexmapper在serviceId和路由之间提供约定。 它使用名为groups的正则表达式从serviceId中提取变量并将它们注入路由模式。</p>
+<p>将user服务id修改为<br><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line"><span class="attr">  application:</span></span><br><span class="line"><span class="attr">    name:</span> <span class="string">microservice-springcloud-user-v1</span></span><br></pre></td></tr></table></figure></p>
+<p>zuul模块application.yml<br><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line"><span class="attr">  application:</span></span><br><span class="line"><span class="attr">    name:</span> <span class="string">microservice-gateway-zuul</span></span><br><span class="line"></span><br><span class="line"><span class="attr">server:</span></span><br><span class="line"><span class="attr">  port:</span> <span class="number">8808</span></span><br><span class="line"></span><br><span class="line"><span class="attr">eureka:</span></span><br><span class="line"><span class="attr">  client:</span></span><br><span class="line"><span class="attr">    service-url:</span></span><br><span class="line"><span class="attr">      defaultZone:</span> <span class="attr">http://localhost:8761/eureka</span></span><br><span class="line"><span class="attr">  instance:</span></span><br><span class="line"><span class="attr">    prefer-ip-address:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure></p>
+<p>Zuul主类：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="meta">@EnableZuulProxy</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ZuulApplication</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">( String[] args )</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        SpringApplication.run(ZuulApplication.class,args);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> PatternServiceRouteMapper <span class="title">serviceRouteMapper</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 第一个参数：servicePattern，第2个参数routePattern</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> PatternServiceRouteMapper(</span><br><span class="line">                <span class="string">"(?&lt;name&gt;^.+)-(?&lt;version&gt;v.+$)"</span>,</span><br><span class="line">                <span class="string">"$&#123;version&#125;/$&#123;name&#125;"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>上面的PatternServiceRouteMapper意思是myusers-v1将映射为/v1/myusers/**。</p>
+<p>接受任何正则表达式，但所有命名组必须同时出现在servicePattern和routePattern中。</p>
+<p>如果servicePattern与serviceId不匹配，则使用默认行为。比如user的serviceId为microservice-springcloud-user，那么实际上最终是通过<a href="http://localhost:zuul端口/microservice-springcloud-user/**来访问。">http://localhost:zuul端口/microservice-springcloud-user/**来访问。</a></p>
+<p>在上面的示例中，serviceId“myusers”将映射到路由“/myusers/**”（在未检测到版本时）默认情况下禁用此功能，仅适用于已发现的服务。</p>
+<p>然后浏览器可以通过[<a href="http://localhost:zuul端口]/v1/microservice-springcloud-user/sample/1来访问user服务。">http://localhost:zuul端口]/v1/microservice-springcloud-user/sample/1来访问user服务。</a><br><img src="http://omh46px9n.bkt.clouddn.com/18-7-5/5562039.jpg" alt></p>
+<h3 id="为所有映射增加前缀"><a href="#为所有映射增加前缀" class="headerlink" title="为所有映射增加前缀"></a>为所有映射增加前缀</h3><p>要为所有映射添加前缀，请将zuul.prefix设置为值，例如/ api。 在默认情况下转发请求之前，会从请求中删除代理前缀（使用zuul.stripPrefix = false关闭此行为）。 </p>
+<p>在application.yml增加<br><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">zuul:</span></span><br><span class="line"><span class="attr">  prefix:</span> <span class="string">/api</span></span><br></pre></td></tr></table></figure></p>
+<p>然后通过<a href="http://localhost:Zuul端口/api/microservice-springcloud-user/sample/1来访问。">http://localhost:Zuul端口/api/microservice-springcloud-user/sample/1来访问。</a><br><img src="http://omh46px9n.bkt.clouddn.com/18-7-5/81391687.jpg" alt></p>
+<p>上面是一种全局的设置方式。可以通过zuul.stripPrefix=true/false来设置在请求具体的服务时是否剥离前缀。比如访问/api/sample/1，如果zuul.stripPrefix设置为true（默认为true），则实际请求用户服务的是/sample/1，相反请求路径是/api/sample/1.</p>
+<p>您还可以关闭从各个路由中剥离特定于服务的前缀，例如：<br>假定user服务中指定了context-path为/user，我们访问/sample/1是通过/user/sample/1来访问的。现在我想通过<a href="http://localhost:zuul端口/user/sample/1来访问，可以这样做：">http://localhost:zuul端口/user/sample/1来访问，可以这样做：</a><br><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">zuul:</span></span><br><span class="line"><span class="attr">  routes:</span></span><br><span class="line"><span class="attr">    microservice-springcloud-user:</span></span><br><span class="line"><span class="attr">      path:</span> <span class="string">/user/**</span></span><br><span class="line"><span class="attr">      stripPrefix:</span> <span class="literal">false</span></span><br></pre></td></tr></table></figure></p>
+<p>或者：<br><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">zuul:</span></span><br><span class="line"><span class="attr">  routes:</span></span><br><span class="line"><span class="attr">    microservice-springcloud-user:</span></span><br><span class="line"><span class="attr">      prefix:</span> <span class="string">/user</span></span><br><span class="line"><span class="attr">      path:</span> <span class="string">/**</span></span><br><span class="line"><span class="attr">      stripPrefix:</span> <span class="literal">false</span></span><br></pre></td></tr></table></figure></p>
+<p>stripPrefix是剥离前缀的意思，设置为false就是不剥离前缀，Zuul默认是剥离前缀的。比如我们设置path=/user/**，比如访问/user/sample/1，实际请求用户服务的是/sample/1。</p>
+<blockquote>
+<p>stripPrefix比较实用的场景是服务带有context-path。</p>
+</blockquote>
+<p>zuul.stripPrefix仅适用于zuul.prefix中设置的前缀。 它对给定路由的路径中定义的前缀没有任何影响。</p>
+<h3 id="Zuul忽略指定的路径"><a href="#Zuul忽略指定的路径" class="headerlink" title="Zuul忽略指定的路径"></a>Zuul忽略指定的路径</h3><p>上面说过了，通过ignoredServices可以指定忽略某些服务，这是比较粗粒度的控制。如果想细粒度的控制忽略某些路径，可以通过下面的方式：<br><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">zuul:</span></span><br><span class="line"><span class="attr">  ignoredPatterns:</span> <span class="string">/**/admin/**</span></span><br><span class="line"><span class="attr">  routes:</span></span><br><span class="line"><span class="attr">    users:</span> <span class="string">/myusers/**</span></span><br></pre></td></tr></table></figure></p>
+<p>这意味着所有诸如“/myusers/101”之类的请求将被转发到“users”服务上的“/101”。 但包括“/admin/”在内的请求则不会处理。</p>
+<h3 id="Zuul指定路由的顺序"><a href="#Zuul指定路由的顺序" class="headerlink" title="Zuul指定路由的顺序"></a>Zuul指定路由的顺序</h3><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">zuul:</span></span><br><span class="line"><span class="attr">  routes:</span></span><br><span class="line"><span class="attr">    microservice-springcloud-user:</span></span><br><span class="line"><span class="attr">      path:</span> <span class="string">/user/**</span></span><br><span class="line"><span class="attr">      stripPrefix:</span> <span class="literal">false</span></span><br><span class="line"><span class="attr">    legacy:</span></span><br><span class="line"><span class="attr">      path:</span> <span class="string">/**</span></span><br></pre></td></tr></table></figure>
+<p>上面配置的意思是/user**的请求转发到microservice-springcloud-user去处理，其他的请求按默认的方式处理（即通过<a href="http://zuulHost:zuulPort/服务名/请求路径）。">http://zuulHost:zuulPort/服务名/请求路径）。</a><br>比如我们启动了microservice-springcloud-user和microservice-springcloud-movie-feign-without-hystrix2个服务。</p>
+<p>通过Zuul访问microservice-springcloud-user,可以这样访问：<br><img src="http://omh46px9n.bkt.clouddn.com/18-7-6/14781290.jpg" alt></p>
+<p>通过Zuul访问microservice-springcloud-movie-feign-without-hystrix需要如下方式访问：<br><img src="http://omh46px9n.bkt.clouddn.com/18-7-6/52751763.jpg" alt></p>
+<blockquote>
+<p>如果你需要保证路由的顺序，则需要使用YAML文件，因为使用属性文件就会丢失顺序。所以，如果你用properties文件配置，可能会导致/user/**访问不到microservice-springcloud-user。</p>
+</blockquote>
+<h3 id="Zuul-Http-Client"><a href="#Zuul-Http-Client" class="headerlink" title="Zuul Http Client"></a>Zuul Http Client</h3><p>Zuul默认使用的是Apache的http client。之前使用的是RestClient。如果你还是想使用RestClient，可以设置ribbon.restclient.enabled=true；如果你想使用OkHttp3，可以设置ribbon.okhttp.enabled=true。</p>
+<p>如果要自定义Apache HTTP客户端或OK HTTP客户端，请提供ClosableHttpClient或OkHttpClient类型的bean。</p>
+<h3 id="Cookie和敏感的Headers"><a href="#Cookie和敏感的Headers" class="headerlink" title="Cookie和敏感的Headers"></a>Cookie和敏感的Headers</h3><p>在同一系统中的服务之间共享Headers是可以的，但您可能不希望敏感Headers向下游泄漏到外部服务器。您可以在路由配置中指定忽略的Headers列表。 Cookie起着特殊的作用，因为它们在浏览器中具有明确定义的语义，并且它们始终被视为敏感。如果您的代理的消费者是浏览器，那么下游服务的cookie也会给用户带来问题，因为它们都会混乱（所有下游服务看起来都来自同一个地方）。</p>
+<p>如果您对服务的设计非常小心，例如，如果只有一个下游服务设置了cookie，那么您可以让它们从后端一直流到调用者。此外，如果您的代理设置了cookie并且您的所有后端服务都是同一系统的一部分，那么简单地共享它们就很自然（例如使用Spring Session将它们链接到某个共享状态）。除此之外，由下游服务设置的任何cookie都可能对调用者不是很有用，因此建议您（至少）将“Set-Cookie”和“Cookie”放入敏感的标头中不属于您的域名。即使对于属于您域的路由，在允许cookie在它们与代理之间流动之前，请仔细考虑它的含义。</p>
+<p>可以将敏感报头配置为每个路由的逗号分隔列表，例如，<br><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">zuul:</span></span><br><span class="line"><span class="attr">  routes:</span></span><br><span class="line"><span class="attr">    users:</span></span><br><span class="line"><span class="attr">      path:</span> <span class="string">/myusers/**</span></span><br><span class="line"><span class="attr">      sensitiveHeaders:</span> <span class="string">Cookie,Set-Cookie,Authorization</span></span><br><span class="line"><span class="attr">      url:</span> <span class="attr">https://downstream</span></span><br></pre></td></tr></table></figure></p>
+<p>这是sensitiveHeaders的默认值，因此除非您希望它不同，否则无需进行设置。注： 这是Spring Cloud Netflix 1.1中的新功能（在1.0中，用户无法控制Headers，所有Cookie都在所有方向上流动）。</p>
+<p>sensitiveHeaders是黑名单，默认不为空，因此要使Zuul发送所有Headers（“忽略”的Headers除外），您必须将其明确设置为空列表。 如果要将cookie或授权Headers传递给后端，则必须执行此操作。 例：<br><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">zuul:</span></span><br><span class="line"><span class="attr">  routes:</span></span><br><span class="line"><span class="attr">    users:</span></span><br><span class="line"><span class="attr">      path:</span> <span class="string">/myusers/**</span></span><br><span class="line"><span class="attr">      sensitiveHeaders:</span></span><br><span class="line"><span class="attr">      url:</span> <span class="attr">https://downstream</span></span><br></pre></td></tr></table></figure></p>
+<p>也可以通过设置zuul.sensitiveHeaders来全局设置敏感的Headers。 如果在路由上设置了sensitiveHeaders，则会覆盖全局sensitiveHeaders设置。</p>
+<h3 id="忽略Headers"><a href="#忽略Headers" class="headerlink" title="忽略Headers"></a>忽略Headers</h3><p>除了每个路由规则上面的敏感头部信息设置，我们还可以在网关与外部服务交互的时候，用一个全局的设置zuul.ignoredHeaders，去除那些我们不想要的http头部信息(包括请求和响应的)。在默认情况下，zuul是不会去除这些信息的。如果Spring Security不在类路径上的话，它们就会被初始化为一组众所周知的“安全”头部信息（例如，涉及缓存），这是由Spring Security指定的。在这种情况下，假设请求网关的服务也会添加头部信息，我们又要得到这些代理头部信息，就可以设置zuul.ignoreSecurityHeaders为false，同时保留Spring Security的安全头部信息和代理的头部信息。当然，我们也可以不设置这个值，仅仅获取来自代理的头部信息。</p>
+<h3 id="路由端点"><a href="#路由端点" class="headerlink" title="路由端点"></a>路由端点</h3><p>Actuator提供了一个可以查看路由规则的端点/routes，我们在Zuul中引入Actuator依赖：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-actuator<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span>  </span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>再把安全验证关闭，让我们可以访问到这个端点：<br><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">management:</span></span><br><span class="line"><span class="attr">  security:</span></span><br><span class="line"><span class="attr">    enabled:</span> <span class="literal">false</span></span><br></pre></td></tr></table></figure></p>
+<p>这里，遗留请求的路由规则会影响到我们访问这个端点，先注释掉这个路由规则：<br><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#legacy:</span></span><br><span class="line">  <span class="comment">#path: /**</span></span><br></pre></td></tr></table></figure></p>
+<p>重启Zuul项目，我们便能看到zuul网关的路由规则了<br><img src="http://omh46px9n.bkt.clouddn.com/18-7-6/7179772.jpg" alt></p>
+<p>如果想知道路由的详细细节，可以增加参数?format=details<br><img src="http://omh46px9n.bkt.clouddn.com/18-7-6/19453207.jpg" alt></p>
+<h3 id="Strangulation-Patterns-绞杀者模式"><a href="#Strangulation-Patterns-绞杀者模式" class="headerlink" title="Strangulation Patterns (绞杀者模式)"></a>Strangulation Patterns (绞杀者模式)</h3><p>迁移现有应用程序或API时的常见模式是“扼杀”旧的端点，慢慢地用不同的实现替换它们。 Zuul代理是一个有用的工具，因为可以使用它来处理来自旧端点的客户端的所有流量，但重定向一些请求到新的端点。</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">zuul:</span></span><br><span class="line"><span class="attr">  routes:</span></span><br><span class="line"><span class="attr">    first:</span></span><br><span class="line"><span class="attr">      path:</span> <span class="string">/first/**</span></span><br><span class="line"><span class="attr">      url:</span> <span class="attr">http://first.example.com</span></span><br><span class="line"><span class="attr">    second:</span></span><br><span class="line"><span class="attr">      path:</span> <span class="string">/second/**</span></span><br><span class="line"><span class="attr">      url:</span> <span class="attr">forward:/second</span></span><br><span class="line"><span class="attr">    third:</span></span><br><span class="line"><span class="attr">      path:</span> <span class="string">/third/**</span></span><br><span class="line"><span class="attr">      url:</span> <span class="attr">forward:/3rd</span> <span class="comment"># 本地的转发</span></span><br><span class="line"><span class="attr">    legacy:</span> <span class="comment"># 老系统的请求</span></span><br><span class="line"><span class="attr">      path:</span> <span class="string">/**</span></span><br><span class="line"><span class="attr">      url:</span> <span class="attr">http://legacy.example.com</span></span><br></pre></td></tr></table></figure>
+<p>在这个例子中，我们正在扼杀“遗留”应用程序，该应用程序映射到与其他模式之一不匹配的所有请求。 /first/<strong>中的路径已被提取到具有外部URL的新服务中。 并转发/second/</strong>中的路径，以便可以在本地处理它们，例如， 使用正常的Spring @RequestMapping。 /third/**中的路径也被转发，但具有不同的前缀（即/third/foo被转发到/3rd/foo）。</p>
+<blockquote>
+<p>忽略的模式不会被完全忽略，它们只是不由代理处理（因此它们也可以在本地有效转发）。</p>
+</blockquote>
+<h3 id="通过Zuul上传文件"><a href="#通过Zuul上传文件" class="headerlink" title="通过Zuul上传文件"></a>通过Zuul上传文件</h3><p>新建一个模块microservice-file-upload，该模块用于文件上传。<br>application.yml<br><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">server:</span></span><br><span class="line"><span class="attr">  port:</span> <span class="number">9999</span></span><br><span class="line"></span><br><span class="line"><span class="attr">spring:</span></span><br><span class="line"><span class="attr">  application:</span></span><br><span class="line"><span class="attr">    name:</span> <span class="string">microservice-file-upload</span></span><br><span class="line"></span><br><span class="line"><span class="attr">eureka:</span></span><br><span class="line"><span class="attr">  client:</span></span><br><span class="line"><span class="attr">    service-url:</span></span><br><span class="line"><span class="attr">      defaultZone:</span> <span class="attr">http://localhost:8761/eureka</span></span><br><span class="line"><span class="attr">  instance:</span></span><br><span class="line"><span class="attr">    prefer-ip-address:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure></p>
+<p>上传文件的Controller<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/file"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FileUploadController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@RequestMapping</span>(value = <span class="string">"/upload"</span>,method = RequestMethod.POST)</span><br><span class="line">    <span class="meta">@ResponseBody</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">uploadFile</span><span class="params">(@RequestParam(<span class="string">"file"</span>)</span> MultipartFile file) <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        String uploadDir = <span class="string">"E:/test/"</span>;</span><br><span class="line">        String originName = file.getOriginalFilename();</span><br><span class="line">        String uploadPath = uploadDir+originName;</span><br><span class="line"></span><br><span class="line">        File destDir = <span class="keyword">new</span> File(uploadDir);</span><br><span class="line">        <span class="keyword">if</span> (!destDir.exists()) &#123;</span><br><span class="line">            destDir.mkdirs();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        File dest = <span class="keyword">new</span> File(uploadPath);</span><br><span class="line">        <span class="keyword">if</span> (dest.exists()) &#123;</span><br><span class="line">            dest.delete();</span><br><span class="line">        &#125;</span><br><span class="line">        file.transferTo(dest);</span><br><span class="line">        System.out.println(<span class="string">"文件上传路径："</span> + uploadPath);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> uploadPath;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这里将服务注册到Eureka，是为了后面使用Zuul代理文件上传功能。</p>
+<p>这里用curl测试。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -F &quot;file=@d:/luckystar88/books/java_bloomfilter.rar&quot; http://localhost:9999/file/upload</span><br></pre></td></tr></table></figure></p>
+<p><img src="http://omh46px9n.bkt.clouddn.com/18-7-6/20498759.jpg" alt></p>
+<p>可以看到，请求成功。</p>
+<p>刚刚上传的文件大小14Kb，我们上传一个大点的文件（文件大小18.9M）。<br><img src="http://omh46px9n.bkt.clouddn.com/18-7-6/17037246.jpg" alt></p>
+<p>出错，看错误信息，提示文件大小19M，超过了配置的最大大小10M。</p>
+<p>解决办法：<br><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line"><span class="attr">  application:</span></span><br><span class="line"><span class="attr">    name:</span> <span class="string">microservice-file-upload</span></span><br><span class="line"><span class="attr">  http:</span></span><br><span class="line"><span class="attr">    multipart:</span></span><br><span class="line">      <span class="comment"># 单个文件大小</span></span><br><span class="line"><span class="attr">      max-file-size:</span> <span class="number">1024</span><span class="string">Mb</span></span><br><span class="line">      <span class="comment"># 总上传数据的大小</span></span><br><span class="line"><span class="attr">      max-request-size:</span> <span class="number">2048</span><span class="string">Mb</span></span><br></pre></td></tr></table></figure></p>
+<p>配置上面2项设置文件大小即可。</p>
+<p>重新上传：<br><img src="http://omh46px9n.bkt.clouddn.com/18-7-6/37749859.jpg" alt></p>
+<p>现在我们使用Zuul测试。</p>
+<p>修改Zuul的application.yml<br><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">zuul:</span></span><br><span class="line"><span class="attr">  routes:</span></span><br><span class="line"><span class="attr">    microservice-file-upload:</span></span><br><span class="line"><span class="attr">      path:</span> <span class="string">/upload-api/**</span></span><br></pre></td></tr></table></figure></p>
+<p>将/upload-api/**的请求交给microservice-file-upload处理。</p>
+<p>启动Eureka Server，Zuul和file-upload模块。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -F &quot;file=@d:/360极速浏览器下载/111.mp4&quot; http://localhost:8808/zuul/upload-api/file/upload</span><br></pre></td></tr></table></figure></p>
+<p><img src="http://omh46px9n.bkt.clouddn.com/18-7-6/78384826.jpg" alt></p>
+<p>可以看到上传成功。</p>
+<p>我们准备一个大点的文件（175M）测试下上传超时。<br><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">curl</span> <span class="bullet">-F</span> <span class="string">"file=@C:\Users\Administrator\Downloads\Spring+Cloud微服务实战.pdf"</span> <span class="attr">http://localhost:8808/zuul/upload-api/file/upload</span></span><br></pre></td></tr></table></figure></p>
+<p><img src="http://omh46px9n.bkt.clouddn.com/18-7-6/81090956.jpg" alt></p>
+<p>可以看到Zuul报超时了。</p>
+<p>解决办法：<br>在Zuul增加配置：<br><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds:</span> <span class="number">60000</span></span><br><span class="line"><span class="attr">ribbon:</span></span><br><span class="line"><span class="attr">  ConnectTimeout:</span> <span class="number">3000</span></span><br><span class="line"><span class="attr">  ReadTimeout:</span> <span class="number">60000</span></span><br></pre></td></tr></table></figure></p>
+<p><img src="http://omh46px9n.bkt.clouddn.com/18-7-6/71371840.jpg" alt></p>
+<p>重新请求，可以看到上传成功了（文件名乱码就暂时不管了）。</p>
+<h3 id="禁用Zuul-Filters"><a href="#禁用Zuul-Filters" class="headerlink" title="禁用Zuul Filters"></a>禁用Zuul Filters</h3><p>默认会使用很多filters，可采用如下方式禁止<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">zuul.SendResponseFilter.post.disable=true</span><br></pre></td></tr></table></figure></p>
+<h3 id="Zuul的回退"><a href="#Zuul的回退" class="headerlink" title="Zuul的回退"></a>Zuul的回退</h3><p>当Zuul中给定路径的电路跳闸时，您可以通过创建ZuulFallbackProvider类型的bean来提供回退响应。 在此bean中，您需要指定回退所针对的路由ID，并提供ClientHttpResponse作为回退返回。</p>
+<p>我们创建一个模块microservice-gateway-zuul-fallback。<br>application.yml<br><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line"><span class="attr">  application:</span></span><br><span class="line"><span class="attr">    name:</span> <span class="string">microservice-gateway-zuul-fallback</span></span><br><span class="line"></span><br><span class="line"><span class="attr">server:</span></span><br><span class="line"><span class="attr">  port:</span> <span class="number">8808</span></span><br><span class="line"></span><br><span class="line"><span class="attr">eureka:</span></span><br><span class="line"><span class="attr">  client:</span></span><br><span class="line"><span class="attr">    service-url:</span></span><br><span class="line"><span class="attr">      defaultZone:</span> <span class="attr">http://localhost:8761/eureka</span></span><br><span class="line"><span class="attr">  instance:</span></span><br><span class="line"><span class="attr">    prefer-ip-address:</span> <span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="attr">zuul:</span></span><br><span class="line"><span class="attr">  routes:</span></span><br><span class="line"><span class="attr">    microservice-springcloud-user:</span></span><br><span class="line"><span class="attr">      path:</span> <span class="string">/user/**</span></span><br><span class="line"><span class="attr">      stripPrefix:</span> <span class="literal">false</span></span><br></pre></td></tr></table></figure></p>
+<p>由于在microservice-springcloud-user服务中指定了context-path，所以这里设置stripPrefix=false。</p>
+<p>spring boot主类：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="meta">@EnableZuulProxy</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ZuulFallbackApplication</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">( String[] args )</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        SpringApplication.run(ZuulFallbackApplication.class,args);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>回退类：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserFallbackProvider</span> <span class="keyword">implements</span> <span class="title">ZuulFallbackProvider</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getRoute</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"microservice-springcloud-user"</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ClientHttpResponse <span class="title">fallbackResponse</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ClientHttpResponse() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> HttpStatus <span class="title">getStatusCode</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">                <span class="keyword">return</span> HttpStatus.BAD_REQUEST;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getRawStatusCode</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">                <span class="keyword">return</span> HttpStatus.BAD_REQUEST.value();</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> String <span class="title">getStatusText</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">                <span class="keyword">return</span> HttpStatus.BAD_REQUEST.getReasonPhrase();</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">close</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> InputStream <span class="title">getBody</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">new</span> ByteArrayInputStream((getRoute() + <span class="string">"==》fallback"</span>).getBytes());</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> HttpHeaders <span class="title">getHeaders</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                HttpHeaders headers = <span class="keyword">new</span> HttpHeaders();</span><br><span class="line">                headers.setContentType(MediaType.APPLICATION_JSON);</span><br><span class="line">                <span class="keyword">return</span> headers;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>回退的类中指定了路由为microservice-springcloud-user，同时指定了响应码，响应内容，响应类型等信息。</p>
+<p>测试：</p>
+<p>启动Eureka server，microservice-springcloud-user和microservice-gateway-zuul-fallback。</p>
+<p>user服务正常时访问：<br><img src="http://omh46px9n.bkt.clouddn.com/18-7-6/74752153.jpg" alt></p>
+<p>关闭user服务，再次访问：<br><img src="http://omh46px9n.bkt.clouddn.com/18-7-6/58750246.jpg" alt></p>
+<p>通过/routes访问路由信息：<br><img src="http://omh46px9n.bkt.clouddn.com/18-7-7/28667237.jpg" alt></p>
+<p>注意：FallbackProvider类中的routes必须与配置文件中的一致。</p>
+<p>如果想为所有的路由设置一个默认的fallback，可以创建一个ZuulFallbackProvider类型的Bean，并且getRoute返回*或null。</p>
+<p>比如：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyFallbackProvider</span> <span class="keyword">implements</span> <span class="title">ZuulFallbackProvider</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getRoute</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"*"</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ClientHttpResponse <span class="title">fallbackResponse</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ClientHttpResponse() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> HttpStatus <span class="title">getStatusCode</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">                <span class="keyword">return</span> HttpStatus.OK;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getRawStatusCode</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="number">200</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> String <span class="title">getStatusText</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="string">"OK"</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">close</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> InputStream <span class="title">getBody</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">new</span> ByteArrayInputStream(<span class="string">"fallback"</span>.getBytes());</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> HttpHeaders <span class="title">getHeaders</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                HttpHeaders headers = <span class="keyword">new</span> HttpHeaders();</span><br><span class="line">                headers.setContentType(MediaType.APPLICATION_JSON);</span><br><span class="line">                <span class="keyword">return</span> headers;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>如果您想根据失败原因选择响应，请使用FallbackProvider，它将取代未来版本中的ZuulFallbackProvder。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyFallbackProvider</span> <span class="keyword">implements</span> <span class="title">FallbackProvider</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getRoute</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"*"</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ClientHttpResponse <span class="title">fallbackResponse</span><span class="params">(<span class="keyword">final</span> Throwable cause)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (cause <span class="keyword">instanceof</span> HystrixTimeoutException) &#123;</span><br><span class="line">            <span class="keyword">return</span> response(HttpStatus.GATEWAY_TIMEOUT);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> fallbackResponse();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ClientHttpResponse <span class="title">fallbackResponse</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> response(HttpStatus.INTERNAL_SERVER_ERROR);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> ClientHttpResponse <span class="title">response</span><span class="params">(<span class="keyword">final</span> HttpStatus status)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ClientHttpResponse() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> HttpStatus <span class="title">getStatusCode</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">                <span class="keyword">return</span> status;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getRawStatusCode</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">                <span class="keyword">return</span> status.value();</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> String <span class="title">getStatusText</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">                <span class="keyword">return</span> status.getReasonPhrase();</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">close</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> InputStream <span class="title">getBody</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">new</span> ByteArrayInputStream(<span class="string">"fallback"</span>.getBytes());</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> HttpHeaders <span class="title">getHeaders</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                HttpHeaders headers = <span class="keyword">new</span> HttpHeaders();</span><br><span class="line">                headers.setContentType(MediaType.APPLICATION_JSON);</span><br><span class="line">                <span class="keyword">return</span> headers;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+        </div>
+        <div class="post-tool">
+            <a class="btn-thumbs-up" href="javascript:void(0);" data-cid="52" title="95">
+                <i class="fa fa-thumbs-up" aria-hidden="true"></i> 打赏
+            </a>
+        </div>
+        
+        <div class="post-tags">标签：
+            
+            <a href="/tags/springcloud/">springcloud</a>
+            
+        </div>
+        
+    </article>
+    
+    <p style="text-align: center">本文代表个人观点，内容仅供参考。若有不恰当之处，望不吝赐教！</p>
+    
+    
+
+    
+    
+        <div id="gitment-container"></div>
+        <link rel="stylesheet" href="//imsun.github.io/gitment/style/default.css">
+        <script src="//imsun.github.io/gitment/dist/gitment.browser.js"></script>
+        <script type="text/javascript">
+            var gitment = new Gitment({
+                /*lable长度不能超过50个字符，这里使用页面的生成时间*/
+                id: 'Thu Jul 05 2018 15:09:28 GMT+0800'/*document.location.href*/,
+                owner: 'luckystar88',
+                repo: 'comments',
+                oauth: {
+                    client_id: 'd49ebe4f95abcd6163f4',
+                    client_secret: 'edd2748d6271072a6970d5cec8751f388dac8116',
+                }
+            });
+            gitment.render('gitment-container');
+        </script>
+        
+            <script>
+                document.getElementById("gitment-display-button").style.display = "none";
+                document.getElementById("gitment-container").style.display = "block";
+            </script>
+        
+    
+
+
+</div>
+<script src="/js/busuanzi.pure.mini.js"></script>
+
+
+        </div><!-- end #main-->
+    </div><!-- end #body -->
+    <footer class="footer">
+    <div class="footer-inner" style="text-align: center">
+        <p>
+            <a href="/about" title="关于">关于</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <!-- 自定义链接 -->
+            <a href="/help" title="帮助">帮助</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <a href="/links" title="友链">友链</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <a href="/sitemap.xml" title="地图">地图</a>
+        </p>
+        <p>
+            本站已建立&nbsp<a href="/timeline" id="siteBuildingTime"></a>&nbsp天，<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="licence">采用知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议创作</a><br>
+            ©2017-<span id="cpYear"></span> 基于&nbsp<a href="http://hexo.io" target="_blank" rel="nofollow">Hexo</a>
+            ，主题采用&nbsp&nbsp<a href="https://github.com/tangkunyin/hexo-theme-jsimple" target="_blank" rel="bookmark">JSimple</a>
+            ，作者&nbsp<a href="https://tommy88.top" target="_blank" rel="friend">Donny</a>
+            ，Hosted by <a href="https://pages.github.com/" target="_blank" rel="nofollow">GitHub Pages</a>
+        </p>
+    </div>
+</footer>
+<script src="/js/SimpleCore.js"></script>
+
+</div>
+<!-- search pop -->
+<div class="popup search-popup local-search-popup">
+    <div class="local-search-header clearfix">
+        <span class="search-icon">
+            <i class="fa fa-search"></i>
+        </span>
+        <span class="popup-btn-close">
+            <i class="fa fa-times-circle"></i>
+        </span>
+        <div class="local-search-input-wrapper">
+            <input id="local-search-input" spellcheck="false" type="text" autocomplete="off" placeholder="请输入查询关键词">
+        </div>
+    </div>
+    <div id="local-search-result"></div>
+</div>
+<div class="fixed-btn">
+    <a class="btn-gotop" href="javascript:"> <i class="fa fa-angle-up"></i></a>
+</div>
+<script>
+    $(function () {
+        var jsi_config = {
+            buildingTime: '01/20/2016',
+            current: $('.post-tags').length > 0 ? 'post' : 'archive',
+            snsQRCode: '/images/sns-qrcode.png',
+            donateImg: '/images/donate-qr.png',
+            localSearch: { dbPath: '' },
+            readMode: 'day'
+        };
+        
+            jsi_config.localSearch = {
+                dbPath: '/search.xml',
+                trigger: 'auto',
+                topN: '1',
+                unescape: 'false'
+            }
+        
+        SimpleCore.init(jsi_config);
+        
+    });
+</script>
+</body>
+</html>
