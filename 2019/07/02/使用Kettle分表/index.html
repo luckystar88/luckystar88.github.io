@@ -149,7 +149,7 @@
             </div>
             <h2 class="post-title">使用Kettle分表</h2>
             <div class="post-meta">
-                本文共计663个字 |
+                本文共计854个字 |
                 您是第&nbsp;<span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>位看到它们的小伙伴
             </div>
         </div>
@@ -164,6 +164,8 @@
 <p>表输出这里使用了动态表名（根据一行数据的table_name字段）<br><img src="/img/kettle_3.png" alt></p>
 <p>然后在数据库字段这里，点击“获取字段”，然后去掉table_name，因为我们是用它来确定某行数据应该存储到哪个表的。<br><img src="/img/kettle_4.png" alt></p>
 <h2 id="kttle-新建作业执行多个转换job按并行和顺序执行"><a href="#kttle-新建作业执行多个转换job按并行和顺序执行" class="headerlink" title="kttle 新建作业执行多个转换job按并行和顺序执行"></a>kttle 新建作业执行多个转换job按并行和顺序执行</h2><p>参考：<a href="https://blog.csdn.net/saga_gallon/article/details/78410902">https://blog.csdn.net/saga_gallon/article/details/78410902</a></p>
+<p><strong>特别注意</strong><br>如果表数据量大，用的windows10系统，默认情况下锁屏后网络会中断，会导致Kettle执行不成功。<br>到网络和共享中心–&gt;以太网–&gt;Microsoft网络客户端（选中）–&gt;配置–&gt;电源管理–&gt;运行计算机关闭此设备以节省电源（不要勾选）。</p>
+<p>或者，直接到控制面板建电源管理中不然计算机进入休眠。位置：控制面板\硬件和声音\电源选项\编辑计划设置。</p>
 
         </div>
         <div class="post-tool">
