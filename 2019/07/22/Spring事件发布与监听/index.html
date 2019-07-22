@@ -1,0 +1,290 @@
+<!DOCTYPE HTML>
+<html class="no-js" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!--[if lte IE 9]>
+<meta http-equiv="refresh" content="0;url=https://tommy88.top/warn.html">
+<![endif]-->
+<meta charset="utf-8">
+<meta http-equiv="X-DNS-Prefetch-Control" content="on">
+<link rel="dns-prefetch" href="https://tommy88.top">
+<link rel="dns-prefetch" href="//www.google-analytics.com">
+<link rel="prefetch" href="https://tommy88.top">
+<link rel="prefetch" href="//www.google-analytics.com">
+
+
+    <link rel="dns-prefetch" href="//imsun.github.io">
+    <link rel="prefetch" href="//imsun.github.io">
+
+<link rel="prerender" href="https://tommy88.top">
+
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+<meta http-equiv="mobile-agent" content="format=html5; url=https://tommy88.top">
+<meta name="author" content="Donny">
+<link rel="stylesheet" href="/css/JSimple.css">
+
+<link rel="shortcut icon" href="/images/favicon.png">
+
+
+<title>spring事件发布与监听 - Donny的技术博客</title>
+
+<meta name="keywords" content="java,前端,数据库,web,spring,redis,spring boot,spring cloud,mq">
+
+<meta name="description " content="记录工作，感悟生活">
+
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                processEscapes: true
+            }
+        });
+    </script>
+
+
+    
+
+    
+    
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="//www.googletagmanager.com/gtag/js?id=UA-105613999-1"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'UA-105613999-1');
+        </script>
+    
+    <!-- put your likes here. -->
+
+
+</head>
+<body>
+<div id="nav">
+    <nav class="nav-menu">
+        <a class="site-name current" href="/" title="Home">Home</a>
+        <a class="site-index current" href="/"><i class="fa fa-home"></i><span>首页</span></a>
+        <a href="/archives" title="归档"><i class="fa fa-archives"></i><span>归档</span></a>
+        <a href="/tags" title="标签"><i class="fa fa-tags"></i><span>标签</span></a>
+        <!-- custom single page of menus -->
+        
+        
+        <a href="/help" title="帮助">
+            <i class="fa fa-question-circle"></i>
+            <span>帮助</span>
+        </a>
+        
+    </nav>
+</div>
+
+<div class="nav-user">
+    <a class="btn-search" href="#"><i class="fa fa-search"></i></a>
+    <a class="btn-read-mode" href="#"><i class="fa fa-sun-o"></i></a>
+    <a class="btn-sns-qr" href="javascript:"><i class="fa fa-telegram"></i></a>
+</div>
+
+<div id="wrapper" class="clearfix">
+    <div id="body">
+        <div class="main" id="main">
+            <div id="cover">
+    <div class="cover-img"></div>
+    <div class="cover-info">
+        
+        <h1 class="cover-siteName">Donny的技术博客</h1>
+        <h3 class="cover-siteTitle">用代码征服世界</h3>
+        <p class="cover-siteDesc">这是一个简单的技术博客</p>
+        <div class="cover-sns">
+            
+    &nbsp;&nbsp;<div class="btn btn-github">
+        <a href="https://github.com/luckystar88" target="_blank" title="github" ref="friend">
+            <i class="fa fa-github"></i>
+        </a>
+    </div>
+
+
+        </div>
+    </div>
+</div>
+
+            <div class="page-title">
+    <ul>
+        <li><a href="/">最近</a></li>
+        
+            
+                <li class="active">
+                    <a href="/categories/tech" data-name="技术">技术</a>
+                </li>
+            
+                <li class>
+                    <a href="/categories/life" data-name="人文">人文</a>
+                </li>
+            
+                <li class>
+                    <a href="/categories/others" data-name="其他">其他</a>
+                </li>
+            
+        
+        <li class="page-search">
+    <form id="search" class="search-form">
+        <input type="text" readonly="readonly" id="local-search-input-tip" placeholder="读物检索~">
+        <button type="button" disabled="disabled" class="search-form-submit"><i class="fa fa-search"></i></button>
+    </form>
+</li>
+
+    </ul>
+</div>
+<div class="main-inner">
+    <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+        <div class="post-header">
+            <div class="post-author clearfix">
+                <a class="avatar fleft" href="https://tommy88.top" target="_blank">
+                    <img width="48" src="/images/favicon.png" alt="avatar">
+                </a>
+                <p><span class="label">作者</span>
+                    <a href="https://tommy88.top" target="_blank">Donny</a>
+                    <span title="最后编辑于&nbsp;2019-07-22">2019-07-22</span>
+                </p>
+                <p>记录工作，感悟生活</p>
+            </div>
+            <h2 class="post-title">Spring事件发布与监听</h2>
+            <div class="post-meta">
+                本文共计2594个字 |
+                您是第&nbsp;<span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>位看到它们的小伙伴
+            </div>
+        </div>
+        <div class="post-content markdown-body">
+            <p>Spring提供了事件发布、监听的功能，在ApplicationContext中提供了一个publishEvent(ApplicationEvent event)来实现事件的发布，通过实现ApplicationListener来定义监听者的逻辑。</p>
+<p>下面我们通过一个例子来说明。</p>
+<p>1.定义一个事件</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LogEvent</span> <span class="keyword">extends</span> <span class="title">ApplicationEvent</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">LogEvent</span><span class="params">(Object source)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(source);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>2.定义事件监听者</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LogEventListener</span> <span class="keyword">implements</span> <span class="title">ApplicationListener</span>&lt;<span class="title">LogEvent</span>&gt; </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onApplicationEvent</span><span class="params">(LogEvent logEvent)</span> </span>&#123;</span><br><span class="line">        LogEventModel model = (LogEventModel) logEvent.getSource();</span><br><span class="line">        System.out.println(<span class="string">"--LogEventListener:[device="</span>+model.getDevice() +<span class="string">",phone="</span>+model.getUserPhone()+<span class="string">",nickname="</span>+model.getNickname()+<span class="string">"]."</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里的LogEventModel定义如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="meta">@Builder</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LogEventModel</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String device;</span><br><span class="line">    <span class="keyword">private</span> String userPhone;</span><br><span class="line">    <span class="keyword">private</span> String nickname;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>3.写一个Spring的工具类，实现ApplicationContextAware，以便使用它来发布事件。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SpringUtil</span> <span class="keyword">implements</span> <span class="title">ApplicationContextAware</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> ApplicationContext applicationContext;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setApplicationContext</span><span class="params">(ApplicationContext applicationContext)</span> <span class="keyword">throws</span> BeansException </span>&#123;</span><br><span class="line">        SpringUtil.applicationContext = applicationContext;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">publishEvent</span><span class="params">(ApplicationEvent event)</span> </span>&#123;</span><br><span class="line">        applicationContext.publishEvent(event);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>4.测试</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RunWith</span>(SpringJUnit4ClassRunner.class)</span><br><span class="line"><span class="meta">@SpringBootTest</span>(classes = &#123;Application.class&#125;)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SpringEventTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@org</span>.junit.Test</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        LogEventModel model = LogEventModel.builder().device(<span class="string">"ios"</span>).nickname(<span class="string">"jack"</span>).userPhone(<span class="string">"13888888888"</span>).build();</span><br><span class="line">        System.out.println(<span class="string">"开始发布Spring Event"</span>);</span><br><span class="line">        SpringUtil.publishEvent(<span class="keyword">new</span> LogEvent(model));</span><br><span class="line">        System.out.println(<span class="string">"Spring Event发布完成。"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>控制台日志：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">开始发布Spring Event</span><br><span class="line">--LogEventListener:[device=ios,phone=13888888888,nickname=jack].</span><br><span class="line">Spring Event发布完成。</span><br></pre></td></tr></table></figure>
+<p>通过控制台日志，我们注意到事件监听处理逻辑跟主程序是同步执行的，如果想异步执行，可以在LogEventListener的onApplicationContext方法上加入@Async注解，另外在配置类中加入@EnableAsync来启用异步（如果使用Spring Boot，在启动类上加入即可）。</p>
+<p>另外事件监听器也可以通过注解的方式来指定</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LogEventListener2</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Async</span></span><br><span class="line">    <span class="meta">@EventListener</span>(&#123;LogEvent.class&#125;)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handle</span><span class="params">(LogEvent logEvent)</span> </span>&#123;</span><br><span class="line">        LogEventModel model = (LogEventModel) logEvent.getSource();</span><br><span class="line">        System.out.println(<span class="string">"--LogEventListener2:[device="</span>+model.getDevice() +<span class="string">",phone="</span>+model.getUserPhone()+<span class="string">",nickname="</span>+model.getNickname()+<span class="string">"]."</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>通常，一些不重要的功能，比如日志记录、邮件发送、数据上报等情形可以考虑使用Spring提供的事件发布监听来优化。</p>
+
+        </div>
+        <div class="post-tool">
+            <a class="btn-thumbs-up" href="javascript:void(0);" data-cid="52" title="95">
+                <i class="fa fa-thumbs-up" aria-hidden="true"></i> 打赏
+            </a>
+        </div>
+        
+        <div class="post-tags">标签：
+            
+            <a href="/tags/spring/">spring</a>
+            
+        </div>
+        
+    </article>
+    
+    <p style="text-align: center">本文代表个人观点，内容仅供参考。若有不恰当之处，望不吝赐教！</p>
+    
+    
+
+    
+    
+        <div id="gitment-container"></div>
+        <link rel="stylesheet" href="//imsun.github.io/gitment/style/default.css">
+        <script src="//imsun.github.io/gitment/dist/gitment.browser.js"></script>
+        <script type="text/javascript">
+            var gitment = new Gitment({
+                /*lable长度不能超过50个字符，这里使用页面的生成时间*/
+                id: 'Mon Jul 22 2019 14:01:07 GMT+0800'/*document.location.href*/,
+                owner: 'luckystar88',
+                repo: 'comments',
+                oauth: {
+                    client_id: 'd49ebe4f95abcd6163f4',
+                    client_secret: 'edd2748d6271072a6970d5cec8751f388dac8116',
+                }
+            });
+            gitment.render('gitment-container');
+        </script>
+        
+            <script>
+                document.getElementById("gitment-display-button").style.display = "none";
+                document.getElementById("gitment-container").style.display = "block";
+            </script>
+        
+    
+
+
+</div>
+<script src="/js/busuanzi.pure.mini.js"></script>
+
+
+        </div><!-- end #main-->
+    </div><!-- end #body -->
+    <footer class="footer">
+    <div class="footer-inner" style="text-align: center">
+        <p>
+            <a href="/about" title="关于">关于</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <!-- 自定义链接 -->
+            <a href="/help" title="帮助">帮助</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <a href="/links" title="友链">友链</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <a href="/sitemap.xml" title="地图">地图</a>
+        </p>
+        <p>
+            本站已建立&nbsp<a href="/timeline" id="siteBuildingTime"></a>&nbsp天，<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="licence">采用知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议创作</a><br>
+            ©2017-<span id="cpYear"></span> 基于&nbsp<a href="http://hexo.io" target="_blank" rel="nofollow">Hexo</a>
+            ，主题采用&nbsp&nbsp<a href="https://github.com/tangkunyin/hexo-theme-jsimple" target="_blank" rel="bookmark">JSimple</a>
+            ，作者&nbsp<a href="https://tommy88.top" target="_blank" rel="friend">Donny</a>
+            ，Hosted by <a href="https://pages.github.com/" target="_blank" rel="nofollow">GitHub Pages</a>
+        </p>
+    </div>
+</footer>
+<script src="/js/SimpleCore.js"></script>
+
+</div>
+<!-- search pop -->
+<div class="popup search-popup local-search-popup">
+    <div class="local-search-header clearfix">
+        <span class="search-icon">
+            <i class="fa fa-search"></i>
+        </span>
+        <span class="popup-btn-close">
+            <i class="fa fa-times-circle"></i>
+        </span>
+        <div class="local-search-input-wrapper">
+            <input id="local-search-input" spellcheck="false" type="text" autocomplete="off" placeholder="请输入查询关键词">
+        </div>
+    </div>
+    <div id="local-search-result"></div>
+</div>
+<div class="fixed-btn">
+    <a class="btn-gotop" href="javascript:"> <i class="fa fa-angle-up"></i></a>
+</div>
+<script>
+    $(function () {
+        var jsi_config = {
+            buildingTime: '01/20/2016',
+            current: $('.post-tags').length > 0 ? 'post' : 'archive',
+            snsQRCode: '/images/sns-qrcode.png',
+            donateImg: '/images/donate-qr.png',
+            localSearch: { dbPath: '' },
+            readMode: 'day'
+        };
+        
+            jsi_config.localSearch = {
+                dbPath: '/search.xml',
+                trigger: 'auto',
+                topN: '1',
+                unescape: 'false'
+            }
+        
+        SimpleCore.init(jsi_config);
+        
+    });
+</script>
+</body>
+</html>
