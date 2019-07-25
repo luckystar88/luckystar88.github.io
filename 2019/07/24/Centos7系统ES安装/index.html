@@ -1,0 +1,383 @@
+<!DOCTYPE HTML>
+<html class="no-js" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!--[if lte IE 9]>
+<meta http-equiv="refresh" content="0;url=https://tommy88.top/warn.html">
+<![endif]-->
+<meta charset="utf-8">
+<meta http-equiv="X-DNS-Prefetch-Control" content="on">
+<link rel="dns-prefetch" href="https://tommy88.top">
+<link rel="dns-prefetch" href="//www.google-analytics.com">
+<link rel="prefetch" href="https://tommy88.top">
+<link rel="prefetch" href="//www.google-analytics.com">
+
+
+    <link rel="dns-prefetch" href="//imsun.github.io">
+    <link rel="prefetch" href="//imsun.github.io">
+
+<link rel="prerender" href="https://tommy88.top">
+
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+<meta http-equiv="mobile-agent" content="format=html5; url=https://tommy88.top">
+<meta name="author" content="Donny">
+<link rel="stylesheet" href="/css/JSimple.css">
+
+<link rel="shortcut icon" href="/images/favicon.png">
+
+
+<title>centos7系统搭建elk环境 - Donny的技术博客</title>
+
+<meta name="keywords" content="java,前端,数据库,web,spring,redis,spring boot,spring cloud,mq">
+
+<meta name="description " content="记录工作，感悟生活">
+
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                processEscapes: true
+            }
+        });
+    </script>
+
+
+    
+
+    
+    
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="//www.googletagmanager.com/gtag/js?id=UA-105613999-1"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'UA-105613999-1');
+        </script>
+    
+    <!-- put your likes here. -->
+
+
+</head>
+<body>
+<div id="nav">
+    <nav class="nav-menu">
+        <a class="site-name current" href="/" title="Home">Home</a>
+        <a class="site-index current" href="/"><i class="fa fa-home"></i><span>首页</span></a>
+        <a href="/archives" title="归档"><i class="fa fa-archives"></i><span>归档</span></a>
+        <a href="/tags" title="标签"><i class="fa fa-tags"></i><span>标签</span></a>
+        <!-- custom single page of menus -->
+        
+        
+        <a href="/help" title="帮助">
+            <i class="fa fa-question-circle"></i>
+            <span>帮助</span>
+        </a>
+        
+    </nav>
+</div>
+
+<div class="nav-user">
+    <a class="btn-search" href="#"><i class="fa fa-search"></i></a>
+    <a class="btn-read-mode" href="#"><i class="fa fa-sun-o"></i></a>
+    <a class="btn-sns-qr" href="javascript:"><i class="fa fa-telegram"></i></a>
+</div>
+
+<div id="wrapper" class="clearfix">
+    <div id="body">
+        <div class="main" id="main">
+            <div id="cover">
+    <div class="cover-img"></div>
+    <div class="cover-info">
+        
+        <h1 class="cover-siteName">Donny的技术博客</h1>
+        <h3 class="cover-siteTitle">用代码征服世界</h3>
+        <p class="cover-siteDesc">这是一个简单的技术博客</p>
+        <div class="cover-sns">
+            
+    &nbsp;&nbsp;<div class="btn btn-github">
+        <a href="https://github.com/luckystar88" target="_blank" title="github" ref="friend">
+            <i class="fa fa-github"></i>
+        </a>
+    </div>
+
+
+        </div>
+    </div>
+</div>
+
+            <div class="page-title">
+    <ul>
+        <li><a href="/">最近</a></li>
+        
+            
+                <li class="active">
+                    <a href="/categories/tech" data-name="技术">技术</a>
+                </li>
+            
+                <li class>
+                    <a href="/categories/life" data-name="人文">人文</a>
+                </li>
+            
+                <li class>
+                    <a href="/categories/others" data-name="其他">其他</a>
+                </li>
+            
+        
+        <li class="page-search">
+    <form id="search" class="search-form">
+        <input type="text" readonly="readonly" id="local-search-input-tip" placeholder="读物检索~">
+        <button type="button" disabled="disabled" class="search-form-submit"><i class="fa fa-search"></i></button>
+    </form>
+</li>
+
+    </ul>
+</div>
+<div class="main-inner">
+    <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+        <div class="post-header">
+            <div class="post-author clearfix">
+                <a class="avatar fleft" href="https://tommy88.top" target="_blank">
+                    <img width="48" src="/images/favicon.png" alt="avatar">
+                </a>
+                <p><span class="label">作者</span>
+                    <a href="https://tommy88.top" target="_blank">Donny</a>
+                    <span title="最后编辑于&nbsp;2019-07-24">2019-07-24</span>
+                </p>
+                <p>记录工作，感悟生活</p>
+            </div>
+            <h2 class="post-title">centos7系统搭建ELK环境</h2>
+            <div class="post-meta">
+                本文共计5211个字 |
+                您是第&nbsp;<span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>位看到它们的小伙伴
+            </div>
+        </div>
+        <div class="post-content markdown-body">
+            <h2 id="部署架构"><a href="#部署架构" class="headerlink" title="部署架构"></a>部署架构</h2><p>应用程序日志–&gt;kafka–&gt;logstash–&gt;es–&gt;kibana。</p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p><strong>Elasticsearch</strong> 需要的 <strong>Java</strong> 最低版本为 <strong>Java 8</strong>。所以第一步需要确保安装了正确版本的jdk。</p>
+<p>我们假定elk的目录为/data/soft/elk。通过下面的命令下载es</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -L -O https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.4.0.tar.gz</span><br></pre></td></tr></table></figure>
+<p>然后解压缩</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -xvf elasticsearch-5.4.0.tar.gz</span><br></pre></td></tr></table></figure>
+<p>然后使用下面的命令启动es。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./bin/elasticsearch.sh</span><br></pre></td></tr></table></figure>
+<p>启动正常的话，可以看到下面的日志。</p>
+<p><img src="/img/1563861865798.png" alt="1563861865798"></p>
+<p>然后我们通过&lt;192.168.193.100:9200&gt;可以看到下面的数据</p>
+<p><img src="/img/1563861906696.png" alt="1563861906696"></p>
+<p>如果想后台运行ES，加上-d参数即可。<code>./bin/elasticsearch -d</code>。</p>
+<h2 id="安装Head插件"><a href="#安装Head插件" class="headerlink" title="安装Head插件"></a>安装Head插件</h2><p>安装head插件，需要先安装nodejs。</p>
+<p>使用<code>node -v</code>确认已安装nodejs。如果没有安装执行<code>yum install nodejs</code>来安装。</p>
+<p>可能遇到的问题：<strong>没有可用软件包 nodejs。</strong></p>
+<p>解决：执行<code>yum install epel-release;</code>然后再安装nodejs。</p>
+<p><strong>使用淘宝的npm镜像cnpm</strong></p>
+<p>使用npm安装依赖有时会比较慢，我们可以使用淘宝的cnpm镜像。</p>
+<p>执行下面的命令来安装：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g cnpm --registry=https://registry.npm.taobao.org</span><br></pre></td></tr></table></figure>
+<p>安装后，原来使用npm，现在使用cnpm即可。</p>
+<p><strong>安装grunt</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cnpm install -g grunt-cli</span><br></pre></td></tr></table></figure>
+<p>确认一下版本,<code>grunt --version</code>。</p>
+<p><strong>修改HEAD监听的地址</strong></p>
+<p>默认HEAD监听 localhost，修改Gruntfile.js，添加hostname</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">connect: &#123;</span><br><span class="line">    server: &#123;</span><br><span class="line">        options: &#123;</span><br><span class="line">            hostname: &apos;*&apos;,</span><br><span class="line">            port: 9100,</span><br><span class="line">            base: &apos;.&apos;,</span><br><span class="line">            keepalive: true</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>既然是跨源访问ES，那么就要在HEAD里面指定ES服务器了，修改_site/app.js</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">init: function(parent) &#123;</span><br><span class="line">    this._super();</span><br><span class="line">    this.prefs = services.Preferences.instance();</span><br><span class="line">    this.base_uri = this.config.base_uri || this.prefs.get(&quot;app-base_uri&quot;) || &quot;http://192.168.193.100:9200&quot;;</span><br><span class="line">    if( this.base_uri.charAt( this.base_uri.length - 1 ) !== &quot;/&quot; ) &#123;</span><br><span class="line">        // XHR request fails if the URL is not ending with a &quot;/&quot;</span><br><span class="line">        this.base_uri += &quot;/&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>进入HEAD目录，安装HEAD依赖包，执行<code>cnpm install</code>。</p>
+<p><strong>启动head插件</strong></p>
+<p>使用<code>grunt server</code>来启动head插件，看到下面的内容就说明启动成功了。</p>
+<p><img src="/img/1563931401940.png" alt="1563931401940"></p>
+<p>head插件使用的端口是9100，记得在防火墙中添加进去。</p>
+<p>然后我们浏览器访问<a href="http://192.168.193.100:9100/">http://192.168.193.100:9100/</a></p>
+<p><img src="/img/1563932853421.png" alt="1563932853421"></p>
+<p>ps:也可以通过<code>npm run start</code> 来启动，<code>npm run start &amp;</code>后台启动。</p>
+<p><strong>停止head插件</strong></p>
+<p>查看 9100 （head 端口）端口：<code>lsof -i:9100</code></p>
+<p>杀死进程：<code>kill -9 pid</code></p>
+<p><strong>es集群状态的说明</strong></p>
+<p>green：每个索引的primary shard和replica shard都是active状态的。</p>
+<p>yellow：每个索引的primary shard都是active状态的，但是部分replica shard不是active状态，处于不可用的状态。</p>
+<p>red：不是所有索引的primary shard都是active状态的，部分索引有数据丢失了。</p>
+<h2 id="安装kafka"><a href="#安装kafka" class="headerlink" title="安装kafka"></a>安装kafka</h2><p>这里使用的目前最新的版本，从<a href="http://kafka.apache.org/downloads">http://kafka.apache.org/downloads</a>下载。</p>
+<p>解压缩，得到目录kafka_2.11-2.3.0。</p>
+<p>修改配置文件/config/server.properties</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">listeners=PLAINTEXT://192.168.193.100:9092</span><br></pre></td></tr></table></figure>
+<p>启动kafka：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./kafka-server-start.sh ../config/server.properties</span><br></pre></td></tr></table></figure>
+<p>后台启动kafka:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./kafka-server-start.sh ../config/server.properties 1&gt;/dev/null 2&gt;&amp;1 &amp;</span><br></pre></td></tr></table></figure>
+<h2 id="安装logstash"><a href="#安装logstash" class="headerlink" title="安装logstash"></a>安装logstash</h2><p>这里的logstash版本是5.4.0与es一致，从<a href="https://www.elastic.co/downloads/logstash">https://www.elastic.co/downloads/logstash</a>下载相应的版本。</p>
+<p>然后解压缩，进入config目录。</p>
+<p>新建一个配置文件，名字随意，这里命名为test.conf。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">input &#123;</span><br><span class="line">  kafka &#123;</span><br><span class="line">    bootstrap_servers =&gt; &quot;192.168.193.100:9092&quot;</span><br><span class="line">    topics =&gt; [&quot;app-log&quot;]</span><br><span class="line">    group_id =&gt; &quot;test-consumer-group&quot;</span><br><span class="line">    codec =&gt; &quot;json&quot;</span><br><span class="line">    consumer_threads =&gt; 1</span><br><span class="line">    decorate_events =&gt; true</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">output &#123;</span><br><span class="line">  elasticsearch &#123;</span><br><span class="line">    hosts =&gt; [&quot;127.0.0.1:9200&quot;]</span><br><span class="line">    index =&gt; &quot;test&quot;</span><br><span class="line">    workers =&gt; 1</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>启动logstash</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./bin/logstash -f config/test.conf</span><br></pre></td></tr></table></figure>
+<h2 id="使用程序写入100条测试数据到Kafka"><a href="#使用程序写入100条测试数据到Kafka" class="headerlink" title="使用程序写入100条测试数据到Kafka"></a>使用程序写入100条测试数据到Kafka</h2><p>注意topic要与logstash中配置的一致。</p>
+<p>这里使用logback的appender来将日志写入kafka，logstash从kafka接受，然后发送给es。</p>
+<p>使用的github上的一个<code>logback-kafka-appender</code>依赖。</p>
+<h2 id="安装Kibana"><a href="#安装Kibana" class="headerlink" title="安装Kibana"></a>安装Kibana</h2><p>从<a href="https://www.elastic.co/downloads/kibana">https://www.elastic.co/downloads/kibana</a>下载kibana，kibana要与es的版本一致，所以这里也下载5.4.0版本。</p>
+<p>然后解压缩</p>
+<p>最后使用<code>./bin/kibana</code>启动。kibana使用的端口号为5601，记得加入防火墙。</p>
+<p>浏览器访问<a href="http://192.168.193.100:5601/">http://192.168.193.100:5601</a></p>
+<p><img src="/img/1563935610542.png" alt="1563935610542"></p>
+<p>在上面的logstash配置中，我们指定了es中的索引为test。所以在Kibana的<code>Index name or pattern</code>中输入test。然后点下面的Create。</p>
+<p>然后再左侧可以看到刚刚配置的索引</p>
+<p><img src="/img/1563951123917.png" alt="1563951123917"></p>
+<p>点左侧的Discover菜单，然后就将右侧的时间选择为Today，可以看到日志了</p>
+<p><img src="/img/1563951174193.png" alt="1563951174193"></p>
+<h3 id="kibana常用搜索"><a href="#kibana常用搜索" class="headerlink" title="kibana常用搜索"></a>kibana常用搜索</h3><p><strong>全文搜索</strong></p>
+<p>在搜索栏输入<code>测试</code>，返回所有字段中包含”测试”的文档（document）。</p>
+<p><strong>根据字段搜索</strong></p>
+<p>根据kibana左侧显示的field搜索。field:value</p>
+<p>精确搜索：field:”value”</p>
+<p>参考：<a href="https://blog.csdn.net/zhengchaooo/article/details/79500130">https://blog.csdn.net/zhengchaooo/article/details/79500130</a></p>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>可能会遇到下面的问题：</p>
+<p>1.max file descriptors [4096] for elasticsearch process is too low, increase to at least [65536]</p>
+<p><strong>解决</strong>：修改切换到root用户修改配置limits.conf 添加下面两行</p>
+<p><strong>命令</strong>:vi /etc/security/limits.conf</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">*        hard    nofile           65536</span><br><span class="line">*        soft    nofile           65536</span><br></pre></td></tr></table></figure>
+<p>2.max virtual memory areas vm.max_map_count [65530] is too low, increase to at least [262144]</p>
+<p><strong>解决</strong>：切换到root用户修改配置sysctl.conf</p>
+<p>vi /etc/sysctl.conf </p>
+<p>添加下面配置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vm.max_map_count=655360</span><br></pre></td></tr></table></figure>
+<p>并执行命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sysctl -p</span><br></pre></td></tr></table></figure>
+<p>3.es启动成功，虚拟机中可以访问9200，但windows中无法访问。</p>
+<p>首先确保防火墙关闭或添加了9200端口。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">firewall-cmd --zone=public  --permanent --add-port=9200/tcp</span><br></pre></td></tr></table></figure>
+<p>另外， 修改es配置文件elasticsearch.yml，修改network.host和http.port</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">network.host: 0.0.0.0</span><br><span class="line">http.port: 9200</span><br></pre></td></tr></table></figure>
+<p>然后重启es。</p>
+<p>4.安装head插件遇到的问题</p>
+<p>4.1 <code>RunScriptError: post install error, please remove node_modules before retry!</code></p>
+<p>重新执行安装命令，遇到<code>npm WARN elasticsearch-head@0.0.0 license should be a valid SPDX license expression</code>问题。</p>
+<p>解决：参考<a href="https://www.cnblogs.com/shengulong/p/6224908.html">https://www.cnblogs.com/shengulong/p/6224908.html</a>，将package.json中的license值修改为Apache-2.0即可。</p>
+<p>4.2 <code>_Loading &quot;Gruntfile.js&quot; tasks...ERROR</code>错误</p>
+<p>解决：参考<a href="https://blog.csdn.net/wang_zhenwei/article/details/78389253">https://blog.csdn.net/wang_zhenwei/article/details/78389253</a></p>
+<p>4.3 head插件启动成功后访问9100，没有列出ES的节点，F12打开Console，发现有跨域问题</p>
+<p>解决：修改/ES_HOME/config/elasticsearch.yml，增加下面的配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http.cors.enabled: true</span><br><span class="line">http.cors.allow-origin: &quot;*&quot;</span><br></pre></td></tr></table></figure>
+<p>然后重启ES和head即可。</p>
+<p>参考：<a href="https://blog.csdn.net/u012832088/article/details/80662241">https://blog.csdn.net/u012832088/article/details/80662241</a></p>
+<p>5.kafka Connection to node -1 could not be established. Broker may not be available.</p>
+<p>解决：参考<a href="https://blog.csdn.net/qq_40633152/article/details/81090306">https://blog.csdn.net/qq_40633152/article/details/81090306</a></p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>kibana中文文档：<a href="https://www.elastic.co/guide/cn/kibana/current/index.html">https://www.elastic.co/guide/cn/kibana/current/index.html</a></p>
+<p>elasticsearch指南：<a href="https://www.elastic.co/guide/en/elasticsearch/reference/index.html">https://www.elastic.co/guide/en/elasticsearch/reference/index.html</a></p>
+
+        </div>
+        <div class="post-tool">
+            <a class="btn-thumbs-up" href="javascript:void(0);" data-cid="52" title="95">
+                <i class="fa fa-thumbs-up" aria-hidden="true"></i> 打赏
+            </a>
+        </div>
+        
+        <div class="post-tags">标签：
+            
+            <a href="/tags/elk/">elk</a>
+            
+        </div>
+        
+    </article>
+    
+    <p style="text-align: center">本文代表个人观点，内容仅供参考。若有不恰当之处，望不吝赐教！</p>
+    
+    
+
+    
+    
+        <div id="gitment-container"></div>
+        <link rel="stylesheet" href="//imsun.github.io/gitment/style/default.css">
+        <script src="//imsun.github.io/gitment/dist/gitment.browser.js"></script>
+        <script type="text/javascript">
+            var gitment = new Gitment({
+                /*lable长度不能超过50个字符，这里使用页面的生成时间*/
+                id: 'Wed Jul 24 2019 12:01:07 GMT+0800'/*document.location.href*/,
+                owner: 'luckystar88',
+                repo: 'comments',
+                oauth: {
+                    client_id: 'd49ebe4f95abcd6163f4',
+                    client_secret: 'edd2748d6271072a6970d5cec8751f388dac8116',
+                }
+            });
+            gitment.render('gitment-container');
+        </script>
+        
+            <script>
+                document.getElementById("gitment-display-button").style.display = "none";
+                document.getElementById("gitment-container").style.display = "block";
+            </script>
+        
+    
+
+
+</div>
+<script src="/js/busuanzi.pure.mini.js"></script>
+
+
+        </div><!-- end #main-->
+    </div><!-- end #body -->
+    <footer class="footer">
+    <div class="footer-inner" style="text-align: center">
+        <p>
+            <a href="/about" title="关于">关于</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <!-- 自定义链接 -->
+            <a href="/help" title="帮助">帮助</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <a href="/links" title="友链">友链</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <a href="/sitemap.xml" title="地图">地图</a>
+        </p>
+        <p>
+            本站已建立&nbsp<a href="/timeline" id="siteBuildingTime"></a>&nbsp天，<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="licence">采用知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议创作</a><br>
+            ©2017-<span id="cpYear"></span> 基于&nbsp<a href="http://hexo.io" target="_blank" rel="nofollow">Hexo</a>
+            ，主题采用&nbsp&nbsp<a href="https://github.com/tangkunyin/hexo-theme-jsimple" target="_blank" rel="bookmark">JSimple</a>
+            ，作者&nbsp<a href="https://tommy88.top" target="_blank" rel="friend">Donny</a>
+            ，Hosted by <a href="https://pages.github.com/" target="_blank" rel="nofollow">GitHub Pages</a>
+        </p>
+    </div>
+</footer>
+<script src="/js/SimpleCore.js"></script>
+
+</div>
+<!-- search pop -->
+<div class="popup search-popup local-search-popup">
+    <div class="local-search-header clearfix">
+        <span class="search-icon">
+            <i class="fa fa-search"></i>
+        </span>
+        <span class="popup-btn-close">
+            <i class="fa fa-times-circle"></i>
+        </span>
+        <div class="local-search-input-wrapper">
+            <input id="local-search-input" spellcheck="false" type="text" autocomplete="off" placeholder="请输入查询关键词">
+        </div>
+    </div>
+    <div id="local-search-result"></div>
+</div>
+<div class="fixed-btn">
+    <a class="btn-gotop" href="javascript:"> <i class="fa fa-angle-up"></i></a>
+</div>
+<script>
+    $(function () {
+        var jsi_config = {
+            buildingTime: '01/20/2016',
+            current: $('.post-tags').length > 0 ? 'post' : 'archive',
+            snsQRCode: '/images/sns-qrcode.png',
+            donateImg: '/images/donate-qr.png',
+            localSearch: { dbPath: '' },
+            readMode: 'day'
+        };
+        
+            jsi_config.localSearch = {
+                dbPath: '/search.xml',
+                trigger: 'auto',
+                topN: '1',
+                unescape: 'false'
+            }
+        
+        SimpleCore.init(jsi_config);
+        
+    });
+</script>
+</body>
+</html>
