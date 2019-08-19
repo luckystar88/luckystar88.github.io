@@ -163,7 +163,7 @@
 <li>Broker clusters-动态（基于组播，动态发现brokers）</li>
 </ul>
 <p>但单纯的使用上面的一种没法既达到高可用，同时有具有负载均衡的能力。</p>
-<h2 id="生成环境集群搭建建议"><a href="#生成环境集群搭建建议" class="headerlink" title="生成环境集群搭建建议"></a>生成环境集群搭建建议</h2><p>所以可以考虑Master/Slave+Broker clusters-静态来实现。Master/Slave保证了Slave复制master的数据，Broker clusters-静态实现了非消息生产者的broker拥有对外提供消费的能力。即在broker1上生产了消息，如果broker1与broker2配置了static network Connectors，那么客户端监听broker2也可以拿到broker1生产的消息。所以生产环境建议二者集合。<br><a id="more"></a><br>生产环境：</p>
+<h2 id="生产环境集群搭建建议"><a href="#生产环境集群搭建建议" class="headerlink" title="生产环境集群搭建建议"></a>生产环境集群搭建建议</h2><p>所以可以考虑Master/Slave+Broker clusters-静态来实现。Master/Slave保证了Slave复制master的数据，Broker clusters-静态实现了非消息生产者的broker拥有对外提供消费的能力。即在broker1上生产了消息，如果broker1与broker2配置了static network Connectors，那么客户端监听broker2也可以拿到broker1生产的消息。所以生产环境建议二者集合。<br><a id="more"></a><br>生产环境：</p>
 <ul>
 <li><p>如果数据量不大，可以考虑Zookeeper来搭建Master/Slave。<br>由于ZK选举至少需要2N+1个节点，所以mq至少要3个节点。如果生产消息的broker挂掉，ZK会从其他的节点选择一个作为Master。客户端使用failover会自动连接到提升为Master的节点，消费挂掉的broker的消息没有问题。</p>
 </li>
