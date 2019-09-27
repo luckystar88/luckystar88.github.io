@@ -1,2507 +1,1123 @@
-<!DOCTYPE HTML>
-<html class="no-js" lang="zh-CN">
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-cn">
 <head><meta name="generator" content="Hexo 3.9.0">
-    <!--[if lte IE 9]>
-<meta http-equiv="refresh" content="0;url=https://tommy88.top/warn.html">
-<![endif]-->
-<meta charset="utf-8">
-<meta http-equiv="X-DNS-Prefetch-Control" content="on">
-<link rel="dns-prefetch" href="https://tommy88.top">
-<link rel="dns-prefetch" href="//www.google-analytics.com">
-<link rel="prefetch" href="https://tommy88.top">
-<link rel="prefetch" href="//www.google-analytics.com">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
 
 
-    <link rel="dns-prefetch" href="//imsun.github.io">
-    <link rel="prefetch" href="//imsun.github.io">
 
-<link rel="prerender" href="https://tommy88.top">
-
-<meta http-equiv="X-UA-Compatible" content="IE=Edge">
-<meta name="renderer" content="webkit">
-<meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
-<meta http-equiv="mobile-agent" content="format=html5; url=https://tommy88.top">
-<meta name="author" content="Donny">
-<link rel="stylesheet" href="/css/JSimple.css">
-
-<link rel="shortcut icon" href="/images/favicon.png">
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
 
 
-<title>归档- 2017/9 - Donny的技术博客</title>
 
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="记录工作，感悟生活">
 <meta name="keywords" content="java,前端,数据库,web,spring,redis,spring boot,spring cloud,mq">
-
-<meta name="description " content="记录工作，感悟生活">
-
-    <script type="text/x-mathjax-config">
-        MathJax.Hub.Config({
-            tex2jax: {
-                inlineMath: [ ['$','$'], ["\\(","\\)"] ],
-                processEscapes: true
-            }
-        });
-    </script>
+<meta property="og:type" content="website">
+<meta property="og:title" content="Donny的技术博客">
+<meta property="og:url" content="https://tommy88.top/archives/2017/09/page/2/index.html">
+<meta property="og:site_name" content="Donny的技术博客">
+<meta property="og:description" content="记录工作，感悟生活">
+<meta property="og:locale" content="zh-cn">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Donny的技术博客">
+<meta name="twitter:description" content="记录工作，感悟生活">
 
 
-    
 
-    
-    
-        <!-- Global site tag (gtag.js) - Google Analytics -->
-        <script async src="//www.googletagmanager.com/gtag/js?id=UA-105613999-1"></script>
-        <script>
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'UA-105613999-1');
-        </script>
-    
-    <!-- put your likes here. -->
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://tommy88.top/archives/2017/09/page/2/">
+
+
+
+
+
+  <title>Archive | Donny的技术博客</title>
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-112010940-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
 
 
 </head>
-<body>
-<div id="nav">
-    <nav class="nav-menu">
-        <a class="site-name current" href="/" title="Home">Home</a>
-        <a class="site-index current" href="/"><i class="fa fa-home"></i><span>首页</span></a>
-        <a href="/archives" title="归档"><i class="fa fa-archives"></i><span>归档</span></a>
-        <a href="/tags" title="标签"><i class="fa fa-tags"></i><span>标签</span></a>
-        <!-- custom single page of menus -->
-        
-        
-        <a href="/help" title="帮助">
-            <i class="fa fa-question-circle"></i>
-            <span>帮助</span>
-        </a>
-        
-    </nav>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-cn">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-archive">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Donny的技术博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">记录工作，感悟生活</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
 </div>
 
-<div class="nav-user">
-    <a class="btn-search" href="#"><i class="fa fa-search"></i></a>
-    <a class="btn-read-mode" href="#"><i class="fa fa-sun-o"></i></a>
-    <a class="btn-sns-qr" href="javascript:"><i class="fa fa-telegram"></i></a>
-</div>
+<nav class="site-nav">
+  
 
-<div id="wrapper" class="clearfix">
-    <div id="body">
-        <div class="main" id="main">
-            <div id="cover">
-    <div class="cover-img"></div>
-    <div class="cover-info">
+  
+    <ul id="menu" class="menu">
+      
         
-        <h1 class="cover-siteName">Donny的技术博客</h1>
-        <h3 class="cover-siteTitle">用代码征服世界</h3>
-        <p class="cover-siteDesc">这是一个简单的技术博客</p>
-        <div class="cover-sns">
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
             
-    &nbsp;&nbsp;<div class="btn btn-github">
-        <a href="https://github.com/luckystar88" target="_blank" title="github" ref="friend">
-            <i class="fa fa-github"></i>
-        </a>
-    </div>
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sitemap">
+          <a href="/sitemap.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br>
+            
+            Sitemap
+          </a>
+        </li>
+      
 
-
-        </div>
-    </div>
-</div>
-
-            <div class="page-title">
-    <ul>
-        <li><a href="/" data-name="首页" title="Back Home">首页</a></li>
-        <li><a href="/tags" data-name="标签云" title="标签云">标签</a></li>
-        <li class="page-search">
-    <form id="search" class="search-form">
-        <input type="text" readonly="readonly" id="local-search-input-tip" placeholder="读物检索~">
-        <button type="button" disabled="disabled" class="search-form-submit"><i class="fa fa-search"></i></button>
-    </form>
-</li>
-
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            Search
+          </a>
+        </li>
+      
     </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="Searching..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
 </div>
-<div class="main-inner">
-    <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
-        <div class="post-header">
-            <h3 class="post-title">很好，目前已有264篇文章，继续努力(ง •_•)ง</h3>
-        </div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  
+  
+  
+  <div class="post-block archive">
+    <div id="posts" class="posts-collapse">
+      <span class="archive-move-on"></span>
+
+      <span class="archive-page-counter">
+        
+        
+         
+          
+        Excellent! 264 posts in total. Keep on posting.
+      </span>
+
+      
+
+        
+        
         
 
-        <div class="post-content markdown-body" itemprop="articleBody">
-            <div class="archives">
-                
-                
-                
-                
-                
-                <div class="archives-item">
-                    <h2>2019年08月</h2>
-                    <ul class="archives_list">
-                        
-                        <li>19日10:01:07
-                            <a href="/2019/08/19/自定义线程池拆分任务列表/">自定义线程池拆分任务列表</a>
-                            
-                        </li>
-                        
-                    </ul>
-                </div>
-                
-                
-                
-                
-                
-                <div class="archives-item">
-                    <h2>2019年07月</h2>
-                    <ul class="archives_list">
-                        
-                        <li>25日12:01:07
-                            <a href="/2019/07/25/springboot使用Logback记录日志到kafka/">springboot使用logback记录日志到kafka</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>25日12:01:07
-                            <a href="/2019/07/25/Typora图片设置/">Typora图片设置</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>24日12:01:07
-                            <a href="/2019/07/24/Centos7系统ES安装/">centos7系统搭建ELK环境</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>24日12:01:07
-                            <a href="/2019/07/24/windows使用wmware安装centos7系统/">vmware安装centos7系统</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>22日14:01:07
-                            <a href="/2019/07/22/Spring事件发布与监听/">Spring事件发布与监听</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>20日12:01:07
-                            <a href="/2019/07/20/centos7安装rabbitmq/">CentOS7安装RabbitMQ</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>15日17:02:07
-                            <a href="/2019/07/15/mybatis批量操作汇总/">mybatis批量操作汇总</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>03日09:22:02
-                            <a href="/2019/07/03/hello-world/">Hello World</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>02日17:58:02
-                            <a href="/2019/07/02/使用Kettle分表/">使用Kettle分表</a>
-                            
-                        </li>
-                        
-                    </ul>
-                </div>
-                
-                
-                
-                
-                
-                <div class="archives-item">
-                    <h2>2019年05月</h2>
-                    <ul class="archives_list">
-                        
-                        <li>22日18:01:07
-                            <a href="/2019/05/22/ActiveMQ配置访问密码/">ActiveMQ配置访问密码</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>18日12:01:07
-                            <a href="/2019/05/18/ActiveMQ-Channel-was-inactive-for-too-long/">ActiveMQ Channel was inactive for too (&gt;30000) long</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>17日15:01:07
-                            <a href="/2019/05/17/ActiveMQ静态网络连接/">ActiveMQ静态网络连接</a>
-                            
-                        </li>
-                        
-                    </ul>
-                </div>
-                
-                
-                
-                
-                
-                <div class="archives-item">
-                    <h2>2019年04月</h2>
-                    <ul class="archives_list">
-                        
-                        <li>03日20:42:07
-                            <a href="/2019/04/03/ActiveMQ之虚拟主题/">ActiveMQ之虚拟主题</a>
-                            
-                        </li>
-                        
-                    </ul>
-                </div>
-                
-                
-                
-                
-                
-                <div class="archives-item">
-                    <h2>2019年03月</h2>
-                    <ul class="archives_list">
-                        
-                        <li>27日16:22:07
-                            <a href="/2019/03/27/ActiveMQ目的地特性之组合目的地/">ActiveMQ目的地特性之组合目的地</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>27日15:22:07
-                            <a href="/2019/03/27/ActiveMQ目的地之目的地选项/">ActiveMQ目的地之目的地选项</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>27日12:22:07
-                            <a href="/2019/03/27/ActiveMQ之消息持久化/">ActiveMQ之消息持久化</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>26日17:22:07
-                            <a href="/2019/03/26/ActiveMQ之配置多KahaDB持久性适配器/">ActiveMQ之配置多KahaDB持久性适配器</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>23日16:22:07
-                            <a href="/2019/03/23/ActiveMQ之消息延迟与定时投递/">ActiveMQ之消息延迟与定时投递</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>21日17:32:07
-                            <a href="/2019/03/21/ActiveMQ之消息分发策略/">ActiveMQ之消息分发策略</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>21日16:00:07
-                            <a href="/2019/03/21/ActiveMQ之订阅恢复策略/">ActiveMQ之订阅恢复策略</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>21日15:25:07
-                            <a href="/2019/03/21/ActiveMQ之Prefect机制/">ActiveMQ之Prefect机制</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>21日12:02:07
-                            <a href="/2019/03/21/ActiveMQ之慢消费者处理/">ActiveMQ之慢消费者处理</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>20日18:10:07
-                            <a href="/2019/03/20/ActiveMQ之定期清理离线的持久订阅者/">ActiveMQ之定期清理离线的持久订阅者</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>20日17:17:07
-                            <a href="/2019/03/20/ActiveMQ的消息重发与死信处理/">ActiveMQ的消息重发与死信处理</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>19日17:22:07
-                            <a href="/2019/03/19/ActiveMQ常见问题/">ActiveMQ常见问题</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>19日15:22:07
-                            <a href="/2019/03/19/ActiveMQ之消息选择器（Message Selectors）/">ActiveMQ之消息选择器（Message Selectors）</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>16日17:22:07
-                            <a href="/2019/03/16/ActiveMQ请求回复模式/">ActiveMQ请求回复</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>16日16:22:07
-                            <a href="/2019/03/16/ActiveMQ顺序消费消息+消息分组/">ActiveMQ顺序消费消息+消息分组</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>16日16:01:07
-                            <a href="/2019/03/16/ActiveMQ集群搭建/">ActiveMQ集群搭建</a>
-                            
-                        </li>
-                        
-                    </ul>
-                </div>
-                
-                
-                
-                
-                
-                <div class="archives-item">
-                    <h2>2019年02月</h2>
-                    <ul class="archives_list">
-                        
-                        <li>16日14:24:44
-                            <a href="/2019/02/16/使用Apache HttpClient进行https调用/">使用Apache HttpClient进行https调用</a>
-                            
-                        </li>
-                        
-                    </ul>
-                </div>
-                
-                
-                
-                
-                
-                <div class="archives-item">
-                    <h2>2019年01月</h2>
-                    <ul class="archives_list">
-                        
-                        <li>17日17:24:44
-                            <a href="/2019/01/17/git回退到某次提交/">git回退到某次提交</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>16日10:45:25
-                            <a href="/2019/01/16/推荐一个日志工具类/">推荐一个日志工具类</a>
-                            
-                        </li>
-                        
-                    </ul>
-                </div>
-                
-                
-                
-                
-                
-                <div class="archives-item">
-                    <h2>2018年12月</h2>
-                    <ul class="archives_list">
-                        
-                        <li>13日17:49:25
-                            <a href="/2018/12/13/使用maven的mybatis-generator插件生成代码/">使用maven的mybatis-generator插件生成代码</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>01日10:45:25
-                            <a href="/2018/12/01/maven私服（nexus）搭建/">maven私服（nexus）搭建</a>
-                            
-                        </li>
-                        
-                    </ul>
-                </div>
-                
-                
-                
-                
-                
-                <div class="archives-item">
-                    <h2>2018年11月</h2>
-                    <ul class="archives_list">
-                        
-                        <li>21日15:49:25
-                            <a href="/2018/11/21/UrlRewrite的配置与使用/">UrlRewrite的配置与使用</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>21日12:49:25
-                            <a href="/2018/11/21/Linux更新或删除jar中的文件/">Linux更新或删除jar中的文件</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>15日15:49:25
-                            <a href="/2018/11/15/使用Boxcryptor加密你的云盘/">使用Boxcryptor加密你的云盘</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>10日10:49:25
-                            <a href="/2018/11/10/使用spring validation完成数据后端校验/">使用spring validation完成数据后端校验</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>07日11:20:07
-                            <a href="/2018/11/07/SpringBoot整合EHCache/">Spring Boot整合EHCache</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>03日11:20:07
-                            <a href="/2018/11/03/谷歌浏览器优化/">谷歌浏览器优化</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>01日14:45:25
-                            <a href="/2018/11/01/Chrome浏览器截长图/">Chrome浏览器截长图</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>01日10:45:25
-                            <a href="/2018/11/01/极简图床+微博图床+外链访问/">极简图床+微博图床+github+外链访问</a>
-                            
-                        </li>
-                        
-                    </ul>
-                </div>
-                
-                
-                
-                
-                
-                <div class="archives-item">
-                    <h2>2018年10月</h2>
-                    <ul class="archives_list">
-                        
-                        <li>27日16:49:25
-                            <a href="/2018/10/27/Eclipse Springboot热部署/">Eclipse Springboot热部署</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>27日10:49:25
-                            <a href="/2018/10/27/使用MapStruct在实体间转换/">使用MapStruct在实体间转换</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>26日18:49:25
-                            <a href="/2018/10/26/mybatis foreach批量操作/">mybatis foreach批量操作</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>25日16:49:25
-                            <a href="/2018/10/25/centos7安装MariaDB数据库(mysql)/">centos7安装MariaDB数据库(mysql)</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>25日15:49:25
-                            <a href="/2018/10/25/springboot打jar包分离lib和配置文件/">Spring Boot打包，分离依赖jar，配置文件</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>12日16:01:07
-                            <a href="/2018/10/12/外网ip注册dubbo服务/">外网ip注册dubbo服务</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>08日12:01:07
-                            <a href="/2018/10/08/mysql innodb引擎count查询优化/">mysql innodb引擎count查询优化</a>
-                            
-                        </li>
-                        
-                    </ul>
-                </div>
-                
-                
-                
-                
-                
-                <div class="archives-item">
-                    <h2>2018年09月</h2>
-                    <ul class="archives_list">
-                        
-                        <li>25日10:01:07
-                            <a href="/2018/09/25/Memcached缓存介绍/">Memcached缓存介绍</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>25日10:01:07
-                            <a href="/2018/09/25/springboot国际化/">Spring Boot国际化</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>21日12:01:07
-                            <a href="/2018/09/21/Chrome系浏览器显示完整地址/">Chrome系浏览器显示完整地址</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>16日10:01:07
-                            <a href="/2018/09/16/markdown表格/">markdown表格</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>15日15:20:07
-                            <a href="/2018/09/15/JDK8之CompletableFuture/">java 8的CompletableFuture</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>14日16:20:07
-                            <a href="/2018/09/14/JDK8新的日期和时间API/">java 8 新的日期和时间API</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>13日11:20:07
-                            <a href="/2018/09/13/解决idea卡顿问题/">解决idea卡顿问题</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>12日18:20:07
-                            <a href="/2018/09/12/有道云笔记安全问题/">有道云笔记安全问题</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>12日15:01:07
-                            <a href="/2018/09/12/JDK8使用Optional取代null/">java 8使用Optional取代null</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>12日10:01:07
-                            <a href="/2018/09/12/notepad++突然崩溃，保存的文件没了怎么办/">notepad++突然崩溃，保存的文件没了怎么办</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>11日15:55:07
-                            <a href="/2018/09/11/JDK8之用流收集数据/">JDK8之用流收集数据</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>08日10:01:07
-                            <a href="/2018/09/08/JDK8之Stream/">JDK8之Stream</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>06日16:01:07
-                            <a href="/2018/09/06/JDK8之Lambda/">JDK8之Lambda</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>06日15:01:07
-                            <a href="/2018/09/06/JDK8行为参数化传递代码/">JDK8行为参数化传递代码</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>04日10:01:07
-                            <a href="/2018/09/04/JDK8中新增的LongAdder/">JDK8中新增的LongAdder</a>
-                            
-                        </li>
-                        
-                    </ul>
-                </div>
-                
-                
-                
-                
-                
-                <div class="archives-item">
-                    <h2>2018年08月</h2>
-                    <ul class="archives_list">
-                        
-                        <li>30日15:16:09
-                            <a href="/2018/08/30/Java7 ForkJoin框架详解/">Java7 ForkJoin框架详解</a>
-                            
-                        </li>
-                        
-                    </ul>
-                </div>
-                
-                
-                
-                
-                
-                <div class="archives-item">
-                    <h2>2018年07月</h2>
-                    <ul class="archives_list">
-                        
-                        <li>28日16:08:47
-                            <a href="/2018/07/28/zookeeper客户端curator使用/">zookeeper客户端curator使用</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>25日15:49:25
-                            <a href="/2018/07/25/idea日志乱码问题解决/">idea日志乱码问题解决</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>24日11:26:25
-                            <a href="/2018/07/24/dubbo-admin安装与使用/">dubbo-admin安装与使用</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>21日16:16:25
-                            <a href="/2018/07/21/springboot集成dubbo/">springboot集成dubbo</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>20日16:06:25
-                            <a href="/2018/07/20/springcloud系列32——Config Server的高可用/">springcloud系列32——Spring Cloud Config的高可用</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>20日15:19:25
-                            <a href="/2018/07/20/springcloud系列31——Spring Cloud Config配置属性自动刷新/">springcloud系列31——Spring Cloud Config配置属性刷新之自动刷新</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>19日12:16:25
-                            <a href="/2018/07/19/springcloud系列30——Spring Cloud Config配置属性刷新之手动刷新/">springcloud系列30——Spring Cloud Config配置属性刷新之手动刷新</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>19日12:16:25
-                            <a href="/2018/07/19/springcloud系列29——Spring Cloud Config与Eureka配合使用/">springcloud系列29——Spring Cloud Config与Eureka配合使用</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>18日18:16:25
-                            <a href="/2018/07/18/springcloud系列28——Spring Cloud Config之Security/">springcloud系列28——Spring Cloud Config之认证</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>17日17:51:25
-                            <a href="/2018/07/17/springcloud系列27——Spring Cloud Config之加解密2/">springcloud系列27——Spring Cloud Config之非对称加密</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>17日16:25:25
-                            <a href="/2018/07/17/springcloud系列26——Spring Cloud Config之加解密/">springcloud系列26——Spring Cloud Config之加解密</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>14日21:55:25
-                            <a href="/2018/07/14/springcloud系列25——SpringCloud配置管理/">springcloud系列25——SpringCloud配置管理</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>07日17:08:47
-                            <a href="/2018/07/07/springcloud系列24——Zuul的过滤器/">Zuul的过滤器</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>07日15:09:28
-                            <a href="/2018/07/07/springcloud系列23——非JVM语言支持之sidebar/">springcloud系列23——非JVM语言支持之sidebar</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>07日12:09:28
-                            <a href="/2018/07/07/如何既快速又优雅的写博客：Typora + MPic/">如何既快速又优雅的写博客：Typora + MPic</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>05日15:09:28
-                            <a href="/2018/07/05/springcloud系列22——Zuul简介及代码示例/">springcloud系列22——Zuul简介及代码示例</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>03日15:09:28
-                            <a href="/2018/07/03/springcloud系列20——Turbine聚合各个节点的hystrix.stream/">springcloud系列20——Turbine聚合各个节点的hystrix.stream</a>
-                            
-                        </li>
-                        
-                    </ul>
-                </div>
-                
-                
-                
-                
-                
-                <div class="archives-item">
-                    <h2>2018年06月</h2>
-                    <ul class="archives_list">
-                        
-                        <li>30日15:09:28
-                            <a href="/2018/06/30/springcloud系列19——Feign使用fallbackFactory属性打印fallback异常/">springcloud系列19——Feign使用fallbackFactory属性打印fallback异常</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>30日12:09:28
-                            <a href="/2018/06/30/springcloud系列18——全局和单个禁用Feign Client对Hystrix的支持/">springcloud系列18——全局和单个禁用Feign Client对Hystrix的支持</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>29日12:09:28
-                            <a href="/2018/06/29/springcloud系列17——Feign的Hystrix支持/">springcloud系列17——Feign的Hystrix支持</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>25日12:09:28
-                            <a href="/2018/06/25/springcloud官方文档中文翻译版/">springcloud官方文档中文翻译版</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>25日11:09:28
-                            <a href="/2018/06/25/springcloud系列16——Hystrix Health Indicator及Metrics Stream/">springcloud系列16——Hystrix Health Indicator及Metrics Stream</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>25日10:09:28
-                            <a href="/2018/06/25/springcloud系列15——hystrix简介及简单代码示例/">springcloud系列15——hystrix简介及简单代码示例</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>22日10:09:28
-                            <a href="/2018/06/22/springcloud系列14——Eureka、Ribbon和Feign常见问题和解决/">springcloud系列14——Eureka、Ribbon和Feign常见问题和解决</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>09日09:30:49
-                            <a href="/2018/06/09/hexo-blog-from-github-to-gitee/">hexo博客从github迁移到gitee</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>08日16:30:49
-                            <a href="/2018/06/08/netty-custom-decoder-and-encoder/">netty自定义编码器和解码器（粘包处理）</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>02日15:30:49
-                            <a href="/2018/06/02/fix-ajax-crossdomain-problem/">ajax跨域问题</a>
-                            
-                        </li>
-                        
-                    </ul>
-                </div>
-                
-                
-                
-                
-                
-                <div class="archives-item">
-                    <h2>2018年05月</h2>
-                    <ul class="archives_list">
-                        
-                        <li>15日18:06:32
-                            <a href="/2018/05/15/use-metrics-influxdb-grafana-monitor-system/">使用Metrics+Influxdb+Grafana监控系统并图表展示</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>15日09:36:32
-                            <a href="/2018/05/15/xshell-expiration-of-assessment-or-free-use/">xshell评估过期或免费使用</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>12日10:06:32
-                            <a href="/2018/05/12/idea-background-settings/">idea修改背景色</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>11日15:06:32
-                            <a href="/2018/05/11/Nano-httpd-simple-usage/">轻量级的java HTTP Server——NanoHttpd</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>10日16:14:32
-                            <a href="/2018/05/10/write-springmvc-by-java-reflect/">通过java反射实现简易的springmvc</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>05日11:59:32
-                            <a href="/2018/05/05/video-url-blob-encrypt/">对视频播放url进行Blob加密</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>05日10:50:32
-                            <a href="/2018/05/05/maven-generate-project-too-slow/">解决Maven生成项目很慢的问题</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>04日18:05:32
-                            <a href="/2018/05/04/use-jenkins-and-maven-automake-project/">使用Jenkins配置+Maven的自动化构建</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>04日14:36:32
-                            <a href="/2018/05/04/linux-jenkins-install-and-configuration/">Linux下安装和配置jenkins</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>04日11:15:32
-                            <a href="/2018/05/04/linux-jdk-install-and-configuration/">Linux下JDK的安装和配置</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>02日17:21:32
-                            <a href="/2018/05/02/java-ide-impletation-principle/">java IDE的实现原理</a>
-                            
-                        </li>
-                        
-                    </ul>
-                </div>
-                
-                
-                
-                
-                
-                <div class="archives-item">
-                    <h2>2018年04月</h2>
-                    <ul class="archives_list">
-                        
-                        <li>28日14:56:42
-                            <a href="/2018/04/28/springmvc-and-velocity-integration/">springmvc集成velocity</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>26日17:35:43
-                            <a href="/2018/04/26/java关键字volatile解析/">java关键字volatile解析</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>25日14:35:45
-                            <a href="/2018/04/25/hexo-resolve-multiline-blank/">解决hexo代码多行空白的问题</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>25日11:45:45
-                            <a href="/2018/04/25/web-security-commnication-with-jwt/">web安全通信之JWT简介</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>21日11:24:43
-                            <a href="/2018/04/21/java-pass-by-value-or-reference/">java是值传递还是引用传递？</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>21日10:42:43
-                            <a href="/2018/04/21/java-four-kind-of-reference/">java的4种引用类型——强引用、软引用、弱引用、虚引用</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>19日16:01:43
-                            <a href="/2018/04/19/use-nio-to-improve-performance/">使用NIO提升性能</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>18日11:58:12
-                            <a href="/2018/04/18/java-datastructure-Set/">java数据结构之Set</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>17日16:46:23
-                            <a href="/2018/04/17/java-datastructure-Map/">java数据结构之Map</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>13日15:44:21
-                            <a href="/2018/04/13/java-datastructure-List/">java数据结构之List</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>13日10:44:20
-                            <a href="/2018/04/13/share-one-object-copy-utility/">分享一个对象复制的工具类</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>12日17:51:20
-                            <a href="/2018/04/12/java-string-join/">java字符串连接</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>11日16:55:20
-                            <a href="/2018/04/11/java-classloader/">java的类加载器</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>10日17:01:07
-                            <a href="/2018/04/10/git-local-remote-relation/">git中本地与远程库的关联与取消</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>10日15:14:07
-                            <a href="/2018/04/10/hexo-recommended-themes/">hexo主题推荐</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>09日16:55:07
-                            <a href="/2018/04/09/session-crossdomain-share/">Session跨域共享问题解决</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>08日17:40:07
-                            <a href="/2018/04/08/springcloud-series-13-distributed-configuration-management/">springcloud系列13——实现分布式配置管理</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>03日10:38:20
-                            <a href="/2018/04/03/hexo-bluelake-theme-use-gitment/">BlueLake主题增加gitment评论</a>
-                            
-                        </li>
-                        
-                    </ul>
-                </div>
-                
-                
-                
-                
-                
-                <div class="archives-item">
-                    <h2>2018年03月</h2>
-                    <ul class="archives_list">
-                        
-                        <li>30日10:54:20
-                            <a href="/2018/03/30/use-socket-mock-tomcat-handle-static-resources/">使用socket模拟tomcat实现静态资源处理</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>28日12:14:20
-                            <a href="/2018/03/28/mysql-pool-partiion-table/">mysql分库分区分表</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>22日16:57:20
-                            <a href="/2018/03/22/HttpClient-https/">HttpClient进行https请求</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>22日12:15:20
-                            <a href="/2018/03/22/windows-find-who-bind-a-port/">windows查看某个端口被谁占用</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>22日12:15:20
-                            <a href="/2018/03/22/an-architect-with-10years-experience-talk-about-java-and-experience/">一位10年Java工作经验的架构师聊Java和工作经验</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>21日16:09:20
-                            <a href="/2018/03/21/grab-websocket-push-messages/">抓取WebSocket推送的消息</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>20日18:09:20
-                            <a href="/2018/03/20/HashMap-realization-principle/">HashMap的实现原理</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>17日10:09:20
-                            <a href="/2018/03/17/java-multi-thread-wait_notify_notifyAll/">java多线程之wait、notify、notifyAll</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>15日15:09:20
-                            <a href="/2018/03/15/chrome-browser-plugins/">chrome浏览器必装插件</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>15日15:09:20
-                            <a href="/2018/03/15/vmware-install/">VMware虚拟机安装</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>15日15:09:20
-                            <a href="/2018/03/15/nginx-install-and-configuration/">nginx安装与配置</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>10日13:45:25
-                            <a href="/2018/03/10/web-datapush-tecnology/">说说web数据推送技术</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>09日11:45:25
-                            <a href="/2018/03/09/springboot-jsp-support/">springboot jsp支持</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>09日10:45:25
-                            <a href="/2018/03/09/springboot-hot-deploy/">idea springboot项目热更新</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>08日17:45:25
-                            <a href="/2018/03/08/socketio-push-tecnology/">socket.io数据推送</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>08日13:45:25
-                            <a href="/2018/03/08/Springboot+Thymeleaf配置与使用/">springboot thymeleaf模板使用</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>08日13:45:25
-                            <a href="/2018/03/08/springboot_thymeleaf/">springboot thymeleaf模板使用</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>02日17:45:25
-                            <a href="/2018/03/02/java-log-manage/">java日志管理</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>01日17:45:25
-                            <a href="/2018/03/01/spring-unittests/">spring单元测试</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>01日14:45:25
-                            <a href="/2018/03/01/springockito-annotations-to-test-spring/">springockito-annotations做spring的单元测试</a>
-                            
-                        </li>
-                        
-                    </ul>
-                </div>
-                
-                
-                
-                
-                
-                <div class="archives-item">
-                    <h2>2018年02月</h2>
-                    <ul class="archives_list">
-                        
-                        <li>28日14:25:25
-                            <a href="/2018/02/28/SpringDataJpa-basic-usage/">Spring Data Jpa使用</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>26日12:25:25
-                            <a href="/2018/02/26/MyBatis-code-generation/">Mybatis逆向工程生成代码</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>26日12:25:25
-                            <a href="/2018/02/26/web-not-spring-managed-app-use-spring-managed-beans/">web工程非Spring管理的Bean使用Spring管理的Bean</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>26日10:35:25
-                            <a href="/2018/02/26/notepad++-remove-red-underline-show/">取消Notepad++红色下划线（错误提示）</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>04日17:35:25
-                            <a href="/2018/02/04/springcloud-series-12-eureka-high-avaiable/">springcloud系列12——Eureka的高可用</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>03日13:35:25
-                            <a href="/2018/02/03/springcloud-series-11-covering-Feign-default-configuration/">springcloud系列11——覆盖Feign的默认配置</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>02日17:46:47
-                            <a href="/2018/02/02/springcloud-series-10-Feign-install-and-basic-useage/">springcloud系列10——Feign的简介及基础使用</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>02日15:08:47
-                            <a href="/2018/02/02/springcloud-series-9-use Ribbon-without-Eureka/">springcloud系列9——Ribbon脱离Eureka使用</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>02日11:08:47
-                            <a href="/2018/02/02/springcloud-series-8-use-config-file-custom-RibbonClient/">springcloud系列8——使用配置文件自定义Ribbon Client</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>01日16:08:47
-                            <a href="/2018/02/01/springcloud-series-7-use-code-custom-ribbon/">springcloud系列7——通过代码自定义配置ribbon</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>01日15:08:47
-                            <a href="/2018/02/01/springcloud-series-6-use-regisster-center-call-servies/">springcloud系列6——通过注册中心调用服务</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>01日14:08:47
-                            <a href="/2018/02/01/springcloud-series-5-create-and-register-services-to-Eureka/">springcloud系列5——创建服务并注册到Eureka</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>01日13:08:47
-                            <a href="/2018/02/01/springcloud-series-4-create-Eureka Server/">springcloud系列4——创建一个Eureka Server</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>01日12:08:47
-                            <a href="/2018/02/01/springcloud-series-3-Eureka-introduction-and-principle/">springcloud系列3——Eureka简介和原理</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>01日11:08:47
-                            <a href="/2018/02/01/springcloud-series-2-SpringCloud-introduction/">springcloud系列2——SpringCloud简介</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>01日10:08:47
-                            <a href="/2018/02/01/springcloud-series-1-use-Springboot-to-support-outer-services/">springcloud系列1——使用Springboot对外提供rest服务</a>
-                            
-                        </li>
-                        
-                    </ul>
-                </div>
-                
-                
-                
-                
-                
-                <div class="archives-item">
-                    <h2>2018年01月</h2>
-                    <ul class="archives_list">
-                        
-                        <li>31日16:03:34
-                            <a href="/2018/01/31/show-redis-client-list-ip/">redis常见问题</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>31日15:09:28
-                            <a href="/2018/01/31/use_stack_to_find_system_bugs/">使用jstack排查系统问题</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>28日10:44:43
-                            <a href="/2018/01/28/secureCRT-unpack-and-use/">secureCRT安装、破解</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>27日11:41:01
-                            <a href="/2018/01/27/httpclient-proxy/">java代理设置</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>27日10:00:49
-                            <a href="/2018/01/27/create-shadowsocks-server-on-windows/">在Windows Server 上搭建Shadowsocks服务器</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>19日16:53:02
-                            <a href="/2018/01/19/tesseract-ocr-demo/">tesseract-ocr-demo</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>17日17:38:49
-                            <a href="/2018/01/17/http_push/">HTTP推送技术</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>11日18:15:42
-                            <a href="/2018/01/11/tess4j_demo/">tess4j验证码识别</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>10日18:40:25
-                            <a href="/2018/01/10/Python_blog/">Python博客搭建</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>03日17:01:33
-                            <a href="/2018/01/03/notepad-python/">notepad++之python环境搭建</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>02日14:48:24
-                            <a href="/2018/01/02/Git-config-multi-SSH-Key/">Git配置多个SSH-Key</a>
-                            
-                        </li>
-                        
-                    </ul>
-                </div>
-                
-                
-                
-                
-                
-                <div class="archives-item">
-                    <h2>2017年12月</h2>
-                    <ul class="archives_list">
-                        
-                        <li>14日10:28:23
-                            <a href="/2017/12/14/svn-to-git/">将项目迁移到gitlab</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>13日15:00:40
-                            <a href="/2017/12/13/idea-git-operate/">IDEA中git操作</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>13日11:11:16
-                            <a href="/2017/12/13/java-date-multithread/">java日期多线程处理</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>10日18:06:53
-                            <a href="/2017/12/10/Windows-FTP/">Windows开启FTP服务</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>10日16:30:58
-                            <a href="/2017/12/10/Netty-Protobuf/">Netty使用Protobuf编解码</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>10日12:19:47
-                            <a href="/2017/12/10/java-timezone/">java时区转换</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>10日10:28:00
-                            <a href="/2017/12/10/log4j-create-dynamic-log-files/">log4j动态创建日志文件</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>03日12:14:09
-                            <a href="/2017/12/03/jQuery-plot/">jQuery图表插件之plot</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>02日16:18:47
-                            <a href="/2017/12/02/httpclient-baisc-auth/">httpclient之basic认证</a>
-                            
-                        </li>
-                        
-                    </ul>
-                </div>
-                
-                
-                
-                
-                
-                <div class="archives-item">
-                    <h2>2017年11月</h2>
-                    <ul class="archives_list">
-                        
-                        <li>30日16:11:00
-                            <a href="/2017/11/30/art-template-dateformat/">art-template日期格式化</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>30日14:31:09
-                            <a href="/2017/11/30/SpringBoot-unittest/">SpringBoot单元测试</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>23日17:13:51
-                            <a href="/2017/11/23/spring-activemq-overtime-msg/">spring结合activemq消息过期配置</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>22日17:08:47
-                            <a href="/2017/11/22/ActiveMQ-delete-overtime-queue-topic/">ActiveMQ处理积压的消息</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>19日15:29:38
-                            <a href="/2017/11/19/mybatis-clob/">mybatis对CLOB类型的处理</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>18日11:58:56
-                            <a href="/2017/11/18/netty-pojo-serialiazation/">使用Netty对POJO对象进行序列化</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>18日11:04:07
-                            <a href="/2017/11/18/Netty-fix-length-decoder/">Netty固定长度解码器</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>17日16:49:31
-                            <a href="/2017/11/17/netty-DelimiterBasedFrameDecoder-use/">DelimiterBasedFrameDecoder解决TCP粘包拆包问题</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>17日14:52:38
-                            <a href="/2017/11/17/netty-tcp/">使用Netty解决TCP粘包-拆包问题</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>17日11:13:15
-                            <a href="/2017/11/17/Netty-timeserver/">Netty版本时间服务器</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>16日10:39:03
-                            <a href="/2017/11/16/AIO-programing/">AIO编程</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>15日17:22:32
-                            <a href="/2017/11/15/NIO-programing/">NIO编程</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>15日17:04:46
-                            <a href="/2017/11/15/not-aio-programing/">伪异步IO编程</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>15日16:52:05
-                            <a href="/2017/11/15/bio-programing/">传统的BIO编程</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>15日09:49:41
-                            <a href="/2017/11/15/notepad7.5-version-plugins-install/">notepad++7.5版本插件安装方法</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>11日15:00:20
-                            <a href="/2017/11/11/Socket-OutputStream/">Socket编程使用IO流需要注意的地方</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>10日15:09:20
-                            <a href="/2017/11/10/springboot集成activeMQ/">springboot集成ActiveMQ</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>10日15:09:20
-                            <a href="/2017/11/10/springboot-ActiveMQ/">springboot集成ActiveMQ</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>10日14:59:04
-                            <a href="/2017/11/10/java-timertask/">使用TimerTask的坑</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>04日23:19:55
-                            <a href="/2017/11/04/dubbo-interface-whiteip/">为dubbo接口增加IP白名单</a>
-                            
-                        </li>
-                        
-                    </ul>
-                </div>
-                
-                
-                
-                
-                
-                <div class="archives-item">
-                    <h2>2017年10月</h2>
-                    <ul class="archives_list">
-                        
-                        <li>14日16:28:42
-                            <a href="/2017/10/14/string-split-test/">字符串分隔性能测试</a>
-                            
-                        </li>
-                        
-                    </ul>
-                </div>
-                
-                
-                
-                
-                
-                <div class="archives-item">
-                    <h2>2017年09月</h2>
-                    <ul class="archives_list">
-                        
-                        <li>23日16:09:12
-                            <a href="/2017/09/23/resolve-360browser-not-support-idm/">解决360浏览器不支持IDM下载的问题</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>22日14:10:17
-                            <a href="/2017/09/22/Tomcat-monitor/">Tomcat监控助手-自动重启相关服务</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>17日16:45:34
-                            <a href="/2017/09/17/java-swing-tomcat-monitor/">JAVA-SWING监控Tomcat小工具</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>15日10:54:53
-                            <a href="/2017/09/15/observer-design/">观察者模式</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>15日10:00:33
-                            <a href="/2017/09/15/java-native-keywords/">java中的native关键字</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>14日18:22:24
-                            <a href="/2017/09/14/decorator-design/">装饰者模式</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>14日18:04:18
-                            <a href="/2017/09/14/flwweight-design/">享元模式</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>14日11:57:14
-                            <a href="/2017/09/14/Sublime-Text3/">Sublime-Text3使用</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>10日11:46:31
-                            <a href="/2017/09/10/proxy-mode/">代理模式</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>09日10:37:24
-                            <a href="/2017/09/09/zookeeper-client-api/">zookeeper客户端api操作</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>09日09:17:28
-                            <a href="/2017/09/09/zookeeper-install-and-config/">zookeeper安装与配置</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>03日11:42:20
-                            <a href="/2017/09/03/singleton/">单例模式的实现方式</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>03日09:17:36
-                            <a href="/2017/09/03/car-juge/">汽车后视镜调节</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>01日10:18:01
-                            <a href="/2017/09/01/resolve-github-not-support-browser/">解决国产浏览器github提示不支持的问题</a>
-                            
-                        </li>
-                        
-                    </ul>
-                </div>
-                
-                
-                
-                
-                
-                <div class="archives-item">
-                    <h2>2017年08月</h2>
-                    <ul class="archives_list">
-                        
-                        <li>31日18:21:39
-                            <a href="/2017/08/31/three-object-copy-lib-compare/">3大对象复制框架性能对比</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>31日18:19:45
-                            <a href="/2017/08/31/jprofiler-linux-tomcat-monitor/">jprofiler_监控远程linux服务器的tomcat进程</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>31日18:15:42
-                            <a href="/2017/08/31/ajaxanywhere-usage/">使用AjaxAnywhere实现页面局部刷新</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>31日18:10:43
-                            <a href="/2017/08/31/windows-use-Nginx-tomcat-load-balance/">windows上使用Nginx+tomcat做负载均衡</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>31日18:07:30
-                            <a href="/2017/08/31/multi-tomcat-session-share/">多个tomcat session共享</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>31日18:03:49
-                            <a href="/2017/08/31/在外部tomcat中运行spring boot应用/">在外部tomcat中运行spring boot应用</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>31日18:03:49
-                            <a href="/2017/08/31/outter-tomcat-springboot/">在外部tomcat中运行spring boot应用</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>31日17:32:21
-                            <a href="/2017/08/31/springboot-log-config-mybatis-print-SQL/">springboot日志配置+mybatis输出SQL</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>31日17:32:21
-                            <a href="/2017/08/31/spring boot日志配置+mybatis输出SQL/">springboot日志配置+mybatis输出SQL</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>31日17:28:10
-                            <a href="/2017/08/31/distribute-session-share/">分布式系统session共享方案</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>31日17:27:02
-                            <a href="/2017/08/31/springboot-Redis/">springboot集成Redis</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>31日17:27:02
-                            <a href="/2017/08/31/springboot集成Redis/">springboot集成Redis</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>31日17:24:44
-                            <a href="/2017/08/31/resolve-maven-create-projects-too-low/">解决使用maven生成项目很慢</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>31日17:23:20
-                            <a href="/2017/08/31/maven-multi-env-package-deploy/">使用Maven多环境配置打包和部署</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>31日17:19:36
-                            <a href="/2017/08/31/maven-multi-modules-project/">使用maven构建多模块工程</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>31日17:12:27
-                            <a href="/2017/08/31/idea-remote-tomcat-debug/">idea远程连接Tomcat调试</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>31日17:10:06
-                            <a href="/2017/08/31/idea-svn-ignore/">idea提交SVN时忽略某些文件或文件夹</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>31日17:03:40
-                            <a href="/2017/08/31/ngrok-intranet-to-network/">使用ngrok将本地Web服务映射到外网</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>31日17:02:15
-                            <a href="/2017/08/31/Fiddler-chrome-ssl/">Fiddler抓取https请求，chrome提示证书无效的解决办法</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>31日16:58:53
-                            <a href="/2017/08/31/Win10-use-360WIFI-APP/">Win10使用360WIFI抓手机APP网络请求</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>31日16:54:40
-                            <a href="/2017/08/31/linux-use-vi-to-lines/">linux使用vi如何跳转到指定行</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>31日16:49:38
-                            <a href="/2017/08/31/redis-pubsub/">redis发布订阅示例</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>31日16:44:31
-                            <a href="/2017/08/31/springboot-timetask/">springboot定时任务</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>31日16:39:08
-                            <a href="/2017/08/31/Spring+redis sentinel 主从切换/">Spring+redis sentinel主从切换</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>31日16:39:08
-                            <a href="/2017/08/31/Spring-redis-sentinel-master-slave/">Spring+redis sentinel主从切换</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>31日16:34:37
-                            <a href="/2017/08/31/activemq-master-slave-zookeeper/">activemq集群之master-slave+zookeeper</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>31日16:31:29
-                            <a href="/2017/08/31/spring-activemq/">spring结合activemq使用</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>31日16:18:36
-                            <a href="/2017/08/31/icebox-usage/">ICEBOX使用示例</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>31日16:12:17
-                            <a href="/2017/08/31/package-ice-client/">封装ICE客户端</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>31日15:55:18
-                            <a href="/2017/08/31/idea-git/">idea git操作</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>31日15:53:19
-                            <a href="/2017/08/31/Web-push-comet4j/">Web推送技术之comet4j使用</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>31日15:50:14
-                            <a href="/2017/08/31/spring-boot-mybatis-pagination/">spring boot+mybatis分页配置</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>31日15:50:14
-                            <a href="/2017/08/31/spring boot mybatis+分页配置/">spring boot+mybatis分页配置</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>31日15:47:31
-                            <a href="/2017/08/31/springboot利用swagger构建api文档/">springboot利用swagger构建api文档</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>31日15:47:31
-                            <a href="/2017/08/31/springboot-use-swagger-to-build-api-docs/">springboot利用swagger构建api文档</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>31日15:09:18
-                            <a href="/2017/08/31/JS-art-template/">JS模板引擎art-template</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>30日15:24:38
-                            <a href="/2017/08/30/Oracle-procedure-to-files/">Oracle存储过程导出结果到文本文件</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>30日15:20:14
-                            <a href="/2017/08/30/Redis-Sentinel/">Redis安装+Sentinel模式配置</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>30日14:55:32
-                            <a href="/2017/08/30/ELK-use/">ELK搭建手册</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>30日14:29:57
-                            <a href="/2017/08/30/java-cookie-sso/">java通过Cookie实现sso</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>30日14:29:09
-                            <a href="/2017/08/30/CAS-custom-login-page/">CAS自定义登录页面</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>30日14:28:26
-                            <a href="/2017/08/30/CAS-use/">CAS使用</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>30日14:26:53
-                            <a href="/2017/08/30/cas-multi-system/">cas多系统集成统一认证</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>30日14:23:23
-                            <a href="/2017/08/30/SpringAop-autowire-log/">Spring Aop+注解实现日志记录</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>30日14:17:44
-                            <a href="/2017/08/30/api-docs-xiaoyaoji/">在线接口文档管理工具（小幺鸡）使用说明</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>30日14:17:44
-                            <a href="/2017/08/30/在线接口文档管理工具（小幺鸡）使用说明/">在线接口文档管理工具（小幺鸡）使用说明</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>30日14:15:27
-                            <a href="/2017/08/30/remember-password/">记录密码思路</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>30日13:35:25
-                            <a href="/2017/08/30/import-sings-to-iPhone/">导入铃声到IPhone</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>30日13:35:25
-                            <a href="/2017/08/30/Ajax-session/">Ajax请求遇到session失效问题</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>30日13:35:25
-                            <a href="/2017/08/30/baiduyun-speedup/">百度云盘下载提速</a>
-                            
-                        </li>
-                        
-                
-                
-                
-                        <li>26日17:59:25
-                            <a href="/2017/08/26/hexo-github-personal-blog/">使用hexo+github搭建个人博客</a>
-                            
-                        </li>
-                        
-                    </ul>
-                </div>
-                
+        
+          
+          <div class="collection-title">
+            <h1 class="archive-year" id="archive-year-2017">2017</h1>
+          </div>
+        
+        
+
+        
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <h2 class="post-title">
+        
+            <a class="post-title-link" href="/2017/09/09/zookeeper-install-and-config/" itemprop="url">
+              
+                <span itemprop="name">zookeeper安装与配置</span>
+              
+            </a>
+        
+      </h2>
+
+      <div class="post-meta">
+        <time class="post-time" itemprop="dateCreated" datetime="2017-09-09T09:17:28+08:00" content="2017-09-09">
+          09-09
+        </time>
+      </div>
+
+    </header>
+  </article>
+
+
+
+      
+
+        
+        
+        
+
+        
+        
+
+        
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <h2 class="post-title">
+        
+            <a class="post-title-link" href="/2017/09/03/singleton/" itemprop="url">
+              
+                <span itemprop="name">单例模式的实现方式</span>
+              
+            </a>
+        
+      </h2>
+
+      <div class="post-meta">
+        <time class="post-time" itemprop="dateCreated" datetime="2017-09-03T11:42:20+08:00" content="2017-09-03">
+          09-03
+        </time>
+      </div>
+
+    </header>
+  </article>
+
+
+
+      
+
+        
+        
+        
+
+        
+        
+
+        
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <h2 class="post-title">
+        
+            <a class="post-title-link" href="/2017/09/03/car-juge/" itemprop="url">
+              
+                <span itemprop="name">汽车后视镜调节</span>
+              
+            </a>
+        
+      </h2>
+
+      <div class="post-meta">
+        <time class="post-time" itemprop="dateCreated" datetime="2017-09-03T09:17:36+08:00" content="2017-09-03">
+          09-03
+        </time>
+      </div>
+
+    </header>
+  </article>
+
+
+
+      
+
+        
+        
+        
+
+        
+        
+
+        
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <h2 class="post-title">
+        
+            <a class="post-title-link" href="/2017/09/01/resolve-github-not-support-browser/" itemprop="url">
+              
+                <span itemprop="name">解决国产浏览器github提示不支持的问题</span>
+              
+            </a>
+        
+      </h2>
+
+      <div class="post-meta">
+        <time class="post-time" itemprop="dateCreated" datetime="2017-09-01T10:18:01+08:00" content="2017-09-01">
+          09-01
+        </time>
+      </div>
+
+    </header>
+  </article>
+
+
+
+      
+
+    </div>
+  </div>
+  
+  
+  
+
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/archives/2017/09/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/archives/2017/09/">1</a><span class="page-number current">2</span>
+  </nav>
+
+
+
+
+          </div>
+          
+
+
+          
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Donny">
+            
+              <p class="site-author-name" itemprop="name">Donny</p>
+              <p class="site-description motion-element" itemprop="description">记录工作，感悟生活</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">264</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">49</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/luckystar88" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:luckystar88@aliyun.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
                 
             </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.itmuch.com/" title="itmuch" target="_blank">itmuch</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.mooooc.com/" title="纯洁的微笑" target="_blank">纯洁的微笑</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
         </div>
-    </article>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Donny</span>
+
+  
 </div>
 
-        </div><!-- end #main-->
-    </div><!-- end #body -->
-    <footer class="footer">
-    <div class="footer-inner" style="text-align: left">
-        <p>
-            <a href="/about" title="关于">关于</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
-            <!-- 自定义链接 -->
-            <a href="/help" title="帮助">帮助</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
-            <a href="/links" title="友链">友链</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
-            <a href="/sitemap.xml" title="地图">地图</a>
-        </p>
-        <p>
-            本站已建立&nbsp<a href="/timeline" id="siteBuildingTime"></a>&nbsp天，<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="licence">采用知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议创作</a><br>
-            ©2017-<span id="cpYear"></span> 基于&nbsp<a href="http://hexo.io" target="_blank" rel="nofollow">Hexo</a>
-            ，主题采用&nbsp&nbsp<a href="https://github.com/tangkunyin/hexo-theme-jsimple" target="_blank" rel="bookmark">JSimple</a>
-            ，作者&nbsp<a href="https://tommy88.top" target="_blank" rel="friend">Donny</a>
-            ，Hosted by <a href="https://pages.github.com/" target="_blank" rel="nofollow">GitHub Pages</a>
-        </p>
-    </div>
-</footer>
-<script src="/js/SimpleCore.js"></script>
 
-</div>
-<!-- search pop -->
-<div class="popup search-popup local-search-popup">
-    <div class="local-search-header clearfix">
-        <span class="search-icon">
-            <i class="fa fa-search"></i>
-        </span>
-        <span class="popup-btn-close">
-            <i class="fa fa-times-circle"></i>
-        </span>
-        <div class="local-search-input-wrapper">
-            <input id="local-search-input" spellcheck="false" type="text" autocomplete="off" placeholder="请输入查询关键词">
-        </div>
-    </div>
-    <div id="local-search-result"></div>
-</div>
-<div class="fixed-btn">
-    <a class="btn-gotop" href="javascript:"> <i class="fa fa-angle-up"></i></a>
-</div>
-<script>
-    $(function () {
-        var jsi_config = {
-            buildingTime: '01/20/2016',
-            current: $('.post-tags').length > 0 ? 'post' : 'archive',
-            snsQRCode: '/images/sns-qrcode.png',
-            donateImg: '/images/donate-qr.png',
-            localSearch: { dbPath: '' },
-            readMode: 'day'
-        };
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
         
-            jsi_config.localSearch = {
-                dbPath: '/search.xml',
-                trigger: 'auto',
-                topN: '1',
-                unescape: 'false'
-            }
+
+
+
+
+
+
+
         
-        SimpleCore.init(jsi_config);
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
         
-    });
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
 </script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+<!-- LOCAL: You can save these files to your site and update links -->
+    
+        
+        <link rel="stylesheet" href="https://aimingoo.github.io/gitmint/style/default.css">
+        <script src="https://aimingoo.github.io/gitmint/dist/gitmint.browser.js"></script>
+    
+<!-- END LOCAL -->
+
+    
+
+    
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
 </body>
 </html>
