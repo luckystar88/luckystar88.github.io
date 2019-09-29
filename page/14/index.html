@@ -311,7 +311,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://tommy88.top/2018/03/15/chrome-browser-plugins/">
+    <link itemprop="mainEntityOfPage" href="https://tommy88.top/2018/03/17/java-multi-thread-wait_notify_notifyAll/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Donny">
@@ -330,7 +330,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/15/chrome-browser-plugins/" itemprop="url">chrome浏览器必装插件</a></h1>
+                <a class="post-title-link" href="/2018/03/17/java-multi-thread-wait_notify_notifyAll/" itemprop="url">java多线程之wait、notify、notifyAll</a></h1>
         
 
         <div class="post-meta">
@@ -342,8 +342,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-15T15:09:20+08:00">
-                2018-03-15
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-17T10:09:20+08:00">
+                2018-03-17
               </time>
             
 
@@ -403,13 +403,12 @@
 
       
         
-          <h2 id="crxMouse"><a href="#crxMouse" class="headerlink" title="crxMouse"></a>crxMouse</h2><p>鼠标手势插件。</p>
-<p>可以实现浏览器的后退、前进、向上滚动、向下滚动、关闭标签页、重新打开关闭的标签页、到底部、到顶部、刷新页面、强制刷新、到左侧标签页、到右侧标签页、新建窗口、关闭窗口、进入扩展设置页。</p>
-<h2 id="IDM-Integration-Module"><a href="#IDM-Integration-Module" class="headerlink" title="IDM Integration Module"></a>IDM Integration Module</h2><p>浏览器默认下载工具或迅雷的替代工具。IDM使用多线程下载，可以提升你的下载速度最多5倍。并且可以监视网页视频和音频。</p>
-<p>下载IDM的绿色版，在“选项”中将chrome浏览器加入到监视，chrome浏览器打开提示集成IDM，集成后即可替换浏览器的默认下载。后续用浏览器下载文件时会自动使用IDM下载。<br>
+          <p>在java中，线程间通信可以使用wait、notify、notifyAll来进行控制。注意：这3个方法是Object的方法。</p>
+<p>在调用一个对象的wait、notify、notifyAll方法时，必须持有该对象的锁。否则会报下面的错误：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Exception in thread &quot;Thread-1&quot; java.lang.IllegalMonitorStateException</span><br><span class="line">	at java.lang.Object.notify(Native Method)</span><br><span class="line">	at com.tommy.core.test.threadtest.SubThread.run(Test1.java:58)</span><br></pre></td></tr></table></figure></p>
+<p>多个线程都持有同一个对象的时候，如果都要进入synchronized(obj){……}的内部，就必须拿到这个对象的锁，synchronized的机制保证了同一时间最多只能有1个线程拿到了对象的锁.<br>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/03/15/chrome-browser-plugins/#more" rel="contents">
+            <a class="btn" href="/2018/03/17/java-multi-thread-wait_notify_notifyAll/#more" rel="contents">
               Read more &raquo;
             </a>
           </div>
@@ -717,6 +716,155 @@ nginx安装参考：http://www.runoob.com/linux/nginx-install-setup.html
         
       
     </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://tommy88.top/2018/03/15/chrome-browser-plugins/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Donny">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Donny的技术博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/15/chrome-browser-plugins/" itemprop="url">chrome浏览器必装插件</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-15T15:09:20+08:00">
+                2018-03-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/tech/" itemprop="url" rel="index">
+                    <span itemprop="name">技术</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="crxMouse"><a href="#crxMouse" class="headerlink" title="crxMouse"></a>crxMouse</h2><p>鼠标手势插件。</p>
+<p>可以实现浏览器的后退、前进、向上滚动、向下滚动、关闭标签页、重新打开关闭的标签页、到底部、到顶部、刷新页面、强制刷新、到左侧标签页、到右侧标签页、新建窗口、关闭窗口、进入扩展设置页。</p>
+<h2 id="IDM-Integration-Module"><a href="#IDM-Integration-Module" class="headerlink" title="IDM Integration Module"></a>IDM Integration Module</h2><p>浏览器默认下载工具或迅雷的替代工具。IDM使用多线程下载，可以提升你的下载速度最多5倍。并且可以监视网页视频和音频。</p>
+<p>下载IDM的绿色版，在“选项”中将chrome浏览器加入到监视，chrome浏览器打开提示集成IDM，集成后即可替换浏览器的默认下载。后续用浏览器下载文件时会自动使用IDM下载。<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/03/15/chrome-browser-plugins/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </p></div>
     
     
     
@@ -1349,154 +1497,6 @@ nginx安装参考：http://www.runoob.com/linux/nginx-install-setup.html
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://tommy88.top/2018/03/08/springboot_thymeleaf/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Donny">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Donny的技术博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/03/08/springboot_thymeleaf/" itemprop="url">springboot thymeleaf模板使用</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-08T13:45:25+08:00">
-                2018-03-08
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/tech/" itemprop="url" rel="index">
-                    <span itemprop="name">技术</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="application-properties添加对thymeleaf的支持"><a href="#application-properties添加对thymeleaf的支持" class="headerlink" title="application.properties添加对thymeleaf的支持"></a>application.properties添加对thymeleaf的支持</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">spring.thymeleaf.prefix=classpath:/templates/</span><br><span class="line">spring.thymeleaf.suffix=.html</span><br><span class="line">spring.thymeleaf.mode=HTML5</span><br><span class="line">spring.thymeleaf.encoding=UTF-8</span><br><span class="line">spring.thymeleaf.content-type=text/html</span><br><span class="line">spring.thymeleaf.cache=false</span><br><span class="line">spring.resources.chain.strategy.content.enabled=true</span><br><span class="line">spring.resources.chain.strategy.content.paths=/**</span><br></pre></td></tr></table></figure>
-<h2 id="加入相关依赖"><a href="#加入相关依赖" class="headerlink" title="加入相关依赖"></a>加入相关依赖</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-web<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-thymeleaf<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>注意：thymeleaf模板使用的资源文件位于/resources/static，html文件一般则位于/resources/templates/。<br>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/03/08/springboot_thymeleaf/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </p></div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://tommy88.top/2018/03/08/Springboot+Thymeleaf配置与使用/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1645,7 +1645,7 @@ nginx安装参考：http://www.runoob.com/linux/nginx-install-setup.html
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://tommy88.top/2018/03/02/java-log-manage/">
+    <link itemprop="mainEntityOfPage" href="https://tommy88.top/2018/03/08/springboot_thymeleaf/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Donny">
@@ -1664,7 +1664,7 @@ nginx安装参考：http://www.runoob.com/linux/nginx-install-setup.html
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/02/java-log-manage/" itemprop="url">java日志管理</a></h1>
+                <a class="post-title-link" href="/2018/03/08/springboot_thymeleaf/" itemprop="url">springboot thymeleaf模板使用</a></h1>
         
 
         <div class="post-meta">
@@ -1676,8 +1676,8 @@ nginx安装参考：http://www.runoob.com/linux/nginx-install-setup.html
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-02T17:45:25+08:00">
-                2018-03-02
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-08T13:45:25+08:00">
+                2018-03-08
               </time>
             
 
@@ -1737,11 +1737,12 @@ nginx安装参考：http://www.runoob.com/linux/nginx-install-setup.html
 
       
         
-          <h2 id="java常用日志框架简介"><a href="#java常用日志框架简介" class="headerlink" title="java常用日志框架简介"></a>java常用日志框架简介</h2><p>log4j和logback都是java项目中经常使用的日志框架，通常会结合slf4j一起使用。<br>log4j和logback都是具体的日志实现框架，slf4j是一个接口层框架，slf4j-log4j，slf4j-logback则是针对log4j和logback的桥接框架。使用slf4j，就可以随意切换日志框架，而不用修改代码。</p>
-<h2 id="高并发系统日志记录"><a href="#高并发系统日志记录" class="headerlink" title="高并发系统日志记录"></a>高并发系统日志记录</h2><p>多线程环境会由于多个线程同时会向一个日志文件记录日志，所以会导致日志混乱，查找某个线程的日志变的不方便。比如跟踪某个订单号、某个用户的相关日志。<br>我们可以使用slf4j的MDC来解决这个问题。<br>
+          <h2 id="application-properties添加对thymeleaf的支持"><a href="#application-properties添加对thymeleaf的支持" class="headerlink" title="application.properties添加对thymeleaf的支持"></a>application.properties添加对thymeleaf的支持</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">spring.thymeleaf.prefix=classpath:/templates/</span><br><span class="line">spring.thymeleaf.suffix=.html</span><br><span class="line">spring.thymeleaf.mode=HTML5</span><br><span class="line">spring.thymeleaf.encoding=UTF-8</span><br><span class="line">spring.thymeleaf.content-type=text/html</span><br><span class="line">spring.thymeleaf.cache=false</span><br><span class="line">spring.resources.chain.strategy.content.enabled=true</span><br><span class="line">spring.resources.chain.strategy.content.paths=/**</span><br></pre></td></tr></table></figure>
+<h2 id="加入相关依赖"><a href="#加入相关依赖" class="headerlink" title="加入相关依赖"></a>加入相关依赖</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-web<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-thymeleaf<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>注意：thymeleaf模板使用的资源文件位于/resources/static，html文件一般则位于/resources/templates/。<br>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/03/02/java-log-manage/#more" rel="contents">
+            <a class="btn" href="/2018/03/08/springboot_thymeleaf/#more" rel="contents">
               Read more &raquo;
             </a>
           </div>
@@ -1831,7 +1832,7 @@ nginx安装参考：http://www.runoob.com/linux/nginx-install-setup.html
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">264</span>
+                  <span class="site-state-item-count">265</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
