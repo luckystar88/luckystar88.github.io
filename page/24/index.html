@@ -311,6 +311,152 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://tommy88.top/2017/08/31/idea-remote-tomcat-debug/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Donny">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Donny的技术博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/08/31/idea-remote-tomcat-debug/" itemprop="url">idea远程连接Tomcat调试</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-31T17:12:27+08:00">
+                2017-08-31
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/tech/" itemprop="url" rel="index">
+                    <span itemprop="name">技术</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>这里以Windows为例<br>1、Tomcat配置<br>a.打开catalina.bat，找到set JPDA_ADDRESS=8000，修改为其他端口，比如19876。<br>b.调试模式启动tomcat，cmd窗口执行catalina jpda start，启动后可以看到：<br><img src="http://omh46px9n.bkt.clouddn.com/17-8-31/97731033.jpg" alt><br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/08/31/idea-remote-tomcat-debug/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </p></div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://tommy88.top/2017/08/31/idea-svn-ignore/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1342,153 +1488,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://tommy88.top/2017/08/31/Spring-redis-sentinel-master-slave/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Donny">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Donny的技术博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/08/31/Spring-redis-sentinel-master-slave/" itemprop="url">Spring+redis sentinel主从切换</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-31T16:39:08+08:00">
-                2017-08-31
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/tech/" itemprop="url" rel="index">
-                    <span itemprop="name">技术</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>Spring+redis sentinel 主从切换(failover)<br>redis sentinel配置参考：<a href="http://www.cnblogs.com/yjmyzz/p/redis-sentinel-sample.html">http://www.cnblogs.com/yjmyzz/p/redis-sentinel-sample.html</a><br>redis sentinel与spring的集成参考：<a href="http://www.cnblogs.com/yjmyzz/p/integrate-redis-with-spring.html">http://www.cnblogs.com/yjmyzz/p/integrate-redis-with-spring.html</a><br>redis对象的缓存也参考上面的文章。</p>
-<h2 id="sentinel模式的spring文件配置"><a href="#sentinel模式的spring文件配置" class="headerlink" title="sentinel模式的spring文件配置"></a>sentinel模式的spring文件配置</h2>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/08/31/Spring-redis-sentinel-master-slave/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://tommy88.top/2017/08/31/Spring+redis sentinel 主从切换/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1636,7 +1635,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://tommy88.top/2017/08/31/activemq-master-slave-zookeeper/">
+    <link itemprop="mainEntityOfPage" href="https://tommy88.top/2017/08/31/Spring-redis-sentinel-master-slave/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Donny">
@@ -1655,7 +1654,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/08/31/activemq-master-slave-zookeeper/" itemprop="url">activemq集群之master-slave+zookeeper</a></h1>
+                <a class="post-title-link" href="/2017/08/31/Spring-redis-sentinel-master-slave/" itemprop="url">Spring+redis sentinel主从切换</a></h1>
         
 
         <div class="post-meta">
@@ -1667,7 +1666,7 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-31T16:34:37+08:00">
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-31T16:39:08+08:00">
                 2017-08-31
               </time>
             
@@ -1728,15 +1727,11 @@
 
       
         
-          <blockquote>
-<p>参考<a href="http://www.cnblogs.com/guozhen/p/6209973.html">ActiveMQ的集群方案对比及部署</a></p>
-</blockquote>
-<p><strong>本文使用的是activemq的master slave集群，俗称高可用，并没有考虑负载均衡。使用Zookeeper来管理各个broker.</strong></p>
-<p>由于zookeeper选举原则是2N+1，所以至少要有3个broker。否则会提示“Not enough cluster members when using LevelDB replication”。这样就没法选择Master。</p>
-<p>本文的例子是在Windows64位环境。</p>
+          <p>Spring+redis sentinel 主从切换(failover)<br>redis sentinel配置参考：<a href="http://www.cnblogs.com/yjmyzz/p/redis-sentinel-sample.html">http://www.cnblogs.com/yjmyzz/p/redis-sentinel-sample.html</a><br>redis sentinel与spring的集成参考：<a href="http://www.cnblogs.com/yjmyzz/p/integrate-redis-with-spring.html">http://www.cnblogs.com/yjmyzz/p/integrate-redis-with-spring.html</a><br>redis对象的缓存也参考上面的文章。</p>
+<h2 id="sentinel模式的spring文件配置"><a href="#sentinel模式的spring文件配置" class="headerlink" title="sentinel模式的spring文件配置"></a>sentinel模式的spring文件配置</h2>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/08/31/activemq-master-slave-zookeeper/#more" rel="contents">
+            <a class="btn" href="/2017/08/31/Spring-redis-sentinel-master-slave/#more" rel="contents">
               Read more &raquo;
             </a>
           </div>
@@ -1826,7 +1821,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">265</span>
+                  <span class="site-state-item-count">266</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -1848,7 +1843,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">49</span>
+                  <span class="site-state-item-count">50</span>
                   <span class="site-state-item-name">tags</span>
                 
               </div>

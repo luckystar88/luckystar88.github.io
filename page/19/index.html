@@ -311,6 +311,153 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://tommy88.top/2017/11/30/art-template-dateformat/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Donny">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Donny的技术博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/11/30/art-template-dateformat/" itemprop="url">art-template日期格式化</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-11-30T16:11:00+08:00">
+                2017-11-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/tech/" itemprop="url" rel="index">
+                    <span itemprop="name">技术</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>使用art-template我们避免了N多的字符串拼接，但遇到日期格式化该如何处理呢？</p>
+<p>我们定义一个处理日期格式化的JS函数，放到一个单独的文件dateformate.js。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 对日期进行格式化，</span></span><br><span class="line"><span class="comment"> * @param date 要格式化的日期</span></span><br><span class="line"><span class="comment"> * @param format 进行格式化的模式字符串</span></span><br><span class="line"><span class="comment"> *     支持的模式字母有：</span></span><br><span class="line"><span class="comment"> *     y:年,</span></span><br><span class="line"><span class="comment"> *     M:年中的月份(1-12),</span></span><br><span class="line"><span class="comment"> *     d:月份中的天(1-31),</span></span><br><span class="line"><span class="comment"> *     h:小时(0-23),</span></span><br><span class="line"><span class="comment"> *     m:分(0-59),</span></span><br><span class="line"><span class="comment"> *     s:秒(0-59),</span></span><br><span class="line"><span class="comment"> *     S:毫秒(0-999),</span></span><br><span class="line"><span class="comment"> *     q:季度(1-4)</span></span><br><span class="line"><span class="comment"> * @return String</span></span><br><span class="line"><span class="comment"> * @author yanis.wang</span></span><br><span class="line"><span class="comment"> * @see http://yaniswang.com/frontend/2013/02/16/dateformat-performance/</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">dateFormat</span>(<span class="params">date, format</span>) </span>&#123;</span><br><span class="line">    date = <span class="keyword">new</span> <span class="built_in">Date</span>(date);</span><br><span class="line">    <span class="keyword">var</span> map = &#123;</span><br><span class="line">        <span class="string">"M"</span>: date.getMonth() + <span class="number">1</span>, <span class="comment">//月份</span></span><br><span class="line">        <span class="string">"d"</span>: date.getDate(), <span class="comment">//日</span></span><br><span class="line">        <span class="string">"h"</span>: date.getHours(), <span class="comment">//小时</span></span><br><span class="line">        <span class="string">"m"</span>: date.getMinutes(), <span class="comment">//分</span></span><br><span class="line">        <span class="string">"s"</span>: date.getSeconds(), <span class="comment">//秒</span></span><br><span class="line">        <span class="string">"q"</span>: <span class="built_in">Math</span>.floor((date.getMonth() + <span class="number">3</span>) / <span class="number">3</span>), <span class="comment">//季度</span></span><br><span class="line">        <span class="string">"S"</span>: date.getMilliseconds() <span class="comment">//毫秒</span></span><br><span class="line">    &#125;;</span><br><span class="line">    format = format.replace(<span class="regexp">/([yMdhmsqS])+/g</span>, <span class="function"><span class="keyword">function</span>(<span class="params">all, t</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">var</span> v = map[t];</span><br><span class="line">        <span class="keyword">if</span>(v !== <span class="literal">undefined</span>)&#123;</span><br><span class="line">            <span class="keyword">if</span>(all.length &gt; <span class="number">1</span>)&#123;</span><br><span class="line">                v = <span class="string">'0'</span> + v;</span><br><span class="line">                v = v.substr(v.length<span class="number">-2</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> v;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(t === <span class="string">'y'</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span> (date.getFullYear() + <span class="string">''</span>).substr(<span class="number">4</span> - all.length);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> all;</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="keyword">return</span> format;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/11/30/art-template-dateformat/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://tommy88.top/2017/11/30/SpringBoot-unittest/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1625,154 +1772,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://tommy88.top/2017/11/16/AIO-programing/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Donny">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Donny的技术博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/11/16/AIO-programing/" itemprop="url">AIO编程</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-11-16T10:39:03+08:00">
-                2017-11-16
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/tech/" itemprop="url" rel="index">
-                    <span itemprop="name">技术</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>NIO2.0引入了新的异步通道的概念，并提供了异步文件通道和异步套接字通道的实现。异步通道提供2种方式获取操作结果。</p>
-<p>1.通过java.util.concurrent.Future来获取异步操作的结果；<br>2.在异步操作的时候传入一个java.nio.channels。<br>CompletionHandler作为异步完成的回调。</p>
-<p>NIO2.0的异步套接字通道是真正的异步非阻塞I/O，它对应UNIX网络编程中的事件驱动I/O（AIO），它不需要通过多路复用器轮询注册的通道即可实现异步读写，从而简化了NIO的编程模型。<br>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/11/16/AIO-programing/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </p></div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1825,7 +1824,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">265</span>
+                  <span class="site-state-item-count">266</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -1847,7 +1846,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">49</span>
+                  <span class="site-state-item-count">50</span>
                   <span class="site-state-item-name">tags</span>
                 
               </div>
