@@ -848,7 +848,12 @@
       
         
           
-          1.从jenkins官网下载最新的jenkins的war包，地址：https://jenkins.io/.2.将jenkins.war丢到tomcat中，并启动3.浏览器输入ip:port/jenkins访问Jenkins。在启动时，在日志中可以看到jenkins生成了一个管理密码，复制该密码并粘贴
+          下载&amp;安装Jenkins
+安装JDK
+略。
+
+添加Jenkins的源到yum，使用Jenkins的源下载安装包
+12sudo wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.
           ...
           <!--noindex-->
           <div class="post-button text-center">
