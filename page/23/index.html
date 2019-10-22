@@ -311,7 +311,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://tommy88.top/2017/08/31/在外部tomcat中运行spring boot应用/">
+    <link itemprop="mainEntityOfPage" href="https://tommy88.top/2017/08/31/multi-tomcat-session-share/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Donny">
@@ -330,7 +330,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/08/31/在外部tomcat中运行spring boot应用/" itemprop="url">在外部tomcat中运行spring boot应用</a></h1>
+                <a class="post-title-link" href="/2017/08/31/multi-tomcat-session-share/" itemprop="url">多个tomcat session共享</a></h1>
         
 
         <div class="post-meta">
@@ -342,7 +342,7 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-31T18:03:49+08:00">
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-31T18:07:30+08:00">
                 2017-08-31
               </time>
             
@@ -403,12 +403,11 @@
 
       
         
-          <p>默认，Springboot使用内嵌的tomcat来运行springboot应用。如果你想使用外部tomcat来运行，需要做一些修改。</p>
-<h4 id="在pom-xml中将应用修改为war"><a href="#在pom-xml中将应用修改为war" class="headerlink" title="在pom.xml中将应用修改为war"></a>在pom.xml中将应用修改为war</h4><p>这个应该没什么疑问，默认springboot是当做一个jar来运行的。</p>
-<h4 id="应用启动类修改"><a href="#应用启动类修改" class="headerlink" title="应用启动类修改"></a>应用启动类修改</h4><p>需要继承SpringBootServletInitializer，并重写configure方法。<br>
+          <p>这里使用的是tomcat的广播机制实现的。<br>这里使用Nginx+2台tomcat做测试，2台tomcat端口分别为8080和8081。</p>
+<h2 id="nginx配置"><a href="#nginx配置" class="headerlink" title="nginx配置"></a>nginx配置</h2><p><img src="http://omh46px9n.bkt.clouddn.com/17-8-31/76550356.jpg" alt><br>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/08/31/在外部tomcat中运行spring boot应用/#more" rel="contents">
+            <a class="btn" href="/2017/08/31/multi-tomcat-session-share/#more" rel="contents">
               Read more &raquo;
             </a>
           </div>
@@ -607,7 +606,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://tommy88.top/2017/08/31/spring boot日志配置+mybatis输出SQL/">
+    <link itemprop="mainEntityOfPage" href="https://tommy88.top/2017/08/31/在外部tomcat中运行spring boot应用/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Donny">
@@ -626,7 +625,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/08/31/spring boot日志配置+mybatis输出SQL/" itemprop="url">springboot日志配置+mybatis输出SQL</a></h1>
+                <a class="post-title-link" href="/2017/08/31/在外部tomcat中运行spring boot应用/" itemprop="url">在外部tomcat中运行spring boot应用</a></h1>
         
 
         <div class="post-meta">
@@ -638,7 +637,7 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-31T17:32:21+08:00">
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-31T18:03:49+08:00">
                 2017-08-31
               </time>
             
@@ -699,12 +698,12 @@
 
       
         
-          <p>这里以logback为例。</p>
-<p>其实只需要在logback.xml中增加下面一行配置就而已了。<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">logger</span> <span class="attr">name</span>=<span class="string">"mapper所在的包名"</span> <span class="attr">level</span>=<span class="string">"DEBUG"</span>&gt;</span><span class="tag">&lt;/<span class="name">logger</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
-<p>下面贴一个完整的logback的配置：<br>
+          <p>默认，Springboot使用内嵌的tomcat来运行springboot应用。如果你想使用外部tomcat来运行，需要做一些修改。</p>
+<h4 id="在pom-xml中将应用修改为war"><a href="#在pom-xml中将应用修改为war" class="headerlink" title="在pom.xml中将应用修改为war"></a>在pom.xml中将应用修改为war</h4><p>这个应该没什么疑问，默认springboot是当做一个jar来运行的。</p>
+<h4 id="应用启动类修改"><a href="#应用启动类修改" class="headerlink" title="应用启动类修改"></a>应用启动类修改</h4><p>需要继承SpringBootServletInitializer，并重写configure方法。<br>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/08/31/spring boot日志配置+mybatis输出SQL/#more" rel="contents">
+            <a class="btn" href="/2017/08/31/在外部tomcat中运行spring boot应用/#more" rel="contents">
               Read more &raquo;
             </a>
           </div>
@@ -853,6 +852,154 @@
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2017/08/31/springboot-log-config-mybatis-print-SQL/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </p></div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://tommy88.top/2017/08/31/spring boot日志配置+mybatis输出SQL/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Donny">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Donny的技术博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/08/31/spring boot日志配置+mybatis输出SQL/" itemprop="url">springboot日志配置+mybatis输出SQL</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-31T17:32:21+08:00">
+                2017-08-31
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/tech/" itemprop="url" rel="index">
+                    <span itemprop="name">技术</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>这里以logback为例。</p>
+<p>其实只需要在logback.xml中增加下面一行配置就而已了。<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">logger</span> <span class="attr">name</span>=<span class="string">"mapper所在的包名"</span> <span class="attr">level</span>=<span class="string">"DEBUG"</span>&gt;</span><span class="tag">&lt;/<span class="name">logger</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>下面贴一个完整的logback的配置：<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/08/31/spring boot日志配置+mybatis输出SQL/#more" rel="contents">
               Read more &raquo;
             </a>
           </div>
@@ -1637,155 +1784,6 @@ archetypeCatalog表示插件使用的archetype元数据，不加这个参数时�
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://tommy88.top/2017/08/31/maven-multi-modules-project/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Donny">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Donny的技术博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/08/31/maven-multi-modules-project/" itemprop="url">使用maven构建多模块工程</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-31T17:19:36+08:00">
-                2017-08-31
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/tech/" itemprop="url" rel="index">
-                    <span itemprop="name">技术</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="一、使用maven构建多模块工程"><a href="#一、使用maven构建多模块工程" class="headerlink" title="一、使用maven构建多模块工程"></a>一、使用maven构建多模块工程</h2><p>1、随便创建一个maven工程（quickstart/webapp）都可以，创建完毕后将pom.xml中type改为pom。如图：</p>
-<packaging>pom</packaging>
-
-<p>2、新建子模块，父模块为刚刚创建的maven工程。如图<br><img src="http://omh46px9n.bkt.clouddn.com/17-8-31/9924070.jpg" alt><br>我这里创建了4个模块，如图：<br><img src="http://omh46px9n.bkt.clouddn.com/17-8-31/85581956.jpg" alt><br>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/08/31/maven-multi-modules-project/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </p></div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1838,7 +1836,7 @@ archetypeCatalog表示插件使用的archetype元数据，不加这个参数时�
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">266</span>
+                  <span class="site-state-item-count">267</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
