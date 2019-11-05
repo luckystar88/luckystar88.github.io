@@ -52,6 +52,50 @@
 
 
 
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Galdeano,PingFang SC," microsoft yahei",sans-serif;:300,300italic,400,400italic,700,700italic|galdeano,pingfang sc,microsoft yahei,sans-serif;:300,300italic,400,400italic,700,700italic|galdeano,pingfang yahei,sans-serif;:300,300italic,400,400italic,700,700italic|consolas;:300,300italic,400,400italic,700,700italic&subset="latin,latin-ext"" rel="stylesheet" type="text/css">
+  
+
+
+
 
 
 
@@ -116,7 +160,7 @@
 <meta property="og:image" content="https://tommy88.top/img/idea-git-create-branch-1.png">
 <meta property="og:image" content="https://tommy88.top/img/idea-create-branch-2.png">
 <meta property="og:image" content="https://tommy88.top/img/idea-git-delete-branch.png">
-<meta property="og:updated_time" content="2019-07-03T01:22:02.872Z">
+<meta property="og:updated_time" content="2019-10-24T03:17:33.382Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="idea git操作">
 <meta name="twitter:description" content="这里以git@oschina举例说明。git的pull就相当于svn的update，push就相当于commit。">
@@ -417,6 +461,37 @@
           
 
           
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
 
           
 
@@ -450,7 +525,7 @@
 <p>2.如果代码未开发完，此时还不想提交。可以执行Git-&gt;Repository-Stash Changes（此操作会将你的本地变更保存起来）起一个名字，然后执行pull操作。<br>此时更新操作会成功，然后执行Git-&gt;Repository-Unstash Changes，选择刚刚Stash Changes起的名字，此时会提示代码有冲突。会弹出Merge窗口，执行Merge操作即可。</p>
 <p>注意：执行此操作后Merge后的文件只是在本地，需要执行Git Commit&amp;Push来提交到远程仓库。</p>
 <p>参考：<a href="https://blog.csdn.net/qq_33039699/article/details/82866785">https://blog.csdn.net/qq_33039699/article/details/82866785</a></p>
-<h2 id="Checkout某个分支-Tag-某次提交"><a href="#Checkout某个分支-Tag-某次提交" class="headerlink" title="Checkout某个分支/Tag/某次提交"></a>Checkout某个分支/Tag/某次提交</h2><p><strong>1.checkout某个分支</strong><br>一般开发中都会有Master/Develop/feature/fix等等分支，checkout某个分支很简单。<br>在idea右下角显示的是当前的分支，点击当前显示的分支，然后选择当前项目的要切换的分支，选择Checkout即可。<br><img src="/img/idea-checkout-branch.png" alt></p>
+<h2 id="Checkout某个分支-Tag-某次提交"><a href="#Checkout某个分支-Tag-某次提交" class="headerlink" title="Checkout某个分支/Tag/某次提交"></a>Checkout某个分支/Tag/某次提交</h2><p><strong>1.checkout某个分支</strong><br>一般开发中都会有Master/Develop/feature/fix等等分支，checkout某个分支很简单。<br>首先使用git-&gt;-&gt;Repository-&gt;fetch，将分支更新到本地。<br>在idea右下角显示的是当前的分支，点击当前显示的分支，然后选择当前项目的要切换的分支，选择Checkout即可。<br><img src="/img/idea-checkout-branch.png" alt></p>
 <p><strong>2.checkout某个Tag</strong><br>在idea右下角显示的是当前的分支，点击当前显示的分支，然后点“Checkout Tag or Revision”，然后输入Tag即可。<br><img src="/img/git-checkout-tag.png" alt></p>
 <p><strong>3.checkout某次提交</strong><br>a. Git-&gt;Show History，找到你想checkout的某次提交；<br>b. 右键，选择“Copy Revision Number”；<br><img src="/img/idea-git-copy-revision-number.png" alt><br>c. 点击在idea右下角的当前显示的分支，然后选择“Checkout Tag or Revision”，然后粘贴刚刚复制的Revision Number即可。</p>
 <p>注意：如果已经checkout了某个分支，比如feature，你切换到其他分支，比如develop，此时想切到feature，那么选择的是“local branch”，然后点“checkout”。<br><img src="/img/git-checkout-exist-local-branch.png" alt></p>
@@ -756,6 +831,15 @@
   </span>
   <span class="author" itemprop="copyrightHolder">Donny</span>
 
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count"></span>
   
 </div>
 

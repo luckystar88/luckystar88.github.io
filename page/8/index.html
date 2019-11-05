@@ -52,6 +52,50 @@
 
 
 
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Galdeano,PingFang SC," microsoft yahei",sans-serif;:300,300italic,400,400italic,700,700italic|galdeano,pingfang sc,microsoft yahei,sans-serif;:300,300italic,400,400italic,700,700italic|galdeano,pingfang yahei,sans-serif;:300,300italic,400,400italic,700,700italic|consolas;:300,300italic,400,400italic,700,700italic&subset="latin,latin-ext"" rel="stylesheet" type="text/css">
+  
+
+
+
 
 
 
@@ -386,6 +430,37 @@
           
 
           
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
 
           
 
@@ -534,6 +609,37 @@
           
 
           
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
 
           
 
@@ -553,7 +659,8 @@
         
           
           在dubbo加入apache后，github地址也变了。dubbo-admin需要从https://github.com/apache/incubator-dubbo-ops下载。将项目克隆到本地后，可以看到dubbo-admin模块。
-值得注意的是，最新的dubbo-admin集成了springb
+值得注意的是，最新的dubbo-admin集成了springboot，可以打包为jar运行。
+下载后的项目名称为incubator-dubbo-ops，cmd到在该模块下，执行mvn package -DskipTests=true，将dubbo-admin打成
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -683,6 +790,37 @@
           
 
           
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
 
           
 
@@ -703,7 +841,9 @@
           
           前言dubbo是一个分布式的高性能Java RPC服务治理框架。由于之前dubbo不更新没怎么用它。不过现在已经成为Apache的一员了，所以就不用担心这个问题了。
 dubbo官网：http://dubbo.apache.org，还有中文版，不错。
-模块划分：这里将接口和用到的bean放在dubbo
+模块划分：这里将接口和用到的bean放在dubbo-interface，服务提供方dubbo-provider，服务消费方dubbo-consumer。
+具体使用1.项目结构
+父pom.xml12345678910111213141516171819
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -833,6 +973,37 @@ dubbo官网：http://dubbo.apache.org，还有中文版，不错。
           
 
           
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
 
           
 
@@ -851,7 +1022,8 @@ dubbo官网：http://dubbo.apache.org，还有中文版，不错。
       
         
           
-          前言Spring Cloud Config Server的高可用涉及到3个——Git仓库、RabbitMQ（Kafka）、Config Server本身3个的高可用。因为Config Server依赖Git仓库和RabbitMQ（Kafka），所以必须保证Git仓库和RabbitMQ（Kafka）也
+          前言Spring Cloud Config Server的高可用涉及到3个——Git仓库、RabbitMQ（Kafka）、Config Server本身3个的高可用。因为Config Server依赖Git仓库和RabbitMQ（Kafka），所以必须保证Git仓库和RabbitMQ（Kafka）也是高可用的。这里只介绍Config Server本身的高可用。
+Config Server的高可用也分为2种：Config Server未注册到Eureka Server上 、Config Serve
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -981,6 +1153,37 @@ dubbo官网：http://dubbo.apache.org，还有中文版，不错。
           
 
           
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
 
           
 
@@ -1000,161 +1203,12 @@ dubbo官网：http://dubbo.apache.org，还有中文版，不错。
         
           
           前言在前面一节中，我们通过执行/refresh端点来手动刷新配置，但是如果微服务的数量太多，一个一个刷新就很麻烦也很慢。本节介绍使用Spring Cloud Bus实现批量刷新和自动刷新。
-使用Spring Cloud Bus实现配置批量刷新Spring Cloud Bus依赖rabbitmq或ka
+使用Spring Cloud Bus实现配置批量刷新Spring Cloud Bus依赖rabbitmq或kafka，这里我们使用rabbitmq。
+1.rabbitmq的安装与使用进入rabbitmq的下载页面下载安装包（这里使用windows），下载地址为：http://www.rabbitmq.com/
           ...
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/07/20/springcloud系列31——Spring Cloud Config配置属性自动刷新/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://tommy88.top/2018/07/19/springcloud系列30——Spring Cloud Config配置属性刷新之手动刷新/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Donny">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Donny的技术博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/07/19/springcloud系列30——Spring Cloud Config配置属性刷新之手动刷新/" itemprop="url">springcloud系列30——Spring Cloud Config配置属性刷新之手动刷新</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-07-19T12:16:25+08:00">
-                2018-07-19
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/tech/" itemprop="url" rel="index">
-                    <span itemprop="name">技术</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          前言在以往的应用中，如果要更改应用的配置，要让配置生效必须重启应用程序。在Spring Cloud Config中我们可以刷新配置属性而不用重启应用。
-这1节说明在Spring Cloud Config如何手动刷新配置属性。
-手动刷新配置属性1.需要引入spring boot-actuator依赖（
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/07/19/springcloud系列30——Spring Cloud Config配置属性刷新之手动刷新/#more" rel="contents">
               Read more &raquo;
             </a>
           </div>
@@ -1280,6 +1334,37 @@ dubbo官网：http://dubbo.apache.org，还有中文版，不错。
           
 
           
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
 
           
 
@@ -1298,11 +1383,194 @@ dubbo官网：http://dubbo.apache.org，还有中文版，不错。
       
         
           
-          前言在之前说到的Spring Cloud Config Client程序中都是通过spring.cloud.config.uri 指定Config Server的地址。这种方式Spring Cloud称之为“Config First Bootstrap”。除此之外，还支持一种服务发现的方式，Spri
+          前言在之前说到的Spring Cloud Config Client程序中都是通过spring.cloud.config.uri 指定Config Server的地址。这种方式Spring Cloud称之为“Config First Bootstrap”。除此之外，还支持一种服务发现的方式，Spring Cloud称之为“Discovery First Bootstrap”。本文将说明如何通过Eureka发现Config Server的服务。
+Spring Cloud Config与Eureka
           ...
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/07/19/springcloud系列29——Spring Cloud Config与Eureka配合使用/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://tommy88.top/2018/07/19/springcloud系列30——Spring Cloud Config配置属性刷新之手动刷新/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Donny">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Donny的技术博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/19/springcloud系列30——Spring Cloud Config配置属性刷新之手动刷新/" itemprop="url">springcloud系列30——Spring Cloud Config配置属性刷新之手动刷新</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-07-19T12:16:25+08:00">
+                2018-07-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/tech/" itemprop="url" rel="index">
+                    <span itemprop="name">技术</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          前言在以往的应用中，如果要更改应用的配置，要让配置生效必须重启应用程序。在Spring Cloud Config中我们可以刷新配置属性而不用重启应用。
+这1节说明在Spring Cloud Config如何手动刷新配置属性。
+手动刷新配置属性1.需要引入spring boot-actuator依赖（用到/refresh端点）
+1234&lt;dependency&gt;    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;    &
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/07/19/springcloud系列30——Spring Cloud Config配置属性刷新之手动刷新/#more" rel="contents">
               Read more &raquo;
             </a>
           </div>
@@ -1428,6 +1696,37 @@ dubbo官网：http://dubbo.apache.org，还有中文版，不错。
           
 
           
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
 
           
 
@@ -1446,7 +1745,8 @@ dubbo官网：http://dubbo.apache.org，还有中文版，不错。
       
         
           
-          Config Server端1.添加spring-boot-starter-security依赖1234&lt;dependency&gt;    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;    &lt;artifactId&gt
+          Config Server端1.添加spring-boot-starter-security依赖1234&lt;dependency&gt;    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;    &lt;artifactId&gt;spring-boot-starter-security&lt;/artifactId&gt;&lt;/dependency&gt;
+2.在配置文件配置用户名和密码1234567security: 
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1576,6 +1876,37 @@ dubbo官网：http://dubbo.apache.org，还有中文版，不错。
           
 
           
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
 
           
 
@@ -1597,7 +1928,7 @@ dubbo官网：http://dubbo.apache.org，还有中文版，不错。
           前言在上一节说了Spring Cloud Config的对称加密，也可以使用非对称加密。公钥用于加密，私钥用于解密。这一节就说说非对称加密的用法。
 使用1.生成秘钥这里以Spring Cloud官网文档给的例子来说明。
 打开CMD窗口，粘贴并执行下面的命令：
-1keytool -genkeypair
+1keytool -genkeypair -alias mytestkey -keyalg RSA -dname &quot;CN=Web Server,OU=Unit,O=Organization,L=City,S=State,C=US&
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1727,6 +2058,37 @@ dubbo官网：http://dubbo.apache.org，还有中文版，不错。
           
 
           
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
 
           
 
@@ -1745,7 +2107,8 @@ dubbo官网：http://dubbo.apache.org，还有中文版，不错。
       
         
           
-          前言在《springcloud系列25——SpringCloud配置管理》中介绍了以Git为首的作为配置仓库的示例。但是我们的配置项都是以明文的形式保存在Git仓库中。虽然我们可以创建私有的仓库，然后配置仓库的用户名和密码。但是如果账号被破解了呢？所以，本节要介绍的是如何加密你的配置项。这里首先介绍
+          前言在《springcloud系列25——SpringCloud配置管理》中介绍了以Git为首的作为配置仓库的示例。但是我们的配置项都是以明文的形式保存在Git仓库中。虽然我们可以创建私有的仓库，然后配置仓库的用户名和密码。但是如果账号被破解了呢？所以，本节要介绍的是如何加密你的配置项。这里首先介绍对称加密在Spring Cloud Config的用法。
+前提在Spring Cloud Config中使用加解密功能，需要在你的JVM中安装有一个没有加密强度限制的JCE（JDK自带的私有强度限制的
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1938,6 +2301,15 @@ dubbo官网：http://dubbo.apache.org，还有中文版，不错。
   </span>
   <span class="author" itemprop="copyrightHolder">Donny</span>
 
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count"></span>
   
 </div>
 

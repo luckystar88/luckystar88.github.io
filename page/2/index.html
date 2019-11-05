@@ -52,6 +52,50 @@
 
 
 
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Galdeano,PingFang SC," microsoft yahei",sans-serif;:300,300italic,400,400italic,700,700italic|galdeano,pingfang sc,microsoft yahei,sans-serif;:300,300italic,400,400italic,700,700italic|galdeano,pingfang yahei,sans-serif;:300,300italic,400,400italic,700,700italic|consolas;:300,300italic,400,400italic,700,700italic&subset="latin,latin-ext"" rel="stylesheet" type="text/css">
+  
+
+
+
 
 
 
@@ -386,6 +430,37 @@
           
 
           
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
 
           
 
@@ -407,7 +482,8 @@
           1.批量insert或update在mapper中使用foreach来实现
 2.同时批量insert和updatea.mysql在mapper中使用foreach结合on duplicate update来实现。
 b.Oracle在mapper中使用foreach结合merge into来实现。
-c
+c.如果使用了mybatisplus它提供了批量save或update，根据id。
+d.在代码中使用mybatis的BATCH模式123456789101112131415161718192021222
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -536,6 +612,37 @@ c
 
           
 
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
           
 
           
@@ -685,6 +792,37 @@ c
           
 
           
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
 
           
 
@@ -705,7 +843,7 @@ c
           
           当表数据量比较大的时候（1000w），要考虑分表。这里记录使用Kettle（一个ETL工具）进行分表的操作。
 1.预估数据量假定某个表的的数据量是2500万，那就需要分3个表存储。
-2.创建表这里假定表名为b_company，需要分3个表。123create table if not exists 
+2.创建表这里假定表名为b_company，需要分3个表。123create table if not exists b_company_0 like b_company;create table if not exists b_company_1 like b_company;create table if not
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -835,6 +973,37 @@ c
           
 
           
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
 
           
 
@@ -853,7 +1022,9 @@ c
       
         
           
-          控制台密码配置控制台的访问密码可以在jetty-realm.properties中进行配置，默认的配置如下：1234# Defines users that can access the web (console, demo, etc.)# username: password [,rolename
+          控制台密码配置控制台的访问密码可以在jetty-realm.properties中进行配置，默认的配置如下：1234# Defines users that can access the web (console, demo, etc.)# username: password [,rolename ...]admin: admin, adminuser: user, user
+依次为用户名: 密码, 角色。
+JMS客户端访问密码配置默认ActiveMQ并没有指定密码，JMS客户端不指定密码就可
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -983,6 +1154,37 @@ c
           
 
           
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
 
           
 
@@ -1002,7 +1204,8 @@ c
         
           
           发现MQ周期性的报Channel was inactive for too (&gt;30000) long问题。ActiveMQ有一个InactiveMonitor线程，用来检查连接是否活跃，如果不活跃则会关闭它。默认的检查周期是30s。
-具体可以参考ActiveMQ的官方文档：http://ac
+具体可以参考ActiveMQ的官方文档：http://activemq.apache.org/activemq-inactivitymonitor.html
+解决办法：1.在transport上配置wireFormat.maxInactivityDurati
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1132,6 +1335,37 @@ c
           
 
           
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
 
           
 
@@ -1150,7 +1384,7 @@ c
       
         
           
-          前言使用静态网络连接（static networkConnector）可以将多个broker连接起来，作为一个集群对外提供服务。我们假定有amq1和amq2配置了静态网络连接，那么当一个消费者连接到amq2，当生产者发送消息到amq1时，amq2将会作为amq1的一个消费者，将消息转移到amq2，然
+          前言使用静态网络连接（static networkConnector）可以将多个broker连接起来，作为一个集群对外提供服务。我们假定有amq1和amq2配置了静态网络连接，那么当一个消费者连接到amq2，当生产者发送消息到amq1时，amq2将会作为amq1的一个消费者，将消息转移到amq2，然后投递给连接到amq2的消费者；反之亦然。对于queue，由于一条消息只能被一个消费者消费，所以在上面的情形下，消息将被转移到amq2，然后投递给连接到amq2的消费者；对于topic，amq2从am
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1279,6 +1513,37 @@ c
 
           
 
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
           
 
           
@@ -1426,6 +1691,37 @@ c
           
 
           
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
 
           
 
@@ -1572,6 +1868,37 @@ c
           
 
           
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
 
           
 
@@ -1717,6 +2044,37 @@ c
 
           
 
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
           
 
           
@@ -1927,6 +2285,15 @@ c
   </span>
   <span class="author" itemprop="copyrightHolder">Donny</span>
 
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count"></span>
   
 </div>
 
