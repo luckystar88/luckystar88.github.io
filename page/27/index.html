@@ -355,7 +355,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://tommy88.top/2017/08/30/api-docs-xiaoyaoji/">
+    <link itemprop="mainEntityOfPage" href="https://tommy88.top/2017/08/30/cas-multi-system/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Donny">
@@ -374,7 +374,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/08/30/api-docs-xiaoyaoji/" itemprop="url">在线接口文档管理工具（小幺鸡）使用说明</a></h1>
+                <a class="post-title-link" href="/2017/08/30/cas-multi-system/" itemprop="url">cas多系统集成统一认证</a></h1>
         
 
         <div class="post-meta">
@@ -386,7 +386,7 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-30T14:17:44+08:00">
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-30T14:26:53+08:00">
                 2017-08-30
               </time>
             
@@ -447,32 +447,166 @@
 
       
         
-          <p>小幺鸡的地址：<a href="http://www.xiaoyaoji.cn/">http://www.xiaoyaoji.cn/</a>  </p>
-<p>几大看点：  </p>
-<ol>
-<li>在线接口测试；</li>
-<li>可视化编辑与分享；</li>
-<li>代码开源。可以离线部署。  </li>
-</ol>
-<p>下面简单介绍下怎么离线安装与使用。  </p>
-<h3 id="1-下载与安装"><a href="#1-下载与安装" class="headerlink" title="1.下载与安装"></a>1.下载与安装</h3><p>代码在：<a href="http://git.oschina.net/zhoujingjie/apiManager">http://git.oschina.net/zhoujingjie/apiManager</a>  </p>
-<ol>
-<li>从<a href="http://git.oschina.net/zhoujingjie/apiManager/releases下载最新版本。">http://git.oschina.net/zhoujingjie/apiManager/releases下载最新版本。</a></li>
-<li>解压到tomcat_home/webapps/ROOT目录下</li>
-<li>新建MYSQL数据库-编码格式utf8mb4格式，INNODB引擎。</li>
-<li>导入sql - SQL文件在doc目录下</li>
-<li>修改tomcat_home/webapps/ROOT/WEB-INF/classes/config.properties 的数据库与其他信息</li>
-<li>启动tomcat，使用chrome浏览器访问<a href="http://localhost:8080">http://localhost:8080</a>
+          <p>参考：<a href="http://blog.csdn.net/lifetragedy/article/details/43817903">http://blog.csdn.net/lifetragedy/article/details/43817903</a>  </p>
+<p>这里有2个ssoclient工程，代码一样，只是端口不一样。<br>一个端口为8080，一个为8888，cas server的端口为8899.<br>ssoclient使用的springmvc+spring.<br>拿其中一个ssoclient的代码说明。<br>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/08/30/api-docs-xiaoyaoji/#more" rel="contents">
+            <a class="btn" href="/2017/08/30/cas-multi-system/#more" rel="contents">
               Read more &raquo;
             </a>
           </div>
           <!--/noindex-->
         
       
-    </li></ol></div>
+    </p></div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://tommy88.top/2017/08/30/SpringAop-autowire-log/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Donny">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Donny的技术博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/08/30/SpringAop-autowire-log/" itemprop="url">Spring Aop+注解实现日志记录</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-30T14:23:23+08:00">
+                2017-08-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/tech/" itemprop="url" rel="index">
+                    <span itemprop="name">技术</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>系统业务操作日志记录是每个系统必不可少的一部分，但通常的做法是在每个需要记录日志的地方，调用添加日志的Service方法，这样做主要是显的麻烦。<br>我们可以使用Spring AOP结合注解来实现这一功能。</p>
+<p>1、首先定义一个注解类，如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Target</span>(value = ElementType.METHOD)</span><br><span class="line"><span class="meta">@Retention</span>(RetentionPolicy.RUNTIME)</span><br><span class="line"><span class="meta">@Documented</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> SysLog &#123;</span><br><span class="line">    <span class="function">String <span class="title">module</span><span class="params">()</span> <span class="keyword">default</span> ""</span>;</span><br><span class="line">    <span class="function">String <span class="title">desc</span><span class="params">()</span> <span class="keyword">default</span> ""</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>注解类有2个属性，module是操作的模块，desc为具体记录的日志信息。<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/08/30/SpringAop-autowire-log/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </p></div>
     
     
     
@@ -627,6 +761,167 @@
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2017/08/30/在线接口文档管理工具（小幺鸡）使用说明/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </li></ol></div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://tommy88.top/2017/08/30/api-docs-xiaoyaoji/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Donny">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Donny的技术博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/08/30/api-docs-xiaoyaoji/" itemprop="url">在线接口文档管理工具（小幺鸡）使用说明</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-30T14:17:44+08:00">
+                2017-08-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/tech/" itemprop="url" rel="index">
+                    <span itemprop="name">技术</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>小幺鸡的地址：<a href="http://www.xiaoyaoji.cn/">http://www.xiaoyaoji.cn/</a>  </p>
+<p>几大看点：  </p>
+<ol>
+<li>在线接口测试；</li>
+<li>可视化编辑与分享；</li>
+<li>代码开源。可以离线部署。  </li>
+</ol>
+<p>下面简单介绍下怎么离线安装与使用。  </p>
+<h3 id="1-下载与安装"><a href="#1-下载与安装" class="headerlink" title="1.下载与安装"></a>1.下载与安装</h3><p>代码在：<a href="http://git.oschina.net/zhoujingjie/apiManager">http://git.oschina.net/zhoujingjie/apiManager</a>  </p>
+<ol>
+<li>从<a href="http://git.oschina.net/zhoujingjie/apiManager/releases下载最新版本。">http://git.oschina.net/zhoujingjie/apiManager/releases下载最新版本。</a></li>
+<li>解压到tomcat_home/webapps/ROOT目录下</li>
+<li>新建MYSQL数据库-编码格式utf8mb4格式，INNODB引擎。</li>
+<li>导入sql - SQL文件在doc目录下</li>
+<li>修改tomcat_home/webapps/ROOT/WEB-INF/classes/config.properties 的数据库与其他信息</li>
+<li>启动tomcat，使用chrome浏览器访问<a href="http://localhost:8080">http://localhost:8080</a>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/08/30/api-docs-xiaoyaoji/#more" rel="contents">
               Read more &raquo;
             </a>
           </div>
@@ -973,153 +1268,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://tommy88.top/2017/08/30/baiduyun-speedup/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Donny">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Donny的技术博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/08/30/baiduyun-speedup/" itemprop="url">百度云盘下载提速</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-30T13:35:25+08:00">
-                2017-08-30
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/life/" itemprop="url" rel="index">
-                    <span itemprop="name">人文</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>正常情况下，在百度云盘下载文件速度只有几百KB，这是因为百度对下载速度做了限制。<br>如何突破百度的速度限制呢？</p>
-<p>这里使用一款名为Internet Download Manager的软件来实现。<br>百度搜索下载，安装（如果你安装了chrome浏览器，会自动给你安装插件）。<br>安装后打开IDM，会提示你在chrome浏览器的扩展程序里面把IDM的文件访问权限和隐藏模式运行打开。<br>然后重启浏览器，进入pan.baidu.com，下载一个比较大的文件，这是IDM会自动检测到要下载的文件链接，然后点开始下载就可以了。<br>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/08/30/baiduyun-speedup/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </p></div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://tommy88.top/2017/08/30/Ajax-session/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1217,6 +1365,153 @@
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2017/08/30/Ajax-session/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </p></div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://tommy88.top/2017/08/30/baiduyun-speedup/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Donny">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Donny的技术博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/08/30/baiduyun-speedup/" itemprop="url">百度云盘下载提速</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-30T13:35:25+08:00">
+                2017-08-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/life/" itemprop="url" rel="index">
+                    <span itemprop="name">人文</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>正常情况下，在百度云盘下载文件速度只有几百KB，这是因为百度对下载速度做了限制。<br>如何突破百度的速度限制呢？</p>
+<p>这里使用一款名为Internet Download Manager的软件来实现。<br>百度搜索下载，安装（如果你安装了chrome浏览器，会自动给你安装插件）。<br>安装后打开IDM，会提示你在chrome浏览器的扩展程序里面把IDM的文件访问权限和隐藏模式运行打开。<br>然后重启浏览器，进入pan.baidu.com，下载一个比较大的文件，这是IDM会自动检测到要下载的文件链接，然后点开始下载就可以了。<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/08/30/baiduyun-speedup/#more" rel="contents">
               Read more &raquo;
             </a>
           </div>
@@ -1454,7 +1749,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">267</span>
+                  <span class="site-state-item-count">269</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>

@@ -355,6 +355,301 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://tommy88.top/2017/11/17/netty-DelimiterBasedFrameDecoder-use/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Donny">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Donny的技术博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/11/17/netty-DelimiterBasedFrameDecoder-use/" itemprop="url">DelimiterBasedFrameDecoder解决TCP粘包拆包问题</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-11-17T16:49:31+08:00">
+                2017-11-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/tech/" itemprop="url" rel="index">
+                    <span itemprop="name">技术</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>通过对DelimiterBasedFrameDecoder的使用，我们可以自动完成分隔符为结束标识的消息的解码。</p>
+<p>下面的例子中，将$_作为分隔符。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/11/17/netty-DelimiterBasedFrameDecoder-use/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://tommy88.top/2017/11/17/netty-tcp/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Donny">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Donny的技术博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/11/17/netty-tcp/" itemprop="url">使用Netty解决TCP粘包-拆包问题</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-11-17T14:52:38+08:00">
+                2017-11-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/tech/" itemprop="url" rel="index">
+                    <span itemprop="name">技术</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="TCP粘包和拆包"><a href="#TCP粘包和拆包" class="headerlink" title="TCP粘包和拆包"></a>TCP粘包和拆包</h2><p>TCP底层并不知道上层业务数据的具体含义，它会根据缓冲区的实际情况进行包的拆分，所以在业务上认为，一个完整的包可能会被TCP拆分成多个包进行发送，也有可能将多个小的数据包封装成一个大的数据包发送，这就是所谓的TCP粘包/拆包问题。</p>
+<h2 id="TCP粘包-拆包的原因"><a href="#TCP粘包-拆包的原因" class="headerlink" title="TCP粘包/拆包的原因"></a>TCP粘包/拆包的原因</h2><p>1.应用程序写入的字节大小大于套接字发送缓冲区大小；<br>2.进行MSS大小的TCP分段；<br>3.以太网帧的payload大于MTU进行IP分片。</p>
+<h2 id="解决策略"><a href="#解决策略" class="headerlink" title="解决策略"></a>解决策略</h2><p>由于底层的TCP协议无法理解上层业务数据，所以在底层是无法保证数据包不被拆分和重组的。只能通过上层的业务协议栈设计来解决，根据业务的主流 协议的解决方案，归纳为如下：<br>（1）消息定长，例如每个报文的大小定位200字节，如果不够，空位补空格；<br>（2）包结尾增加回车换行符进行分割，例如FTP协议；<br>（3）将消息分为消息头和消息体，消息头中包含标识消息的总长度（或者消息体长度）的字段，通常涉及思路是消息头的第一个字段使用int32来表示消息的总长度；<br>（4）更复杂的应用层协议。<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/11/17/netty-tcp/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </p></div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://tommy88.top/2017/11/17/Netty-timeserver/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1525,302 +1820,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://tommy88.top/2017/11/10/springboot集成activeMQ/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Donny">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Donny的技术博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/11/10/springboot集成activeMQ/" itemprop="url">springboot集成ActiveMQ</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-11-10T15:09:20+08:00">
-                2017-11-10
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/tech/" itemprop="url" rel="index">
-                    <span itemprop="name">技术</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="1-添加依赖："><a href="#1-添加依赖：" class="headerlink" title="1.添加依赖："></a>1.添加依赖：</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- activemq --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-activemq<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.activemq<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>activemq-pool<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<h2 id="2-在application-properties中加入activemq的配置"><a href="#2-在application-properties中加入activemq的配置" class="headerlink" title="2.在application.properties中加入activemq的配置"></a>2.在application.properties中加入activemq的配置</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">spring.activemq.broker-url=tcp://192.168.74.135:61616</span><br><span class="line">spring.activemq.user=admin</span><br><span class="line">spring.activemq.password=admin</span><br><span class="line">spring.activemq.pool.enabled=true</span><br><span class="line">spring.activemq.pool.max-connections=50</span><br><span class="line">spring.activemq.pool.expiry-timeout=10000</span><br><span class="line">spring.activemq.pool.idle-timeout=30000</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/11/10/springboot集成activeMQ/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://tommy88.top/2017/11/10/java-timertask/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Donny">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Donny的技术博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/11/10/java-timertask/" itemprop="url">使用TimerTask的坑</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-11-10T14:59:04+08:00">
-                2017-11-10
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/tech/" itemprop="url" rel="index">
-                    <span itemprop="name">技术</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>使用TimerTask可以方便的实现定时任务的功能，但是如果使用不当，反而会带来隐患。</p>
-<p>在使用TimerTask时，TimerTask中的代码必须要做异常处理，否则产生异常的时候，就挂掉了。<br>特别像使用MQ发送数据的时候，不会显式的要求你捕获异常，如果你忘记了，那么在某个时刻MQ异常的时候（比如网络异常），在发送数据到MQ失败的时候，TimerTask就挂掉了。</p>
-<p>比如如下代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">ApplicationContext ac = <span class="keyword">new</span> ClassPathXmlApplicationContext(<span class="string">"applicationContext_*.xml"</span>);</span><br><span class="line"><span class="keyword">final</span> JmsSender jmsSender = ac.getBean(JmsSender.class);</span><br><span class="line">Timer timer = <span class="keyword">new</span> Timer();</span><br><span class="line"><span class="comment">// 1.TimerTask中不处理异常</span></span><br><span class="line">timer.schedule(<span class="keyword">new</span> TimerTask() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"开始发送数据"</span>);</span><br><span class="line">        jmsSender.sendTopicMsg(<span class="string">"test.topic"</span>,<span class="string">"hello,world"</span>);</span><br><span class="line">        System.out.println(<span class="string">"数据发送成功"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;,<span class="number">10000</span>,<span class="number">5000</span>);</span><br></pre></td></tr></table></figure></p>
-<p>这段代码没有做异常处理，我们看下执行结果：<br>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/11/10/java-timertask/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </p></div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1873,7 +1872,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">267</span>
+                  <span class="site-state-item-count">269</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>

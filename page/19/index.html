@@ -355,6 +355,300 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://tommy88.top/2017/12/10/log4j-create-dynamic-log-files/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Donny">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Donny的技术博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/12/10/log4j-create-dynamic-log-files/" itemprop="url">log4j动态创建日志文件</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-12-10T10:28:00+08:00">
+                2017-12-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/tech/" itemprop="url" rel="index">
+                    <span itemprop="name">技术</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>比如现在系统会给多个公司发送数据，现希望给每个公司的数据有单独的日志文件记录。由于公司名字是动态的没法在log4j配置文件中写死，这时就只能通过动态创建了。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Created by Administrator on 2017/12/10.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">Log4jUtil</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">static</span> ConcurrentHashMap&lt;String,Logger&gt; loggerMap = <span class="keyword">new</span> ConcurrentHashMap&lt;String, Logger&gt;();</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Logger <span class="title">getLogger</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        Logger logger = loggerMap.get(name);</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">null</span> != logger) &#123;</span><br><span class="line">            <span class="keyword">return</span> logger;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> createNewLogger(name);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> Logger <span class="title">createNewLogger</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        Logger logger = Logger.getLogger(name);</span><br><span class="line">        logger.removeAllAppenders();</span><br><span class="line">        logger.setLevel(Level.DEBUG);</span><br><span class="line">        logger.setAdditivity(<span class="keyword">false</span>);</span><br><span class="line">        RollingFileAppender appender = <span class="keyword">new</span> RollingFileAppender();</span><br><span class="line">        PatternLayout layout = <span class="keyword">new</span> PatternLayout();</span><br><span class="line">        String conversionPatten = <span class="string">"[%d] %p %t %c - %m%n"</span>;</span><br><span class="line">        layout.setConversionPattern(conversionPatten);</span><br><span class="line">        appender.setLayout(layout);</span><br><span class="line">        String basePath = <span class="string">"/usr/logs/rb/"</span>;</span><br><span class="line">        appender.setFile(basePath + name + <span class="string">".log"</span>);</span><br><span class="line">        appender.setEncoding(<span class="string">"utf-8"</span>);</span><br><span class="line">        appender.setMaxBackupIndex(<span class="number">10</span>);</span><br><span class="line">        appender.setMaxFileSize(<span class="string">"50MB"</span>);</span><br><span class="line">        appender.setAppend(<span class="keyword">true</span>);</span><br><span class="line">        appender.activateOptions();</span><br><span class="line">        logger.addAppender(appender);</span><br><span class="line">        loggerMap.put(name,logger);</span><br><span class="line">        <span class="keyword">return</span> logger;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/12/10/log4j-create-dynamic-log-files/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://tommy88.top/2017/12/03/jQuery-plot/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Donny">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Donny的技术博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/12/03/jQuery-plot/" itemprop="url">jQuery图表插件之plot</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-12-03T12:14:09+08:00">
+                2017-12-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/tech/" itemprop="url" rel="index">
+                    <span itemprop="name">技术</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>使用参考：<a href="https://www.cnblogs.com/lwme/archive/2012/08/18/jquery-flot-plugin.html">https://www.cnblogs.com/lwme/archive/2012/08/18/jquery-flot-plugin.html</a></p>
+<p>下面是一个显示内存和存储空间使用率的折线统计图<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- statistics chart built with jQuery Flot --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"row chart"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"col-md-12"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">h4</span> <span class="attr">class</span>=<span class="string">"clearfix"</span>&gt;</span></span><br><span class="line">        	MQ内存和空间使用</span><br><span class="line">            <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"btn-group pull-right"</span>&gt;</span></span><br><span class="line">            	<span class="comment">&lt;!--&lt;button class="glow left"&gt;日&lt;/button&gt;</span></span><br><span class="line"><span class="comment">            	&lt;button class="glow middle active"&gt;月&lt;/button&gt;</span></span><br><span class="line"><span class="comment">            	&lt;button class="glow right"&gt;年&lt;/button&gt;--&gt;</span></span><br><span class="line">            	<span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">"chartOpts"</span> <span class="attr">class</span>=<span class="string">"form-control"</span>&gt;</span></span><br><span class="line">            		<span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">""</span>&gt;</span>请选择<span class="tag">&lt;/<span class="name">option</span>&gt;</span></span><br><span class="line">            		<span class="tag">&lt;<span class="name">option</span> <span class="attr">th:each</span>=<span class="string">"t:$&#123;mqConfigs&#125;"</span> <span class="attr">th:value</span>=<span class="string">"$&#123;t.serverIp&#125;"</span> <span class="attr">th:text</span>=<span class="string">"$&#123;t.serverIp&#125;"</span>&gt;</span><span class="tag">&lt;/<span class="name">option</span>&gt;</span></span><br><span class="line">            	<span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">h4</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"col-md-12"</span>&gt;</span></span><br><span class="line">    	<span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"statsChart"</span> <span class="attr">style</span>=<span class="string">"height: 500px;"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- end statistics chart --&gt;</span></span><br></pre></td></tr></table></figure></p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/12/03/jQuery-plot/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://tommy88.top/2017/12/02/httpclient-baisc-auth/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1521,301 +1815,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://tommy88.top/2017/11/17/netty-DelimiterBasedFrameDecoder-use/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Donny">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Donny的技术博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/11/17/netty-DelimiterBasedFrameDecoder-use/" itemprop="url">DelimiterBasedFrameDecoder解决TCP粘包拆包问题</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-11-17T16:49:31+08:00">
-                2017-11-17
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/tech/" itemprop="url" rel="index">
-                    <span itemprop="name">技术</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>通过对DelimiterBasedFrameDecoder的使用，我们可以自动完成分隔符为结束标识的消息的解码。</p>
-<p>下面的例子中，将$_作为分隔符。</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/11/17/netty-DelimiterBasedFrameDecoder-use/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://tommy88.top/2017/11/17/netty-tcp/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Donny">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Donny的技术博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/11/17/netty-tcp/" itemprop="url">使用Netty解决TCP粘包-拆包问题</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-11-17T14:52:38+08:00">
-                2017-11-17
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/tech/" itemprop="url" rel="index">
-                    <span itemprop="name">技术</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="TCP粘包和拆包"><a href="#TCP粘包和拆包" class="headerlink" title="TCP粘包和拆包"></a>TCP粘包和拆包</h2><p>TCP底层并不知道上层业务数据的具体含义，它会根据缓冲区的实际情况进行包的拆分，所以在业务上认为，一个完整的包可能会被TCP拆分成多个包进行发送，也有可能将多个小的数据包封装成一个大的数据包发送，这就是所谓的TCP粘包/拆包问题。</p>
-<h2 id="TCP粘包-拆包的原因"><a href="#TCP粘包-拆包的原因" class="headerlink" title="TCP粘包/拆包的原因"></a>TCP粘包/拆包的原因</h2><p>1.应用程序写入的字节大小大于套接字发送缓冲区大小；<br>2.进行MSS大小的TCP分段；<br>3.以太网帧的payload大于MTU进行IP分片。</p>
-<h2 id="解决策略"><a href="#解决策略" class="headerlink" title="解决策略"></a>解决策略</h2><p>由于底层的TCP协议无法理解上层业务数据，所以在底层是无法保证数据包不被拆分和重组的。只能通过上层的业务协议栈设计来解决，根据业务的主流 协议的解决方案，归纳为如下：<br>（1）消息定长，例如每个报文的大小定位200字节，如果不够，空位补空格；<br>（2）包结尾增加回车换行符进行分割，例如FTP协议；<br>（3）将消息分为消息头和消息体，消息头中包含标识消息的总长度（或者消息体长度）的字段，通常涉及思路是消息头的第一个字段使用int32来表示消息的总长度；<br>（4）更复杂的应用层协议。<br>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/11/17/netty-tcp/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </p></div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1868,7 +1867,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">267</span>
+                  <span class="site-state-item-count">269</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>

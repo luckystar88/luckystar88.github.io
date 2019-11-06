@@ -355,6 +355,320 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://tommy88.top/2018/02/01/springcloud-series-3-Eureka-introduction-and-principle/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Donny">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Donny的技术博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/02/01/springcloud-series-3-Eureka-introduction-and-principle/" itemprop="url">springcloud系列3——Eureka简介和原理</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-02-01T12:08:47+08:00">
+                2018-02-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/tech/" itemprop="url" rel="index">
+                    <span itemprop="name">技术</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="Eureka简介及原理"><a href="#Eureka简介及原理" class="headerlink" title="Eureka简介及原理"></a>Eureka简介及原理</h2><p>Eureka是Netflix开发的服务发现组件，本身是一个基于REST的服务。Spring Cloud将它集成在其子项目spring-cloud-netflix中，以实现Spring Cloud的服务发现功能。目前Eureka 项目相当活跃，代码更新相当频繁，目前最新的版本是1.5.5。Eureka 2.0也在紧锣密鼓地开发中，2.0将会带来更强的功能和更好的扩展性，但是由于还没有Release，故而不作讨论。</p>
+<p>本文讲解的Spring Cloud Camden SR1所使用的Eureka版本是1.4.11，还是比较新的。同时有了Eureka 1.x的基础，未来上手Eureka 2.x也会比较容易。</p>
+<p>Eureka的Github：<a href="https://github.com/Netflix/Eureka">https://github.com/Netflix/Eureka</a></p>
+<h2 id="Region、Zone解析"><a href="#Region、Zone解析" class="headerlink" title="Region、Zone解析"></a>Region、Zone解析</h2><p>Eureka的官方文档对regin、zone几乎没有提及，由于概念抽象，新手很难理解。因此，在分析Eureka原理之前，我们先来了解一下region、zone、Eureka集群三者的关系，如图4-2。<br><img src="http://www.itmuch.com/images/4.4-2.png" alt><br>图4-2 region、zone、Eureka集群之间的关系</p>
+<p>region和zone（或者Availability Zone）均是AWS的概念。在非AWS环境下，我们可以简单地将region理解为Eureka集群，zone理解成机房。这样图4-2就很好理解了——一个Eureka集群被部署在了zone1机房和zone2机房中。</p>
+<p>对region和zone感兴趣的读者可前往<a href="http://blog.csdn.net/awschina/article/details/17639191">http://blog.csdn.net/awschina/article/details/17639191</a> 扩展阅读。Spring Cloud中默认的region是us-east-1 。<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/02/01/springcloud-series-3-Eureka-introduction-and-principle/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </p></div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://tommy88.top/2018/02/01/springcloud-series-2-SpringCloud-introduction/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Donny">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Donny的技术博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/02/01/springcloud-series-2-SpringCloud-introduction/" itemprop="url">springcloud系列2——SpringCloud简介</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-02-01T11:08:47+08:00">
+                2018-02-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/tech/" itemprop="url" rel="index">
+                    <span itemprop="name">技术</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="Spring-Cloud简介"><a href="#Spring-Cloud简介" class="headerlink" title="Spring Cloud简介"></a>Spring Cloud简介</h2><p>Spring Cloud是一系列框架的有序集合。利用Spring Boot的开发模式简化了分布式系统基础设施的开发，如服务发现、注册、配置中心、消息总线、负载均衡、断路器、数据监控等（这里只简单的列了一部分），都可以用Spring Boot的开发风格做到一键启动和部署。Spring Cloud将目前比较成熟、经得起实际考验的服务框架组合起来，通过Spring Boot风格进行再封装，屏蔽掉了复杂的配置和实现原理，最终整合出一套简单易懂、易部署和易维护的分布式系统架构平台。</p>
+<h2 id="Spring-Cloud组成"><a href="#Spring-Cloud组成" class="headerlink" title="Spring Cloud组成"></a>Spring Cloud组成</h2><p>Spring Cloud的子项目，大致可分成两类：</p>
+<p>一类是对现有成熟框架Spring Boot的封装和抽象，也是数量最多的项目；</p>
+<p>第二类是开发了一部分分布式系统的基础设施的实现，如Spring Cloud Stream就是kafka, ActiveMQ这样的角色。开发人员进行微服务的实践，第一类子项目就已经足够使用，如：</p>
+<ul>
+<li><p>Spring Cloud Netflix<br>　　是对Netflix开发的一套分布式服务框架的封装，包括服务的发现和注册，负载均衡、断路器、REST客户端、请求路由等。</p>
+</li>
+<li><p>Spring Cloud Config<br>　　将配置信息中央化保存, 配置Spring Cloud Bus可以实现动态修改配置文件。</p>
+</li>
+<li><p>Spring Cloud Bus<br>　　分布式消息队列，是对Kafka, MQ的封装。</p>
+</li>
+<li><p>Spring Cloud Security<br>　　对Spring Security的封装，并能配合Netflix使用。</p>
+</li>
+<li><p>Spring Cloud Zookeeper<br>　　对Zookeeper的封装，使之能配置其它Spring Cloud的子项目使用。</p>
+</li>
+<li><p>Spring Cloud Eureka<br>  Spring Cloud Eureka 是 Spring Cloud Netflix 微服务套件中的一部分，它基于Netflix Eureka 做了二次分装，主要负责完成微服务架构中的服务治理功能。</p>
+</li>
+</ul>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/02/01/springcloud-series-2-SpringCloud-introduction/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://tommy88.top/2018/02/01/springcloud-series-1-use-Springboot-to-support-outer-services/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1526,305 +1840,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://tommy88.top/2018/01/11/tess4j_demo/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Donny">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Donny的技术博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/01/11/tess4j_demo/" itemprop="url">tess4j验证码识别</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-11T18:15:42+08:00">
-                2018-01-11
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/tech/" itemprop="url" rel="index">
-                    <span itemprop="name">技术</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          tess4j验证码识别
-tess4j的安装和使用参考：https://www.cnblogs.com/cmyxn/p/6993422.html
-tess4j提高识别率1.对称近邻均值滤波参考：http://blog.csdn.net/fangbinwei93/article/details/50562449
-2.指定config为digits，并修改tessdata\configs\digits文件，将白名单中设置需要识别的内容。如只需要识别数字，则指定whitelist为0123456789即
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/01/11/tess4j_demo/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://tommy88.top/2018/01/10/Python_blog/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Donny">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Donny的技术博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/01/10/Python_blog/" itemprop="url">Python博客搭建</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-10T18:40:25+08:00">
-                2018-01-10
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/tech/" itemprop="url" rel="index">
-                    <span itemprop="name">技术</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>python搭建博客问题汇总</p>
-<h1 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h1><p>python版本：2.7<br>web框架：Flask<br>orm框架：flask_sqlalchemy<br>前端框架：Bootstrap</p>
-<h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><h2 id="问题1：如何限制访问受保护的资源（需登录）"><a href="#问题1：如何限制访问受保护的资源（需登录）" class="headerlink" title="问题1：如何限制访问受保护的资源（需登录）"></a>问题1：如何限制访问受保护的资源（需登录）</h2><p>flask中拦截用户登录修饰符decorator的使用<br><a href="https://segmentfault.com/a/1190000006658289">https://segmentfault.com/a/1190000006658289</a><br><a href="http://blog.csdn.net/kongxx/article/details/51654751">http://blog.csdn.net/kongxx/article/details/51654751</a><br><a href="http://blog.csdn.net/kuangshp128/article/details/65629533">http://blog.csdn.net/kuangshp128/article/details/65629533</a><br>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/01/10/Python_blog/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </p></div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1877,7 +1892,7 @@ tess4j提高识别率1.对称近邻均值滤波参考：http://blog.csdn.net/fan
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">267</span>
+                  <span class="site-state-item-count">269</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
