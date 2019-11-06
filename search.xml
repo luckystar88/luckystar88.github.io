@@ -45,17 +45,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[Typora图片设置]]></title>
-    <url>%2F2019%2F07%2F25%2FTypora%E5%9B%BE%E7%89%87%E8%AE%BE%E7%BD%AE%2F</url>
-    <content type="text"><![CDATA[用Typora写markdown很方便，所见即所得。而且图片也可以直接粘贴即可，但默认是觉得路径，导致发布到hexo无法显示。 这里可以通过2个设置解决这个问题，保证在Typora中可以显示图片，同时发布到hexo后也可以正常显示。 1.文件-&gt;偏好设置-&gt;图片插入，复制到指定路径（这里的路径就是hexo的source下新建一个文件夹存储图片），这里是img。这样当你粘贴图片到Typora的时候会自动复制到你指定的目录，而且Typora中显示的路径也是这里指定的路径，注意勾选“优先使用相对路径”，这样显示的就是相对路径了，即/img/xxx.png类似这种。 2.编辑-&gt;图片工具-&gt;设置图片跟目录（这里设置到hexo的source这一层）]]></content>
-      <categories>
-        <category>技术</category>
-      </categories>
-      <tags>
-        <tag>Typrora</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[springboot使用logback记录日志到kafka]]></title>
     <url>%2F2019%2F07%2F25%2Fspringboot%E4%BD%BF%E7%94%A8Logback%E8%AE%B0%E5%BD%95%E6%97%A5%E5%BF%97%E5%88%B0kafka%2F</url>
     <content type="text"><![CDATA[引言本文是ELK整合的一部分。流程为：应用程序日志–&gt;kafka–&gt;logstash–&gt;es–&gt;kibana。 这里使用springboot+logback将日志写入到kafka。 使用logback记录日志到kafka由于springboot自带有logback的依赖，所以我们准备一个logback-spring.xml的配置文件即可，application.yml也无需任何配置。 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;configuration scan="true" scanPeriod="60 seconds" debug="false"&gt; &lt;contextName&gt;springboot-demo&lt;/contextName&gt; &lt;!-- 定义日志文件的存储地址,勿在 LogBack 的配置中使用相对路径 --&gt; &lt;property name="LOG_PATH" value="d:/logs/" /&gt; &lt;!--输出到控制台--&gt; &lt;appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender"&gt; &lt;encoder&gt; &lt;pattern&gt;%d&#123;HH:mm:ss&#125; [%thread] %-5level %logger&#123;36&#125; - %msg%n&lt;/pattern&gt; &lt;/encoder&gt; &lt;/appender&gt; &lt;!-- 滚动日志 --&gt; &lt;appender name="ROLLING_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender"&gt; &lt;rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy"&gt; &lt;!--日志文件输出的文件名 --&gt; &lt;FileNamePattern&gt;$&#123;LOG_PATH&#125;/springboot-demo.%d.%i.log &lt;/FileNamePattern&gt; &lt;MaxHistory&gt;100&lt;/MaxHistory&gt; &lt;TimeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP"&gt; &lt;MaxFileSize&gt;50MB&lt;/MaxFileSize&gt; &lt;/TimeBasedFileNamingAndTriggeringPolicy&gt; &lt;/rollingPolicy&gt; &lt;encoder&gt; &lt;pattern&gt;%d&#123;yyyy-MM-dd HH:mm:ss.SSS&#125; [%thread] %-5level %logger&#123;50&#125;-%msg%n&lt;/pattern&gt; &lt;/encoder&gt; &lt;/appender&gt; &lt;!-- This is the kafkaAppender --&gt; &lt;appender name="kafkaAppender" class="com.github.danielwegener.logback.kafka.KafkaAppender"&gt; &lt;encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder"&gt; &lt;pattern&gt;%d&#123;HH:mm:ss.SSS&#125; [%thread] %-5level %logger&#123;36&#125; - %msg%n&lt;/pattern&gt; &lt;/encoder&gt; &lt;topic&gt;app-log&lt;/topic&gt; &lt;!-- we don't care how the log messages will be partitioned --&gt; &lt;keyingStrategy class="com.github.danielwegener.logback.kafka.keying.NoKeyKeyingStrategy" /&gt; &lt;!-- use async delivery. the application threads are not blocked by logging --&gt; &lt;deliveryStrategy class="com.github.danielwegener.logback.kafka.delivery.AsynchronousDeliveryStrategy" /&gt; &lt;!-- each &lt;producerConfig&gt; translates to regular kafka-client config (format: key=value) --&gt; &lt;!-- producer configs are documented here: https://kafka.apache.org/documentation.html#newproducerconfigs --&gt; &lt;!-- bootstrap.servers is the only mandatory producerConfig --&gt; &lt;producerConfig&gt;bootstrap.servers=192.168.193.100:9092&lt;/producerConfig&gt; &lt;!-- don't wait for a broker to ack the reception of a batch. --&gt; &lt;producerConfig&gt;acks=0&lt;/producerConfig&gt; &lt;!-- wait up to 1000ms and collect log messages before sending them as a batch --&gt; &lt;producerConfig&gt;linger.ms=1000&lt;/producerConfig&gt; &lt;!-- even if the producer buffer runs full, do not block the application but start to drop messages --&gt; &lt;producerConfig&gt;max.block.ms=0&lt;/producerConfig&gt; &lt;!-- define a client-id that you use to identify yourself against the kafka broker --&gt; &lt;producerConfig&gt;client.id=$&#123;HOSTNAME&#125;-$&#123;CONTEXT_NAME&#125;-logback-relaxed&lt;/producerConfig&gt; &lt;/appender&gt; &lt;!-- 日志输出级别 ERROR,WARN,INFO,DEBUG --&gt; &lt;root level="INFO"&gt; &lt;appender-ref ref="STDOUT" /&gt; &lt;appender-ref ref="ROLLING_FILE" /&gt; &lt;appender-ref ref="kafkaAppender" /&gt; &lt;/root&gt;&lt;/configuration&gt; 这里主要关注kafkaAppender这一部分，这里使用了logback-kafka-appender这个依赖。 maven依赖： 1234567891011&lt;!-- https://mvnrepository.com/artifact/org.springframework.kafka/spring-kafka --&gt;&lt;dependency&gt; &lt;groupId&gt;org.springframework.kafka&lt;/groupId&gt; &lt;artifactId&gt;spring-kafka&lt;/artifactId&gt;&lt;/dependency&gt;&lt;!--logback-kafka-appender依赖--&gt;&lt;dependency&gt; &lt;groupId&gt;com.github.danielwegener&lt;/groupId&gt; &lt;artifactId&gt;logback-kafka-appender&lt;/artifactId&gt; &lt;version&gt;0.2.0-RC2&lt;/version&gt;&lt;/dependency&gt; kafka的配置（application.properties)： 1234567891011121314151617181920212223242526#============== kafka ===================# 指定kafka 代理地址，可以多个spring.kafka.bootstrap-servers=192.168.193.100:9092#=============== provider =======================spring.kafka.producer.retries=0# 每次批量发送消息的数量spring.kafka.producer.batch-size=16384spring.kafka.producer.buffer-memory=33554432# 指定消息key和消息体的编解码方式spring.kafka.producer.key-serializer=org.apache.kafka.common.serialization.StringSerializerspring.kafka.producer.value-serializer=org.apache.kafka.common.serialization.StringSerializer#=============== consumer =======================# 指定默认消费者group idspring.kafka.consumer.group-id=test-consumer-groupspring.kafka.consumer.auto-offset-reset=earliestspring.kafka.consumer.enable-auto-commit=truespring.kafka.consumer.auto-commit-interval=100# 指定消息key和消息体的编解码方式spring.kafka.consumer.key-deserializer=org.apache.kafka.common.serialization.StringDeserializerspring.kafka.consumer.value-deserializer=org.apache.kafka.common.serialization.StringDeserializer 记录10条日志，看是否发送到了kafka 123456789101112131415161718192021/** * 通过logback appender来讲日志发送到kafka */private static void sendKafkaLogByLogbackAppender() &#123; Gson gson = new GsonBuilder().create(); IntStream.rangeClosed(1,10).forEach(i-&gt;&#123; Message message = new Message(); message.setId(System.currentTimeMillis()); String name = Math.random() &lt; 0.5 ? "zhangsan "+i:"李四 "+i; User user = User.builder().id(i).name(name).birthday(new Date()).build(); message.setMsg(user); message.setSendTime(new Date()); String msg = gson.toJson(message); log.info(msg); try &#123; Thread.sleep(1000); &#125; catch (InterruptedException e) &#123; e.printStackTrace(); &#125; &#125;);&#125; 由于我们使用了kibana，所以直接在kibana查看即可（注意在logstash配置从kafka接受数据）。]]></content>
@@ -64,6 +53,17 @@
       </categories>
       <tags>
         <tag>kafka</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Typora图片设置]]></title>
+    <url>%2F2019%2F07%2F25%2FTypora%E5%9B%BE%E7%89%87%E8%AE%BE%E7%BD%AE%2F</url>
+    <content type="text"><![CDATA[用Typora写markdown很方便，所见即所得。而且图片也可以直接粘贴即可，但默认是觉得路径，导致发布到hexo无法显示。 这里可以通过2个设置解决这个问题，保证在Typora中可以显示图片，同时发布到hexo后也可以正常显示。 1.文件-&gt;偏好设置-&gt;图片插入，复制到指定路径（这里的路径就是hexo的source下新建一个文件夹存储图片），这里是img。这样当你粘贴图片到Typora的时候会自动复制到你指定的目录，而且Typora中显示的路径也是这里指定的路径，注意勾选“优先使用相对路径”，这样显示的就是相对路径了，即/img/xxx.png类似这种。 2.编辑-&gt;图片工具-&gt;设置图片跟目录（这里设置到hexo的source这一层）]]></content>
+      <categories>
+        <category>技术</category>
+      </categories>
+      <tags>
+        <tag>Typrora</tag>
       </tags>
   </entry>
   <entry>
@@ -1474,9 +1474,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[VMware虚拟机安装]]></title>
-    <url>%2F2018%2F03%2F15%2Fvmware-install%2F</url>
-    <content type="text"><![CDATA[准备VMWare14和CentOS系统镜像文件。 安装VMWare一路next直到完成，可能花费时间较长。 安装虚拟机1.选择“文件”-&gt;”新建虚拟机“-&gt;“典型”-&gt;“稍后安装操作系统”-&gt;”Linux“-&gt;”CentOS 6 64位“（这里根据你准备的CentOS版本选择）-&gt;虚拟机的名字（随便填）-&gt;最大磁盘大小（就默认20G即可）-&gt;”完成“。 2,选择左侧的虚拟机，右键“设置”，设置内存为2G，CD/DVD选择你的镜像文件，最后点完成。 3.点击左侧的虚拟机，然后在右边点“开启此虚拟机”进行系统安装。在出现的操作选择的页面中，选择第一个Install or update…（用方向键选择），然后用TAB确定，最后按Enter。第一步Media Check,这个根据需要安装，我们这里就不管了，直接忽略。后面基本一路next，最后设置密码，然后安装完毕后，要重启才能生效。 为虚拟机分配静态IP参考：http://blog.csdn.net/xiaoyangsavvy/article/details/73718473 使用远程工具连接虚拟机参考：http://blog.csdn.net/xiaoyangsavvy/article/details/73718473 问题：xshell无法连接虚拟机昨天安装虚拟机后，可以使用xshell连接虚拟机，今天就不能访问了。在主机中ping虚拟机的IP提示“TTL 传输中过期”，如图： 百度了一通没用，但可以 参考一下：解决ping域名时出现“TTL传输中过期”的问题 最后增加了一个端口转发成功。将主机的2222映射到虚拟机的22端口。参考：远程连接win7上VMWare安装的linux虚拟机、windows下使用远程工具登录虚拟机上的Linux、访问虚拟机上的服务 、端口转发、win7 telnet登陆虚拟机 ===========================================解决：启动虚拟机前，确保网络适配器是NAT，如图： 确保下面的參数例如以下设置12ONBOOT=yesNM_CONTROLLED=yes 增加了下面的设置：123DNS1=192.168.84.2IPV6INIT=noARPCHECK=no 参考：https://www.cnblogs.com/gavanwanggw/p/6960996.html]]></content>
+    <title><![CDATA[nginx安装与配置]]></title>
+    <url>%2F2018%2F03%2F15%2Fnginx-install-and-configuration%2F</url>
+    <content type="text"><![CDATA[windows上安装Linux虚拟机参考：VMware虚拟机安装 nginx安装参考：http://www.runoob.com/linux/nginx-install-setup.html 启动nginx在上面我们将nginx安装在/usr/local/nginx。通过下面的命令启动：1./sbin/nginx 启动后，在主机浏览器输入虚拟机的IP测试，如图：说明测试Ok了。 nginx负载均衡、多域名配置参考：nginx反向代理配置 nginx缓存静态文件参考：https://linux.cn/article-7726-1.html nginx session共享参考：https://cloud.tencent.com/developer/article/1041678 隐藏nginx版本号参考：https://www.cnblogs.com/toughlife/p/5475180.html]]></content>
       <categories>
         <category>技术</category>
       </categories>
@@ -1496,9 +1496,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[nginx安装与配置]]></title>
-    <url>%2F2018%2F03%2F15%2Fnginx-install-and-configuration%2F</url>
-    <content type="text"><![CDATA[windows上安装Linux虚拟机参考：VMware虚拟机安装 nginx安装参考：http://www.runoob.com/linux/nginx-install-setup.html 启动nginx在上面我们将nginx安装在/usr/local/nginx。通过下面的命令启动：1./sbin/nginx 启动后，在主机浏览器输入虚拟机的IP测试，如图：说明测试Ok了。 nginx负载均衡、多域名配置参考：nginx反向代理配置 nginx缓存静态文件参考：https://linux.cn/article-7726-1.html nginx session共享参考：https://cloud.tencent.com/developer/article/1041678 隐藏nginx版本号参考：https://www.cnblogs.com/toughlife/p/5475180.html]]></content>
+    <title><![CDATA[VMware虚拟机安装]]></title>
+    <url>%2F2018%2F03%2F15%2Fvmware-install%2F</url>
+    <content type="text"><![CDATA[准备VMWare14和CentOS系统镜像文件。 安装VMWare一路next直到完成，可能花费时间较长。 安装虚拟机1.选择“文件”-&gt;”新建虚拟机“-&gt;“典型”-&gt;“稍后安装操作系统”-&gt;”Linux“-&gt;”CentOS 6 64位“（这里根据你准备的CentOS版本选择）-&gt;虚拟机的名字（随便填）-&gt;最大磁盘大小（就默认20G即可）-&gt;”完成“。 2,选择左侧的虚拟机，右键“设置”，设置内存为2G，CD/DVD选择你的镜像文件，最后点完成。 3.点击左侧的虚拟机，然后在右边点“开启此虚拟机”进行系统安装。在出现的操作选择的页面中，选择第一个Install or update…（用方向键选择），然后用TAB确定，最后按Enter。第一步Media Check,这个根据需要安装，我们这里就不管了，直接忽略。后面基本一路next，最后设置密码，然后安装完毕后，要重启才能生效。 为虚拟机分配静态IP参考：http://blog.csdn.net/xiaoyangsavvy/article/details/73718473 使用远程工具连接虚拟机参考：http://blog.csdn.net/xiaoyangsavvy/article/details/73718473 问题：xshell无法连接虚拟机昨天安装虚拟机后，可以使用xshell连接虚拟机，今天就不能访问了。在主机中ping虚拟机的IP提示“TTL 传输中过期”，如图： 百度了一通没用，但可以 参考一下：解决ping域名时出现“TTL传输中过期”的问题 最后增加了一个端口转发成功。将主机的2222映射到虚拟机的22端口。参考：远程连接win7上VMWare安装的linux虚拟机、windows下使用远程工具登录虚拟机上的Linux、访问虚拟机上的服务 、端口转发、win7 telnet登陆虚拟机 ===========================================解决：启动虚拟机前，确保网络适配器是NAT，如图： 确保下面的參数例如以下设置12ONBOOT=yesNM_CONTROLLED=yes 增加了下面的设置：123DNS1=192.168.84.2IPV6INIT=noARPCHECK=no 参考：https://www.cnblogs.com/gavanwanggw/p/6960996.html]]></content>
       <categories>
         <category>技术</category>
       </categories>
