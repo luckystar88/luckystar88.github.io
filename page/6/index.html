@@ -192,6 +192,16 @@
 </script>
 
 
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?cd5c94069361da06af29cd21555dc451";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
 
 
 
@@ -1253,152 +1263,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://tommy88.top/2018/09/25/Memcached缓存介绍/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Donny">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Donny的技术博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/09/25/Memcached缓存介绍/" itemprop="url">Memcached缓存介绍</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-09-25T10:01:07+08:00">
-                2018-09-25
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/tech/" itemprop="url" rel="index">
-                    <span itemprop="name">技术</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="Memcached简介"><a href="#Memcached简介" class="headerlink" title="Memcached简介"></a>Memcached简介</h2><p>Memcached是一个高性能的服务器内存缓存软件。在早期版本的Memcached使用的是alloc来分配内存，存在内存碎片，在新版本的Memcached采用了Slab Allocator来分配内存。在MC启动时会要求制定一块内存区域，然后会划分为多个Slab，每个Slab默认大小为1M，可以指定。每个Slab又包含多个truck，每个Slab的truck大小不同，但同一个Slab的truck大小是一样的。在存入数据到MC时，MC会查找最合适的truck来存储数据。比如数据是100字节，现在有truck大小分别为64byte,128byte,144byte，那么会找到128byte的truck存储。不过仍然存在空间的浪费，比如这个例子中就浪费了28byte。所以保证合适大小的空间很重要，我们可以在MC启动时指定负载因子<code>-f</code>参数来指定，默认是1.25.通常情况下这都是一个比较合理的值，无需修改。另外避免空间浪费的一个处理方法是，将数据大小差不多的放入到相同的MC中。比如一个MC的truck大小为1M，另外一个为1K。那么将数据量在1M左右的都放入到1M的那个MC。<br>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/09/25/Memcached缓存介绍/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </p></div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://tommy88.top/2018/09/25/springboot国际化/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1496,6 +1360,152 @@
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/09/25/springboot国际化/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </p></div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://tommy88.top/2018/09/25/Memcached缓存介绍/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Donny">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Donny的技术博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/09/25/Memcached缓存介绍/" itemprop="url">Memcached缓存介绍</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-09-25T10:01:07+08:00">
+                2018-09-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/tech/" itemprop="url" rel="index">
+                    <span itemprop="name">技术</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="Memcached简介"><a href="#Memcached简介" class="headerlink" title="Memcached简介"></a>Memcached简介</h2><p>Memcached是一个高性能的服务器内存缓存软件。在早期版本的Memcached使用的是alloc来分配内存，存在内存碎片，在新版本的Memcached采用了Slab Allocator来分配内存。在MC启动时会要求制定一块内存区域，然后会划分为多个Slab，每个Slab默认大小为1M，可以指定。每个Slab又包含多个truck，每个Slab的truck大小不同，但同一个Slab的truck大小是一样的。在存入数据到MC时，MC会查找最合适的truck来存储数据。比如数据是100字节，现在有truck大小分别为64byte,128byte,144byte，那么会找到128byte的truck存储。不过仍然存在空间的浪费，比如这个例子中就浪费了28byte。所以保证合适大小的空间很重要，我们可以在MC启动时指定负载因子<code>-f</code>参数来指定，默认是1.25.通常情况下这都是一个比较合理的值，无需修改。另外避免空间浪费的一个处理方法是，将数据大小差不多的放入到相同的MC中。比如一个MC的truck大小为1M，另外一个为1K。那么将数据量在1M左右的都放入到1M的那个MC。<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/09/25/Memcached缓存介绍/#more" rel="contents">
               Read more &raquo;
             </a>
           </div>
