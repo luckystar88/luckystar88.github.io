@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[局域网访问VMware]]></title>
+    <url>%2F2019%2F11%2F15%2F%E5%B1%80%E5%9F%9F%E7%BD%91%E8%AE%BF%E9%97%AEVMware%2F</url>
+    <content type="text"><![CDATA[## 1.将虚拟机网络配置为NAT 2.增加端口映射 打开“虚拟网络编辑器” 点“NAT设置” 然后添加端口转发即可。 注意在Linux系统开通相应端口的访问权限。]]></content>
+      <categories>
+        <category>技术</category>
+      </categories>
+      <tags>
+        <tag>centos</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[使用Alibaba Cloud Toolkit一键发布本地应用到任意环境]]></title>
     <url>%2F2019%2F11%2F07%2F%E4%BD%BF%E7%94%A8Alibaba%20Cloud%20Toolkit%E4%B8%80%E9%94%AE%E5%8F%91%E5%B8%83%E5%BA%94%E7%94%A8%E5%88%B0%E4%BB%BB%E6%84%8F%E7%8E%AF%E5%A2%83%2F</url>
     <content type="text"><![CDATA[引言 Alibaba Cloud Toolkit （Eclipse 插件，后文简称 Cloud Toolkit）是阿里云针对 IDE 平台为开发者提供的一款插件，用于帮助开发者高效开发并部署适合在云端运行的应用。 您在本地完成应用程序的开发、调试和测试后，可以使用在 IDE （如 Eclipse 或 IntelliJ）中安装的 Cloud Toolkit 插件，通过图形配置的方式连接到云端部署环境并将应用程序快如部署到云端。 使用可以参考：https://help.aliyun.com/product/29966.html?spm=a2c4g.11186623.6.540.4bff4909CBLmFo 环境要求 在 IntelliJ IDEA 中安装和配置 Cloud Toolkit 在 IntelliJ IDEA 中，您可以在 JetBrains 插件市场搜索 Alibaba Cloud Toolkit 并安装。 安装后重启idea，然后 在Settings中可以看到该插件。 可以在设置中设置SSH信息 将Springboot应用发布到本地虚拟机项目右键，选择Alibaba Cloud-&gt;Deploy to Host 然后配置目标机器，要发布到的目录，以及发布完毕后执行的命令。 最后点Run按钮即可。 然后使用Alibaba Cloud View提供的Terminal登录目标机器，查看发布情况。 使用提供的terminal查看应用日志，如果有异常堆栈也可以直接跳转到项目的代码，非常方便。 注意：如果是maven多模块项目，只想发布其中一个模块，在maven注意选择到子模块。 另外，其实执行maven的package命令即可，没必要clean install。 在部署应用后在自带的Terminal打开日志]]></content>
@@ -1452,17 +1463,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[windows查看某个端口被谁占用]]></title>
-    <url>%2F2018%2F03%2F22%2Fwindows-find-who-bind-a-port%2F</url>
-    <content type="text"><![CDATA[参考：https://jingyan.baidu.com/article/3c48dd34491d47e10be358b8.html]]></content>
-      <categories>
-        <category>技术</category>
-      </categories>
-      <tags>
-        <tag>工具</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[一位10年Java工作经验的架构师聊Java和工作经验]]></title>
     <url>%2F2018%2F03%2F22%2Fan-architect-with-10years-experience-talk-about-java-and-experience%2F</url>
     <content type="text"><![CDATA[参考：http://blog.csdn.net/lifuxiangcaohui/article/details/48342315]]></content>
@@ -1471,6 +1471,17 @@
       </categories>
       <tags>
         <tag>架构设计</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[windows查看某个端口被谁占用]]></title>
+    <url>%2F2018%2F03%2F22%2Fwindows-find-who-bind-a-port%2F</url>
+    <content type="text"><![CDATA[参考：https://jingyan.baidu.com/article/3c48dd34491d47e10be358b8.html]]></content>
+      <categories>
+        <category>技术</category>
+      </categories>
+      <tags>
+        <tag>工具</tag>
       </tags>
   </entry>
   <entry>
@@ -1507,9 +1518,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[chrome浏览器必装插件]]></title>
-    <url>%2F2018%2F03%2F15%2Fchrome-browser-plugins%2F</url>
-    <content type="text"><![CDATA[crxMouse鼠标手势插件。 可以实现浏览器的后退、前进、向上滚动、向下滚动、关闭标签页、重新打开关闭的标签页、到底部、到顶部、刷新页面、强制刷新、到左侧标签页、到右侧标签页、新建窗口、关闭窗口、进入扩展设置页。 IDM Integration Module浏览器默认下载工具或迅雷的替代工具。IDM使用多线程下载，可以提升你的下载速度最多5倍。并且可以监视网页视频和音频。 下载IDM的绿色版，在“选项”中将chrome浏览器加入到监视，chrome浏览器打开提示集成IDM，集成后即可替换浏览器的默认下载。后续用浏览器下载文件时会自动使用IDM下载。 Proxy SwitchySharp浏览器代理切换插件 Tampermonkey油猴，是一款免费的浏览器扩展和最为流行的用户脚本管理器。我们可以用它做很多事情，比如百度云下载大文件会要求启动百度云客户端，使用百度云直接下载助手脚本即可直接下载。 参考：http://tampermonkey.net/油猴脚本：https://greasyfork.org/zh-CN 有道词典Chrome划词插件不多说，提供了划词翻译、句子翻译功能。 谷歌访问助手访问谷歌、Gmail、youtobe的插件。不是很稳定，如果有条件，自己搭建vpn。 Advanced REST clienthttp请求测试插件。 插件安装方法如果没法通过Google的在线商店安装，可以先从http://chromecj.com/下载，然后进入扩展页，将下载的*.crx拖拽进去安装即可。]]></content>
+    <title><![CDATA[VMware虚拟机安装]]></title>
+    <url>%2F2018%2F03%2F15%2Fvmware-install%2F</url>
+    <content type="text"><![CDATA[准备VMWare14和CentOS系统镜像文件。 安装VMWare一路next直到完成，可能花费时间较长。 安装虚拟机1.选择“文件”-&gt;”新建虚拟机“-&gt;“典型”-&gt;“稍后安装操作系统”-&gt;”Linux“-&gt;”CentOS 6 64位“（这里根据你准备的CentOS版本选择）-&gt;虚拟机的名字（随便填）-&gt;最大磁盘大小（就默认20G即可）-&gt;”完成“。 2,选择左侧的虚拟机，右键“设置”，设置内存为2G，CD/DVD选择你的镜像文件，最后点完成。 3.点击左侧的虚拟机，然后在右边点“开启此虚拟机”进行系统安装。在出现的操作选择的页面中，选择第一个Install or update…（用方向键选择），然后用TAB确定，最后按Enter。第一步Media Check,这个根据需要安装，我们这里就不管了，直接忽略。后面基本一路next，最后设置密码，然后安装完毕后，要重启才能生效。 为虚拟机分配静态IP参考：http://blog.csdn.net/xiaoyangsavvy/article/details/73718473 使用远程工具连接虚拟机参考：http://blog.csdn.net/xiaoyangsavvy/article/details/73718473 问题：xshell无法连接虚拟机昨天安装虚拟机后，可以使用xshell连接虚拟机，今天就不能访问了。在主机中ping虚拟机的IP提示“TTL 传输中过期”，如图： 百度了一通没用，但可以 参考一下：解决ping域名时出现“TTL传输中过期”的问题 最后增加了一个端口转发成功。将主机的2222映射到虚拟机的22端口。参考：远程连接win7上VMWare安装的linux虚拟机、windows下使用远程工具登录虚拟机上的Linux、访问虚拟机上的服务 、端口转发、win7 telnet登陆虚拟机 ===========================================解决：启动虚拟机前，确保网络适配器是NAT，如图： 确保下面的參数例如以下设置12ONBOOT=yesNM_CONTROLLED=yes 增加了下面的设置：123DNS1=192.168.84.2IPV6INIT=noARPCHECK=no 参考：https://www.cnblogs.com/gavanwanggw/p/6960996.html]]></content>
       <categories>
         <category>技术</category>
       </categories>
@@ -1518,9 +1529,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[VMware虚拟机安装]]></title>
-    <url>%2F2018%2F03%2F15%2Fvmware-install%2F</url>
-    <content type="text"><![CDATA[准备VMWare14和CentOS系统镜像文件。 安装VMWare一路next直到完成，可能花费时间较长。 安装虚拟机1.选择“文件”-&gt;”新建虚拟机“-&gt;“典型”-&gt;“稍后安装操作系统”-&gt;”Linux“-&gt;”CentOS 6 64位“（这里根据你准备的CentOS版本选择）-&gt;虚拟机的名字（随便填）-&gt;最大磁盘大小（就默认20G即可）-&gt;”完成“。 2,选择左侧的虚拟机，右键“设置”，设置内存为2G，CD/DVD选择你的镜像文件，最后点完成。 3.点击左侧的虚拟机，然后在右边点“开启此虚拟机”进行系统安装。在出现的操作选择的页面中，选择第一个Install or update…（用方向键选择），然后用TAB确定，最后按Enter。第一步Media Check,这个根据需要安装，我们这里就不管了，直接忽略。后面基本一路next，最后设置密码，然后安装完毕后，要重启才能生效。 为虚拟机分配静态IP参考：http://blog.csdn.net/xiaoyangsavvy/article/details/73718473 使用远程工具连接虚拟机参考：http://blog.csdn.net/xiaoyangsavvy/article/details/73718473 问题：xshell无法连接虚拟机昨天安装虚拟机后，可以使用xshell连接虚拟机，今天就不能访问了。在主机中ping虚拟机的IP提示“TTL 传输中过期”，如图： 百度了一通没用，但可以 参考一下：解决ping域名时出现“TTL传输中过期”的问题 最后增加了一个端口转发成功。将主机的2222映射到虚拟机的22端口。参考：远程连接win7上VMWare安装的linux虚拟机、windows下使用远程工具登录虚拟机上的Linux、访问虚拟机上的服务 、端口转发、win7 telnet登陆虚拟机 ===========================================解决：启动虚拟机前，确保网络适配器是NAT，如图： 确保下面的參数例如以下设置12ONBOOT=yesNM_CONTROLLED=yes 增加了下面的设置：123DNS1=192.168.84.2IPV6INIT=noARPCHECK=no 参考：https://www.cnblogs.com/gavanwanggw/p/6960996.html]]></content>
+    <title><![CDATA[chrome浏览器必装插件]]></title>
+    <url>%2F2018%2F03%2F15%2Fchrome-browser-plugins%2F</url>
+    <content type="text"><![CDATA[crxMouse鼠标手势插件。 可以实现浏览器的后退、前进、向上滚动、向下滚动、关闭标签页、重新打开关闭的标签页、到底部、到顶部、刷新页面、强制刷新、到左侧标签页、到右侧标签页、新建窗口、关闭窗口、进入扩展设置页。 IDM Integration Module浏览器默认下载工具或迅雷的替代工具。IDM使用多线程下载，可以提升你的下载速度最多5倍。并且可以监视网页视频和音频。 下载IDM的绿色版，在“选项”中将chrome浏览器加入到监视，chrome浏览器打开提示集成IDM，集成后即可替换浏览器的默认下载。后续用浏览器下载文件时会自动使用IDM下载。 Proxy SwitchySharp浏览器代理切换插件 Tampermonkey油猴，是一款免费的浏览器扩展和最为流行的用户脚本管理器。我们可以用它做很多事情，比如百度云下载大文件会要求启动百度云客户端，使用百度云直接下载助手脚本即可直接下载。 参考：http://tampermonkey.net/油猴脚本：https://greasyfork.org/zh-CN 有道词典Chrome划词插件不多说，提供了划词翻译、句子翻译功能。 谷歌访问助手访问谷歌、Gmail、youtobe的插件。不是很稳定，如果有条件，自己搭建vpn。 Advanced REST clienthttp请求测试插件。 插件安装方法如果没法通过Google的在线商店安装，可以先从http://chromecj.com/下载，然后进入扩展页，将下载的*.crx拖拽进去安装即可。]]></content>
       <categories>
         <category>技术</category>
       </categories>
@@ -2214,7 +2225,7 @@
   </entry>
   <entry>
     <title><![CDATA[springboot集成ActiveMQ]]></title>
-    <url>%2F2017%2F11%2F10%2Fspringboot%E9%9B%86%E6%88%90activeMQ%2F</url>
+    <url>%2F2017%2F11%2F10%2Fspringboot-ActiveMQ%2F</url>
     <content type="text"><![CDATA[1.添加依赖：123456789&lt;!-- activemq --&gt;&lt;dependency&gt; &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt; &lt;artifactId&gt;spring-boot-starter-activemq&lt;/artifactId&gt;&lt;/dependency&gt;&lt;dependency&gt; &lt;groupId&gt;org.apache.activemq&lt;/groupId&gt; &lt;artifactId&gt;activemq-pool&lt;/artifactId&gt;&lt;/dependency&gt; 2.在application.properties中加入activemq的配置1234567spring.activemq.broker-url=tcp://192.168.74.135:61616spring.activemq.user=adminspring.activemq.password=adminspring.activemq.pool.enabled=truespring.activemq.pool.max-connections=50spring.activemq.pool.expiry-timeout=10000spring.activemq.pool.idle-timeout=30000 3.创建一个消息生产者12345678@Componentpublic class JMSProducer &#123; @Autowired private JmsTemplate jmsTemplate; public void sendMessage(Destination destination,String message) &#123; this.jmsTemplate.convertAndSend(destination,message); &#125;&#125; 4.创建一个消息消费者12345678@Componentpublic class JMSConsumer &#123; private final static Logger logger = LoggerFactory.getLogger(JMSConsumer.class); @JmsListener(destination = "springboot.queue.test") public void receiveQueue(String msg) &#123; logger.info("接收到消息：&#123;&#125;",msg); &#125;&#125; 5.测试类1234567891011public class JmsTest extends BaseTest&#123; @Autowired private JMSProducer jmsProducer; @Test public void testJms() &#123; Destination destination = new ActiveMQQueue("springboot.queue.test"); for (int i=0;i&lt;10;i++) &#123; jmsProducer.sendMessage(destination,"hello,world!" + i); &#125; &#125;&#125; BaseTest代码如下：1234@RunWith(SpringRunner.class)@SpringBootTest(classes = com.sample.activity.web.Application.class)public abstract class BaseTest &#123;&#125; 6.发送和接收TOPIC消息默认只能发送和接收queue消息，如果要发送和接收topic消息，需要在application.properties文件中加入：1spring.jms.pub-sub-domain=true 发送和接收的代码同queue一样。但是这样有另外一个问题：无法发送和接收queue消息。那么如何同时支持发送和接收queue/topic消息呢？ 7.支持同时发送和接收queue/topici. 新建一个JMS的配置类：12345678910111213141516171819202122232425262728@Configurationpublic class JmsConfig &#123; public final static String TOPIC = "springboot.topic.test"; public final static String QUEUE = "springboot.queue.test"; @Bean public Queue queue() &#123; return new ActiveMQQueue(QUEUE); &#125; @Bean public Topic topic() &#123; return new ActiveMQTopic(TOPIC); &#125; // topic模式的ListenerContainer @Bean public JmsListenerContainerFactory&lt;?&gt; jmsListenerContainerTopic(ConnectionFactory activeMQConnectionFactory) &#123; DefaultJmsListenerContainerFactory bean = new DefaultJmsListenerContainerFactory(); bean.setPubSubDomain(true); bean.setConnectionFactory(activeMQConnectionFactory); return bean; &#125; // queue模式的ListenerContainer @Bean public JmsListenerContainerFactory&lt;?&gt; jmsListenerContainerQueue(ConnectionFactory activeMQConnectionFactory) &#123; DefaultJmsListenerContainerFactory bean = new DefaultJmsListenerContainerFactory(); bean.setConnectionFactory(activeMQConnectionFactory); return bean; &#125;&#125; ii. 消息消费者的代码改成如下：123456789101112@Componentpublic class JMSConsumer &#123; private final static Logger logger = LoggerFactory.getLogger(JMSConsumer.class); @JmsListener(destination = JmsConfig.TOPIC,containerFactory = "jmsListenerContainerTopic") public void onTopicMessage(String msg) &#123; logger.info("接收到topic消息：&#123;&#125;",msg); &#125; @JmsListener(destination = JmsConfig.QUEUE,containerFactory = "jmsListenerContainerQueue") public void onQueueMessage(String msg) &#123; logger.info("接收到queue消息：&#123;&#125;",msg); &#125;&#125; 可以看到，这里指定了ConnectionFactory。 iii. 测试类：123456789101112131415public class JmsTest extends BaseTest&#123; @Autowired private JMSProducer jmsProducer; @Autowired private Topic topic; @Autowired private Queue queue; @Test public void testJms() &#123; for (int i=0;i&lt;10;i++) &#123; jmsProducer.sendMessage(queue,"queue,world!" + i); jmsProducer.sendMessage(topic, "topic,world!" + i); &#125; &#125;&#125; springboot中activemq的一些配置属性参考：springboot activemq配置属性]]></content>
       <categories>
         <category>技术</category>
@@ -2226,7 +2237,7 @@
   </entry>
   <entry>
     <title><![CDATA[springboot集成ActiveMQ]]></title>
-    <url>%2F2017%2F11%2F10%2Fspringboot-ActiveMQ%2F</url>
+    <url>%2F2017%2F11%2F10%2Fspringboot%E9%9B%86%E6%88%90activeMQ%2F</url>
     <content type="text"><![CDATA[1.添加依赖：123456789&lt;!-- activemq --&gt;&lt;dependency&gt; &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt; &lt;artifactId&gt;spring-boot-starter-activemq&lt;/artifactId&gt;&lt;/dependency&gt;&lt;dependency&gt; &lt;groupId&gt;org.apache.activemq&lt;/groupId&gt; &lt;artifactId&gt;activemq-pool&lt;/artifactId&gt;&lt;/dependency&gt; 2.在application.properties中加入activemq的配置1234567spring.activemq.broker-url=tcp://192.168.74.135:61616spring.activemq.user=adminspring.activemq.password=adminspring.activemq.pool.enabled=truespring.activemq.pool.max-connections=50spring.activemq.pool.expiry-timeout=10000spring.activemq.pool.idle-timeout=30000 3.创建一个消息生产者12345678@Componentpublic class JMSProducer &#123; @Autowired private JmsTemplate jmsTemplate; public void sendMessage(Destination destination,String message) &#123; this.jmsTemplate.convertAndSend(destination,message); &#125;&#125; 4.创建一个消息消费者12345678@Componentpublic class JMSConsumer &#123; private final static Logger logger = LoggerFactory.getLogger(JMSConsumer.class); @JmsListener(destination = "springboot.queue.test") public void receiveQueue(String msg) &#123; logger.info("接收到消息：&#123;&#125;",msg); &#125;&#125; 5.测试类1234567891011public class JmsTest extends BaseTest&#123; @Autowired private JMSProducer jmsProducer; @Test public void testJms() &#123; Destination destination = new ActiveMQQueue("springboot.queue.test"); for (int i=0;i&lt;10;i++) &#123; jmsProducer.sendMessage(destination,"hello,world!" + i); &#125; &#125;&#125; BaseTest代码如下：1234@RunWith(SpringRunner.class)@SpringBootTest(classes = com.sample.activity.web.Application.class)public abstract class BaseTest &#123;&#125; 6.发送和接收TOPIC消息默认只能发送和接收queue消息，如果要发送和接收topic消息，需要在application.properties文件中加入：1spring.jms.pub-sub-domain=true 发送和接收的代码同queue一样。但是这样有另外一个问题：无法发送和接收queue消息。那么如何同时支持发送和接收queue/topic消息呢？ 7.支持同时发送和接收queue/topici. 新建一个JMS的配置类：12345678910111213141516171819202122232425262728@Configurationpublic class JmsConfig &#123; public final static String TOPIC = "springboot.topic.test"; public final static String QUEUE = "springboot.queue.test"; @Bean public Queue queue() &#123; return new ActiveMQQueue(QUEUE); &#125; @Bean public Topic topic() &#123; return new ActiveMQTopic(TOPIC); &#125; // topic模式的ListenerContainer @Bean public JmsListenerContainerFactory&lt;?&gt; jmsListenerContainerTopic(ConnectionFactory activeMQConnectionFactory) &#123; DefaultJmsListenerContainerFactory bean = new DefaultJmsListenerContainerFactory(); bean.setPubSubDomain(true); bean.setConnectionFactory(activeMQConnectionFactory); return bean; &#125; // queue模式的ListenerContainer @Bean public JmsListenerContainerFactory&lt;?&gt; jmsListenerContainerQueue(ConnectionFactory activeMQConnectionFactory) &#123; DefaultJmsListenerContainerFactory bean = new DefaultJmsListenerContainerFactory(); bean.setConnectionFactory(activeMQConnectionFactory); return bean; &#125;&#125; ii. 消息消费者的代码改成如下：123456789101112@Componentpublic class JMSConsumer &#123; private final static Logger logger = LoggerFactory.getLogger(JMSConsumer.class); @JmsListener(destination = JmsConfig.TOPIC,containerFactory = "jmsListenerContainerTopic") public void onTopicMessage(String msg) &#123; logger.info("接收到topic消息：&#123;&#125;",msg); &#125; @JmsListener(destination = JmsConfig.QUEUE,containerFactory = "jmsListenerContainerQueue") public void onQueueMessage(String msg) &#123; logger.info("接收到queue消息：&#123;&#125;",msg); &#125;&#125; 可以看到，这里指定了ConnectionFactory。 iii. 测试类：123456789101112131415public class JmsTest extends BaseTest&#123; @Autowired private JMSProducer jmsProducer; @Autowired private Topic topic; @Autowired private Queue queue; @Test public void testJms() &#123; for (int i=0;i&lt;10;i++) &#123; jmsProducer.sendMessage(queue,"queue,world!" + i); jmsProducer.sendMessage(topic, "topic,world!" + i); &#125; &#125;&#125; springboot中activemq的一些配置属性参考：springboot activemq配置属性]]></content>
       <categories>
         <category>技术</category>
@@ -2479,7 +2490,7 @@
   </entry>
   <entry>
     <title><![CDATA[在外部tomcat中运行spring boot应用]]></title>
-    <url>%2F2017%2F08%2F31%2F%E5%9C%A8%E5%A4%96%E9%83%A8tomcat%E4%B8%AD%E8%BF%90%E8%A1%8Cspring%20boot%E5%BA%94%E7%94%A8%2F</url>
+    <url>%2F2017%2F08%2F31%2Foutter-tomcat-springboot%2F</url>
     <content type="text"><![CDATA[默认，Springboot使用内嵌的tomcat来运行springboot应用。如果你想使用外部tomcat来运行，需要做一些修改。 在pom.xml中将应用修改为war这个应该没什么疑问，默认springboot是当做一个jar来运行的。 应用启动类修改需要继承SpringBootServletInitializer，并重写configure方法。123456789101112131415161718192021@SpringBootApplication@MapperScan("com.ybf.activity.web.mapper")public class Application extends SpringBootServletInitializer &#123; private final static Logger logger = LoggerFactory.getLogger(Application.class); @Bean public ServletRegistrationBean statViewServlet () &#123; ServletRegistrationBean reg = new ServletRegistrationBean(); reg.setServlet (new StatViewServlet()); reg.addUrlMappings ("/druid/*"); return reg; &#125; @Override protected SpringApplicationBuilder configure( SpringApplicationBuilder application) &#123; return application.sources(Application.class); &#125; public static void main(String[] args) &#123; SpringApplication.run(Application.class,args); logger.info("Application [activity-web] started!"); &#125;&#125; 添加spring-boot-starter-tomcat依赖。12345&lt;dependency&gt; &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt; &lt;artifactId&gt;spring-boot-starter-tomcat&lt;/artifactId&gt; &lt;scope&gt;provided&lt;/scope&gt;&lt;/dependency&gt; 在项目的根目录执行mvn clean package -DskipTests=true这样会自动处理模块间的依赖关系，并且会将该项目的每个模板都进行打包。 打包完毕后，将WAR丢到tomcat就可以跑了。 问题记录1.系统环境变量的JDK版本要和你的项目保持一致。 我就是因为不一致找了很久的原因。我的项目是JDK1.8，系统环境变量是JDK1.7，丢到tomcat日志只有logback初始化的打印，再没有其他信息，后面就提示已经启动。但访问controller之类的都是404. 2.我的工程使用了mybatis，要打印SQL。在mybatis-config.xml中配置的logImpl位log4j。1&lt;setting name="logImpl" value="LOG4J"/&gt; 但我的依赖中没有引入log4j，导致报错。Caused by: java.lang.NoClassDefFoundError: org/apache/log4j/Priority.我的日志输出组件是logback，mybatis是不支持的，所以配置的STDOUT_LOGGING就OK了。但用idea集成的tomcat跑没问题。]]></content>
       <categories>
         <category>技术</category>
@@ -2491,7 +2502,7 @@
   </entry>
   <entry>
     <title><![CDATA[在外部tomcat中运行spring boot应用]]></title>
-    <url>%2F2017%2F08%2F31%2Foutter-tomcat-springboot%2F</url>
+    <url>%2F2017%2F08%2F31%2F%E5%9C%A8%E5%A4%96%E9%83%A8tomcat%E4%B8%AD%E8%BF%90%E8%A1%8Cspring%20boot%E5%BA%94%E7%94%A8%2F</url>
     <content type="text"><![CDATA[默认，Springboot使用内嵌的tomcat来运行springboot应用。如果你想使用外部tomcat来运行，需要做一些修改。 在pom.xml中将应用修改为war这个应该没什么疑问，默认springboot是当做一个jar来运行的。 应用启动类修改需要继承SpringBootServletInitializer，并重写configure方法。123456789101112131415161718192021@SpringBootApplication@MapperScan("com.ybf.activity.web.mapper")public class Application extends SpringBootServletInitializer &#123; private final static Logger logger = LoggerFactory.getLogger(Application.class); @Bean public ServletRegistrationBean statViewServlet () &#123; ServletRegistrationBean reg = new ServletRegistrationBean(); reg.setServlet (new StatViewServlet()); reg.addUrlMappings ("/druid/*"); return reg; &#125; @Override protected SpringApplicationBuilder configure( SpringApplicationBuilder application) &#123; return application.sources(Application.class); &#125; public static void main(String[] args) &#123; SpringApplication.run(Application.class,args); logger.info("Application [activity-web] started!"); &#125;&#125; 添加spring-boot-starter-tomcat依赖。12345&lt;dependency&gt; &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt; &lt;artifactId&gt;spring-boot-starter-tomcat&lt;/artifactId&gt; &lt;scope&gt;provided&lt;/scope&gt;&lt;/dependency&gt; 在项目的根目录执行mvn clean package -DskipTests=true这样会自动处理模块间的依赖关系，并且会将该项目的每个模板都进行打包。 打包完毕后，将WAR丢到tomcat就可以跑了。 问题记录1.系统环境变量的JDK版本要和你的项目保持一致。 我就是因为不一致找了很久的原因。我的项目是JDK1.8，系统环境变量是JDK1.7，丢到tomcat日志只有logback初始化的打印，再没有其他信息，后面就提示已经启动。但访问controller之类的都是404. 2.我的工程使用了mybatis，要打印SQL。在mybatis-config.xml中配置的logImpl位log4j。1&lt;setting name="logImpl" value="LOG4J"/&gt; 但我的依赖中没有引入log4j，导致报错。Caused by: java.lang.NoClassDefFoundError: org/apache/log4j/Priority.我的日志输出组件是logback，mybatis是不支持的，所以配置的STDOUT_LOGGING就OK了。但用idea集成的tomcat跑没问题。]]></content>
       <categories>
         <category>技术</category>
@@ -2775,7 +2786,7 @@
   </entry>
   <entry>
     <title><![CDATA[spring boot+mybatis分页配置]]></title>
-    <url>%2F2017%2F08%2F31%2Fspring-boot-mybatis-pagination%2F</url>
+    <url>%2F2017%2F08%2F31%2Fspring%20boot%20mybatis%2B%E5%88%86%E9%A1%B5%E9%85%8D%E7%BD%AE%2F</url>
     <content type="text"><![CDATA[mybatis和分页插件的依赖配置：123456789101112&lt;!-- mybatis --&gt;&lt;dependency&gt; &lt;groupId&gt;org.mybatis.spring.boot&lt;/groupId&gt; &lt;artifactId&gt;mybatis-spring-boot-starter&lt;/artifactId&gt; &lt;version&gt;1.1.1&lt;/version&gt;&lt;/dependency&gt;&lt;!--mybatis分页插件--&gt;&lt;dependency&gt; &lt;groupId&gt;com.github.pagehelper&lt;/groupId&gt; &lt;artifactId&gt;pagehelper&lt;/artifactId&gt; &lt;version&gt;4.1.0&lt;/version&gt;&lt;/dependency&gt; application.yml配置：12345mybatis:#mapper-locations: classpath:/mybatis/mysql/*Mapper.xml#type-aliases-package: com.ybf.activity.web.entityconfig-location: classpath:/mybatis/mybatis-config.xmlcheck-config-location: true mybatis-config.xml配置：12345678910111213141516171819202122232425&lt;?xml version="1.0" encoding="UTF-8" ?&gt;&lt;!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd"&gt;&lt;configuration&gt; &lt;settings&gt; &lt;setting name="logImpl" value="LOG4J"/&gt; &lt;/settings&gt; &lt;typeAliases&gt; &lt;typeAlias type="com.ybf.activity.web.entity.Student" alias="Student" /&gt; &lt;/typeAliases&gt; &lt;plugins&gt; &lt;!--mybatis分页插件--&gt; &lt;plugin interceptor="com.github.pagehelper.PageHelper"&gt; &lt;property name="dialect" value="mysql"/&gt; &lt;property name="offsetAsPageNum" value="false"/&gt; &lt;property name="rowBoundsWithCount" value="false"/&gt; &lt;property name="pageSizeZero" value="true"/&gt; &lt;property name="reasonable" value="false"/&gt; &lt;property name="supportMethodsArguments" value="false"/&gt; &lt;property name="returnPageInfo" value="none"/&gt; &lt;/plugin&gt; &lt;/plugins&gt; &lt;mappers&gt; &lt;mapper resource="mybatis/mapper/mysql/StudentMapper.xml"/&gt; &lt;/mappers&gt;&lt;/configuration&gt; spring启动类增加Mapper扫描：12345678910111213141516171819202122/** * Created by Administrator on 2017/7/6. */@SpringBootApplication// Mapper扫描@MapperScan("com.ybf.activity.web.mapper")public class WebApplication extends SpringBootServletInitializer &#123; private final static Logger logger = LoggerFactory.getLogger(WebApplication.class); // 编码过滤器 @Bean Filter characterEncodingFilter() &#123; logger.info("==========初始化编码过滤器================="); CharacterEncodingFilter filter = new CharacterEncodingFilter(); filter.setEncoding("UTF-8"); filter.setForceEncoding(true); return filter; &#125; public static void main(String[] args) &#123; SpringApplication.run(WebApplication.class,args); logger.info("Application [activity-web] started!"); &#125;&#125; Mapper接口：1234public interface StudentMapper extends BaseMapper&#123; Student getById(int id); List&lt;Student&gt; sel();&#125; StudentMapper.xml:1234567891011121314151617181920&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"&gt;&lt;mapper namespace="com.ybf.activity.web.mapper.StudentMapper"&gt; &lt;resultMap id="stuMap" type="Student"&gt; &lt;id property="id" column="id" /&gt; &lt;result property="name" column="name" /&gt; &lt;result property="sumScore" column="score_sum" /&gt; &lt;result property="avgScore" column="score_avg" /&gt; &lt;result property="age" column="age" /&gt; &lt;/resultMap&gt; &lt;select id="getById" resultMap="stuMap" resultType="Student"&gt; SELECT * FROM STUDENT a WHERE ID = #&#123;id&#125; &lt;/select&gt; &lt;select id="sel" resultType="Student" resultMap="stuMap"&gt; select * from student a &lt;/select&gt;&lt;/mapper&gt; 用法：在查询之前使用PageHelper.startPage()设置分页。1234567891011121314@Controllerpublic class IndexController &#123; @Autowired private StudentMapper sm; @RequestMapping("/student/page/&#123;pageNo&#125;") @ResponseBody public List&lt;Student&gt; getStduentByPage(@PathVariable int pageNo) &#123; if (pageNo &gt; 0) &#123; PageHelper.startPage(pageNo,3); return sm.selectByCondition(); &#125; return null; &#125;&#125; 注：测试的spring boot版本为1.5.4.RELEASE.]]></content>
       <categories>
         <category>技术</category>
@@ -2787,7 +2798,7 @@
   </entry>
   <entry>
     <title><![CDATA[spring boot+mybatis分页配置]]></title>
-    <url>%2F2017%2F08%2F31%2Fspring%20boot%20mybatis%2B%E5%88%86%E9%A1%B5%E9%85%8D%E7%BD%AE%2F</url>
+    <url>%2F2017%2F08%2F31%2Fspring-boot-mybatis-pagination%2F</url>
     <content type="text"><![CDATA[mybatis和分页插件的依赖配置：123456789101112&lt;!-- mybatis --&gt;&lt;dependency&gt; &lt;groupId&gt;org.mybatis.spring.boot&lt;/groupId&gt; &lt;artifactId&gt;mybatis-spring-boot-starter&lt;/artifactId&gt; &lt;version&gt;1.1.1&lt;/version&gt;&lt;/dependency&gt;&lt;!--mybatis分页插件--&gt;&lt;dependency&gt; &lt;groupId&gt;com.github.pagehelper&lt;/groupId&gt; &lt;artifactId&gt;pagehelper&lt;/artifactId&gt; &lt;version&gt;4.1.0&lt;/version&gt;&lt;/dependency&gt; application.yml配置：12345mybatis:#mapper-locations: classpath:/mybatis/mysql/*Mapper.xml#type-aliases-package: com.ybf.activity.web.entityconfig-location: classpath:/mybatis/mybatis-config.xmlcheck-config-location: true mybatis-config.xml配置：12345678910111213141516171819202122232425&lt;?xml version="1.0" encoding="UTF-8" ?&gt;&lt;!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd"&gt;&lt;configuration&gt; &lt;settings&gt; &lt;setting name="logImpl" value="LOG4J"/&gt; &lt;/settings&gt; &lt;typeAliases&gt; &lt;typeAlias type="com.ybf.activity.web.entity.Student" alias="Student" /&gt; &lt;/typeAliases&gt; &lt;plugins&gt; &lt;!--mybatis分页插件--&gt; &lt;plugin interceptor="com.github.pagehelper.PageHelper"&gt; &lt;property name="dialect" value="mysql"/&gt; &lt;property name="offsetAsPageNum" value="false"/&gt; &lt;property name="rowBoundsWithCount" value="false"/&gt; &lt;property name="pageSizeZero" value="true"/&gt; &lt;property name="reasonable" value="false"/&gt; &lt;property name="supportMethodsArguments" value="false"/&gt; &lt;property name="returnPageInfo" value="none"/&gt; &lt;/plugin&gt; &lt;/plugins&gt; &lt;mappers&gt; &lt;mapper resource="mybatis/mapper/mysql/StudentMapper.xml"/&gt; &lt;/mappers&gt;&lt;/configuration&gt; spring启动类增加Mapper扫描：12345678910111213141516171819202122/** * Created by Administrator on 2017/7/6. */@SpringBootApplication// Mapper扫描@MapperScan("com.ybf.activity.web.mapper")public class WebApplication extends SpringBootServletInitializer &#123; private final static Logger logger = LoggerFactory.getLogger(WebApplication.class); // 编码过滤器 @Bean Filter characterEncodingFilter() &#123; logger.info("==========初始化编码过滤器================="); CharacterEncodingFilter filter = new CharacterEncodingFilter(); filter.setEncoding("UTF-8"); filter.setForceEncoding(true); return filter; &#125; public static void main(String[] args) &#123; SpringApplication.run(WebApplication.class,args); logger.info("Application [activity-web] started!"); &#125;&#125; Mapper接口：1234public interface StudentMapper extends BaseMapper&#123; Student getById(int id); List&lt;Student&gt; sel();&#125; StudentMapper.xml:1234567891011121314151617181920&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"&gt;&lt;mapper namespace="com.ybf.activity.web.mapper.StudentMapper"&gt; &lt;resultMap id="stuMap" type="Student"&gt; &lt;id property="id" column="id" /&gt; &lt;result property="name" column="name" /&gt; &lt;result property="sumScore" column="score_sum" /&gt; &lt;result property="avgScore" column="score_avg" /&gt; &lt;result property="age" column="age" /&gt; &lt;/resultMap&gt; &lt;select id="getById" resultMap="stuMap" resultType="Student"&gt; SELECT * FROM STUDENT a WHERE ID = #&#123;id&#125; &lt;/select&gt; &lt;select id="sel" resultType="Student" resultMap="stuMap"&gt; select * from student a &lt;/select&gt;&lt;/mapper&gt; 用法：在查询之前使用PageHelper.startPage()设置分页。1234567891011121314@Controllerpublic class IndexController &#123; @Autowired private StudentMapper sm; @RequestMapping("/student/page/&#123;pageNo&#125;") @ResponseBody public List&lt;Student&gt; getStduentByPage(@PathVariable int pageNo) &#123; if (pageNo &gt; 0) &#123; PageHelper.startPage(pageNo,3); return sm.selectByCondition(); &#125; return null; &#125;&#125; 注：测试的spring boot版本为1.5.4.RELEASE.]]></content>
       <categories>
         <category>技术</category>
@@ -2943,6 +2954,17 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[导入铃声到IPhone]]></title>
+    <url>%2F2017%2F08%2F30%2Fimport-sings-to-iPhone%2F</url>
+    <content type="text"><![CDATA[导入到iPhone的铃声格式是m4r，且40s内。所以如果是其他格式的音乐文件，需要先转成m4r格式。 1，使用酷狗音乐的制作铃声功能建音乐件裁剪成40s内。2，通过itools将铃声转换并导入iPhone。]]></content>
+      <categories>
+        <category>人文</category>
+      </categories>
+      <tags>
+        <tag>工具</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[百度云盘下载提速]]></title>
     <url>%2F2017%2F08%2F30%2Fbaiduyun-speedup%2F</url>
     <content type="text"><![CDATA[正常情况下，在百度云盘下载文件速度只有几百KB，这是因为百度对下载速度做了限制。如何突破百度的速度限制呢？ 这里使用一款名为Internet Download Manager的软件来实现。百度搜索下载，安装（如果你安装了chrome浏览器，会自动给你安装插件）。安装后打开IDM，会提示你在chrome浏览器的扩展程序里面把IDM的文件访问权限和隐藏模式运行打开。然后重启浏览器，进入pan.baidu.com，下载一个比较大的文件，这是IDM会自动检测到要下载的文件链接，然后点开始下载就可以了。如下图，可以看到速度是3.5M/s。]]></content>
@@ -2962,17 +2984,6 @@
       </categories>
       <tags>
         <tag>前端</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[导入铃声到IPhone]]></title>
-    <url>%2F2017%2F08%2F30%2Fimport-sings-to-iPhone%2F</url>
-    <content type="text"><![CDATA[导入到iPhone的铃声格式是m4r，且40s内。所以如果是其他格式的音乐文件，需要先转成m4r格式。 1，使用酷狗音乐的制作铃声功能建音乐件裁剪成40s内。2，通过itools将铃声转换并导入iPhone。]]></content>
-      <categories>
-        <category>人文</category>
-      </categories>
-      <tags>
-        <tag>工具</tag>
       </tags>
   </entry>
   <entry>
