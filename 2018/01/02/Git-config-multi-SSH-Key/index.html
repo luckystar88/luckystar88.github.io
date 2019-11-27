@@ -138,10 +138,13 @@
 <meta property="og:site_name" content="Donny的技术博客">
 <meta property="og:description" content="默认情况下，我们通过ssh-keygen -t rsa -C “XXXXXX@XXX.com”命令生成的ssh keys是在用户目录的.ssh目录（~/.ssh）中，一个id_rsa，一个id_rsa.pub。然后一路回车，最后再.ssh目录即可看到id_rsa和id_rsa.pub。将id_rsa.pub文件内容复制并添加到github或gitlab的ssh key。如果使用了github，同时">
 <meta property="og:locale" content="zh-cn">
-<meta property="og:updated_time" content="2019-07-03T01:22:02.845Z">
+<meta property="og:image" content="https://tommy88.top/img/image-20191127194958561.png">
+<meta property="og:image" content="https://tommy88.top/img/image-20191127195420132.png">
+<meta property="og:updated_time" content="2019-11-27T11:54:53.107Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Git配置多个SSH-Key">
 <meta name="twitter:description" content="默认情况下，我们通过ssh-keygen -t rsa -C “XXXXXX@XXX.com”命令生成的ssh keys是在用户目录的.ssh目录（~/.ssh）中，一个id_rsa，一个id_rsa.pub。然后一路回车，最后再.ssh目录即可看到id_rsa和id_rsa.pub。将id_rsa.pub文件内容复制并添加到github或gitlab的ssh key。如果使用了github，同时">
+<meta name="twitter:image" content="https://tommy88.top/img/image-20191127194958561.png">
 
 
 
@@ -465,6 +468,14 @@
 
       
         <p>默认情况下，我们通过ssh-keygen -t rsa -C “<a href="mailto:XXXXXX@XXX.com">XXXXXX@XXX.com</a>”命令生成的ssh keys是在用户目录的.ssh目录（~/.ssh）中，一个id_rsa，一个id_rsa.pub。<br>然后一路回车，最后再.ssh目录即可看到id_rsa和id_rsa.pub。将id_rsa.pub文件内容复制并添加到github或gitlab的ssh key。<br>如果使用了github，同时使用了gitlab，就需要配置多个ssh key，并通过配置config文件用以区分多个ssh key。<br><a id="more"></a></p>
+<p>比如，我们同时有github和gitee的仓库。<br>我们通过<code>ssh-keygen -t rsa -C &quot;xxx@xx.com&quot; -f ~/.ssh/github_id-rsa</code>来将ssh key保存到单独的文件。</p>
+<p>针对github和gitee分别执行上面的命令，在~ssh目录可以看到如下4个文件，带.pub的是公钥文件，也是我们需要在github或gitee的ssh key中添加的文件，不带后缀的是私钥文件。</p>
+<p><img src="/img/image-20191127194958561.png" alt="image-20191127194958561"></p>
+<p>如果想让多个ssh key生效，还需要有一个config文件，在~ssh目录创建config文件，内容如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"># github</span><br><span class="line">Host github.com</span><br><span class="line">    HostName github.com</span><br><span class="line">    PreferredAuthentications publickey</span><br><span class="line">    IdentityFile ~/.ssh/github_id-rsa</span><br><span class="line"># gitee</span><br><span class="line">Host gitee.com</span><br><span class="line">    HostName gitee.com</span><br><span class="line">    PreferredAuthentications publickey</span><br><span class="line">    IdentityFile ~/.ssh/gitee_id-rsa</span><br><span class="line"># 配置文件参数</span><br><span class="line"># Host : Host可以看作是一个你要识别的模式，对识别的模式，进行配置对应的的主机名和ssh文件</span><br><span class="line"># HostName : 要登录主机的主机名</span><br><span class="line"># User : 登录名</span><br><span class="line"># IdentityFile : 指明上面User对应的identityFile路径</span><br></pre></td></tr></table></figure>
+<p>然后我们可以通过<code>ssh -T git@github.com</code>和<code>ssh -T git@gitee.com</code>来测试配置是否成功。</p>
+<p><img src="/img/image-20191127195420132.png" alt="image-20191127195420132"></p>
+<p>如果看到上面的欢迎信息，则说明配置成功！</p>
 <p>参考：<a href="http://blog.csdn.net/birdben/article/details/51824788">http://blog.csdn.net/birdben/article/details/51824788</a></p>
 
       
