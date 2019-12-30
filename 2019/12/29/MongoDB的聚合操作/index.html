@@ -1,0 +1,199 @@
+<!DOCTYPE html><html lang="zh-cn"><head><meta name="generator" content="Hexo 3.9.0"><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="MongoDB的聚合操作"><meta name="keywords" content="Mongo"><meta name="author" content="Donny"><meta name="copyright" content="Donny"><title>MongoDB的聚合操作 | Donny的技术博客</title><link rel="shortcut icon" href="/melody-favicon.ico"><link rel="stylesheet" href="/css/index.css?version=1.6.1"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css?version=1.6.1"><link rel="dns-prefetch" href="https://cdn.staticfile.org"><link rel="dns-prefetch" href="https://cdn.bootcss.com"><link rel="dns-prefetch" href="https://creativecommons.org"><link rel="dns-prefetch" href="https://unpkg.com"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/gitment/style/default.min.css"><script src="https://cdn.jsdelivr.net/npm/gitment/dist/gitment.browser.min.js"></script><script src="https://cdn.jsdelivr.net/npm/blueimp-md5@2.10.0/js/md5.min.js"></script><link rel="dns-prefetch" href="https://hm.baidu.com"><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?cd5c94069361da06af29cd21555dc451";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();</script><link rel="dns-prefetch" href="https://www.google-analytics.com"><script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-112010940-1', 'auto');
+ga('send', 'pageview');</script><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"We didn't find any results for the search: ${query}"}},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  }
+} </script></head><body><canvas class="fireworks"></canvas><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar"><div class="toggle-sidebar-info text-center"><span data-toggle="Toggle article">Toggle site</span><hr></div><div class="sidebar-toc"><div class="sidebar-toc__title">Catalog</div><div class="sidebar-toc__progress"><span class="progress-notice">You've read</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#聚合简介"><span class="toc-number">1.</span> <span class="toc-text">聚合简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#聚合的使用方式"><span class="toc-number">2.</span> <span class="toc-text">聚合的使用方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#示例"><span class="toc-number">3.</span> <span class="toc-text">示例</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#准备测试数据"><span class="toc-number">3.1.</span> <span class="toc-text">准备测试数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#实现查找"><span class="toc-number">3.2.</span> <span class="toc-text">实现查找</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#管道操作符"><span class="toc-number">4.</span> <span class="toc-text">管道操作符</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#管道操作符介绍"><span class="toc-number">4.1.</span> <span class="toc-text">管道操作符介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#管道操作符-match"><span class="toc-number">4.2.</span> <span class="toc-text">管道操作符$match</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#管道操作符-project"><span class="toc-number">4.3.</span> <span class="toc-text">管道操作符$project</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#管道操作符-group"><span class="toc-number">4.4.</span> <span class="toc-text">管道操作符$group</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#拆分命令-unwind"><span class="toc-number">5.</span> <span class="toc-text">拆分命令$unwind</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#排序命令-sort"><span class="toc-number">6.</span> <span class="toc-text">排序命令$sort</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#常见聚合函数"><span class="toc-number">7.</span> <span class="toc-text">常见聚合函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MapReduce"><span class="toc-number">8.</span> <span class="toc-text">MapReduce</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#MapReduce的helloworld"><span class="toc-number">8.1.</span> <span class="toc-text">MapReduce的helloworld</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#更多的MapReduce可以使用的键"><span class="toc-number">8.2.</span> <span class="toc-text">更多的MapReduce可以使用的键</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#聚合命令group"><span class="toc-number">9.</span> <span class="toc-text">聚合命令group</span></a></li></ol></div></div><div class="author-info hide"><div class="author-info__avatar text-center"><img src="/img/avatar.jpg"></div><div class="author-info__name text-center">Donny</div><div class="author-info__description text-center">记录工作，感悟生活</div><div class="follow-button"><a href="https://gitee.com/tommy88">Follow Me</a></div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/archives"><span class="pull-left">Articles</span><span class="pull-right">274</span></a><a class="author-info-articles__tags article-meta" href="/tags"><span class="pull-left">Tags</span><span class="pull-right">51</span></a><a class="author-info-articles__categories article-meta" href="/categories"><span class="pull-left">Categories</span><span class="pull-right">4</span></a></div></div></div><div id="content-outer"><div id="top-container" style="background-image: url(/img/MongoDB.jpg)"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/">Donny的技术博客</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus"><a class="site-page social-icon search"><i class="fa fa-search"></i><span> Search</span></a><a class="site-page" href="/">Home</a><a class="site-page" href="/archives">Archives</a><a class="site-page" href="/tags">Tags</a><a class="site-page" href="/categories">Categories</a></span></div><div id="post-info"><div id="post-title">MongoDB的聚合操作</div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2019-12-29</time><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/tech/">tech</a></div></div></div><div class="layout" id="content-inner"><article id="post"><div class="article-container" id="post-content"><h2 id="聚合简介"><a href="#聚合简介" class="headerlink" title="聚合简介"></a>聚合简介</h2><p>MongoDB的聚合框架，主要用来对集合中的文档进行变换和组合，从而对数据进行分析以加以利用。</p>
+<p>聚合框架的基本思路是：采用多个构件来创建一个管道，用于对一连串的文档进行处理。这些构件包括：筛选（filtering）、投影（projecting）、分组（grouping）、排序（sorting）、限制（limiting）、跳过（skipping）。</p>
+<h2 id="聚合的使用方式"><a href="#聚合的使用方式" class="headerlink" title="聚合的使用方式"></a>聚合的使用方式</h2><p>db.集合.aggregate(构件1,构件2…);</p>
+<p>注意：由于聚合的结果要返回到客户端，因此聚合的结果必须限制在16M内，这是MongoDB支持的最大响应消息的大小。</p>
+<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><h3 id="准备测试数据"><a href="#准备测试数据" class="headerlink" title="准备测试数据"></a>准备测试数据</h3><p>向scores集合中插入400条测试数据，100个学生，每个学生有4门课程。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;<span class="number">100</span>;i++ ) &#123;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">var</span> j=<span class="number">0</span>;j&lt;<span class="number">4</span>;j++) &#123;</span><br><span class="line">		db.scores.insert(&#123;<span class="string">'studentId'</span>:<span class="string">'s'</span>+i,<span class="string">'course'</span>:<span class="string">'课程'</span>+j,<span class="string">'score'</span>:<span class="built_in">Math</span>.random()*<span class="number">100</span>&#125;);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>查询下数据<code>db.scores.find();</code>：</p>
+<p><img src="/img/image-20191229155137908.png" alt="image-20191229155137908"></p>
+<p>下面要完场的功能是：找出score在80分以上的课程门数最多的3个学生。</p>
+<h3 id="实现查找"><a href="#实现查找" class="headerlink" title="实现查找"></a>实现查找</h3><p>这里实现的思路如下：</p>
+<ol>
+<li><p>过滤出分数在80分以上的，不区分课程</p>
+<p>构件为：<code>{&#39;$match&#39;:{&#39;score&#39;:{$gte:80}}}</code></p>
+</li>
+<li><p>投影：提取id字段</p>
+<p>构件为：<code>{&#39;$project&#39;:{&#39;studentId&#39;:1}}</code></p>
+</li>
+<li><p>按studentId分组，得到每个学生80分的课程出现的次数</p>
+<p>构件为：<code>{&#39;$group&#39;:{&#39;_id&#39;:&#39;$studentId&#39;,&#39;count&#39;:{$sum:1}}}</code>，studentId每出现一次就加1</p>
+</li>
+<li><p>对次数倒序排序</p>
+<p>构件为：<code>{&#39;$sort&#39;:{&#39;count&#39;:-1}}</code></p>
+</li>
+<li><p>限制查询结果为3条。</p>
+<p>构件为：<code>{&#39;$limit&#39;:3}</code></p>
+</li>
+</ol>
+<p>所以结合起来就是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">db.scores.aggregate(</span><br><span class="line">	&#123;&apos;$match&apos;:&#123;&apos;score&apos;:&#123;$gte:80&#125;&#125;&#125;/*过滤出分数在80分以上的*/</span><br><span class="line">	,&#123;&apos;$project&apos;:&#123;&apos;studentId&apos;:1&#125;&#125;/*投影：提取id字段*/</span><br><span class="line">	,&#123;&apos;$group&apos;:&#123;&apos;_id&apos;:&apos;$studentId&apos;,&apos;count&apos;:&#123;$sum:1&#125;&#125;&#125;/*按studentId分组*/</span><br><span class="line">	,&#123;&apos;$sort&apos;:&#123;&apos;count&apos;:-1&#125;&#125;/*倒序*/</span><br><span class="line">	,&#123;&apos;$limit&apos;:3&#125;/*限制查询3条*/</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<p>执行得到如下结果：</p>
+<p><img src="/img/image-20191229155627150.png" alt="image-20191229155627150"></p>
+<h2 id="管道操作符"><a href="#管道操作符" class="headerlink" title="管道操作符"></a>管道操作符</h2><h3 id="管道操作符介绍"><a href="#管道操作符介绍" class="headerlink" title="管道操作符介绍"></a>管道操作符介绍</h3><p>每个操作符接受一系列的文档，对这些文档做相应的处理，然后把转换的文档作为结果传递给下一个操作符，最后一个操作符会将结果返回。不同的管道操作符可以任意顺序，任意个数组合在一起使用。</p>
+<h3 id="管道操作符-match"><a href="#管道操作符-match" class="headerlink" title="管道操作符$match"></a>管道操作符$match</h3><p>用于文档集合进行筛选，里面可以使用所有常规的查询操作符。通常会放置在管道的最前面的位置，原因如下：</p>
+<ol>
+<li>快速将不需要的文档过滤，减少后续操作的数据量；</li>
+<li>在投影和分组之前做筛选，查询可以使用索引。</li>
+</ol>
+<h3 id="管道操作符-project"><a href="#管道操作符-project" class="headerlink" title="管道操作符$project"></a>管道操作符$project</h3><p>用来从文档中提取字段，可以指定包含和排除字段，也可以重命名字段。比如将studentId改名为sid，如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.scores.aggregate(&#123;&apos;$project&apos;:&#123;&apos;sid&apos;:&apos;$studentId&apos;&#125;&#125;);</span><br></pre></td></tr></table></figure>
+<p>管道操作符还可以使用表达式，来满足更复杂的需求。</p>
+<p><strong>管道操作符$project的数学表达式</strong></p>
+<p>支持的操作符和相应的语法：</p>
+<ol>
+<li>$add:[expr1[,expr2,…exprn]]</li>
+<li>$subtract:[expr1,expr2]</li>
+<li>$multiply:[expr1[,expr2,…exprn]]</li>
+<li>$divice:[expr1,expr2]</li>
+<li>$mod:[expr1,expr2]</li>
+</ol>
+<p>比如将score整体加20分，如下（score被重命名为newScore）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">db.scores.aggregate(</span><br><span class="line">	&#123;&apos;$project&apos;:&#123;&apos;studentId&apos;:1,&apos;newScore&apos;:&#123;&apos;$add&apos;:[&apos;$score&apos;,20]&#125;&#125;&#125;</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<p><strong>管道操作符$project的日期表达式</strong></p>
+<p>聚合框架还包含了一些用于提取日期信息的表达式，如下：</p>
+<p>$year,$month,$week,$dayOfMonth,$dayOfWeek,$dayOfYear,$hour,$minute,$second。</p>
+<p>注意：这些只能操作日期型的字段，不能操作数据，使用示例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&apos;$project&apos;:&#123;&apos;opeDay&apos;:&#123;&apos;$dayOfMonth&apos;:&apos;$payTime&apos;&#125;&#125;&#125;</span><br></pre></td></tr></table></figure>
+<p>上面渔具，opeDay是新字段名，payTime是原字段名。</p>
+<p><strong>管道操作符$project的字符串表达式</strong></p>
+<ol>
+<li>$substr:[expr,开始位置，要取的字节个数]；</li>
+<li>$concat:[expr1[expr2,…exprn]]；</li>
+<li>$toLower:expr</li>
+<li>$toUpper:expr</li>
+</ol>
+<p>比如对studentId加上前缀ss：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.scores.aggregate(&#123;&apos;$project&apos;:&#123;&apos;sid&apos;:&#123;&apos;$concat&apos;:[&apos;cc&apos;,&apos;$studentId&apos;]&#125;&#125;&#125;);</span><br></pre></td></tr></table></figure>
+<p><strong>管道操作符$project的逻辑表达式</strong></p>
+<ol>
+<li>$cmp:[expr1,expr2]，比较2个表达式是否相等，整数前面的大，负数后面的大；</li>
+<li>$strcasecmp:[string1,string2]，比较2个字符串，区分大小写，只对有罗马字符组成的字符串有效；</li>
+<li>$eq,$ne,$gt,$gte,$lt,$lte:[expr1,expr2]；</li>
+<li>$and,$or,$not</li>
+<li>$cond:[boolean表达式,true时的表达式,false时的表达式]</li>
+<li>$ifNull:[null时的表达式，不为null时的表达式]</li>
+</ol>
+<p>比如显示学生没门课程分数是否达到80分：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.scores.aggregate(&#123;&apos;$project&apos;:&#123;&apos;studentId&apos;:1,&apos;course&apos;:1,&apos;score&apos;:1,&apos;result&apos;:&#123;&apos;$gte&apos;:[&apos;$score&apos;,80]&#125;&#125;&#125;);</span><br></pre></td></tr></table></figure>
+<h3 id="管道操作符-group"><a href="#管道操作符-group" class="headerlink" title="管道操作符$group"></a>管道操作符$group</h3><p>用来将文档依据特定字段的不同值进行分组。选定了分组字段后，就可以把这些字段传递给$group函数的“_id”字段了。比如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">/*按studentId分组*/</span><br><span class="line">db.scores.aggregate(&#123;&quot;$group&quot;:&#123;&quot;_id&quot;:&quot;$studentId&quot;&#125;&#125;);</span><br><span class="line">/*按studentId和score分组*/</span><br><span class="line">db.scores.aggregate(&#123;&quot;$group&quot;:&#123;&quot;_id&quot;:&#123;&quot;sid&quot;:&quot;$studentId&quot;,&quot;score&quot;:&quot;$score&quot;&#125;&#125;&#125;);</span><br></pre></td></tr></table></figure>
+<p><strong>$group支持的操作符</strong></p>
+<ol>
+<li>$sum:value：对每个文档，将value与计算结果相加；</li>
+<li>$avg:value：返回每个分组的平均值；</li>
+<li>$max:expr：返回分组内的最大值；</li>
+<li>$min:expr：返回分组内的最小值；</li>
+<li>$first:expr：返回分组的第一个值，忽略其他的值，一般只有在排序后，明确知道数据顺序的时候，这个操作才有意义；</li>
+<li>$last:expr：返回分组的最后一个值；</li>
+<li>$addToSet:expr：如果当前数组中不包含expr，就将它加入到数组中；</li>
+<li>$push:expr：把expr加入数组中。</li>
+</ol>
+<p>比如，查询每个学生的平均分数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">db.scores.aggregate(</span><br><span class="line">&#123;&quot;$project&quot;:&#123;&quot;studentId&quot;:1,&quot;score&quot;:1&#125;&#125;</span><br><span class="line">,&#123;&quot;$group&quot;:&#123;&quot;_id&quot;:&quot;$studentId&quot;,&quot;avgScore&quot;:&#123;&quot;$avg&quot;:&quot;$score&quot;&#125;&#125;&#125;</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<p><img src="/img/image-20191229171752023.png" alt="image-20191229171752023"></p>
+<h2 id="拆分命令-unwind"><a href="#拆分命令-unwind" class="headerlink" title="拆分命令$unwind"></a>拆分命令$unwind</h2><p>用来把数组中的某个值拆分成单独的文档。</p>
+<p><strong>示例</strong></p>
+<p>1.准备一条数据</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.t1.insert(&#123;&quot;userId&quot;:1,scores:[95,80,66]&#125;);</span><br></pre></td></tr></table></figure>
+<p>scores字段是一个数组，我们用$unwind将scores拆分成多个文档。</p>
+<p>2.拆分scores</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.t1.aggregate(&#123;&quot;$unwind&quot;:&quot;$scores&quot;&#125;);</span><br></pre></td></tr></table></figure>
+<p>拆分结果如下：</p>
+<p><img src="/img/image-20191229172513424.png" alt="image-20191229172513424"></p>
+<h2 id="排序命令-sort"><a href="#排序命令-sort" class="headerlink" title="排序命令$sort"></a>排序命令$sort</h2><p>可以根据任何字段进行排序，与普通查询中的语法相同。如果要对大量的文档进行排序，强烈建议在管道的第一个阶段进行排序（可以在$match后排序），这时可以使用索引。</p>
+<p>比如，按score降序排序：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.scores.aggregate(&#123;&quot;$sort&quot;:&#123;&quot;score&quot;:-1&#125;&#125;);</span><br></pre></td></tr></table></figure>
+<h2 id="常见聚合函数"><a href="#常见聚合函数" class="headerlink" title="常见聚合函数"></a>常见聚合函数</h2><ol>
+<li><p>count：用于返回集合中文档的数量；</p>
+</li>
+<li><p>distinct：找出给定键的所有不同值，使用时必须制定集合和键，例如：</p>
+<p>查找所有的课程<code>db.runCommand({&quot;distinct&quot;:&quot;scores&quot;,&quot;key&quot;:&quot;course&quot;});</code>，distinct后面是集合，key后面是键。</p>
+</li>
+</ol>
+<h2 id="MapReduce"><a href="#MapReduce" class="headerlink" title="MapReduce"></a>MapReduce</h2><p>在MongoDB的聚合框架中，还可以使用MapReduce，它非常灵活和强大，但具有一定的复杂性，专门用于实现一些复杂的聚合功能。</p>
+<p>MongoDB中的MapReduce使用JavaScript来作为查询语言，因此能表达任意的逻辑，但是它运行非常慢，不应该用在实时的数据分析中。</p>
+<h3 id="MapReduce的helloworld"><a href="#MapReduce的helloworld" class="headerlink" title="MapReduce的helloworld"></a>MapReduce的helloworld</h3><p>实现的功能：找出集合中所有的键，并统计每个键出现的次数。</p>
+<ol>
+<li><p>Map函数使用emit函数来返回要处理的值，如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> map = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">var</span> key <span class="keyword">in</span> <span class="keyword">this</span>) &#123;</span><br><span class="line">		emit(key,&#123;<span class="attr">count</span>:<span class="number">1</span>&#125;);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>this表示对当前文档的引用。</p>
+</li>
+<li><p>reduce函数需要处理Map阶段或前一个reduce的数据，因此reduce返回的文档必须要能作为reduce的第二个参数的一个元素，如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> reduce = <span class="function"><span class="keyword">function</span>(<span class="params">key,emits</span>) </span>&#123;</span><br><span class="line">	<span class="keyword">var</span> total = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">var</span> i <span class="keyword">in</span> emits) &#123;</span><br><span class="line">		total += emits[i].count;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> &#123;<span class="string">"count"</span>:total&#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<ol start="3">
+<li><p>运行MapReduce，如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> mr = db.runCommand(&#123;<span class="string">"mapreduce"</span>:<span class="string">"scores"</span>,<span class="string">"map"</span>:map,<span class="string">"reduce"</span>:reduce,<span class="string">"out"</span>:<span class="string">"mrout"</span>&#125;);</span><br></pre></td></tr></table></figure>
+<p>mapreduce:指定集合，map:指定map函数，reduce:指定reduce函数，out:指定存放执行结果的变量名。</p>
+</li>
+<li><p>查询最终的结果，如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.mrout.find();</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="更多的MapReduce可以使用的键"><a href="#更多的MapReduce可以使用的键" class="headerlink" title="更多的MapReduce可以使用的键"></a>更多的MapReduce可以使用的键</h3><ol>
+<li>finalize:function，可以将reduce的结果发送到finalize，这是整个处理的最后一步；</li>
+<li>keeptemp:boolean，是否在连接关闭的时候，保存临时结果集合；</li>
+<li>query:document，在发送给map前对文档进行过滤；</li>
+<li>sort:document，在发送给map前对文档进行排序；</li>
+<li>limit:integer，在发送给map前对文档进行限制；</li>
+<li>scope:document，可以在javascript中使用的变量；</li>
+<li>verbose:boolean，是否纪录详细的服务器日志。</li>
+</ol>
+<p>示例：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> query = &#123;<span class="string">"studentId"</span>:&#123;<span class="string">"$gt"</span>:<span class="string">"s2"</span>&#125;&#125;;</span><br><span class="line"><span class="keyword">var</span> sort = &#123;<span class="string">"studentId"</span>:<span class="number">1</span>&#125;;</span><br><span class="line"><span class="keyword">var</span> finalize = <span class="function"><span class="keyword">function</span>(<span class="params">key,value</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> &#123;<span class="string">"theKey"</span>:key,<span class="string">"theValue"</span>:value&#125;;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> mr = db.runCommand(&#123;<span class="string">"mapreduce"</span>:<span class="string">"scores"</span>,<span class="string">"map"</span>:map,<span class="string">"reduce"</span>:reduce,<span class="string">"out"</span>:<span class="string">"myOut"</span>,<span class="string">"query"</span>:query,<span class="string">"sort"</span>:sort,<span class="string">"limit"</span>:<span class="number">2</span>,<span class="string">"finalize"</span>:finalize&#125;);</span><br></pre></td></tr></table></figure>
+<h2 id="聚合命令group"><a href="#聚合命令group" class="headerlink" title="聚合命令group"></a>聚合命令group</h2><p>用来对集合进行分组，分组之后，再对每个分组内的文档进行聚合。比如要对studentId进行分组，找到每个学生的最高分数，可以如下步骤执行：</p>
+<ol>
+<li><p>测试数据就用聚合框架一开始的准备的数据；</p>
+</li>
+<li><p>使用group，命令如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">db.runCommand(&#123;<span class="string">"group"</span>:&#123;</span><br><span class="line">  <span class="string">"ns"</span>:<span class="string">"scores"</span>,</span><br><span class="line">    <span class="string">"key"</span>:&#123;<span class="string">"studentId"</span>:<span class="number">1</span>&#125;,</span><br><span class="line">    <span class="string">"initial"</span>:&#123;<span class="string">"score"</span>:<span class="number">0</span>&#125;,</span><br><span class="line">    <span class="string">"$reduce"</span>:<span class="function"><span class="keyword">function</span>(<span class="params">doc,prev</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (doc.score &gt; pre.score) &#123;</span><br><span class="line">            prev.score = doc.score;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>ns:指定要分组的集合；</p>
+<p>key：指定分组的键；</p>
+<p>initial：每一组的reduce函数调用的时候，在开始的时候调用一次，以做初始化；</p>
+<p>$reduce：在每组的每个文档上执行，系统会自动传入2个参数，doc是当前处理的文档，prev是本组前一次执行的结果文档。</p>
+</li>
+</ol>
+<p>还可以在分组的时候加入condition，如：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"condition"</span>:&#123;<span class="string">"studentId"</span>:&#123;<span class="string">"$1t"</span>:<span class="string">"s2"</span>&#125;&#125;</span><br></pre></td></tr></table></figure>
+<p>同样还可以使用finalizer对reduce的结果进行最后的处理，比如要求每个学生的平均分，就可以先按照studentId分组，求出一个总的分数，然后在finalizer里面求平均分。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">db.runCommand(&#123;</span><br><span class="line">    <span class="string">"group"</span>:&#123;</span><br><span class="line">        <span class="string">"ns"</span>:<span class="string">"scores"</span>,</span><br><span class="line">        <span class="string">"key"</span>:&#123;<span class="string">"studentId"</span>:<span class="number">1</span>&#125;,</span><br><span class="line">        <span class="string">"initial"</span>:&#123;<span class="string">"total"</span>:<span class="number">0</span>&#125;,</span><br><span class="line">        <span class="string">"$reduce"</span>:<span class="function"><span class="keyword">function</span>(<span class="params">doc,prev</span>) </span>&#123;</span><br><span class="line">            prev.total += doc.score;</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="string">"condition"</span>:&#123;<span class="string">"studentId"</span>:&#123;<span class="string">"$lt"</span>:<span class="string">"s2"</span>&#125;&#125;,</span><br><span class="line">        <span class="string">"finalize"</span>:<span class="function"><span class="keyword">function</span>(<span class="params">prev</span>) </span>&#123;</span><br><span class="line">            prev.avg = prev.total / <span class="number">3</span>;</span><br><span class="line">        &#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>注意：finalize是只在每组结果返回给客户端前调用一次，也就是每组结果只调用一次。</p>
+<p>对于分组的key较为复杂的时候，还可以使用函数来作为键，比如让键不区分大小写，就可以如下定义：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">db.runCommand(&#123;</span><br><span class="line">    <span class="string">"group"</span>:&#123;</span><br><span class="line">        <span class="string">"ns"</span>:<span class="string">"score"</span>,</span><br><span class="line">        $keyf:<span class="function"><span class="keyword">function</span>(<span class="params">doc</span>) </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> &#123;<span class="attr">studentId</span>:doc.studentId.toLowerCase()&#125;;</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="string">"initial"</span>:&#123;<span class="string">"total"</span>:<span class="number">0</span>&#125;,</span><br><span class="line">        <span class="string">"$reduce"</span>:<span class="function"><span class="keyword">function</span>(<span class="params">doc,prev</span>) </span>&#123;</span><br><span class="line">            prev.total += doc.score;</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="string">"condition"</span>:&#123;<span class="string">"studentId"</span>:&#123;<span class="string">"$lt"</span>:<span class="string">"s2"</span>&#125;&#125;,</span><br><span class="line">        <span class="string">"finalize"</span>:<span class="function"><span class="keyword">function</span>(<span class="params">prev</span>) </span>&#123;</span><br><span class="line">            prev.avg = prev.total / <span class="number">3</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>注意：要使用$keyf来定义函数作为键，另外一定要返回对象的格式。</p>
+<p>注：文章内容整理自《跟着CC学架构》。</p>
+</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="mailto:undefined">Donny</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="https://tommy88.top/2019/12/29/MongoDB的聚合操作/">https://tommy88.top/2019/12/29/MongoDB的聚合操作/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Mongo/">Mongo</a></div><div class="post-qr-code"><div class="post-qr-code-item"><img class="post-qr-code__img" src="/img/wechatpay.jpg"><div class="post-qr-code__desc">微信打赏</div></div></div><nav id="pagination"><div class="next-post pull-right"><a href="/2019/12/26/centos7安装MongoDB/"><span>centos7安装MongoDB</span><i class="fa fa-chevron-right"></i></a></div></nav><div id="gitment-container"></div><script>var gitment = new Gitment({
+  id: md5(decodeURI(location.pathname)),
+  owner: 'luckystar88',
+  repo: 'comments',
+  oauth: {
+    client_id: 'd49ebe4f95abcd6163f4',
+    client_secret: 'edd2748d6271072a6970d5cec8751f388dac8116'
+  }
+})
+gitment.render('gitment-container')</script></div></div><footer class="footer-bg" style="background-image: url(/img/MongoDB.jpg)"><div class="layout" id="footer"><div class="copyright">&copy;2015 - 2019 By Donny</div><div class="framework-info"><span>Driven - </span><a href="http://hexo.io"><span>Hexo</span></a><span class="footer-separator">|</span><span>Theme - </span><a href="https://github.com/Molunerfinn/hexo-theme-melody"><span>Melody</span></a></div><div class="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_page_pv"><i class="fa fa-file-o"></i><span id="busuanzi_value_page_pv"></span><span></span></span></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@latest/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-ui-pack@latest/velocity.ui.min.js"></script><script src="/js/utils.js?version=1.6.1"></script><script src="/js/fancybox.js?version=1.6.1"></script><script src="/js/sidebar.js?version=1.6.1"></script><script src="/js/copy.js?version=1.6.1"></script><script src="/js/fireworks.js?version=1.6.1"></script><script src="/js/transition.js?version=1.6.1"></script><script src="/js/scroll.js?version=1.6.1"></script><script src="/js/head.js?version=1.6.1"></script><script src="/js/search/local-search.js"></script><script>if(/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+  $('#nav').addClass('is-mobile')
+  $('footer').addClass('is-mobile')
+}</script><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">Local search</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="Search for Posts"></div></div></div><hr><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>Powered by</span> <a href="https://github.com/wzpan/hexo-generator-search" style="color:#49B1F5;">hexo-generator-search</a></div></div></div><span class="search-close-button"><i class="fa fa-times"></i></span></div><div class="search-mask"></div></body></html>
